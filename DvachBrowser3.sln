@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvachBrowser3.Core", "Dvach
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvachBrowser3.Makaba", "DvachBrowser3.Makaba\DvachBrowser3.Makaba.csproj", "{B26189B8-FB90-4A6B-9F31-7386DCB99112}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{E973B5D7-CF76-4571-825D-849E7A01A7AD}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DvachBrowser3\DvachBrowser3.Shared\DvachBrowser3.Shared.projitems*{8fc72c25-809b-4291-9096-24ac96c2890c}*SharedItemsImports = 4
@@ -103,6 +105,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{B2D4438F-3638-4E8E-BB69-FC73497D6AC9} = {E973B5D7-CF76-4571-825D-849E7A01A7AD}
 		{B0E4C18B-03FA-4F3F-AA0F-823EF1C41573} = {B2D4438F-3638-4E8E-BB69-FC73497D6AC9}
 		{EE7DAF12-CAC1-4646-BD28-7C5D65CCB35A} = {B2D4438F-3638-4E8E-BB69-FC73497D6AC9}
 		{8FC72C25-809B-4291-9096-24AC96C2890C} = {B2D4438F-3638-4E8E-BB69-FC73497D6AC9}
