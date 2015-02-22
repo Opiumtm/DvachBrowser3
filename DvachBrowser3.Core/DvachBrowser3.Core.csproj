@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Engines\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
