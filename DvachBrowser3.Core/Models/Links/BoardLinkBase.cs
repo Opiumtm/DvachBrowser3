@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DvachBrowser3.Links
 {
@@ -7,12 +8,19 @@ namespace DvachBrowser3.Links
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(BoardLink))]
+    [KnownType(typeof(BoardPageLink))]
+    [KnownType(typeof(ThreadLink))]
+    [KnownType(typeof(PostLink))]
+    [KnownType(typeof(BoardMediaLink))]
+    [KnownType(typeof(MediaLink))]
+    [KnownType(typeof(YoutubeLink))]
+    [KnownType(typeof(RootLink))]
     public abstract class BoardLinkBase
     {
         /// <summary>
         /// Движок.
         /// </summary>
         [DataMember]
-        public string Engine { get; set; } 
-    }
+        public string Engine { get; set; }
+   }
 }

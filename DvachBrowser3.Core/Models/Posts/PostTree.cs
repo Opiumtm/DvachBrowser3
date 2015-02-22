@@ -16,7 +16,13 @@ namespace DvachBrowser3.Posts
         /// Ссылка на пост.
         /// </summary>
         [DataMember]
-        public BoardLinkBase PostLink { get; set; }
+        public BoardLinkBase Link { get; set; }
+
+        /// <summary>
+        /// Родительская ссылка.
+        /// </summary>
+        [DataMember]
+        public BoardLinkBase ParentLink { get; set; }
 
         /// <summary>
         /// Текст.
@@ -35,23 +41,6 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public List<PostMediaBase> Media { get; set; }
-
-            /// <summary>
-        /// Номер поста.
-        /// </summary>
-        [IgnoreDataMember]
-        public int Number
-        {
-            get
-            {
-                var bl = PostLink as BoardLink;
-                if (bl != null)
-                {
-                    return bl.PostNumber ?? 0;
-                }
-                return 0;
-            }
-        }
 
         /// <summary>
         /// Заголовок поста.

@@ -11,6 +11,11 @@
         public const string DvachBrowserNamespace = "urn:boethiah:dvachbrowser3";
 
         /// <summary>
+        /// Максимальное количество постов в контейнере.
+        /// </summary>
+        public const int PostContainerMaxCount = 50;
+
+        /// <summary>
         /// Движок.
         /// </summary>
         public static class Engine

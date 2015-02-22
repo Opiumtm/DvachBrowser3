@@ -11,12 +11,6 @@ namespace DvachBrowser3.Posts
     public abstract class PostImageBase : PostMediaBase
     {
         /// <summary>
-        /// Изображение.
-        /// </summary>
-        [DataMember]
-        public string Image { get; set; }
-
-        /// <summary>
         /// Имя изображения.
         /// </summary>
         [DataMember]

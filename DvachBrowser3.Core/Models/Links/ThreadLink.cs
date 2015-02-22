@@ -3,15 +3,21 @@
 namespace DvachBrowser3.Links
 {
     /// <summary>
-    /// Ссылка на борду.
+    /// Ссылка на тред.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    public class BoardLink : BoardLinkBase
+    public class ThreadLink : BoardLinkBase
     {
         /// <summary>
         /// Борда.
         /// </summary>
         [DataMember]
-        public string Board { get; set; } 
+        public string Board { get; set; }
+
+        /// <summary>
+        /// Тред.
+        /// </summary>
+        [DataMember]
+        public int Thread { get; set; }         
     }
 }

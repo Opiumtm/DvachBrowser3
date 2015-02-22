@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Posts
 {
@@ -15,5 +16,17 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public int Size { get; set; }
+
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        [DataMember]
+        public BoardLinkBase Link { get; set; }
+
+        /// <summary>
+        /// Родительская ссылка.
+        /// </summary>
+        [DataMember]
+        public BoardLinkBase ParentLink { get; set; }
     }
 }

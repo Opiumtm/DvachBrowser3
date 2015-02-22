@@ -3,15 +3,15 @@
 namespace DvachBrowser3.Links
 {
     /// <summary>
-    /// Ссылка на борду.
+    /// Ссылка на ютубу.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    public class BoardLink : BoardLinkBase
+    public class YoutubeLink : BoardLinkBase
     {
         /// <summary>
-        /// Борда.
+        /// Идентификатор видео.
         /// </summary>
         [DataMember]
-        public string Board { get; set; } 
+        public string YoutubeId { get; set; } 
     }
 }
