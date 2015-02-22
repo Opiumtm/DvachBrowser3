@@ -36,7 +36,6 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Folder Include="Interfaces\" />
-    <Folder Include="Models\Links\" />
   </ItemGroup>
   <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
@@ -50,6 +49,12 @@
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Models\Links\BoardLink.cs" />
+    <Compile Include="Models\Links\BoardLinkBase.cs" />
+    <Compile Include="Models\Posts\PostImage.cs" />
+    <Compile Include="Models\Posts\PostImageBase.cs" />
+    <Compile Include="Models\Posts\PostImageWithThumbnail.cs" />
+    <Compile Include="Models\Posts\PostMediaBase.cs" />
     <Compile Include="Models\Posts\PostNode.cs" />
     <Compile Include="Models\Posts\PostNodeAttribute.cs" />
     <Compile Include="Models\Posts\PostNodeAttributeBase.cs" />
@@ -60,6 +65,7 @@
     <Compile Include="Models\Posts\PostNodeLinkAttribute.cs" />
     <Compile Include="Models\Posts\PostNodes.cs" />
     <Compile Include="Models\Posts\PostTextNode.cs" />
+    <Compile Include="Models\Posts\PostYoutubeVideo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
