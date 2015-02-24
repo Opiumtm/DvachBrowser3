@@ -22,5 +22,15 @@ namespace DvachBrowser3.Engines
         /// Запрос к списку борд.
         /// </summary>
         BoardsListRequest = 0x0004,
+
+        /// <summary>
+        /// Поиск по борде.
+        /// </summary>
+        SearchRequest = 0x0008,
+
+        /// <summary>
+        /// Каталог топ постов.
+        /// </summary>
+        TopPostsRequest = 0x0010,
     }
 }
