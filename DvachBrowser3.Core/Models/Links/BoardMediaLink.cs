@@ -19,5 +19,14 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public string RelativeUri { get; set; }
+
+        /// <summary>
+        /// Получить тип ссылки.
+        /// </summary>
+        /// <returns>Тип ссылки.</returns>
+        protected override BoardLinkKind GetLinkKind()
+        {
+            return BoardLinkKind.Media;
+        }
     }
 }

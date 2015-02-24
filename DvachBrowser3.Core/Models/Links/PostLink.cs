@@ -25,5 +25,14 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public int Post { get; set; }
+
+        /// <summary>
+        /// Получить тип ссылки.
+        /// </summary>
+        /// <returns>Тип ссылки.</returns>
+        protected override BoardLinkKind GetLinkKind()
+        {
+            return BoardLinkKind.Post | BoardLinkKind.Thread;
+        }
     }
 }

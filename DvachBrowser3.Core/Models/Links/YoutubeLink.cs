@@ -12,6 +12,15 @@ namespace DvachBrowser3.Links
         /// Идентификатор видео.
         /// </summary>
         [DataMember]
-        public string YoutubeId { get; set; } 
+        public string YoutubeId { get; set; }
+
+        /// <summary>
+        /// Получить тип ссылки.
+        /// </summary>
+        /// <returns>Тип ссылки.</returns>
+        protected override BoardLinkKind GetLinkKind()
+        {
+            return BoardLinkKind.Youtube;
+        }
     }
 }

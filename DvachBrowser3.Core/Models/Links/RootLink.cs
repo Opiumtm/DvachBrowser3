@@ -7,6 +7,14 @@ namespace DvachBrowser3.Links
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     public class RootLink : BoardLinkBase
-    {         
+    {
+        /// <summary>
+        /// Получить тип ссылки.
+        /// </summary>
+        /// <returns>Тип ссылки.</returns>
+        protected override BoardLinkKind GetLinkKind()
+        {
+            return BoardLinkKind.Other;
+        }
     }
 }

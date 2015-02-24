@@ -12,6 +12,15 @@ namespace DvachBrowser3.Links
         /// Борда.
         /// </summary>
         [DataMember]
-        public string Board { get; set; } 
+        public string Board { get; set; }
+
+        /// <summary>
+        /// Получить тип ссылки.
+        /// </summary>
+        /// <returns>Тип ссылки.</returns>
+        protected override BoardLinkKind GetLinkKind()
+        {
+            return BoardLinkKind.BoardPage;
+        }
     }
 }

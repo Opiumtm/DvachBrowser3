@@ -35,8 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Engines\" />
-    <Folder Include="Interfaces\" />
+    <Folder Include="Engines\Makaba\" />
   </ItemGroup>
   <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
@@ -50,8 +49,27 @@
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Engines\CaptchaPostingData.cs" />
+    <Compile Include="Engines\EngineCapability.cs" />
+    <Compile Include="Engines\EngineProgress.cs" />
+    <Compile Include="Engines\IBoardListResult.cs" />
+    <Compile Include="Engines\IBoardPageResult.cs" />
+    <Compile Include="Engines\IEngineOperationsWithProgress.cs" />
+    <Compile Include="Engines\IMediaResult.cs" />
+    <Compile Include="Engines\INetworkEngine.cs" />
+    <Compile Include="Engines\INetworkEngines.cs" />
+    <Compile Include="Engines\IPostingResult.cs" />
+    <Compile Include="Engines\IThreadResult.cs" />
+    <Compile Include="Engines\IThreadStatusResult.cs" />
+    <Compile Include="Engines\MediaFilePostingData.cs" />
+    <Compile Include="Engines\PostEntryData.cs" />
+    <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
+    <Compile Include="Engines\YandexCaptchaPostingData.cs" />
+    <Compile Include="Models\Board\BoardReference.cs" />
+    <Compile Include="Models\Board\BoardReferenceExtension.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
+    <Compile Include="Models\Links\BoardLinkKind.cs" />
     <Compile Include="Models\Links\BoardPageLink.cs" />
     <Compile Include="Models\Links\BoardMediaLink.cs" />
     <Compile Include="Models\Links\MediaLink.cs" />
@@ -60,10 +78,17 @@
     <Compile Include="Models\Links\ThreadLink.cs" />
     <Compile Include="Models\Links\YoutubeLink.cs" />
     <Compile Include="Models\Makaba\MakabaBoardPageExtension.cs" />
+    <Compile Include="Models\Makaba\MakabaBoardReferenceExtension.cs" />
     <Compile Include="Models\Makaba\MakabaCollectionExtension.cs" />
     <Compile Include="Models\Makaba\MakabaEntityFlags.cs" />
     <Compile Include="Models\Makaba\MakabaEntityTree.cs" />
     <Compile Include="Models\Makaba\MakabaIconReference.cs" />
+    <Compile Include="Models\Posting\CaptchaTypes.cs" />
+    <Compile Include="Models\Posting\PostingCapability.cs" />
+    <Compile Include="Models\Posting\PostingCaptchaCapability.cs" />
+    <Compile Include="Models\Posting\PostingData.cs" />
+    <Compile Include="Models\Posting\PostingFieldSemanticRole.cs" />
+    <Compile Include="Models\Posting\PostingMediaFileCapability.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
     <Compile Include="Models\Posts\IPostTreeCollection.cs" />
