@@ -18,13 +18,5 @@ namespace DvachBrowser3.Engines
         /// Частичный результат.
         /// </summary>
         bool IsPartial { get; }
-
-        /// <summary>
-        /// Получить посты.
-        /// </summary>
-        /// <param name="rewind">Начать сначала.</param>
-        /// <param name="maxPosts">Максимальное количество постов.</param>
-        /// <returns>Посты.</returns>
-        Task<PostTreeContainer> ListExternalPosts(bool rewind, int maxPosts = CoreConstants.PostContainerMaxCount);
     }
 }

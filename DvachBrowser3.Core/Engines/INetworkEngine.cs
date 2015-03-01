@@ -28,6 +28,11 @@ namespace DvachBrowser3.Engines
         EngineCapability Capability { get; }
 
         /// <summary>
+        /// Конфигурация.
+        /// </summary>
+        IConfiguration Configuration { get; }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>

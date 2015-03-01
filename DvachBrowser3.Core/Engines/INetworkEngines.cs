@@ -1,4 +1,6 @@
-﻿namespace DvachBrowser3.Engines
+﻿using System.Collections.Generic;
+
+namespace DvachBrowser3.Engines
 {
     /// <summary>
     /// Информация о движках.
@@ -9,7 +11,7 @@
         /// Перечислить движки.
         /// </summary>
         /// <returns>Движки.</returns>
-        string[] ListEngines();
+        ICollection<string> ListEngines();
 
         /// <summary>
         /// Получить движок по его идентификатору.

@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Engines\Makaba\" />
   </ItemGroup>
   <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
@@ -44,12 +43,18 @@
   <ItemGroup>
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
+    <Compile Include="Common\IConfiguration.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
+    <Compile Include="Engines\Common\EngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpEngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpGetEngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpGetJsonEngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpPostEngineOperationBase.cs" />
     <Compile Include="Engines\EngineCapability.cs" />
     <Compile Include="Engines\EngineProgress.cs" />
     <Compile Include="Engines\IBoardListResult.cs" />
@@ -61,6 +66,18 @@
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
+    <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
+    <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardIcon2.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardPost.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardPost2.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardPostFile2.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardThread2.cs" />
+    <Compile Include="Engines\Makaba\Json\CheckUpdatesData.cs" />
+    <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
+    <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
+    <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
@@ -127,6 +144,9 @@
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
