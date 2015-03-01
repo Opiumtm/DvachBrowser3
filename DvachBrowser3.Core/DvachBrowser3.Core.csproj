@@ -44,8 +44,10 @@
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
     <Compile Include="Common\IConfiguration.cs" />
+    <Compile Include="Common\IRegexCacheService.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
+    <Compile Include="Common\RegexCacheService.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
@@ -57,6 +59,8 @@
     <Compile Include="Engines\Common\HttpGetJsonEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetMediaEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpPostEngineOperationBase.cs" />
+    <Compile Include="Engines\Common\IYoutubeIdService.cs" />
+    <Compile Include="Engines\Common\YoutubeIdService.cs" />
     <Compile Include="Engines\EngineCapability.cs" />
     <Compile Include="Engines\EngineProgress.cs" />
     <Compile Include="Engines\IBoardListResult.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />
@@ -142,6 +147,7 @@
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CoreServicesInitializer.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
