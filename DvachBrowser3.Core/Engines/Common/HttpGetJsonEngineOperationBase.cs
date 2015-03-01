@@ -37,7 +37,6 @@ namespace DvachBrowser3.Engines
             {
                 etag = message.Headers["ETag"];
             }
-            await message.Content.BufferAllAsync();
             var str = await message.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TJson>(str);
             Operation = null;

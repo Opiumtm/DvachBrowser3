@@ -10,7 +10,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
     /// <summary>
     /// Получить страницу.
     /// </summary>
-    public class MakabaGetBoardPageOperation : HttpGetJsonEngineOperationBase<IBoardPageResult, BoardLinkBase, BoardEntity2>
+    public sealed class MakabaGetBoardPageOperation : HttpGetJsonEngineOperationBase<IBoardPageResult, BoardLinkBase, BoardEntity2>
     {
         /// <summary>
         /// Конструктор.
@@ -26,11 +26,47 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             BoardPageLink pageLink;
             if (Parameter is BoardLink)
             {
-                pageLink = new BoardPageLink() { Board = ((BoardLink)Parameter).Board, Page = 0 };
+                pageLink = new BoardPageLink() { Engine = CoreConstants.Engine.Makaba, Board = ((BoardLink)Parameter).Board, Page = 0 };
             }
             else if (Parameter is BoardPageLink)
             {
-                pageLink = Parameter as BoardPageLink;
+                var l = Parameter as BoardPageLink;
+                pageLink = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = l.Board,
+                    Page = l.Page
+                };
+            }
+            else if (Parameter is ThreadLink)
+            {
+                var l = Parameter as ThreadLink;
+                pageLink = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = l.Board,
+                    Page = 0
+                };                
+            }
+            else if (Parameter is PostLink)
+            {
+                var l = Parameter as PostLink;
+                pageLink = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = l.Board,
+                    Page = 0
+                };
+            }
+            else if (Parameter is BoardMediaLink)
+            {
+                var l = Parameter as BoardMediaLink;
+                pageLink = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = l.Board,
+                    Page = 0
+                };                
             }
             else
             {
@@ -41,7 +77,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
 
         protected override Uri GetRequestUri()
         {
-            return Services.GetServiceOrThrow<IMakabaUriService>().GetBoardPageUri(GetPageLink(), false);
+            return Services.GetServiceOrThrow<IMakabaUriService>().GetJsonLink(GetPageLink());
         }
 
         protected override async Task<IBoardPageResult> ProcessJson(BoardEntity2 message, string etag)

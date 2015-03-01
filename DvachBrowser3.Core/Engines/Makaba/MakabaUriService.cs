@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Windows.Foundation.Metadata;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Engines.Makaba
@@ -39,6 +40,36 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить URI треда.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="isReferer">Реферер.</param>
+        /// <returns>URI.</returns>
+        public Uri GetThreadUri(ThreadLink link, bool isReferer)
+        {
+            if (!isReferer)
+            {
+                return new Uri(BaseUri, string.Format("{0}/res/{1}.json", link.Board, link.Thread));
+            }
+            return new Uri(BaseUri, string.Format("{0}/res/{1}.html", link.Board, link.Thread));
+        }
+
+        /// <summary>
+        /// Получить URI части треда.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="isReferer">Реферер.</param>
+        /// <returns>URI.</returns>
+        public Uri GetThreadPartUri(ThreadPartLink link, bool isReferer)
+        {
+            if (!isReferer)
+            {
+                return new Uri(BaseUri, string.Format("makaba/mobile.fcgi?task=get_thread&board={0}&thread={1}&num={2}", link.Board, link.Thread, link.FromPost));
+            }
+            return GetThreadUri(link, true);
+        }
+
+        /// <summary>
         /// Ссылка JSON.
         /// </summary>
         /// <param name="link">Ссылка.</param>
@@ -47,7 +78,7 @@ namespace DvachBrowser3.Engines.Makaba
         {
             if (link is BoardPageLink)
             {
-                return GetBoardPageUri((BoardPageLink)link, true);
+                return GetBoardPageUri((BoardPageLink)link, false);
             }
             if (link is BoardLink)
             {
@@ -57,7 +88,15 @@ namespace DvachBrowser3.Engines.Makaba
                     Board = ((BoardLink)link).Board,
                     Page = 0,
                 };
-                return GetBoardPageUri(l, true);
+                return GetBoardPageUri(l, false);
+            }
+            if (link is ThreadPartLink)
+            {
+                return GetThreadPartUri(link as ThreadPartLink, false);
+            }
+            if (link is ThreadLink)
+            {
+                return GetThreadUri(link as ThreadLink, false);
             }
             return null;
         }
@@ -86,6 +125,14 @@ namespace DvachBrowser3.Engines.Makaba
                     Page = 0,
                 };
                 return GetBoardPageUri(l, true);
+            }
+            if (link is ThreadPartLink)
+            {
+                return GetThreadPartUri(link as ThreadPartLink, true);
+            }
+            if (link is ThreadLink)
+            {
+                return GetThreadUri(link as ThreadLink, true);
             }
             return null;
         }

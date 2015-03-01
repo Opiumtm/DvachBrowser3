@@ -18,6 +18,22 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetBoardPageUri(BoardPageLink link, bool isReferer);
 
         /// <summary>
+        /// Получить URI треда.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="isReferer">Реферер.</param>
+        /// <returns>URI.</returns>
+        Uri GetThreadUri(ThreadLink link, bool isReferer);
+
+        /// <summary>
+        /// Получить URI части треда.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="isReferer">Реферер.</param>
+        /// <returns>URI.</returns>
+        Uri GetThreadPartUri(ThreadPartLink link, bool isReferer);
+
+        /// <summary>
         /// Ссылка JSON.
         /// </summary>
         /// <param name="link">Ссылка.</param>

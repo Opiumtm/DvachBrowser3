@@ -13,10 +13,5 @@ namespace DvachBrowser3.Engines
         /// Результат.
         /// </summary>
         PostTreeCollection CollectionResult { get; }
-
-        /// <summary>
-        /// Частичный результат.
-        /// </summary>
-        bool IsPartial { get; }
     }
 }

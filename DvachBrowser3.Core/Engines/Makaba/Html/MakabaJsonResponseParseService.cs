@@ -148,16 +148,16 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 foreach (var f in data.Files)
                 {
-                    var mediaLink = new MediaLink()
+                    var mediaLink = new BoardMediaLink()
                         {
                             Engine = CoreConstants.Engine.Makaba,
-                            IsAbsolute = false,
+                            Board = link.Board,
                             RelativeUri = f.Path
                         };
-                    var tnLink = new MediaLink()
+                    var tnLink = new BoardMediaLink()
                     {
                         Engine = CoreConstants.Engine.Makaba,
-                        IsAbsolute = false,
+                        Board = link.Board,
                         RelativeUri = f.Thumbnail
                     };
                     var media = new PostImageWithThumbnail()
