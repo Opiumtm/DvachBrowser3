@@ -49,16 +49,19 @@
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetJsonEngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpGetMediaEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpPostEngineOperationBase.cs" />
     <Compile Include="Engines\EngineCapability.cs" />
     <Compile Include="Engines\EngineProgress.cs" />
     <Compile Include="Engines\IBoardListResult.cs" />
     <Compile Include="Engines\IBoardPageResult.cs" />
+    <Compile Include="Engines\ICaptchaResult.cs" />
     <Compile Include="Engines\IEngineOperationsWithProgress.cs" />
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
@@ -80,7 +83,9 @@
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
+    <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
+    <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
@@ -100,6 +105,7 @@
     <Compile Include="Models\Makaba\MakabaEntityFlags.cs" />
     <Compile Include="Models\Makaba\MakabaEntityTree.cs" />
     <Compile Include="Models\Makaba\MakabaIconReference.cs" />
+    <Compile Include="Models\Posting\CaptchaType.cs" />
     <Compile Include="Models\Posting\CaptchaTypes.cs" />
     <Compile Include="Models\Posting\PostingCapability.cs" />
     <Compile Include="Models\Posting\PostingCaptchaCapability.cs" />

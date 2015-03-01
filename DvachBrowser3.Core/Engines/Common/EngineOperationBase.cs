@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 namespace DvachBrowser3.Engines
 {
@@ -31,6 +34,39 @@ namespace DvachBrowser3.Engines
         /// Прогресс операции.
         /// </summary>
         public event EventHandler<EngineProgress> Progress;
+
+        private IAsyncInfo asyncInfo;
+
+        protected IAsyncInfo Operation
+        {
+            get { return Interlocked.CompareExchange(ref asyncInfo, null, null); }
+            set { Interlocked.Exchange(ref asyncInfo, value); }
+        }
+
+        /// <summary>
+        /// Отменить.
+        /// </summary>
+        public virtual void Cancel()
+        {
+            try
+            {
+                var operation = Operation;
+                if (operation != null)
+                {
+                    if (operation.Status == AsyncStatus.Started)
+                    {
+                        operation.Cancel();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+            }
+        }
 
         /// <summary>
         /// Прогресс.

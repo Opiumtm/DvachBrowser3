@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Web.Http;
@@ -31,9 +32,17 @@ namespace DvachBrowser3.Engines
         {
             var operation = client.GetAsync(GetRequestUri(), CompletionOption);
             operation.Progress = HttpProgress;
-            using (var message = await operation)
+            Operation = operation;
+            try
             {
-                return await DoComplete(message);                
+                using (var message = await operation)
+                {
+                    return await DoComplete(message);
+                }
+            }
+            finally
+            {
+                Operation = null;
             }
         }
 

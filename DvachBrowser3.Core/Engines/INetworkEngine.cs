@@ -3,6 +3,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using DvachBrowser3.Board;
 using DvachBrowser3.Links;
+using DvachBrowser3.Posting;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.Engines
@@ -53,6 +54,14 @@ namespace DvachBrowser3.Engines
         /// <returns>Медиафайл.</returns>
         IEngineOperationsWithProgress<IMediaResult, EngineProgress> GetMediaFile(BoardLinkBase link);
 
+        /// <summary>
+        /// Получить ключи для капчи.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <returns>Ключи для капчи.</returns>
+        IEngineOperationsWithProgress<ICaptchaResult, EngineProgress> GetCaptchaKeys(BoardLinkBase link, CaptchaType captchaType);
+        
         /// <summary>
         /// Постинг.
         /// </summary>

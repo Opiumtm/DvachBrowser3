@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace DvachBrowser3.Engines
 {
     /// <summary>
-    /// Операция движка HTTP GET.
+    /// Операция движка HTTP GET для строк JSON.
     /// </summary>
     /// <typeparam name="T">Тип результата.</typeparam>
     /// <typeparam name="TParam">Тип параметра.</typeparam>
@@ -40,6 +40,7 @@ namespace DvachBrowser3.Engines
             await message.Content.BufferAllAsync();
             var str = await message.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TJson>(str);
+            Operation = null;
             return await ProcessJson(result, etag);
         }
 
@@ -51,6 +52,9 @@ namespace DvachBrowser3.Engines
         /// <returns>Результат.</returns>
         protected abstract Task<T> ProcessJson(TJson message, string etag);
 
+        /// <summary>
+        /// Опция определения.
+        /// </summary>
         protected sealed override HttpCompletionOption CompletionOption
         {
             get

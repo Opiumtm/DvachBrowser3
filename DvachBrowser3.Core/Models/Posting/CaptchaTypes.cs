@@ -11,11 +11,11 @@ namespace DvachBrowser3.Posting
         /// <summary>
         /// Яндекс.
         /// </summary>
-        Yandex = 0x0001,
+        Yandex = CaptchaType.Yandex,
 
         /// <summary>
         /// Рекапча.
         /// </summary>
-        Recaptcha = 0x0002,
+        Recaptcha = CaptchaType.Recaptcha,
     }
 }
