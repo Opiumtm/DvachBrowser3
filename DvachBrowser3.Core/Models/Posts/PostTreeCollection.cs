@@ -10,7 +10,7 @@ namespace DvachBrowser3.Posts
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(ThreadTree))]
     [KnownType(typeof(ThreadPreviewTree))]
-    public abstract class PostTreeCollection : IPostTreeCollection
+    public abstract class PostTreeCollection
     {
         /// <summary>
         /// Ссылка.
@@ -25,36 +25,16 @@ namespace DvachBrowser3.Posts
         public BoardLinkBase ParentLink { get; set; }
 
         /// <summary>
-        /// Количество постов.
+        /// Посты.
         /// </summary>
         [DataMember]
-        public int PostCount { get; set; }
+        public List<PostTree> Posts { get; set; }
+
 
         /// <summary>
         /// Расширения.
         /// </summary>
         [DataMember]
         public List<PostTreeCollectionExtension> Extensions { get; set; }
-
-        /// <summary>
-        /// Режим.
-        /// </summary>
-        [IgnoreDataMember]
-        public PostTreeCollectionMode CollectionMode
-        {
-            get { return GetMode(); }
-        }
-
-        /// <summary>
-        /// Получить посты (только для режима Internal).
-        /// </summary>
-        /// <returns>Посты.</returns>
-        public abstract List<PostTree> GetInternalPosts();
-
-        /// <summary>
-        /// Получить режим.
-        /// </summary>
-        /// <returns>Режим.</returns>
-        protected abstract PostTreeCollectionMode GetMode();
     }
 }

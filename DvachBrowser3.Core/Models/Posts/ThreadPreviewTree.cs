@@ -42,29 +42,5 @@ namespace DvachBrowser3.Posts
         {
             get { return Posts != null ? Posts.FirstOrDefault() : null; }
         }
-
-        /// <summary>
-        /// Посты.
-        /// </summary>
-        [DataMember]
-        public List<PostTree> Posts { get; set; }
-
-        /// <summary>
-        /// Получить посты (только для режима Internal).
-        /// </summary>
-        /// <returns>Посты.</returns>
-        public override List<PostTree> GetInternalPosts()
-        {
-            return Posts;
-        }
-
-        /// <summary>
-        /// Получить режим.
-        /// </summary>
-        /// <returns>Режим.</returns>
-        protected override PostTreeCollectionMode GetMode()
-        {
-            return PostTreeCollectionMode.Internal;
-        }
     }
 }

@@ -14,23 +14,5 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public string LastModified { get; set; }
-
-        /// <summary>
-        /// Получить посты (только для режима Internal).
-        /// </summary>
-        /// <returns>Посты.</returns>
-        public override List<PostTree> GetInternalPosts()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Получить режим.
-        /// </summary>
-        /// <returns>Режим.</returns>
-        protected override PostTreeCollectionMode GetMode()
-        {
-            return PostTreeCollectionMode.ExternalFiles;
-        }
     }
 }

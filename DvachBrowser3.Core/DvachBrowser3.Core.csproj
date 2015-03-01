@@ -91,7 +91,6 @@
     <Compile Include="Models\Posting\PostingMediaFileCapability.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
-    <Compile Include="Models\Posts\IPostTreeCollection.cs" />
     <Compile Include="Models\Posts\PostFlags.cs" />
     <Compile Include="Models\Posts\PostImage.cs" />
     <Compile Include="Models\Posts\PostImageBase.cs" />
