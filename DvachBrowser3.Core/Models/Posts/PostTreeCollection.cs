@@ -10,6 +10,7 @@ namespace DvachBrowser3.Posts
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(ThreadTree))]
     [KnownType(typeof(ThreadPreviewTree))]
+    [KnownType(typeof(ThreadTreePartial))]
     public abstract class PostTreeCollection
     {
         /// <summary>

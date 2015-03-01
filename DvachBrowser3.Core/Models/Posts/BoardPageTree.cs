@@ -23,10 +23,10 @@ namespace DvachBrowser3.Posts
         public BoardLinkBase ParentLink { get; set; }
 
         /// <summary>
-        /// Общее количество страниц (null - неизвестно).
+        /// Максимальный номер страницы (null - неизвестно).
         /// </summary>
         [DataMember]
-        public int? TotalPages { get; set; }
+        public int? MaxPage { get; set; }
 
         /// <summary>
         /// Номер страницы (null - неизвестно).

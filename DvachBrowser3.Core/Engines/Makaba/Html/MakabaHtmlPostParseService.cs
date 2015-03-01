@@ -29,6 +29,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 return new List<PostNodeBase>();
             }
             var html = new HtmlDocument();
+            html.LoadHtml(comment);
             ICollection<PostNodeBase> result = new List<PostNodeBase>();
             result = html.DocumentNode.ChildNodes.TreeWalk(result)
                          .GetChildren(node => node.ChildNodes)

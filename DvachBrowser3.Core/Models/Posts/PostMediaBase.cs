@@ -15,7 +15,7 @@ namespace DvachBrowser3.Posts
         /// Размер.
         /// </summary>
         [DataMember]
-        public int Size { get; set; }
+        public int? Size { get; set; }
 
         /// <summary>
         /// Ссылка.

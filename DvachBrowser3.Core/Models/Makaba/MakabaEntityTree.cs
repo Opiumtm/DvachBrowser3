@@ -62,5 +62,11 @@ namespace DvachBrowser3.Makaba
         /// </summary>
         [DataMember]
         public List<int> Pages { get; set; }
+
+        /// <summary>
+        /// Борда.
+        /// </summary>
+        [DataMember]
+        public bool IsBoard { get; set; }
     }
 }

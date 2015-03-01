@@ -18,6 +18,12 @@ namespace DvachBrowser3.Makaba
         /// Имя.
         /// </summary>
         [DataMember]
-        public string Name { get; set; }         
+        public string Name { get; set; }
+
+        /// <summary>
+        /// URL.
+        /// </summary>
+        [DataMember]
+        public string Url { get; set; }
     }
 }

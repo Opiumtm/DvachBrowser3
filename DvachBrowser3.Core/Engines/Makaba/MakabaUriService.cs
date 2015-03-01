@@ -31,7 +31,63 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return new Uri(BaseUri, string.Format("{0}/{1}.json", link.Board, link.Page == 0 ? "index" : link.Page.ToString(CultureInfo.InvariantCulture)));
             }
-            return new Uri(BaseUri, string.Format("{0}/{1}.html", link.Board, link.Page == 0 ? "index" : link.Page.ToString(CultureInfo.InvariantCulture)));
+            if (link.Page == 0)
+            {
+                return new Uri(BaseUri, string.Format("{0}", link.Board));                
+            }
+            return new Uri(BaseUri, string.Format("{0}/{1}.html", link.Board, link.Page.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
+        /// Ссылка JSON.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        public Uri GetJsonLink(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                return GetBoardPageUri((BoardPageLink)link, true);
+            }
+            if (link is BoardLink)
+            {
+                var l = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = ((BoardLink)link).Board,
+                    Page = 0,
+                };
+                return GetBoardPageUri(l, true);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Ссылка для браузера.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        public Uri GetBrowserLink(BoardLinkBase link)
+        {
+            if (link is RootLink)
+            {
+                return BaseUri;
+            }
+            if (link is BoardPageLink)
+            {
+                return GetBoardPageUri((BoardPageLink) link, true);
+            }
+            if (link is BoardLink)
+            {
+                var l = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = ((BoardLink) link).Board,
+                    Page = 0,
+                };
+                return GetBoardPageUri(l, true);
+            }
+            return null;
         }
 
         private const string PostLinkRegexText = @"http[s]?://(?:[^/]+)/(?<board>[^/]+)/res/(?<parent>\d+).html(?:#(?<post>\d+))?$";

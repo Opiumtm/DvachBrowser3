@@ -7,7 +7,7 @@ namespace DvachBrowser3.Engines.Makaba
     /// <summary>
     /// Сервис URI для макабы.
     /// </summary>
-    public interface IMakabaUriService
+    public interface IMakabaUriService : IEngineUriService
     {
         /// <summary>
         /// Получить URI страницы борды.
@@ -18,11 +18,11 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetBoardPageUri(BoardPageLink link, bool isReferer);
 
         /// <summary>
-        /// Попробовать распарсить ссылку.
+        /// Ссылка JSON.
         /// </summary>
-        /// <param name="uri">URI.</param>
-        /// <returns>Ссылка.</returns>
-        BoardLinkBase TryParsePostLink(string uri);
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        Uri GetJsonLink(BoardLinkBase link);
 
         /// <summary>
         /// Регулярное выражение URI поста.

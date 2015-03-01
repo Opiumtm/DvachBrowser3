@@ -34,6 +34,11 @@ namespace DvachBrowser3.Engines
         IConfiguration Configuration { get; }
 
         /// <summary>
+        /// URI движка.
+        /// </summary>
+        IEngineUriService EngineUriService { get; }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>

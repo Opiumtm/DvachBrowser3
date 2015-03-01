@@ -1,5 +1,6 @@
 ﻿using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
+using DvachBrowser3.Engines.Makaba.Html;
 
 namespace DvachBrowser3
 {
@@ -17,6 +18,9 @@ namespace DvachBrowser3
             container.RegisterService<IRegexCacheService>(new RegexCacheService(container));
             container.RegisterService<IYoutubeIdService>(new YoutubeIdService(container));
             container.RegisterService<IMakabaUriService>(new MakabaUriService(container));
+            container.RegisterService<IMakabaHtmlPostParseService>(new MakabaHtmlPostParseService(container));
+            container.RegisterService<IDateService>(new DateService(container));
+            container.RegisterService<IMakabaJsonResponseParseService>(new MakabaJsonResponseParseService(container));
         }
     }
 }

@@ -13,6 +13,6 @@ namespace DvachBrowser3.Posts
         /// Узы поста.
         /// </summary>
         [DataMember]
-        public List<PostNode> Nodes { get; set; }
+        public List<PostNodeBase> Nodes { get; set; }
     }
 }

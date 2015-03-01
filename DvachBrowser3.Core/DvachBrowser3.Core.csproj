@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
+    <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\IConfiguration.cs" />
+    <Compile Include="Common\IDateService.cs" />
     <Compile Include="Common\IRegexCacheService.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="Engines\IBoardPageResult.cs" />
     <Compile Include="Engines\ICaptchaResult.cs" />
     <Compile Include="Engines\IEngineOperationsWithProgress.cs" />
+    <Compile Include="Engines\IEngineUriService.cs" />
+    <Compile Include="Engines\ILastModifiedResult.cs" />
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
     <Compile Include="Engines\INetworkEngines.cs" />
@@ -74,7 +78,9 @@
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
     <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
+    <Compile Include="Engines\Makaba\Html\IMakabaJsonResponseParseService.cs" />
     <Compile Include="Engines\Makaba\Html\MakabaHtmlPostParseService.cs" />
+    <Compile Include="Engines\Makaba\Html\MakabaJsonResponseParseService.cs" />
     <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
     <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />
@@ -87,6 +93,7 @@
     <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
+    <Compile Include="Engines\Makaba\Operations\JsonResult.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
@@ -102,9 +109,11 @@
     <Compile Include="Models\Links\BoardPageLink.cs" />
     <Compile Include="Models\Links\BoardMediaLink.cs" />
     <Compile Include="Models\Links\MediaLink.cs" />
+    <Compile Include="Models\Links\MediaType.cs" />
     <Compile Include="Models\Links\PostLink.cs" />
     <Compile Include="Models\Links\RootLink.cs" />
     <Compile Include="Models\Links\ThreadLink.cs" />
+    <Compile Include="Models\Links\ThreadPartLink.cs" />
     <Compile Include="Models\Links\YoutubeLink.cs" />
     <Compile Include="Models\Makaba\MakabaBoardPageExtension.cs" />
     <Compile Include="Models\Makaba\MakabaBoardReferenceExtension.cs" />
@@ -148,6 +157,7 @@
     <Compile Include="Models\Posts\PostYoutubeVideo.cs" />
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />
+    <Compile Include="Models\Posts\ThreadTreePartial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CoreServicesInitializer.cs" />
     <Compile Include="Services\ServiceBase.cs" />

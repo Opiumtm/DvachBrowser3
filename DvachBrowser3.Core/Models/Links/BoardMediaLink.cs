@@ -21,6 +21,12 @@ namespace DvachBrowser3.Links
         public string RelativeUri { get; set; }
 
         /// <summary>
+        /// Тип медиа.
+        /// </summary>
+        [DataMember]
+        public MediaType MediaType { get; set; }
+
+        /// <summary>
         /// Получить тип ссылки.
         /// </summary>
         /// <returns>Тип ссылки.</returns>

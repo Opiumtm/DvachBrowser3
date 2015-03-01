@@ -3,22 +3,16 @@
 namespace DvachBrowser3.Links
 {
     /// <summary>
-    /// Ссылка на тред.
+    /// Ссылка на часть треда.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    public class ThreadLink : BoardLinkBase
+    public class ThreadPartLink : ThreadLink
     {
         /// <summary>
-        /// Борда.
+        /// Начиная с поста.
         /// </summary>
         [DataMember]
-        public string Board { get; set; }
-
-        /// <summary>
-        /// Тред.
-        /// </summary>
-        [DataMember]
-        public int Thread { get; set; }
+        public int FromPost { get; set; }
 
         /// <summary>
         /// Получить тип ссылки.
@@ -26,7 +20,7 @@ namespace DvachBrowser3.Links
         /// <returns>Тип ссылки.</returns>
         protected override BoardLinkKind GetLinkKind()
         {
-            return BoardLinkKind.Thread;
+            return BoardLinkKind.Thread | BoardLinkKind.PartialThread;
         }
     }
 }
