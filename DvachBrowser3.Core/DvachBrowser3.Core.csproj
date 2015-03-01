@@ -73,6 +73,8 @@
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
+    <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
+    <Compile Include="Engines\Makaba\Html\MakabaHtmlPostParseService.cs" />
     <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
     <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />

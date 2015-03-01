@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Engines.Makaba
@@ -30,6 +32,63 @@ namespace DvachBrowser3.Engines.Makaba
                 return new Uri(BaseUri, string.Format("{0}/{1}.json", link.Board, link.Page == 0 ? "index" : link.Page.ToString(CultureInfo.InvariantCulture)));
             }
             return new Uri(BaseUri, string.Format("{0}/{1}.html", link.Board, link.Page == 0 ? "index" : link.Page.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        private const string PostLinkRegexText = @"http[s]?://(?:[^/]+)/(?<board>[^/]+)/res/(?<parent>\d+).html(?:#(?<post>\d+))?$";
+        private const string PostLinkRegex2Text = @"/?(?<board>[^/]+)/res/(?<parent>\d+).html(?:#(?<post>\d+))?$";
+
+        /// <summary>
+        /// Регурялное выражение для определения ссылок.
+        /// </summary>
+        public Regex PostLinkRegex
+        {
+            get { return Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegexText); }
+        }
+
+        /// <summary>
+        /// Второе регурялное выражение для определения ссылок.
+        /// </summary>
+        public Regex PostLinkRegex2
+        {
+            get { return Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegex2Text); }
+        }
+
+        /// <summary>
+        /// Попробовать распарсить ссылку.
+        /// </summary>
+        /// <param name="uri">URI.</param>
+        /// <returns>Ссылка.</returns>
+        public BoardLinkBase TryParsePostLink(string uri)
+        {
+            try
+            {
+                var regexes = new Regex[] { PostLinkRegex, PostLinkRegex2 };
+                var match = regexes.Select(r => r.Match(uri)).FirstOrDefault(r => r.Success);
+                if (match != null)
+                {
+                    if (match.Groups["post"].Captures.Count > 0)
+                    {
+                        return new PostLink()
+                        {
+                            Engine = CoreConstants.Engine.Makaba,
+                            Board = match.Groups["board"].Captures[0].Value,
+                            Thread = int.Parse(match.Groups["parent"].Captures[0].Value),
+                            Post = int.Parse(match.Groups["post"].Captures[0].Value)
+                        };
+                    }
+                    return new ThreadLink()
+                    {
+                        Engine = CoreConstants.Engine.Makaba,
+                        Board = match.Groups["board"].Captures[0].Value,
+                        Thread = int.Parse(match.Groups["parent"].Captures[0].Value),
+                    };
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private Uri BaseUri
