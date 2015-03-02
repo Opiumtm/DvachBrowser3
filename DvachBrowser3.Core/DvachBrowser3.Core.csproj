@@ -132,9 +132,13 @@
     <Compile Include="Models\Posting\CaptchaType.cs" />
     <Compile Include="Models\Posting\CaptchaTypes.cs" />
     <Compile Include="Models\Posting\PostingCapability.cs" />
+    <Compile Include="Models\Posting\PostingCapabilityIcon.cs" />
     <Compile Include="Models\Posting\PostingCaptchaCapability.cs" />
+    <Compile Include="Models\Posting\PostingCommentCapability.cs" />
     <Compile Include="Models\Posting\PostingData.cs" />
     <Compile Include="Models\Posting\PostingFieldSemanticRole.cs" />
+    <Compile Include="Models\Posting\PostingIconCapability.cs" />
+    <Compile Include="Models\Posting\PostingMarkupType.cs" />
     <Compile Include="Models\Posting\PostingMediaFileCapability.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />

@@ -8,6 +8,8 @@ namespace DvachBrowser3.Posting
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(PostingMediaFileCapability))]
     [KnownType(typeof(PostingCaptchaCapability))]
+    [KnownType(typeof(PostingIconCapability))]
+    [KnownType(typeof(PostingCommentCapability))]
     public class PostingCapability
     {
         /// <summary>

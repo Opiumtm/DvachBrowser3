@@ -39,6 +39,11 @@ namespace DvachBrowser3.Engines
         IEngineUriService EngineUriService { get; }
 
         /// <summary>
+        /// Типы капчи.
+        /// </summary>
+        CaptchaTypes CaptchaTypes { get; }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>
