@@ -14,6 +14,12 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string Board { get; set; }
 
         /// <summary>
+        /// Информация о борде.
+        /// </summary>
+        [JsonProperty("BoardInfo")]
+        public string BoardInfo { get; set; }
+
+        /// <summary>
         /// Имя борды.
         /// </summary>
         [JsonProperty("BoardName")]
@@ -68,6 +74,12 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string EnableIcons { get; set; }
 
         /// <summary>
+        /// Разрешить иконки.
+        /// </summary>
+        [JsonProperty("enable_flags")]
+        public string EnableFlags { get; set; }
+
+        /// <summary>
         /// Разрешить изображения.
         /// </summary>
         [JsonProperty("enable_images")]
@@ -80,10 +92,28 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string EnableNames { get; set; }
 
         /// <summary>
+        /// Разрешить постинг.
+        /// </summary>
+        [JsonProperty("enable_posting")]
+        public string EnablePosting { get; set; }
+
+        /// <summary>
         /// Разрешить сажу.
         /// </summary>
         [JsonProperty("enable_sage")]
         public string EnableSage { get; set; }
+
+        /// <summary>
+        /// Разрешить щит (?).
+        /// </summary>
+        [JsonProperty("enable_shield")]
+        public string EnableShield { get; set; }
+
+        /// <summary>
+        /// Разрешить заголово.
+        /// </summary>
+        [JsonProperty("enable_subject")]
+        public string EnableSubject { get; set; }
 
         /// <summary>
         /// Разрешить трипкоды.
@@ -108,6 +138,18 @@ namespace DvachBrowser3.Engines.Makaba.Json
         /// </summary>
         [JsonProperty("is_board")]
         public string IsBoard { get; set; }
+
+        /// <summary>
+        /// Максимальный комментарий.
+        /// </summary>
+        [JsonProperty("max_comment")]
+        public string MaxComment { get; set; }
+
+        /// <summary>
+        /// Новости.
+        /// </summary>
+        [JsonProperty("news")]
+        public BoardEntityNewsReference[] News { get; set; }
 
         /// <summary>
         /// Страницы.

@@ -8,6 +8,7 @@ namespace DvachBrowser3.Board
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(MakabaBoardReferenceExtension))]
+    [KnownType(typeof(BoardReferencePostingExtension))]
     public abstract class BoardReferenceExtension
     {
     }

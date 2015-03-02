@@ -19,12 +19,6 @@ namespace DvachBrowser3.Board
         public BoardLinkBase Link { get; set; }
 
         /// <summary>
-        /// Для взрослых.
-        /// </summary>
-        [DataMember]
-        public bool IsAdult { get; set; }
-
-        /// <summary>
         /// Короткое имя-идентификатор.
         /// </summary>
         [DataMember]
@@ -41,18 +35,6 @@ namespace DvachBrowser3.Board
         /// </summary>
         [DataMember]
         public string Category { get; set; }
-
-        /// <summary>
-        /// Бамплимит.
-        /// </summary>
-        [DataMember]
-        public int? Bumplimit { get; set; }
-
-        /// <summary>
-        /// Поля для постинга.
-        /// </summary>
-        [DataMember]
-        public PostingCapability[] PostingFields { get; set; }
 
         /// <summary>
         /// Расширения.

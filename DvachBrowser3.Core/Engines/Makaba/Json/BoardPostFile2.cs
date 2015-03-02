@@ -56,6 +56,12 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public int TnWidth { get; set; }
 
         /// <summary>
+        /// Тип.
+        /// </summary>
+        [JsonProperty("type")]
+        public int Type { get; set; }
+
+        /// <summary>
         /// Ширина.
         /// </summary>
         [JsonProperty("width")]

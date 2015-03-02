@@ -65,6 +65,7 @@
     <Compile Include="Engines\Common\YoutubeIdService.cs" />
     <Compile Include="Engines\EngineCapability.cs" />
     <Compile Include="Engines\EngineProgress.cs" />
+    <Compile Include="Engines\IBoardExtendedDataResult.cs" />
     <Compile Include="Engines\IBoardListResult.cs" />
     <Compile Include="Engines\IBoardPageResult.cs" />
     <Compile Include="Engines\ICaptchaResult.cs" />
@@ -84,13 +85,16 @@
     <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
     <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />
+    <Compile Include="Engines\Makaba\Json\BoardEntityNewsReference.cs" />
     <Compile Include="Engines\Makaba\Json\BoardIcon2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardPost.cs" />
     <Compile Include="Engines\Makaba\Json\BoardPost2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardPostFile2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardThread2.cs" />
     <Compile Include="Engines\Makaba\Json\CheckUpdatesData.cs" />
+    <Compile Include="Engines\Makaba\Json\MakabaMediaTypes.cs" />
     <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
+    <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
+    <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
     <Compile Include="Models\Links\BoardLinkKind.cs" />
@@ -133,6 +138,7 @@
     <Compile Include="Models\Posting\PostingMediaFileCapability.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
+    <Compile Include="Models\Posts\KnownMediaType.cs" />
     <Compile Include="Models\Posts\PostFlags.cs" />
     <Compile Include="Models\Posts\PostImage.cs" />
     <Compile Include="Models\Posts\PostImageBase.cs" />

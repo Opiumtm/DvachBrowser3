@@ -14,10 +14,5 @@
         /// Превью.
         /// </summary>
         Thumbnail,
-
-        /// <summary>
-        /// Иконка.
-        /// </summary>
-        Icon
     }
 }

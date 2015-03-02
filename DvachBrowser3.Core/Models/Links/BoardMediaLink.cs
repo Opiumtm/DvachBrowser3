@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.Links
 {
@@ -25,6 +26,12 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public MediaType MediaType { get; set; }
+
+        /// <summary>
+        /// Известный тип медиа.
+        /// </summary>
+        [DataMember]
+        public KnownMediaType KnownMediaType { get; set; }
 
         /// <summary>
         /// Получить тип ссылки.

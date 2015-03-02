@@ -17,8 +17,6 @@ namespace DvachBrowser3.Engines.Makaba.Html
     /// </summary>
     public sealed class MakabaJsonResponseParseService : ServiceBase, IMakabaJsonResponseParseService
     {
-        private const string IpIdRegexText = @"Аноним ID: <span class=""postertripid"">(?<id>.*)</span>.*$";
-
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -36,7 +34,6 @@ namespace DvachBrowser3.Engines.Makaba.Html
         /// <returns>Результат разбора.</returns>
         private PostTree Parse(BoardPost2 data, ThreadLink link, bool isPreview)
         {
-            var ipIdRegex = Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(IpIdRegexText);
             PostFlags flags = 0;
             if (data.Banned != "0" && !string.IsNullOrWhiteSpace(data.Banned))
             {
@@ -66,9 +63,13 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 flags |= PostFlags.IsEdited;
             }
+            if ("!!%adm%!!".Equals(data.Tripcode))
+            {
+                flags |= PostFlags.AdminTrip;
+            }
             var number = data.Number.TryParseWithDefault();
             var postNodes = Services.GetServiceOrThrow<IMakabaHtmlPostParseService>().GetPostNodes(data.Comment ?? "");
-            var name = WebUtility.HtmlDecode(data.Name ?? string.Empty);
+            var name = WebUtility.HtmlDecode(data.Name ?? string.Empty).Replace("&nbsp;", " ");
             var result = new PostTree()
             {
                 Link = link,
@@ -114,19 +115,6 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 {
                 }
             }
-            var match = ipIdRegex.Match(name);
-            if (match.Success)
-            {
-                name = match.Groups["id"].Captures[0].Value;
-            }
-            else if (name == "Аноним ID: Heaven")
-            {
-                name = "Heaven";
-            }
-            if (name == "Аноним ID:&nbspHeaven")
-            {
-                name = "Heaven";
-            }
             if (name.StartsWith("Аноним ID:", StringComparison.OrdinalIgnoreCase))
             {
                 name = name.Remove(0, "Аноним ID:".Length).Trim();
@@ -152,13 +140,15 @@ namespace DvachBrowser3.Engines.Makaba.Html
                         {
                             Engine = CoreConstants.Engine.Makaba,
                             Board = link.Board,
-                            RelativeUri = f.Path
+                            RelativeUri = f.Path,
+                            KnownMediaType = f.Type == MakabaMediaTypes.Webm ? KnownMediaType.Webm : KnownMediaType.Default
                         };
                     var tnLink = new BoardMediaLink()
                     {
                         Engine = CoreConstants.Engine.Makaba,
                         Board = link.Board,
-                        RelativeUri = f.Thumbnail
+                        RelativeUri = f.Thumbnail,
+                        KnownMediaType = KnownMediaType.Default
                     };
                     var media = new PostImageWithThumbnail()
                     {

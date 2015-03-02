@@ -88,9 +88,10 @@ namespace DvachBrowser3.Engines
         IEngineOperationsWithProgress<IBoardListResult, EngineProgress> GetBoardsList();
 
         /// <summary>
-        /// Получить дефолтные настройки для борды.
+        /// Получить расширенную информацию о борде.
         /// </summary>
-        /// <returns>Дефолтные настройки.</returns>
-        BoardReference GetDefaultOptionsForBoard(BoardLinkBase link);
+        /// <param name="reference">Ссылка на борду.</param>
+        /// <returns>Расширенная информация.</returns>
+        IEngineOperationsWithProgress<IBoardExtendedDataResult, EngineProgress> GetExtendedBoardData(BoardReference reference);
     }
 }

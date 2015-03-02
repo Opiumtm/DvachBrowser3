@@ -42,5 +42,10 @@ namespace DvachBrowser3.Posts
         /// ОП.
         /// </summary>
         Op = 0x0040,
+
+        /// <summary>
+        /// Трипкод администратора.
+        /// </summary>
+        AdminTrip = 0x0080,
     }
 }
