@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Web.Http;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
@@ -45,6 +46,25 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 MimeType = mimeType,
                 TempFile = tempFile
             };
+        }
+
+        /// <summary>
+        /// Установить хидеры.
+        /// </summary>
+        /// <param name="client">Клиент.</param>
+        /// <returns>Хидеры.</returns>
+        protected override async Task SetHeaders(HttpClient client)
+        {
+            var p = Parameter as MediaLink;
+            if (p != null)
+            {
+                if (p.IsAbsolute)
+                {
+                    return;
+                }
+            }
+            await base.SetHeaders(client);
+            await MakabaHeadersHelper.SetClientHeaders(Services, client);
         }
 
         private class OperationResult : IMediaResult

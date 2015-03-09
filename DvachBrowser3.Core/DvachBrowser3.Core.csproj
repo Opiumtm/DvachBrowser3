@@ -107,6 +107,7 @@
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
