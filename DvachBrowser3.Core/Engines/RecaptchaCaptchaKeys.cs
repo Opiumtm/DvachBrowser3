@@ -8,14 +8,9 @@ namespace DvachBrowser3.Engines
     public class RecaptchaCaptchaKeys : CaptchaKeys
     {
         /// <summary>
-        /// Ключ 1.
+        /// Ключ.
         /// </summary>
-        public string Key1 { get; set; }
-
-        /// <summary>
-        /// Ключ 2.
-        /// </summary>
-        public string Key2 { get; set; }
+        public string Key { get; set; }
 
         /// <summary>
         /// Тип капчи.

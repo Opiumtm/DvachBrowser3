@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using DvachBrowser3.Links;
+using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines.Makaba
 {
@@ -53,6 +54,13 @@ namespace DvachBrowser3.Engines.Makaba
         /// <param name="link">Ссылка.</param>
         /// <returns>Ссылка.</returns>
         Uri GetMediaLink(MediaLink link);
+
+        /// <summary>
+        /// Получить URI капчи.
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <returns>URI капчи.</returns>
+        Uri GetCaptchaUri(CaptchaType captchaType);
 
         /// <summary>
         /// Регулярное выражение URI поста.

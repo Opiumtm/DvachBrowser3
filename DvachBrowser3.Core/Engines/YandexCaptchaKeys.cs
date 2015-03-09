@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Posting;
+﻿using System;
+using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines
 {

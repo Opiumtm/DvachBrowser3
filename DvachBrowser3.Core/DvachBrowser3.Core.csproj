@@ -41,6 +41,11 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Captcha\ICaptcha.cs" />
+    <Compile Include="Captcha\ICaptchaConfig.cs" />
+    <Compile Include="Captcha\ICaptchaService.cs" />
+    <Compile Include="Captcha\RecaptchaCaptcha.cs" />
+    <Compile Include="Captcha\YandexCaptcha.cs" />
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
     <Compile Include="Common\DateService.cs" />
@@ -53,6 +58,8 @@
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\Utility.cs" />
+    <Compile Include="Configuration\AppDataConfigBase.cs" />
+    <Compile Include="Configuration\CaptchaConfig.cs" />
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />

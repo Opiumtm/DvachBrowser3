@@ -1,5 +1,4 @@
-﻿using System;
-using DvachBrowser3.Posting;
+﻿using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines
 {
@@ -12,10 +11,5 @@ namespace DvachBrowser3.Engines
         /// Тип капчи.
         /// </summary>
         public abstract CaptchaType Kind { get; }
-
-        /// <summary>
-        /// URI изображения капчи.
-        /// </summary>
-        public Uri CaptchaDisplayUri { get; set; }
     }
 }

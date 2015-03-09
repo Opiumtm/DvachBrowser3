@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Foundation.Metadata;
 using DvachBrowser3.Links;
+using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines.Makaba
 {
@@ -134,6 +135,26 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return new Uri(BaseUri, link.RelativeUri);
             }
+        }
+
+        private const string CaptchaUri = "makaba/captcha.fcgi";
+        
+        /// <summary>
+        /// Получить URI капчи.
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <returns>URI капчи.</returns>
+        public Uri GetCaptchaUri(CaptchaType captchaType)
+        {
+            if (captchaType == CaptchaType.Yandex)
+            {
+                return new Uri(BaseUri, CaptchaUri);
+            }
+            if (captchaType == CaptchaType.Recaptcha)
+            {
+                return new Uri(BaseUri, CaptchaUri + "?type=recaptcha");
+            }
+            return null;
         }
 
         /// <summary>
