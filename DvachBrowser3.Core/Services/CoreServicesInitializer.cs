@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Engines;
+﻿using DvachBrowser3.Captcha;
+using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Engines.Makaba.Html;
 
@@ -21,6 +22,7 @@ namespace DvachBrowser3
             container.RegisterService<IMakabaHtmlPostParseService>(new MakabaHtmlPostParseService(container));
             container.RegisterService<IDateService>(new DateService(container));
             container.RegisterService<IMakabaJsonResponseParseService>(new MakabaJsonResponseParseService(container));
+            container.RegisterService<ICaptchaService>(new CaptchaService(container));
         }
     }
 }

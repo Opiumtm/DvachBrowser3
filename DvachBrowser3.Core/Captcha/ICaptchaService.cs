@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Engines;
+﻿using System.Net.Http;
+using DvachBrowser3.Engines;
 
 namespace DvachBrowser3.Captcha
 {
