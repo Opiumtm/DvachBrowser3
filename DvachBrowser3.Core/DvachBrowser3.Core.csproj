@@ -98,10 +98,11 @@
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
-    <Compile Include="Engines\Makaba\Operations\JsonResult.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaHeadersHelper.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />

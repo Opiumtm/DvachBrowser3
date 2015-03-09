@@ -41,6 +41,20 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetJsonLink(BoardLinkBase link);
 
         /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        Uri GetMediaLink(BoardMediaLink link);
+
+        /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        Uri GetMediaLink(MediaLink link);
+
+        /// <summary>
         /// Регулярное выражение URI поста.
         /// </summary>
         Regex PostLinkRegex { get; }

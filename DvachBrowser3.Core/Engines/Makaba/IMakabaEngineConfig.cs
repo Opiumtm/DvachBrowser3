@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines.Makaba
@@ -18,7 +19,15 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Куки.
         /// </summary>
-        Dictionary<string, string> Cookies { get; set; }
+        /// <returns>Результат.</returns>
+        Task<Dictionary<string, string>> GetCookies();
+
+        /// <summary>
+        /// Установить куки.
+        /// </summary>
+        /// <param name="cookies">Куки.</param>
+        /// <returns>Таск.</returns>
+        Task SetCookies(Dictionary<string, string> cookies);
 
         /// <summary>
         /// Тип капчи.

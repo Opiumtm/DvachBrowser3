@@ -98,7 +98,42 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return GetThreadUri(link as ThreadLink, false);
             }
+            if (link is MediaLink)
+            {
+                return GetMediaLink(link as MediaLink);
+            }
+            if (link is BoardMediaLink)
+            {
+                return GetMediaLink(link as BoardMediaLink);
+            }
             return null;
+        }
+
+        /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        public Uri GetMediaLink(BoardMediaLink link)
+        {
+            return new Uri(BaseUri, string.Format("{0}/{1}", link.Board, link.RelativeUri));
+        }
+
+        /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        public Uri GetMediaLink(MediaLink link)
+        {
+            if (link.IsAbsolute)
+            {
+                return new Uri(link.RelativeUri, UriKind.Absolute);
+            }
+            else
+            {
+                return new Uri(BaseUri, link.RelativeUri);
+            }
         }
 
         /// <summary>
@@ -133,6 +168,14 @@ namespace DvachBrowser3.Engines.Makaba
             if (link is ThreadLink)
             {
                 return GetThreadUri(link as ThreadLink, true);
+            }
+            if (link is MediaLink)
+            {
+                return GetMediaLink(link as MediaLink);
+            }
+            if (link is BoardMediaLink)
+            {
+                return GetMediaLink(link as BoardMediaLink);
             }
             return null;
         }
@@ -196,7 +239,13 @@ namespace DvachBrowser3.Engines.Makaba
 
         private Uri BaseUri
         {
-            get { return Services.GetServiceOrThrow<IMakabaEngineConfig>().BaseUri; }
+            get
+            {
+                var engines = Services.GetServiceOrThrow<INetworkEngines>();
+                var makaba = engines.GetEngineById(CoreConstants.Engine.Makaba);
+                var config = (IMakabaEngineConfig)makaba.Configuration;
+                return config.BaseUri;
+            }
         }
     }
 }

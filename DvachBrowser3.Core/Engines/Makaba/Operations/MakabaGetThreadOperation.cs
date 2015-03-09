@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Web.Http;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Engines.Makaba.Json;
 using DvachBrowser3.Links;
@@ -72,6 +73,17 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 };
             });
             return await task;
+        }
+
+        /// <summary>
+        /// Установить хидеры.
+        /// </summary>
+        /// <param name="client">Клиент.</param>
+        /// <returns>Хидеры.</returns>
+        protected override async Task SetHeaders(HttpClient client)
+        {
+            await base.SetHeaders(client);
+            await MakabaHeadersHelper.SetClientHeaders(Services, client);
         }
 
         private class OperationResult : IThreadResult

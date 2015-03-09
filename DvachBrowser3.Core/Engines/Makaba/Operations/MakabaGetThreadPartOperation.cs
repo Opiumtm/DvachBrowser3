@@ -75,6 +75,16 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             public PostTreeCollection CollectionResult { get; set; }
         }
 
+        /// <summary>
+        /// Установить хидеры.
+        /// </summary>
+        /// <param name="client">Клиент.</param>
+        /// <returns>Хидеры.</returns>
+        protected override async Task SetHeaders(HttpClient client)
+        {
+            await base.SetHeaders(client);
+            await MakabaHeadersHelper.SetClientHeaders(Services, client);
+        }
 
         protected override HttpCompletionOption CompletionOption
         {
