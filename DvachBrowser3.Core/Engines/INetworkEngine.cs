@@ -44,6 +44,11 @@ namespace DvachBrowser3.Engines
         CaptchaTypes CaptchaTypes { get; }
 
         /// <summary>
+        /// Сервис коррекции постов.
+        /// </summary>
+        IPostCorrectionService PostCorrection { get; }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>

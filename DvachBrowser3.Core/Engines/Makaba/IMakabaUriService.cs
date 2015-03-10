@@ -63,6 +63,12 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetCaptchaUri(CaptchaType captchaType);
 
         /// <summary>
+        /// Получить URI для постинга.
+        /// </summary>
+        /// <returns>URI для постинга.</returns>
+        Uri GetPostingUri();
+
+        /// <summary>
         /// Регулярное выражение URI поста.
         /// </summary>
         Regex PostLinkRegex { get; }

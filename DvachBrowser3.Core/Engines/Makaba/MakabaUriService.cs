@@ -158,6 +158,15 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить URI для постинга.
+        /// </summary>
+        /// <returns>URI для постинга.</returns>
+        public Uri GetPostingUri()
+        {
+            return new Uri(BaseUri, "/makaba/posting.fcgi");
+        }
+
+        /// <summary>
         /// Ссылка для браузера.
         /// </summary>
         /// <param name="link">Ссылка.</param>

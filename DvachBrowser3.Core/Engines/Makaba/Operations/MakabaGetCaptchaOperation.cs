@@ -41,6 +41,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>Операция.</returns>
         protected override async Task<ICaptchaResult> DoComplete(HttpResponseMessage message)
         {
+            message.EnsureSuccessStatusCode();
             var str = await message.Content.ReadAsStringAsync();
             using (var rd = new StringReader(str))
             {

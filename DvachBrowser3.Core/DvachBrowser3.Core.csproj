@@ -83,6 +83,7 @@
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
     <Compile Include="Engines\INetworkEngines.cs" />
+    <Compile Include="Engines\IPostCorrectionService.cs" />
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Engines\Makaba\Json\MakabaMediaTypes.cs" />
     <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
     <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
+    <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaHeadersHelper.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaPostOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />

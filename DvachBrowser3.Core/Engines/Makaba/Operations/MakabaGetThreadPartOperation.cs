@@ -51,6 +51,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
 
         protected override async Task<IThreadResult> DoComplete(HttpResponseMessage message)
         {
+            message.EnsureSuccessStatusCode();
             var str = await message.Content.ReadAsStringAsync();
             Operation = null;
             var errorObj = JsonConvert.DeserializeObject<ThreadPartialError>(str);
