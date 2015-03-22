@@ -82,6 +82,7 @@
     <Compile Include="Engines\ICaptchaResult.cs" />
     <Compile Include="Engines\IEngineOperationsWithProgress.cs" />
     <Compile Include="Engines\IEngineUriService.cs" />
+    <Compile Include="Engines\ILastModifiedCheckResult.cs" />
     <Compile Include="Engines\ILastModifiedResult.cs" />
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaHeadersHelper.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaPostOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaThreadStatusOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />

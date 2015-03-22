@@ -32,5 +32,10 @@ namespace DvachBrowser3.Engines
         /// Каталог топ постов.
         /// </summary>
         TopPostsRequest = 0x0010,
+
+        /// <summary>
+        /// Запрос на последнее изменение (last modified header).
+        /// </summary>
+        LastModifiedRequest = 0x0020,
     }
 }

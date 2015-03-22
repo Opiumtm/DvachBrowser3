@@ -103,5 +103,12 @@ namespace DvachBrowser3.Engines
         /// <param name="reference">Ссылка на борду.</param>
         /// <returns>Расширенная информация.</returns>
         IEngineOperationsWithProgress<IBoardExtendedDataResult, EngineProgress> GetExtendedBoardData(BoardReference reference);
+
+        /// <summary>
+        /// Получить информацию о последнем изменении.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Информация о последнем изменении.</returns>
+        IEngineOperationsWithProgress<ILastModifiedCheckResult, EngineProgress> GetResourceLastModified(BoardLinkBase link);
     }
 }

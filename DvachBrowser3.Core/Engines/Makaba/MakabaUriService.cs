@@ -167,6 +167,16 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить информацию о треде.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Информация.</returns>
+        public Uri GetLastThreadInfoUri(ThreadLink link)
+        {
+            return new Uri(BaseUri, string.Format("makaba/mobile.fcgi?task=get_thread_last_info&board={0}&thread={1}", link.Board, link.Thread));
+        }
+
+        /// <summary>
         /// Ссылка для браузера.
         /// </summary>
         /// <param name="link">Ссылка.</param>

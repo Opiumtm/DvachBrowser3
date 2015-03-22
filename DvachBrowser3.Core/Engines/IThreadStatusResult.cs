@@ -19,11 +19,6 @@ namespace DvachBrowser3.Engines
         DateTime LastUpdate { get; }
 
         /// <summary>
-        /// Идентификатор последней модификации.
-        /// </summary>
-        string LastModifiedId { get; }
-
-        /// <summary>
         /// Тред существует.
         /// </summary>
         bool IsFound { get; }
