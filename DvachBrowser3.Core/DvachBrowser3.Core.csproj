@@ -47,6 +47,7 @@
     <Compile Include="Captcha\ICaptchaService.cs" />
     <Compile Include="Captcha\RecaptchaCaptcha.cs" />
     <Compile Include="Captcha\YandexCaptcha.cs" />
+    <Compile Include="Common\CharHelper.cs" />
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
     <Compile Include="Common\DateService.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Configuration\AppDataConfigBase.cs" />
     <Compile Include="Configuration\CaptchaConfig.cs" />
+    <Compile Include="Configuration\Makaba\MakabaEngineConfig.cs" />
+    <Compile Include="Configuration\Makaba\MakabaPostConfig.cs" />
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
@@ -92,6 +95,8 @@
     <Compile Include="Engines\Makaba\Html\MakabaHtmlPostParseService.cs" />
     <Compile Include="Engines\Makaba\Html\MakabaJsonResponseParseService.cs" />
     <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
+    <Compile Include="Engines\Makaba\IMakabaPostConfig.cs" />
+    <Compile Include="Engines\Makaba\IMakabaSmileConfig.cs" />
     <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardEntityNewsReference.cs" />
@@ -107,6 +112,7 @@
     <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
     <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
+    <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
@@ -142,6 +148,7 @@
     <Compile Include="Models\Makaba\MakabaEntityFlags.cs" />
     <Compile Include="Models\Makaba\MakabaEntityTree.cs" />
     <Compile Include="Models\Makaba\MakabaIconReference.cs" />
+    <Compile Include="Models\ObservableObject.cs" />
     <Compile Include="Models\Posting\CaptchaType.cs" />
     <Compile Include="Models\Posting\CaptchaTypes.cs" />
     <Compile Include="Models\Posting\PostingCapability.cs" />

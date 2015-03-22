@@ -14,11 +14,12 @@ namespace DvachBrowser3.Configuration
         /// </summary>
         public string YandexCaptchaUri
         {
-            get
+            get { return GetValue("YandexCaptchaUri", "http://i.captcha.yandex.net/"); }
+            set
             {
-                return Storage.ContainsKey("YandexCaptchaUri") ? (string)Storage["YandexCaptchaUri"] : "http://i.captcha.yandex.net/";
+                SetValue("YandexCaptchaUri", value);
+                OnPropertyChanged();
             }
-            set { Storage["YandexCaptchaUri"] = value; }
         }
 
         /// <summary>
