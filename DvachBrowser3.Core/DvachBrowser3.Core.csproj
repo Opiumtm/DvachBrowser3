@@ -67,6 +67,7 @@
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpEngineHeadJsonEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetJsonEngineOperationBase.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Engines\IEngineOperationsWithProgress.cs" />
     <Compile Include="Engines\IEngineUriService.cs" />
     <Compile Include="Engines\ILastModifiedCheckResult.cs" />
-    <Compile Include="Engines\ILastModifiedResult.cs" />
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
     <Compile Include="Engines\INetworkEngines.cs" />
@@ -112,7 +112,6 @@
     <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
     <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
-    <Compile Include="Engines\Makaba\MakabaOperationBase.cs" />
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
@@ -121,6 +120,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaHeadersHelper.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaLastModifiedOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaPostOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaThreadStatusOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />

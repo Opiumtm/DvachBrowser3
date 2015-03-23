@@ -110,6 +110,41 @@ namespace DvachBrowser3.Engines.Makaba
             return null;
         }
 
+        public Uri GetHtmlLink(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                return GetBoardPageUri((BoardPageLink)link, true);
+            }
+            if (link is BoardLink)
+            {
+                var l = new BoardPageLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = ((BoardLink)link).Board,
+                    Page = 0,
+                };
+                return GetBoardPageUri(l, true);
+            }
+            if (link is ThreadPartLink)
+            {
+                return GetThreadPartUri(link as ThreadPartLink, true);
+            }
+            if (link is ThreadLink)
+            {
+                return GetThreadUri(link as ThreadLink, true);
+            }
+            if (link is MediaLink)
+            {
+                return GetMediaLink(link as MediaLink);
+            }
+            if (link is BoardMediaLink)
+            {
+                return GetMediaLink(link as BoardMediaLink);
+            }
+            return null;
+        }
+
         /// <summary>
         /// Ссылка на медиа.
         /// </summary>

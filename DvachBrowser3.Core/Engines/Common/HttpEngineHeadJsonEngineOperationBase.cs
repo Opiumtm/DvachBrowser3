@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 
 namespace DvachBrowser3.Engines
 {
     /// <summary>
-    /// Операция движка HTTP GET.
+    /// Операция движка HTTP HEAD.
     /// </summary>
     /// <typeparam name="T">Тип результата.</typeparam>
     /// <typeparam name="TParam">Тип параметра.</typeparam>
-    public abstract class HttpGetEngineOperationBase<T, TParam> : HttpEngineOperationBase<T, TParam>
+    public abstract class HttpEngineHeadJsonEngineOperationBase<T, TParam> : HttpEngineOperationBase<T, TParam>
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="parameter">Параметр.</param>
         /// <param name="services">Сервисы.</param>
-        protected HttpGetEngineOperationBase(TParam parameter, IServiceProvider services)
-            : base(parameter, services)
+        protected HttpEngineHeadJsonEngineOperationBase(TParam parameter, IServiceProvider services) : base(parameter, services)
         {
         }
 
@@ -31,7 +27,7 @@ namespace DvachBrowser3.Engines
         /// <returns>Операция.</returns>
         protected sealed override async Task<T> DoComplete(HttpClient client)
         {
-            var operation = client.GetAsync(GetRequestUri(), CompletionOption);
+            var operation = client.SendRequestAsync(new HttpRequestMessage(HttpMethod.Head, GetRequestUri()));
             operation.Progress = HttpProgress;
             Operation = operation;
             try
@@ -53,16 +49,5 @@ namespace DvachBrowser3.Engines
         /// <param name="message">Сообщение.</param>
         /// <returns>Операция.</returns>
         protected abstract Task<T> DoComplete(HttpResponseMessage message);
-
-        /// <summary>
-        /// Опция определения.
-        /// </summary>
-        protected virtual HttpCompletionOption CompletionOption
-        {
-            get
-            {
-                return HttpCompletionOption.ResponseContentRead;
-            }
-        }
     }
 }

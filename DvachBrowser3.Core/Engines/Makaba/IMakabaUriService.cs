@@ -42,6 +42,13 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetJsonLink(BoardLinkBase link);
 
         /// <summary>
+        /// Ссылка HTML.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        Uri GetHtmlLink(BoardLinkBase link);
+
+        /// <summary>
         /// Ссылка на медиа.
         /// </summary>
         /// <param name="link">Ссылка.</param>
