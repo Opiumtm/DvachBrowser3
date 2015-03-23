@@ -212,6 +212,15 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить URI списка борд.
+        /// </summary>
+        /// <returns>Ссылка.</returns>
+        public Uri GetBoardsListUri()
+        {
+            return new Uri(BaseUri, "makaba/mobile.fcgi?task=get_boards");
+        }
+
+        /// <summary>
         /// Ссылка для браузера.
         /// </summary>
         /// <param name="link">Ссылка.</param>

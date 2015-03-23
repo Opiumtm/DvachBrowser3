@@ -1,4 +1,7 @@
-﻿namespace DvachBrowser3
+﻿using System;
+using System.Collections.Generic;
+
+namespace DvachBrowser3
 {
     /// <summary>
     /// Основные константы.
@@ -24,6 +27,21 @@
             /// Движок Makaba.
             /// </summary>
             public const string Makaba = "makaba";            
+        }
+
+        /// <summary>
+        /// Константы макабы.
+        /// </summary>
+        public static class Makaba
+        {
+            /// <summary>
+            /// Взрослые доски.
+            /// </summary>
+            public static readonly HashSet<string> AdultBoards = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "b", "fag", "fg", "fur", "g", "ga", "h", "ho", "sex", "fet", "e", "hc", "gb", "ya", "r34", "hm", "guro",
+                "vn", "hg", "es"
+            };            
         }
     }
 }

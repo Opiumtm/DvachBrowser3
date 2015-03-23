@@ -11,7 +11,7 @@ namespace DvachBrowser3.Engines
         /// Перечислить движки.
         /// </summary>
         /// <returns>Движки.</returns>
-        ICollection<string> ListEngines();
+        IReadOnlyCollection<string> ListEngines();
 
         /// <summary>
         /// Получить движок по его идентификатору.

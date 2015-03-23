@@ -41,5 +41,11 @@ namespace DvachBrowser3.Board
         /// </summary>
         [DataMember]
         public List<BoardReferenceExtension> Extensions { get; set; }
+
+        /// <summary>
+        /// Взрослая борда.
+        /// </summary>
+        [DataMember]
+        public bool IsAdult { get; set; }
     }
 }

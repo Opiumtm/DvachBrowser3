@@ -83,6 +83,12 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetLastThreadInfoUri(ThreadLink link);
 
         /// <summary>
+        /// Получить URI списка борд.
+        /// </summary>
+        /// <returns>Ссылка.</returns>
+        Uri GetBoardsListUri();
+
+        /// <summary>
         /// Регулярное выражение URI поста.
         /// </summary>
         Regex PostLinkRegex { get; }

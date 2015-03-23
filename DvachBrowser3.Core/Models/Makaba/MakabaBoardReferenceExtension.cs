@@ -50,6 +50,6 @@ namespace DvachBrowser3.Makaba
         /// Максимальный комментарий.
         /// </summary>
         [DataMember]
-        public int MaxComment { get; set; }
+        public int? MaxComment { get; set; }
     }
 }

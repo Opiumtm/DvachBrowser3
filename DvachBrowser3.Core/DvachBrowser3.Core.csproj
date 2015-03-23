@@ -51,6 +51,7 @@
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
     <Compile Include="Common\DateService.cs" />
+    <Compile Include="Common\Empty.cs" />
     <Compile Include="Common\IConfiguration.cs" />
     <Compile Include="Common\IDateService.cs" />
     <Compile Include="Common\IRegexCacheService.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Engines\Common\YoutubeIdService.cs" />
     <Compile Include="Engines\EngineCapability.cs" />
     <Compile Include="Engines\EngineProgress.cs" />
-    <Compile Include="Engines\IBoardExtendedDataResult.cs" />
     <Compile Include="Engines\IBoardListResult.cs" />
     <Compile Include="Engines\IBoardPageResult.cs" />
     <Compile Include="Engines\ICaptchaResult.cs" />
@@ -91,6 +91,8 @@
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
+    <Compile Include="Engines\Makaba\BoardInfo\IMakabaBoardInfoParser.cs" />
+    <Compile Include="Engines\Makaba\BoardInfo\MakabaBoardInfoParser.cs" />
     <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
     <Compile Include="Engines\Makaba\Html\IMakabaJsonResponseParseService.cs" />
     <Compile Include="Engines\Makaba\Html\MakabaHtmlPostParseService.cs" />
@@ -112,9 +114,11 @@
     <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
     <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
+    <Compile Include="Engines\Makaba\MakabaEngine.cs" />
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaPostOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaThreadStatusOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
+    <Compile Include="Engines\NetworkEngines.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
