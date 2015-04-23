@@ -134,6 +134,8 @@
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
+    <Compile Include="Logic\ILinkHashService.cs" />
+    <Compile Include="Logic\LinkHashService.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
     <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />
@@ -208,6 +210,9 @@
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Storage\Files\MediaStorageService.cs" />
+    <Compile Include="Storage\Files\RecycleHelper.cs" />
+    <Compile Include="Storage\Files\StorageBase.cs" />
     <Compile Include="Storage\IBoardStorageService.cs" />
     <Compile Include="Storage\IMediaStorageService.cs" />
     <Compile Include="Storage\IPostingFilesStorageService.cs" />

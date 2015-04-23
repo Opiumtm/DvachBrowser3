@@ -3,6 +3,7 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Engines.Makaba.BoardInfo;
 using DvachBrowser3.Engines.Makaba.Html;
+using DvachBrowser3.Logic;
 
 namespace DvachBrowser3
 {
@@ -26,6 +27,7 @@ namespace DvachBrowser3
             container.RegisterService<ICaptchaService>(new CaptchaService(container));
             container.RegisterService<IMakabaBoardInfoParser>(new MakabaBoardInfoParser(container));
             container.RegisterService<INetworkEngines>(new NetworkEngines(container));
+            container.RegisterService<ILinkHashService>(new LinkHashService(container));
         }
     }
 }
