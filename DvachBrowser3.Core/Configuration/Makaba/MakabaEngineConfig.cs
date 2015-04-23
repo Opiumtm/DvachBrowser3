@@ -103,5 +103,18 @@ namespace DvachBrowser3.Configuration.Makaba
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Агент браузера.
+        /// </summary>
+        public string BrowserUserAgent
+        {
+            get { return GetValue("BrowserUserAgent", ""); }
+            set
+            {
+                SetValue("BrowserUserAgent", value ?? "");
+                OnPropertyChanged();
+            }
+        }
     }
 }

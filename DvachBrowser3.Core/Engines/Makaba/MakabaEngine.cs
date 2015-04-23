@@ -96,6 +96,17 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Корневая ссылка.
+        /// </summary>
+        public BoardLinkBase RootLink
+        {
+            get
+            {
+                return new RootLink() { Engine = CoreConstants.Engine.Makaba };
+            }
+        }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>

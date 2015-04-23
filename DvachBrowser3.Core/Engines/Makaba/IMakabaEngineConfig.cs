@@ -33,5 +33,10 @@ namespace DvachBrowser3.Engines.Makaba
         /// Тип капчи.
         /// </summary>
         CaptchaType CaptchaType { get; set; }
+
+        /// <summary>
+        /// Агент браузера.
+        /// </summary>
+        string BrowserUserAgent { get; set; }
     }
 }

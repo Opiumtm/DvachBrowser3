@@ -49,6 +49,11 @@ namespace DvachBrowser3.Engines
         IPostCorrectionService PostCorrection { get; }
 
         /// <summary>
+        /// Корневая ссылка.
+        /// </summary>
+        BoardLinkBase RootLink { get; }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка.</param>

@@ -137,11 +137,13 @@
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
     <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />
+    <Compile Include="Models\Board\BoardReferences.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
     <Compile Include="Models\Links\BoardLinkKind.cs" />
     <Compile Include="Models\Links\BoardPageLink.cs" />
     <Compile Include="Models\Links\BoardMediaLink.cs" />
+    <Compile Include="Models\Links\LinkCollection.cs" />
     <Compile Include="Models\Links\MediaLink.cs" />
     <Compile Include="Models\Links\MediaType.cs" />
     <Compile Include="Models\Links\PostLink.cs" />
@@ -156,6 +158,8 @@
     <Compile Include="Models\Makaba\MakabaEntityTree.cs" />
     <Compile Include="Models\Makaba\MakabaIconReference.cs" />
     <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\Other\MyPostsInfo.cs" />
+    <Compile Include="Models\Other\PostCountInfo.cs" />
     <Compile Include="Models\Posting\CaptchaType.cs" />
     <Compile Include="Models\Posting\CaptchaTypes.cs" />
     <Compile Include="Models\Posting\PostingCapability.cs" />
@@ -204,6 +208,13 @@
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Storage\IBoardStorageService.cs" />
+    <Compile Include="Storage\IMediaStorageService.cs" />
+    <Compile Include="Storage\IPostingFilesStorageService.cs" />
+    <Compile Include="Storage\IPostingStorageService.cs" />
+    <Compile Include="Storage\IStorageBase.cs" />
+    <Compile Include="Storage\IStorageService.cs" />
+    <Compile Include="Storage\IThreadStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Posting
 {
@@ -9,6 +10,12 @@ namespace DvachBrowser3.Posting
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     public class PostingData
     {
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        [DataMember]
+        public BoardLinkBase Link { get; set; }
+
         /// <summary>
         /// Данные полей.
         /// </summary>
