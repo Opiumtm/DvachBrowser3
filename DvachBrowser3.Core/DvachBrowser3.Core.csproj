@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Storage\Files\" />
   </ItemGroup>
   <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
@@ -214,6 +213,10 @@
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Storage\Files\FileSerializationHelper.cs" />
+    <Compile Include="Storage\Files\SingleFileStorage.cs" />
+    <Compile Include="Storage\Files\StorageSizeCache.cs" />
+    <Compile Include="Storage\Files\StorageSizeCacheItem.cs" />
     <Compile Include="Storage\IStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
