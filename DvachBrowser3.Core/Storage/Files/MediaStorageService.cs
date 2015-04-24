@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Links;
+using DvachBrowser3.Logic;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -25,9 +27,21 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="file">Файл.</param>
         /// <param name="link">Ссылка.</param>
         /// <returns>Таск.</returns>
-        public Task Save(StorageFile file, BoardLinkBase link)
+        public async Task Save(StorageFile file, BoardLinkBase link)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var folder = await GetFolder();
+                var id = Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link);
+                await file.CopyAsync(folder, id + ".cache", NameCollisionOption.ReplaceExisting);
+            }
+            catch
+            {
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+            }
         }
 
         /// <summary>
@@ -35,9 +49,19 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="link">Ссылка.</param>
         /// <returns>Файл.</returns>
-        public Task<StorageFile> Load(BoardLinkBase link)
+        public async Task<StorageFile> Load(BoardLinkBase link)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var folder = await GetFolder();
+                var id = Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link);
+                var file = await folder.GetFileAsync(id + ".cache");
+                return file;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

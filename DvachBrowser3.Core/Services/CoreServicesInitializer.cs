@@ -28,6 +28,7 @@ namespace DvachBrowser3
             container.RegisterService<IMakabaBoardInfoParser>(new MakabaBoardInfoParser(container));
             container.RegisterService<INetworkEngines>(new NetworkEngines(container));
             container.RegisterService<ILinkHashService>(new LinkHashService(container));
+            container.RegisterService<ISerializerCacheService>(new SerializerCacheService(container));
         }
     }
 }

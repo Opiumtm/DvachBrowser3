@@ -9,7 +9,7 @@ namespace DvachBrowser3.Logic
     /// </summary>
     public class LinkHashService : ServiceBase, ILinkHashService
     {
-        private Dictionary<Type, Func<BoardLinkBase, string>> typeFuncs;
+        private readonly Dictionary<Type, Func<BoardLinkBase, string>> typeFuncs;
 
         /// <summary>
         /// Конструктор.
@@ -17,6 +17,23 @@ namespace DvachBrowser3.Logic
         /// <param name="services">Сервисы.</param>
         public LinkHashService(IServiceProvider services) : base(services)
         {
+            typeFuncs = new Dictionary<Type, Func<BoardLinkBase, string>>()
+            {
+                { typeof(BoardLink), TypeFunc<BoardLink>(a => string.Format("board-{0}-{1}", a.Engine.ToLower(), a.Board.ToLower())) },
+                { typeof(BoardPageLink), TypeFunc<BoardPageLink>(a => string.Format("boardpage-{0}-{1}-{2}", a.Engine.ToLower(), a.Board.ToLower(), a.Page)) },
+                { typeof(ThreadLink), TypeFunc<ThreadLink>(a => string.Format("thread-{0}-{1}-{2}", a.Engine.ToLower(), a.Board.ToLower(), a.Thread)) },
+                { typeof(ThreadPartLink), TypeFunc<ThreadPartLink>(a => string.Format("threadpart-{0}-{1}-{2}-{3}", a.Engine.ToLower(), a.Board.ToLower(), a.Thread, a.FromPost)) },
+                { typeof(PostLink), TypeFunc<PostLink>(a => string.Format("post-{0}-{1}-{2}-{3}", a.Engine.ToLower(), a.Board.ToLower(), a.Thread, a.Post)) },
+                { typeof(BoardMediaLink), TypeFunc<BoardMediaLink>(a => string.Format("boardmedia-{0}-{1}-{2}", a.Engine.ToLower(), a.Board.ToLower(), UniqueIdHelper.CreateId(a.RelativeUri.ToLower()))) },
+                { typeof(MediaLink), TypeFunc<MediaLink>(a => string.Format("media-{0}-{1}-{2}", a.Engine.ToLower(), a.IsAbsolute ? 1 : 0, UniqueIdHelper.CreateId(a.RelativeUri.ToLower()))) },
+                { typeof(YoutubeLink), TypeFunc<YoutubeLink>(a => string.Format("youtube-{0}-{1}", a.Engine.ToLower(), a.YoutubeId)) },
+                { typeof(RootLink), TypeFunc<RootLink>(a => string.Format("root-{0}", a.Engine.ToLower())) },
+            };
+        }
+
+        private static Func<BoardLinkBase, string> TypeFunc<T>(Func<T, string> func) where T : BoardLinkBase
+        {
+            return a => func((T) a);
         }
 
         public string GetLinkHash(BoardLinkBase link)

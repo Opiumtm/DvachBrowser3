@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Windows.Storage;
+using Windows.Storage.Compression;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -78,6 +82,69 @@ namespace DvachBrowser3.Storage.Files
         protected async Task<StorageFolder> GetFolder(string folderName)
         {
             return await (await GetRootFolder()).EnsureFolder(folderName);
+        }
+
+        /// <summary>
+        /// Сохранить объект в файл.
+        /// </summary>
+        /// <typeparam name="T">Тип объекта.</typeparam>
+        /// <param name="file">Файл.</param>
+        /// <param name="obj">Объект.</param>
+        /// <param name="compress">Алгоритм сжатия.</param>
+        /// <returns>Таск.</returns>
+        protected async Task Save<T>(StorageFile file, T obj, CompressAlgorithm compress = CompressAlgorithm.NullAlgorithm)
+        {
+            var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
+            using (var tr = await file.OpenTransactedWriteAsync())
+            {
+                var str = new Compressor(tr.Stream, compress, 0);
+                using (str)
+                {
+                    using (var wr = new StreamWriter(str.AsStreamForWrite(), Encoding.UTF8))
+                    {
+                        using (var xml = XmlWriter.Create(wr))
+                        {
+                            var x = xml;
+                            await Task.Run(() => serializer.WriteObject(x, obj));
+                        }
+                    }                    
+                }
+                await tr.CommitAsync();
+            }
+        }
+
+        /// <summary>
+        /// Загрузить объект из файла.
+        /// </summary>
+        /// <typeparam name="T">Тип объекта.</typeparam>
+        /// <param name="file">Файл.</param>
+        /// <param name="compress">Алгоритм сжатия.</param>
+        /// <returns>Объект.</returns>
+        protected async Task<T> Load<T>(StorageFile file, CompressAlgorithm compress = CompressAlgorithm.NullAlgorithm)
+        {
+            var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
+            using (var tr = await file.OpenSequentialReadAsync())
+            {
+                var str = compress == CompressAlgorithm.NullAlgorithm ? tr : new Decompressor(tr);
+                try
+                {
+                    using (var rd = new StreamReader(str.AsStreamForRead(), Encoding.UTF8))
+                    {
+                        using (var xml = XmlReader.Create(rd))
+                        {
+                            var x = xml;
+                            return await Task.Run(() => (T)serializer.ReadObject(x));
+                        }
+                    }
+                }
+                finally
+                {
+                    if (compress != CompressAlgorithm.NullAlgorithm)
+                    {
+                        str.Dispose();
+                    }
+                }
+            }
         }
     }
 }
