@@ -36,7 +36,7 @@ namespace DvachBrowser3.Storage.Files
         {
             try
             {
-                var sizes = await file.PoliteRead(DoLoad, TimeSpan.FromSeconds(5));
+                var sizes = await file.PoliteRead(DoLoad, TimeSpan.FromSeconds(2));
                 Sizes.Clear();
                 foreach (var kv in sizes)
                 {
