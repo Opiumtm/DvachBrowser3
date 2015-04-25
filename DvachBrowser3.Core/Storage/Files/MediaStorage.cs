@@ -28,12 +28,13 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="link">Ссылка.</param>
         /// <param name="tempFile">Временный файл.</param>
-        /// <returns>Таск.</returns>
-        public async Task MoveToMediaStorage(BoardLinkBase link, StorageFile tempFile)
+        /// <returns>Файл в хранилище.</returns>
+        public async Task<StorageFile> MoveToMediaStorage(BoardLinkBase link, StorageFile tempFile)
         {
             var cacheDir = await GetCacheFolder();
             var newFile = await cacheDir.CreateFileAsync(GetMediaFileName(link), CreationCollisionOption.OpenIfExists);
             await WriteCacheMediaFile(newFile, tempFile, true);
+            return newFile;
         }
 
         /// <summary>

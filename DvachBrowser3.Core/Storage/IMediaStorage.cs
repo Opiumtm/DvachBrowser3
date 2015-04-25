@@ -2,7 +2,7 @@
 using Windows.Storage;
 using DvachBrowser3.Links;
 
-namespace DvachBrowser3.Storage.Files
+namespace DvachBrowser3.Storage
 {
     /// <summary>
     /// Хранилище медиа файлов.
@@ -14,8 +14,8 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="link">Ссылка.</param>
         /// <param name="tempFile">Временный файл.</param>
-        /// <returns>Таск.</returns>
-        Task MoveToMediaStorage(BoardLinkBase link, StorageFile tempFile);
+        /// <returns>Файл в хранилище.</returns>
+        Task<StorageFile> MoveToMediaStorage(BoardLinkBase link, StorageFile tempFile);
 
         /// <summary>
         /// Получить файл из медиа-хранилища.
