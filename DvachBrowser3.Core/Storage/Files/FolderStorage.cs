@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage;
 using Windows.Storage.Compression;
-using Windows.Storage.Streams;
 using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
@@ -26,16 +25,49 @@ namespace DvachBrowser3.Storage.Files
         private StorageSizeCache sizeCache;
 
         /// <summary>
-        /// Актуальный кэш размеров.
+        /// Получить кэш для изменений.
         /// </summary>
-        protected StorageSizeCache SizeCache
+        /// <param name="sizesFile">Файл кэша.</param>
+        /// <returns>Кэш для изменений.</returns>
+        private async Task<StorageSizeCache> GetSizeCacheForChange(StorageFile sizesFile)
         {
-            get
+            var result = Interlocked.CompareExchange(ref sizeCache, null, null);
+            if (result == null)
             {
-                var result =  Interlocked.CompareExchange(ref sizeCache, null, null);
-                return result != null ? result.Clone() : null;
+                result = new StorageSizeCache();
+                await result.Load(sizesFile);
             }
-            set { Interlocked.Exchange(ref sizeCache, value); }
+            else
+            {
+                result = result.Clone();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Получить кэш для чтения.
+        /// </summary>
+        /// <param name="sizesFile">Файл кэша.</param>
+        /// <returns>Кэш для изменений.</returns>
+        private async Task<StorageSizeCache> GetSizeCacheForRead(Func<Task<StorageFile>> sizesFile)
+        {
+            var result = Interlocked.CompareExchange(ref sizeCache, null, null);
+            if (result == null)
+            {
+                result = new StorageSizeCache();
+                await result.Load(await sizesFile());
+                Interlocked.Exchange(ref sizeCache, result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Установить данные кэша.
+        /// </summary>
+        /// <param name="value">Новые данные.</param>
+        private void SetSizeCache(StorageSizeCache value)
+        {
+            Interlocked.Exchange(ref sizeCache, value);            
         }
 
         /// <summary>
@@ -118,14 +150,7 @@ namespace DvachBrowser3.Storage.Files
         {
             using (await CacheLock.LockAsync())
             {
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = SizeCache;
-                if (sizes == null)
-                {
-                    sizes = new StorageSizeCache();
-                    await sizes.Load(sizesFile);
-                    SizeCache = sizes;
-                }
+                var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
                 return sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
             }
         }
@@ -156,7 +181,7 @@ namespace DvachBrowser3.Storage.Files
                         // игнорируем
                     }
                 }
-                SizeCache = sizes;
+                SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
             }
         }
@@ -173,7 +198,7 @@ namespace DvachBrowser3.Storage.Files
                 var sizesFile = await GetSizesCacheFile();
                 await cacheDir.DeleteAsync();
                 await sizesFile.DeleteAsync();
-                SizeCache = null;
+                SetSizeCache(null);
             }
         }
 
@@ -188,15 +213,10 @@ namespace DvachBrowser3.Storage.Files
             {
                 var dataDir = await GetDataFolder();
                 var sizesFile = await GetSizesCacheFile();
-                var sizes = SizeCache;
-                if (sizes == null)
-                {
-                    sizes = new StorageSizeCache();
-                    await sizes.Load(sizesFile);                    
-                }
+                var sizes = await GetSizeCacheForChange(sizesFile);
                 var p = await file.GetBasicPropertiesAsync();
                 sizes.Sizes[file.Name] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
-                SizeCache = sizes;
+                SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
             }            
         }
@@ -234,12 +254,7 @@ namespace DvachBrowser3.Storage.Files
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
-                var sizes = SizeCache;
-                if (sizes == null)
-                {
-                    sizes = new StorageSizeCache();
-                    await sizes.Load(sizesFile);                    
-                }
+                var sizes = await GetSizeCacheForChange(sizesFile);
                 var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
                 var toCheck = sizes.Sizes.OrderBy(s => s.Value.Date).ToArray();
                 foreach (var f in toCheck)
@@ -261,7 +276,7 @@ namespace DvachBrowser3.Storage.Files
                         // игнорируем
                     }
                 }
-                SizeCache = sizes;
+                SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
             }
         }
@@ -275,14 +290,7 @@ namespace DvachBrowser3.Storage.Files
         {
             using (await CacheLock.LockAsync())
             {
-                var sizes = SizeCache;
-                if (sizes == null)
-                {
-                    var sizesFile = await GetSizesCacheFile();
-                    sizes = new StorageSizeCache();
-                    await sizes.Load(sizesFile);
-                    SizeCache = sizes;
-                }
+                var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
                 return sizes.Sizes.ContainsKey(fileName);
             }
         }
