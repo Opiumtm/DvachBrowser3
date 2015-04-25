@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Newtonsoft.Json.Schema;
 using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace DvachBrowser3.Storage.Files
@@ -48,9 +43,13 @@ namespace DvachBrowser3.Storage.Files
                     Sizes[kv.Key] = kv.Value;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 Sizes.Clear();
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
             }
         }
 
@@ -91,7 +90,7 @@ namespace DvachBrowser3.Storage.Files
                         var size = rd.ReadUInt64();
                         var dticks = rd.ReadInt64();
                         var oticks = rd.ReadInt64();
-                        result.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem()
+                        result.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem
                         {
                             Size = size,
                             Date = new DateTimeOffset(dticks, new TimeSpan(oticks))
