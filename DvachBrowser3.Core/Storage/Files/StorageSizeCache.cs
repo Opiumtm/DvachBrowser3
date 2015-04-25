@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Newtonsoft.Json.Schema;
+using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -35,33 +41,11 @@ namespace DvachBrowser3.Storage.Files
         {
             try
             {
-                using (var str = await file.OpenStreamForReadAsync())
+                var sizes = await file.PoliteRead(DoLoad, TimeSpan.FromSeconds(5));
+                Sizes.Clear();
+                foreach (var kv in sizes)
                 {
-                    using (var rd = new BinaryReader(str, Encoding.Unicode))
-                    {
-                        Sizes.Clear();
-                        var output = new List<KeyValuePair<string, StorageSizeCacheItem>>();
-                        await Task.Factory.StartNew(() =>
-                        {
-                            // ReSharper disable AccessToDisposedClosure
-                            while (str.Position < str.Length)
-                            {
-                                var sz = rd.ReadInt32();
-                                var chars = sz > 0 ? rd.ReadChars(sz) : new char[0];
-                                var name = new string(chars);
-                                var size = rd.ReadUInt64();
-                                var dateTicks = rd.ReadInt64();
-                                var offsetTicks = rd.ReadInt64();
-                                var date = new DateTimeOffset(dateTicks, TimeSpan.FromTicks(offsetTicks));
-                                output.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem() { Size = size, Date = date}));
-                            }
-                            // ReSharper restore AccessToDisposedClosure
-                        });
-                        foreach (var r in output)
-                        {
-                            Sizes[r.Key] = r.Value;
-                        }
-                    }
+                    Sizes[kv.Key] = kv.Value;
                 }
             }
             catch (Exception ex)
@@ -74,35 +58,13 @@ namespace DvachBrowser3.Storage.Files
         /// Сохранить.
         /// </summary>
         /// <param name="file">Файл.</param>
+        /// <param name="parentFolder">Родительская директория.</param>
         /// <returns>Таск.</returns>
-        public async Task Save(StorageFile file)
+        public async Task Save(StorageFile file, StorageFolder parentFolder)
         {
             try
             {
-                using (var tr = await file.OpenTransactedWriteAsync())
-                {
-                    using (var str = tr.Stream.AsStreamForWrite())
-                    {
-                        using (var wr = new BinaryWriter(str, Encoding.Unicode))
-                        {
-                            await Task.Factory.StartNew(() =>
-                            {
-                                // ReSharper disable AccessToDisposedClosure
-                                foreach (var kv in Sizes)
-                                {
-                                    var chars = kv.Key.ToCharArray();
-                                    wr.Write(chars.Length);
-                                    if (chars.Length > 0) wr.Write(chars);
-                                    wr.Write(kv.Value.Size);
-                                    wr.Write(kv.Value.Date.Ticks);
-                                    wr.Write(kv.Value.Date.Offset.Ticks);
-                                }
-                                // ReSharper restore AccessToDisposedClosure
-                            });
-                        }
-                    }
-                    await tr.CommitAsync();
-                }
+                await file.ReplaceContent(parentFolder, DoSave);
             }
             catch
             {
@@ -110,6 +72,53 @@ namespace DvachBrowser3.Storage.Files
                 {
                     Debugger.Break();
                 }
+            }
+        }
+
+        private async Task<List<KeyValuePair<string, StorageSizeCacheItem>>> DoLoad(IRandomAccessStream istr)
+        {
+            var result = new List<KeyValuePair<string, StorageSizeCacheItem>>();
+            if (istr.Size > 0)
+            {
+                using (var rd = new DataReader(istr) { UnicodeEncoding = UnicodeEncoding.Utf8 })
+                {
+                    await rd.LoadAsync((uint)istr.Size);
+                    var sz = rd.ReadUInt32();
+                    for (UInt32 i = 0; i < sz; i++)
+                    {
+                        var strSz = rd.ReadUInt32();
+                        var name = rd.ReadString(strSz);
+                        var size = rd.ReadUInt64();
+                        var dticks = rd.ReadInt64();
+                        var oticks = rd.ReadInt64();
+                        result.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem()
+                        {
+                            Size = size,
+                            Date = new DateTimeOffset(dticks, new TimeSpan(oticks))
+                        }));
+                    }
+                }
+            }
+            return result;
+        }
+
+        private async Task DoSave(IRandomAccessStream istr)
+        {
+            using (var wr = new DataWriter(istr) {UnicodeEncoding = UnicodeEncoding.Utf8})
+            {
+                var arr = Sizes.ToArray();
+                wr.WriteUInt32((uint)arr.Length);
+                foreach (var kv in arr)
+                {
+                    var strSz = wr.MeasureString(kv.Key);
+                    wr.WriteUInt32(strSz);
+                    wr.WriteString(kv.Key);
+                    wr.WriteUInt64(kv.Value.Size);
+                    wr.WriteInt64(kv.Value.Date.Ticks);
+                    wr.WriteInt64(kv.Value.Date.Offset.Ticks);
+                    await wr.StoreAsync();
+                }
+                await wr.FlushAsync();
             }
         }
     }

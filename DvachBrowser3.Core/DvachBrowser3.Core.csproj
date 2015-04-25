@@ -214,7 +214,6 @@
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
-    <Compile Include="Storage\Files\SingleFileStorage.cs" />
     <Compile Include="Storage\Files\StorageSizeCache.cs" />
     <Compile Include="Storage\Files\StorageSizeCacheItem.cs" />
     <Compile Include="Storage\IStorageService.cs" />
