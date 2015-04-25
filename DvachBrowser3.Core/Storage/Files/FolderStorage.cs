@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -123,6 +124,15 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Получить список файлов, имеющих иммунитет к очистке старых файлов кэша.
+        /// </summary>
+        /// <returns>Список файлов.</returns>
+        protected virtual Task<string[]> GetRecycleImmunity()
+        {
+            return Task.FromResult(new string[0]);
+        }
+
+        /// <summary>
         /// Пересинхронизировать размер кэша.
         /// </summary>
         /// <returns>Таск.</returns>
@@ -161,11 +171,38 @@ namespace DvachBrowser3.Storage.Files
         {
             using (await CacheLock.LockAsync())
             {
+                var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
-                await cacheDir.DeleteAsync();
-                await sizesFile.DeleteAsync();
-                SetSizeCache(null);
+                var sizes = await GetSizeCacheForChange(sizesFile);
+                var files = await cacheDir.GetFilesAsync();
+                var immunity = await GetRecycleImmunity();
+                var immunitySet = new HashSet<string>(immunity, StringComparer.OrdinalIgnoreCase);
+                var toDelete = files.ToArray();
+                var visitedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (var f in toDelete)
+                {
+                    visitedFiles.Add(f.Name);
+                    if (!immunitySet.Contains(f.Name))
+                    {
+                        try
+                        {
+                            await f.DeleteAsync();
+                            sizes.Sizes.Remove(f.Name);
+                        }
+                        // ReSharper disable once EmptyGeneralCatchClause
+                        catch
+                        {
+                            // ignore
+                        }                        
+                    }
+                }
+                foreach (var n in sizes.Sizes.Keys.Where(n => !visitedFiles.Contains(n)))
+                {
+                    sizes.Sizes.Remove(n);
+                }
+                SetSizeCache(sizes);
+                await sizes.Save(sizesFile, dataDir);
             }
         }
 
@@ -222,25 +259,30 @@ namespace DvachBrowser3.Storage.Files
                 var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
+                var immunity = await GetRecycleImmunity();
+                var immunitySet = new HashSet<string>(immunity, StringComparer.OrdinalIgnoreCase);
                 var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
-                var toCheck = sizes.Sizes.OrderBy(s => s.Value.Date).ToArray();
+                var toCheck = sizes.Sizes.OrderBy(kv => kv.Value.Date).ToArray();
                 foreach (var f in toCheck)
                 {
                     if (totalSize <= MaxCacheSize)
                     {
                         break;
                     }
-                    try
+                    if (!immunitySet.Contains(f.Key))
                     {
-                        var file = await cacheDir.GetFileAsync(f.Key);
-                        await file.DeleteAsync();
-                        totalSize -= f.Value.Size;
-                        sizes.Sizes.Remove(f.Key);
-                    }
-                    // ReSharper disable once EmptyGeneralCatchClause
-                    catch
-                    {
-                        // игнорируем
+                        try
+                        {
+                            var file = await cacheDir.GetFileAsync(f.Key);
+                            await file.DeleteAsync();
+                            totalSize -= f.Value.Size;
+                            sizes.Sizes.Remove(f.Key);
+                        }
+                        // ReSharper disable once EmptyGeneralCatchClause
+                        catch
+                        {
+                            // игнорируем
+                        }                        
                     }
                 }
                 SetSizeCache(sizes);
