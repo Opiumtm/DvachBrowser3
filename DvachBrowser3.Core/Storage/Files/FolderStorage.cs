@@ -50,7 +50,7 @@ namespace DvachBrowser3.Storage.Files
         /// Получить корневую директорию.
         /// </summary>
         /// <returns>Корневая директорию.</returns>
-        protected async Task<StorageFolder> GetRootDataFolder()
+        public async Task<StorageFolder> GetRootDataFolder()
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
         }
@@ -59,7 +59,7 @@ namespace DvachBrowser3.Storage.Files
         /// Получить директорию данных.
         /// </summary>
         /// <returns>Директория данных.</returns>
-        protected async Task<StorageFolder> GetDataFolder()
+        public async Task<StorageFolder> GetDataFolder()
         {
             return await (await GetRootDataFolder()).CreateFolderAsync(FolderName, CreationCollisionOption.OpenIfExists);
         }
@@ -68,7 +68,7 @@ namespace DvachBrowser3.Storage.Files
         /// Получить директорию данных.
         /// </summary>
         /// <returns>Директория данных.</returns>
-        protected async Task<StorageFolder> GetCacheFolder()
+        public async Task<StorageFolder> GetCacheFolder()
         {
             return await (await GetDataFolder()).CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
         }
@@ -77,7 +77,7 @@ namespace DvachBrowser3.Storage.Files
         /// Получить файл кэша размеров файлов.
         /// </summary>
         /// <returns>Файл.</returns>
-        protected async Task<StorageFile> GetSizesCacheFile()
+        public async Task<StorageFile> GetSizesCacheFile()
         {
             var dataDir = await GetDataFolder();
             return await dataDir.CreateFileAsync("sizes.dat", CreationCollisionOption.OpenIfExists);
