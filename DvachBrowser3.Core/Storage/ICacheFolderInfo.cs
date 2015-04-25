@@ -35,5 +35,12 @@ namespace DvachBrowser3.Storage
         /// </summary>
         /// <returns>Таск.</returns>
         Task RecycleCache();
+
+        /// <summary>
+        /// Найти файл в кэше.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <returns>Результат поиска.</returns>
+        Task<bool> FindFileInCache(string fileName);
     }
 }

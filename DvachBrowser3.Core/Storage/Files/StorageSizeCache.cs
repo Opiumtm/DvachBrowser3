@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -119,6 +120,20 @@ namespace DvachBrowser3.Storage.Files
                 }
                 await wr.FlushAsync();
             }
+        }
+
+        /// <summary>
+        /// Клонировать объект.
+        /// </summary>
+        /// <returns>Клон объекта.</returns>
+        public StorageSizeCache Clone()
+        {
+            var result = new StorageSizeCache();
+            foreach (var kv in Sizes)
+            {
+                result.Sizes[kv.Key] = kv.Value;
+            }
+            return result;
         }
     }
 }
