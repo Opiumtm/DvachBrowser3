@@ -31,6 +31,18 @@ namespace DvachBrowser3.Engines
         public abstract Task<T> Complete();
 
         /// <summary>
+        /// Выполнить операцию.
+        /// </summary>
+        /// <param name="token">Токен отмены операции.</param>
+        /// <returns>Таск.</returns>
+        public async Task<T> Complete(CancellationToken token)
+        {
+            token.Register(Cancel);
+            // ReSharper disable once MethodSupportsCancellation
+            return await Complete();
+        }
+
+        /// <summary>
         /// Прогресс операции.
         /// </summary>
         public event EventHandler<EngineProgress> Progress;

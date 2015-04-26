@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DvachBrowser3.Engines
@@ -15,6 +16,13 @@ namespace DvachBrowser3.Engines
         /// </summary>
         /// <returns>Таск.</returns>
         Task<TResult> Complete();
+
+        /// <summary>
+        /// Выполнить операцию.
+        /// </summary>
+        /// <param name="token">Токен отмены операции.</param>
+        /// <returns>Таск.</returns>
+        Task<TResult> Complete(CancellationToken token);
 
         /// <summary>
         /// Прогресс операции.
