@@ -28,10 +28,5 @@ namespace DvachBrowser3.Engines
         /// Прогресс операции.
         /// </summary>
         event EventHandler<TProgress> Progress;
-
-        /// <summary>
-        /// Отменить.
-        /// </summary>
-        void Cancel();
     }
 }

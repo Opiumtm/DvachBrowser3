@@ -58,7 +58,7 @@ namespace DvachBrowser3.Engines
         /// <summary>
         /// Отменить.
         /// </summary>
-        public virtual void Cancel()
+        protected virtual void Cancel()
         {
             try
             {
