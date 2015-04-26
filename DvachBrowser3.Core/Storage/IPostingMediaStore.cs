@@ -9,18 +9,18 @@ namespace DvachBrowser3.Storage
     public interface IPostingMediaStore : ICacheFolderInfo
     {
         /// <summary>
-        /// Добавить медиа файл.
+        /// Добавить медиа файл (оригинальный файл не удаляется).
         /// </summary>
         /// <param name="file">Файл.</param>
         /// <returns>Идентификатор файла.</returns>
-        Task<string> AddMediaFile(StorageFile file);
+        Task<PostingMediaStoreItem> AddMediaFile(StorageFile file);
 
         /// <summary>
         /// Получить медиа файл.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <returns>Медиа файл (null - не найден).</returns>
-        Task<StorageFile> GetMediaFile(string id);
+        Task<PostingMediaStoreItem?> GetMediaFile(string id);
 
         /// <summary>
         /// Удалить медиа файл.

@@ -132,7 +132,7 @@ namespace DvachBrowser3.Storage.Files
         /// Получить размер кэша.
         /// </summary>
         /// <returns>Размер кэша.</returns>
-        public async Task<ulong> GetCacheSize()
+        public virtual async Task<ulong> GetCacheSize()
         {
             using (await CacheLock.LockAsync())
             {
@@ -154,7 +154,7 @@ namespace DvachBrowser3.Storage.Files
         /// Пересинхронизировать размер кэша.
         /// </summary>
         /// <returns>Таск.</returns>
-        public async Task ResyncCacheSize()
+        public virtual async Task ResyncCacheSize()
         {
             using (await CacheLock.LockAsync())
             {
@@ -185,7 +185,7 @@ namespace DvachBrowser3.Storage.Files
         /// Очистить кэш.
         /// </summary>
         /// <returns>Таск.</returns>
-        public async Task ClearCache()
+        public virtual async Task ClearCache()
         {
             using (await CacheLock.LockAsync())
             {
@@ -243,7 +243,7 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
-        /// Синхронизировать размер файла кэша.
+        /// Удалить файл из кэша.
         /// </summary>
         /// <param name="fileName">Имя файла.</param>
         /// <returns>Таск.</returns>
@@ -280,10 +280,29 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Удалить файл из кэша в фоновом режиме.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        protected void BackgroundRemoveFromSizeCache(string fileName)
+        {
+            Task.Factory.StartNew(new Action(async () =>
+            {
+                try
+                {
+                    await RemoveFromSizeCache(fileName);
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+            }));
+        }
+
+        /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>
         /// <returns>Таск.</returns>
-        public async Task RecycleCache()
+        public virtual async Task RecycleCache()
         {
             using (await CacheLock.LockAsync())
             {
@@ -329,10 +348,18 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Результат поиска.</returns>
         public async Task<bool> FindFileInCache(string fileName)
         {
-            using (await CacheLock.LockAsync())
+            try
             {
-                var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
-                return sizes.Sizes.ContainsKey(fileName);
+                using (await CacheLock.LockAsync())
+                {
+                    var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
+                    return sizes.Sizes.ContainsKey(fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+                return false;
             }
         }
 

@@ -41,6 +41,6 @@ namespace DvachBrowser3.Storage
         /// <summary>
         /// Архивы.
         /// </summary>
-        IArchiveStore Archives { get; set; }
+        IArchiveStore Archives { get; }
     }
 }

@@ -224,10 +224,13 @@
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Storage\Files\DraftMediaStore.cs" />
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
     <Compile Include="Storage\Files\FolderStorage.cs" />
     <Compile Include="Storage\Files\LinkCollectionStore.cs" />
     <Compile Include="Storage\Files\MediaStorage.cs" />
+    <Compile Include="Storage\Files\PostDataStorage.cs" />
+    <Compile Include="Storage\Files\PostingMediaStore.cs" />
     <Compile Include="Storage\Files\StorageBase.cs" />
     <Compile Include="Storage\Files\StorageSizeCache.cs" />
     <Compile Include="Storage\Files\StorageSizeCacheItem.cs" />
@@ -242,6 +245,8 @@
     <Compile Include="Storage\IPostingMediaStore.cs" />
     <Compile Include="Storage\IStorageService.cs" />
     <Compile Include="Storage\IThreadDataStorage.cs" />
+    <Compile Include="Storage\PostingMediaStoreItem.cs" />
+    <Compile Include="Storage\StorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
