@@ -44,13 +44,10 @@ namespace DvachBrowser3.Storage.Files
                     Sizes[kv.Key] = kv.Value;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Sizes.Clear();
-                if (Debugger.IsAttached)
-                {
-                    Debugger.Break();
-                }
+                DebugHelper.BreakOnError(ex);
             }
         }
 
@@ -66,12 +63,9 @@ namespace DvachBrowser3.Storage.Files
             {
                 await file.ReplaceContent(parentFolder, DoSave);
             }
-            catch
+            catch (Exception ex)
             {
-                if (Debugger.IsAttached)
-                {
-                    Debugger.Break();
-                }
+                DebugHelper.BreakOnError(ex);
             }
         }
 

@@ -129,12 +129,9 @@ namespace DvachBrowser3.Storage.Files
                 {
                     await tempFile.DeleteAsync();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    if (Debugger.IsAttached)
-                    {
-                        Debugger.Break();
-                    }
+                    DebugHelper.BreakOnError(ex);
                 }
             }
             if (error != null)

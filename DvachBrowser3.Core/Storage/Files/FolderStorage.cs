@@ -15,6 +15,22 @@ namespace DvachBrowser3.Storage.Files
     public class FolderStorage : StorageBase, ICacheFolderInfo
     {
         /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="services">Сервисы.</param>
+        /// <param name="folderName">Имя директории.</param>
+        /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
+        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
+        /// <param name="cacheDescription">Описание кэша.</param>
+        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
+            : base(services, folderName)
+        {
+            MaxCacheSize = maxCacheSize;
+            NormalCacheSize = normalCacheSize;
+            CacheDescription = cacheDescription;
+        }
+
+        /// <summary>
         /// Объект синхронизации доступа к кэшу.
         /// </summary>
         protected readonly AsyncLock CacheLock = new AsyncLock();
@@ -68,22 +84,6 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="services">Сервисы.</param>
-        /// <param name="folderName">Имя директории.</param>
-        /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
-        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
-        /// <param name="cacheDescription">Описание кэша.</param>
-        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
-            : base(services, folderName)
-        {
-            MaxCacheSize = maxCacheSize;
-            NormalCacheSize = normalCacheSize;
-            CacheDescription = cacheDescription;
-        }
-
-        /// <summary>
         /// Максимальный размер кэша в байтах.
         /// </summary>
         public ulong MaxCacheSize { get; private set; }
@@ -113,6 +113,17 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Получить файл в кэше.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <returns>Файл.</returns>
+        public async Task<StorageFile> GetCacheFile(string fileName)
+        {
+            var cacheDir = await GetCacheFolder();
+            return await cacheDir.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+        }
+
+        /// <summary>
         /// Описание.
         /// </summary>
         public string CacheDescription { get; private set; }
@@ -134,9 +145,9 @@ namespace DvachBrowser3.Storage.Files
         /// Получить список файлов, имеющих иммунитет к очистке старых файлов кэша.
         /// </summary>
         /// <returns>Список файлов.</returns>
-        protected virtual Task<string[]> GetRecycleImmunity()
+        protected virtual Task<HashSet<string>> GetRecycleImmunity()
         {
-            return Task.FromResult(new string[0]);
+            return Task.FromResult(new HashSet<string>());
         }
 
         /// <summary>
@@ -183,8 +194,7 @@ namespace DvachBrowser3.Storage.Files
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
                 var files = await cacheDir.GetFilesAsync();
-                var immunity = await GetRecycleImmunity();
-                var immunitySet = new HashSet<string>(immunity, StringComparer.OrdinalIgnoreCase);
+                var immunitySet = await GetRecycleImmunity();
                 var toDelete = files.ToArray();
                 var visitedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 foreach (var f in toDelete)
@@ -262,12 +272,9 @@ namespace DvachBrowser3.Storage.Files
                 {
                     await SyncCacheFileSize(file);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    if (Debugger.IsAttached)
-                    {
-                        Debugger.Break();
-                    }
+                    DebugHelper.BreakOnError(ex);
                 }
             }));
         }
@@ -286,8 +293,7 @@ namespace DvachBrowser3.Storage.Files
                 if (totalSize < MaxCacheSize) return;
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
-                var immunity = await GetRecycleImmunity();
-                var immunitySet = new HashSet<string>(immunity, StringComparer.OrdinalIgnoreCase);
+                var immunitySet = await GetRecycleImmunity();
                 var toCheck = sizes.Sizes.OrderBy(kv => kv.Value.Date).ToArray();
                 foreach (var f in toCheck)
                 {
@@ -339,7 +345,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="obj">Объект.</param>
         /// <param name="compress">Сжимать файл.</param>
         /// <returns>Таск.</returns>
-        public async Task WriteCacheXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress)
+        public async Task WriteCacheXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress) where T : class 
         {
             await WriteXmlObject(file, tempFolder, obj, compress);
             BackgroundSyncCacheFileSize(file);

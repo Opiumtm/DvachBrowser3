@@ -61,10 +61,7 @@ namespace DvachBrowser3.Engines
             }
             catch (Exception ex)
             {
-                if (Debugger.IsAttached)
-                {
-                    Debugger.Break();
-                }
+                DebugHelper.BreakOnError(ex);
             }
         }
 

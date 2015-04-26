@@ -20,5 +20,11 @@ namespace DvachBrowser3.Storage
         /// </summary>
         /// <returns>Коллекция ссылок.</returns>
         Task<LinkCollection> LoadLinkCollection();
+
+        /// <summary>
+        /// Загрузить коллекцию ссылок только для чтения.
+        /// </summary>
+        /// <returns>Коллекция ссылок.</returns>
+        Task<LinkCollection> LoadLinkCollectionForReadOnly();
     }
 }

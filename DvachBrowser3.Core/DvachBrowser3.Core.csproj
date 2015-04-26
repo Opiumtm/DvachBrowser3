@@ -51,6 +51,7 @@
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
     <Compile Include="Common\DateService.cs" />
+    <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
     <Compile Include="Common\IConfiguration.cs" />
     <Compile Include="Common\IDateService.cs" />
@@ -225,10 +226,13 @@
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
     <Compile Include="Storage\Files\FolderStorage.cs" />
+    <Compile Include="Storage\Files\LinkCollectionStore.cs" />
     <Compile Include="Storage\Files\MediaStorage.cs" />
     <Compile Include="Storage\Files\StorageBase.cs" />
     <Compile Include="Storage\Files\StorageSizeCache.cs" />
     <Compile Include="Storage\Files\StorageSizeCacheItem.cs" />
+    <Compile Include="Storage\Files\StringWrapper.cs" />
+    <Compile Include="Storage\Files\ThreadDataStorage.cs" />
     <Compile Include="Storage\IArchiveStore.cs" />
     <Compile Include="Storage\ICacheFolderInfo.cs" />
     <Compile Include="Storage\IDraftDataStorage.cs" />

@@ -66,7 +66,7 @@ namespace DvachBrowser3.Storage
         /// </summary>
         /// <param name="rootLink">Корневая ссылка.</param>
         /// <returns>Таск.</returns>
-        Task LoadBoardReferences(BoardLinkBase rootLink);
+        Task<BoardReferences> LoadBoardReferences(BoardLinkBase rootLink);
 
         /// <summary>
         /// Сохранить информацию о количестве постов.

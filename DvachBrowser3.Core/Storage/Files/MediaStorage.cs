@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Links;
@@ -56,8 +57,9 @@ namespace DvachBrowser3.Storage.Files
             {
                 return await cacheDir.GetFileAsync(fileName);
             }
-            catch
+            catch (Exception ex)
             {
+                DebugHelper.BreakOnError(ex);
                 return null;
             }
         }

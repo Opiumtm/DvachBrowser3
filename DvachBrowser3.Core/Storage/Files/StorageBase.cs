@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage;
 using Windows.Storage.Compression;
+using Windows.Storage.Streams;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -60,11 +61,15 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="obj">Объект.</param>
         /// <param name="compress">Сжимать файл.</param>
         /// <returns>Таск.</returns>
-        public async Task WriteXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress)
+        public async Task WriteXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress) where T: class
         {
             var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
             await file.ReplaceContent(tempFolder, async str =>
             {
+                if (obj == null)
+                {
+                    return;
+                }
                 if (compress)
                 {
                     using (var comp = new Compressor(str, CompressAlgorithm.Mszip, 0))
@@ -98,11 +103,12 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="file">Файл.</param>
         /// <param name="compress">Сжимать файл.</param>
         /// <returns>Объект.</returns>
-        public async Task<T> ReadXmlObject<T>(StorageFile file, bool compress)
+        public async Task<T> ReadXmlObject<T>(StorageFile file, bool compress) where T : class 
         {
             var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
             return await file.PoliteRead(async str =>
             {
+                if (str.Size == 0) return null;
                 if (compress)
                 {
                     using (var comp = new Decompressor(str))
@@ -157,6 +163,27 @@ namespace DvachBrowser3.Storage.Files
             {
                 await originalFile.CopyAndReplaceAsync(file);
             }
+        }
+
+        /// <summary>
+        /// Клонирование объекта.
+        /// </summary>
+        /// <typeparam name="T">Тип объекта.</typeparam>
+        /// <param name="src">Исходный объект.</param>
+        /// <returns>Результат.</returns>
+        protected async Task<T> DeepCloneObject<T>(T src) where T: class
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                if (src == null) return null;
+                var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
+                using (var str = new MemoryStream())
+                {
+                    serializer.WriteObject(str, src);
+                    str.Position = 0;
+                    return (T)serializer.ReadObject(str);
+                }
+            });
         }
     }
 }
