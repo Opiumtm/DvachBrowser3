@@ -73,11 +73,13 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
         /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
+        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
         /// <param name="cacheDescription">Описание кэша.</param>
-        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, string cacheDescription)
+        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
             : base(services, folderName)
         {
             MaxCacheSize = maxCacheSize;
+            NormalCacheSize = normalCacheSize;
             CacheDescription = cacheDescription;
         }
 
@@ -85,6 +87,11 @@ namespace DvachBrowser3.Storage.Files
         /// Максимальный размер кэша в байтах.
         /// </summary>
         public ulong MaxCacheSize { get; private set; }
+
+        /// <summary>
+        /// Нормальный размер кэша в байтах.
+        /// </summary>
+        public ulong NormalCacheSize { get; private set; }
 
         /// <summary>
         /// Получить директорию данных.
@@ -226,6 +233,24 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Синхронизировать размер файла кэша.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <returns>Таск.</returns>
+        protected async Task RemoveFromSizeCache(string fileName)
+        {
+            using (await CacheLock.LockAsync())
+            {
+                var dataDir = await GetDataFolder();
+                var sizesFile = await GetSizesCacheFile();
+                var sizes = await GetSizeCacheForChange(sizesFile);
+                sizes.Sizes.Remove(fileName);
+                SetSizeCache(sizes);
+                await sizes.Save(sizesFile, dataDir);
+            }
+        }
+
+        /// <summary>
         /// Синхронизировать размер файла кэша в фоновом режиме.
         /// </summary>
         /// <param name="file">Файл.</param>
@@ -255,17 +280,18 @@ namespace DvachBrowser3.Storage.Files
         {
             using (await CacheLock.LockAsync())
             {
-                var dataDir = await GetDataFolder();
-                var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
+                var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
+                if (totalSize < MaxCacheSize) return;
+                var dataDir = await GetDataFolder();
+                var cacheDir = await GetCacheFolder();
                 var immunity = await GetRecycleImmunity();
                 var immunitySet = new HashSet<string>(immunity, StringComparer.OrdinalIgnoreCase);
-                var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
                 var toCheck = sizes.Sizes.OrderBy(kv => kv.Value.Date).ToArray();
                 foreach (var f in toCheck)
                 {
-                    if (totalSize <= MaxCacheSize)
+                    if (totalSize <= NormalCacheSize)
                     {
                         break;
                     }

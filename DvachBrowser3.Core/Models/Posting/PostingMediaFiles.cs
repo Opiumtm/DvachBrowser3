@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace DvachBrowser3.Links
+namespace DvachBrowser3.Posting
 {
     /// <summary>
-    /// Коллекция ссылок.
+    /// Медиафайлы.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    [KnownType(typeof(ThreadLinkCollection))]
-    public class LinkCollection
+    public class PostingMediaFiles
     {
         /// <summary>
-        /// Ссылки.
+        /// Файлы.
         /// </summary>
         [DataMember]
-        public List<BoardLinkBase> Links { get; set; }
+        public List<PostingMediaFile> Files { get; set; }
     }
 }

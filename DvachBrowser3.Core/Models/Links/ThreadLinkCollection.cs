@@ -4,16 +4,15 @@ using System.Runtime.Serialization;
 namespace DvachBrowser3.Links
 {
     /// <summary>
-    /// Коллекция ссылок.
+    /// Коллекция ссылок на треды.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    [KnownType(typeof(ThreadLinkCollection))]
-    public class LinkCollection
+    public class ThreadLinkCollection : LinkCollection
     {
         /// <summary>
-        /// Ссылки.
+        /// Информация о тредах.
         /// </summary>
         [DataMember]
-        public List<BoardLinkBase> Links { get; set; }
+        public Dictionary<string, ShortThreadInfo> ThreadInfo { get; set; }
     }
 }

@@ -17,9 +17,10 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
         /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
+        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
         /// <param name="cacheDescription">Описание кэша.</param>
-        public MediaStorage(IServiceProvider services, string folderName, ulong maxCacheSize, string cacheDescription)
-            : base(services, folderName, maxCacheSize, cacheDescription)
+        public MediaStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
+            : base(services, folderName, maxCacheSize, normalCacheSize, cacheDescription)
         {
         }
 

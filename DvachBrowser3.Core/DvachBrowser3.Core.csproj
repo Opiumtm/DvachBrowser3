@@ -148,13 +148,17 @@
     <Compile Include="Models\Links\BoardLinkKind.cs" />
     <Compile Include="Models\Links\BoardPageLink.cs" />
     <Compile Include="Models\Links\BoardMediaLink.cs" />
+    <Compile Include="Models\Links\FavoriteThreadInfo.cs" />
     <Compile Include="Models\Links\LinkCollection.cs" />
     <Compile Include="Models\Links\MediaLink.cs" />
     <Compile Include="Models\Links\MediaType.cs" />
     <Compile Include="Models\Links\PostLink.cs" />
     <Compile Include="Models\Links\RootLink.cs" />
+    <Compile Include="Models\Links\ShortThreadInfo.cs" />
     <Compile Include="Models\Links\ThreadLink.cs" />
+    <Compile Include="Models\Links\ThreadLinkCollection.cs" />
     <Compile Include="Models\Links\ThreadPartLink.cs" />
+    <Compile Include="Models\Links\ThreadPictureInfo.cs" />
     <Compile Include="Models\Links\YoutubeLink.cs" />
     <Compile Include="Models\Makaba\MakabaBoardPageExtension.cs" />
     <Compile Include="Models\Makaba\MakabaBoardReferenceExtension.cs" />
@@ -163,10 +167,14 @@
     <Compile Include="Models\Makaba\MakabaEntityTree.cs" />
     <Compile Include="Models\Makaba\MakabaIconReference.cs" />
     <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\Other\ArchiveReference.cs" />
+    <Compile Include="Models\Other\ArchiveThreadTree.cs" />
     <Compile Include="Models\Other\MyPostsInfo.cs" />
     <Compile Include="Models\Other\PostCountInfo.cs" />
     <Compile Include="Models\Posting\CaptchaType.cs" />
     <Compile Include="Models\Posting\CaptchaTypes.cs" />
+    <Compile Include="Models\Posting\DraftPostingData.cs" />
+    <Compile Include="Models\Posting\DraftReference.cs" />
     <Compile Include="Models\Posting\PostingCapability.cs" />
     <Compile Include="Models\Posting\PostingCapabilityIcon.cs" />
     <Compile Include="Models\Posting\PostingCaptchaCapability.cs" />
@@ -175,7 +183,9 @@
     <Compile Include="Models\Posting\PostingFieldSemanticRole.cs" />
     <Compile Include="Models\Posting\PostingIconCapability.cs" />
     <Compile Include="Models\Posting\PostingMarkupType.cs" />
+    <Compile Include="Models\Posting\PostingMediaFile.cs" />
     <Compile Include="Models\Posting\PostingMediaFileCapability.cs" />
+    <Compile Include="Models\Posting\PostingMediaFiles.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
     <Compile Include="Models\Posts\KnownMediaType.cs" />
@@ -219,8 +229,13 @@
     <Compile Include="Storage\Files\StorageBase.cs" />
     <Compile Include="Storage\Files\StorageSizeCache.cs" />
     <Compile Include="Storage\Files\StorageSizeCacheItem.cs" />
+    <Compile Include="Storage\IArchiveStore.cs" />
     <Compile Include="Storage\ICacheFolderInfo.cs" />
+    <Compile Include="Storage\IDraftDataStorage.cs" />
+    <Compile Include="Storage\ILinkCollectionStore.cs" />
     <Compile Include="Storage\IMediaStorage.cs" />
+    <Compile Include="Storage\IPostDataStorage.cs" />
+    <Compile Include="Storage\IPostingMediaStore.cs" />
     <Compile Include="Storage\IStorageService.cs" />
     <Compile Include="Storage\IThreadDataStorage.cs" />
   </ItemGroup>

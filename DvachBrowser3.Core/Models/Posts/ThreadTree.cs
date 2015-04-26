@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using DvachBrowser3.Other;
 
 namespace DvachBrowser3.Posts
 {
@@ -7,6 +7,7 @@ namespace DvachBrowser3.Posts
     /// Дерево постов в ветке.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
+    [KnownType(typeof(ArchiveThreadTree))]
     public class ThreadTree : PostTreeCollection
     {
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DvachBrowser3.Board;
 using DvachBrowser3.Links;
+using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.Storage
@@ -10,6 +11,21 @@ namespace DvachBrowser3.Storage
     /// </summary>
     public interface IThreadDataStorage : ICacheFolderInfo
     {
+        /// <summary>
+        /// Избранные треды.
+        /// </summary>
+        ILinkCollectionStore FavoriteThreads { get; }
+
+        /// <summary>
+        /// Посещённые треды.
+        /// </summary>
+        ILinkCollectionStore VisitedThreads { get; }
+
+        /// <summary>
+        /// Избранные борды.
+        /// </summary>
+        ILinkCollectionStore FavoriteBoards { get; }
+
         /// <summary>
         /// Сохранить данные борды.
         /// </summary>
@@ -51,5 +67,48 @@ namespace DvachBrowser3.Storage
         /// <param name="rootLink">Корневая ссылка.</param>
         /// <returns>Таск.</returns>
         Task LoadBoardReferences(BoardLinkBase rootLink);
+
+        /// <summary>
+        /// Сохранить информацию о количестве постов.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Таск.</returns>
+        Task SavePostCountInfo(PostCountInfo data);
+
+        /// <summary>
+        /// Загрузить информацию о количестве постов.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Таск.</returns>
+        Task<PostCountInfo> LoadPostCountInfo(BoardLinkBase link);
+
+        /// <summary>
+        /// Сохранить информацию о моих постах.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Таск.</returns>
+        Task SaveMyPostsInfo(MyPostsInfo data);
+
+        /// <summary>
+        /// Загрузить информацию о моих постах.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Информация о моих постах.</returns>
+        Task<MyPostsInfo> LoadMyPostsInfo(BoardLinkBase link);
+
+        /// <summary>
+        /// Сохранить штамп изменений.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="stamp">Штамп.</param>
+        /// <returns>Таск.</returns>
+        Task SaveStamp(BoardLinkBase link, string stamp);
+
+        /// <summary>
+        /// Загрузить штамп.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Штамп.</returns>
+        Task<string> LoadStamp(BoardLinkBase link);
     }
 }

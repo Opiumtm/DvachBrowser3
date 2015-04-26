@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using DvachBrowser3.Links;
 
@@ -8,6 +9,8 @@ namespace DvachBrowser3.Posting
     /// Данные для постинга.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
+    [KnownType(typeof(PostingMediaFiles))]
+    [KnownType(typeof(DraftPostingData))]
     public class PostingData
     {
         /// <summary>
@@ -17,15 +20,15 @@ namespace DvachBrowser3.Posting
         public BoardLinkBase Link { get; set; }
 
         /// <summary>
+        /// Время сохранения.
+        /// </summary>
+        [DataMember]
+        public DateTime SaveTime { get; set; }
+
+        /// <summary>
         /// Данные полей.
         /// </summary>
         [DataMember]
         public Dictionary<PostingFieldSemanticRole, object> FieldData { get; set; }
-
-        /// <summary>
-        /// Медиа файлы (идентификаторы файлов во временной директории).
-        /// </summary>
-        [DataMember]
-        public string[] MediaFiles { get; set; }
     }
 }

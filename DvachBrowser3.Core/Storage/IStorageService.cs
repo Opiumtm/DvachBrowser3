@@ -22,5 +22,25 @@ namespace DvachBrowser3.Storage
         /// Полноразмерные медиафайлы.
         /// </summary>
         IMediaStorage FullSizeMediaFiles { get; }
+
+        /// <summary>
+        /// Данные тредов.
+        /// </summary>
+        IThreadDataStorage ThreadData { get; }
+
+        /// <summary>
+        /// Данные постов.
+        /// </summary>
+        IPostDataStorage PostData { get; }
+
+        /// <summary>
+        /// Черновики.
+        /// </summary>
+        IDraftDataStorage Drafts { get; }
+
+        /// <summary>
+        /// Архивы.
+        /// </summary>
+        IArchiveStore Archives { get; set; }
     }
 }
