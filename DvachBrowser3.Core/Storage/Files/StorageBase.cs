@@ -129,7 +129,7 @@ namespace DvachBrowser3.Storage.Files
                         return (T)await serializer.ReadObjectAsync(xml);
                     }
                 }
-            }, TimeSpan.FromSeconds(3));
+            }, TimeSpan.FromSeconds(2));
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace DvachBrowser3.Storage.Files
         /// <typeparam name="T">Тип объекта.</typeparam>
         /// <param name="src">Исходный объект.</param>
         /// <returns>Результат.</returns>
-        protected async Task<T> DeepCloneObject<T>(T src) where T: class
+        public async Task<T> DeepCloneObject<T>(T src) where T: class
         {
             return await Task.Factory.StartNew(() =>
             {

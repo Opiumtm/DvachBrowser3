@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Links;
@@ -11,7 +10,10 @@ namespace DvachBrowser3.Storage.Files
     /// </summary>
     public class LinkCollectionStore : StorageBase, ILinkCollectionStore
     {
-        private LinkCollection cachedValue;
+        /// <summary>
+        /// Кэшированный файл.
+        /// </summary>
+        protected readonly CachedFile<LinkCollection> CachedFile;
 
         /// <summary>
         /// Конструктор.
@@ -22,6 +24,7 @@ namespace DvachBrowser3.Storage.Files
         public LinkCollectionStore(IServiceProvider services, string folderName, string fileName) : base(services, folderName)
         {
             FileName = fileName;
+            CachedFile = new CachedFile<LinkCollection>(services, this, GetCollectionFile, GetDataFolder, false);
         }
 
         /// <summary>
@@ -45,30 +48,17 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public async Task SaveLinkCollection(LinkCollection data)
         {
-            try
-            {
-                Interlocked.Exchange(ref cachedValue, await DeepCloneObject(data));
-                BackgroundSaveLinkCollection(data);
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-            }
+            await CachedFile.Save(data);
         }
 
-        private void BackgroundSaveLinkCollection(LinkCollection data)
+        /// <summary>
+        /// Сохранить коллекцию ссылок синхронно.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Таск.</returns>
+        public async Task SaveLinkCollectionSync(LinkCollection data)
         {
-            Task.Factory.StartNew(new Action(async () =>
-            {
-                try
-                {
-                    await WriteXmlObject(await GetCollectionFile(), await GetDataFolder(), data, false);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-            }));
+            await CachedFile.SaveSync(data);
         }
 
         /// <summary>
@@ -77,25 +67,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Коллекция ссылок.</returns>
         public async Task<LinkCollection> LoadLinkCollection()
         {
-            try
-            {
-                var result = Interlocked.CompareExchange(ref cachedValue, null, null);
-                if (result == null)
-                {
-                    result = await ReadXmlObject<LinkCollection>(await GetCollectionFile(), false);
-                    Interlocked.Exchange(ref cachedValue, await DeepCloneObject(result));
-                }
-                else
-                {
-                    result = await DeepCloneObject(result);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-                return null;
-            }
+            return await CachedFile.Load();
         }
 
         /// <summary>
@@ -104,21 +76,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Коллекция ссылок.</returns>
         public async Task<LinkCollection> LoadLinkCollectionForReadOnly()
         {
-            try
-            {
-                var result = Interlocked.CompareExchange(ref cachedValue, null, null);
-                if (result == null)
-                {
-                    result = await ReadXmlObject<LinkCollection>(await GetCollectionFile(), false);
-                    Interlocked.Exchange(ref cachedValue, result);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-                return null;
-            }
+            return await CachedFile.LoadForReadOnly();
         }
     }
 }

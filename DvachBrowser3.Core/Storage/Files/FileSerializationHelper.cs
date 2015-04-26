@@ -116,8 +116,27 @@ namespace DvachBrowser3.Storage.Files
                 {
                     await action(str);
                 }
-                await tempFile.MoveAndReplaceAsync(file);
-                tempFile = null;
+                for (int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        if (tempFile != null)
+                        {
+                            await tempFile.MoveAndReplaceAsync(file);
+                            tempFile = null;                            
+                        }
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (i == 4)
+                        {
+                            error = ex;
+                            break;                            
+                        }
+                    }
+                    await Task.Delay(TimeSpan.FromSeconds(0.25));
+                }
             }
             catch (Exception ex)
             {

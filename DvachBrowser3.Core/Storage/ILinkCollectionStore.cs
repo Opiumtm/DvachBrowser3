@@ -16,6 +16,13 @@ namespace DvachBrowser3.Storage
         Task SaveLinkCollection(LinkCollection data);
 
         /// <summary>
+        /// Сохранить коллекцию ссылок синхронно.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Таск.</returns>
+        Task SaveLinkCollectionSync(LinkCollection data);
+
+        /// <summary>
         /// Загрузить коллекцию ссылок.
         /// </summary>
         /// <returns>Коллекция ссылок.</returns>

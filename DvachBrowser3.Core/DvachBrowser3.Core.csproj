@@ -224,6 +224,9 @@
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
     <Compile Include="Services\ServiceLocator.cs" />
+    <Compile Include="Storage\Files\CachedFile.cs" />
+    <Compile Include="Storage\Files\DraftCollection.cs" />
+    <Compile Include="Storage\Files\DraftDataStorage.cs" />
     <Compile Include="Storage\Files\DraftMediaStore.cs" />
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
     <Compile Include="Storage\Files\FolderStorage.cs" />
