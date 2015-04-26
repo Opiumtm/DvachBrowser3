@@ -113,6 +113,15 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                             Role = PostingFieldSemanticRole.MediaFile
                         });
                         break;
+                    case PostingFieldSemanticRole.Title:
+                        if (!"b".Equals(b.Id, StringComparison.OrdinalIgnoreCase))
+                        {
+                            postingExtension.Capabilities.Add(new PostingCapability()
+                            {
+                                Role = cr
+                            });                            
+                        }
+                        break;
                     /*
                     case PostingFieldSemanticRole.SageFlag:
                         if (makabaExtension.Sage)
