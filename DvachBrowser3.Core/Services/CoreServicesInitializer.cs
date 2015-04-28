@@ -4,6 +4,7 @@ using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Engines.Makaba.BoardInfo;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Storage;
 
 namespace DvachBrowser3
 {
@@ -29,6 +30,7 @@ namespace DvachBrowser3
             container.RegisterService<INetworkEngines>(new NetworkEngines(container));
             container.RegisterService<ILinkHashService>(new LinkHashService(container));
             container.RegisterService<ISerializerCacheService>(new SerializerCacheService(container));
+            container.RegisterService<IStorageService>(new StorageService(container));
         }
     }
 }
