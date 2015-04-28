@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
@@ -114,7 +113,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 {
                     if (partialThread.CollectionResult is ThreadTreePartial)
                     {
-                        result = threadProcessService.MergeTree(oldData, partialThread.CollectionResult as ThreadTreePartial);
+                        result = oldData;
+                        threadProcessService.MergeTree(result, partialThread.CollectionResult as ThreadTreePartial);
                     }
                     if (partialThread.CollectionResult is ThreadTree)
                     {
@@ -203,7 +203,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
                     ThreadInfo = new Dictionary<string, ShortThreadInfo>(),
                 };
             }
-            if (visited is ThreadLinkCollection)
+            var threadInfo = threadProcessService.GetShortInfo(result);
+            if (visited is ThreadLinkCollection && threadInfo != null)
             {
                 var visited2 = visited as ThreadLinkCollection;
                 if (visited2.ThreadInfo == null)
@@ -214,7 +215,6 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 {
                     visited2.Links = new List<BoardLinkBase>();
                 }
-                var threadInfo = threadProcessService.GetShortInfo(result);
                 threadInfo.UpdatedDate = postCount.LastChange;
                 threadInfo.ViewDate = DateTime.Now;
                 visited2.Links.Add(threadLink);

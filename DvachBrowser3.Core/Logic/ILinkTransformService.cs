@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Links;
+﻿using System.Collections.Generic;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Logic
 {
@@ -21,5 +22,11 @@ namespace DvachBrowser3.Logic
         /// <param name="lastPostLink">Ссылка на последний пост.</param>
         /// <returns>Ссылка на часть треда.</returns>
         BoardLinkBase ThreadPartLinkFromThreadLink(BoardLinkBase threadLink, BoardLinkBase lastPostLink);
+
+        /// <summary>
+        /// Получить средство сравнения ссылок.
+        /// </summary>
+        /// <returns>Средство сравнения ссылок.</returns>
+        IComparer<BoardLinkBase> GetLinkComparer();
     }
 }

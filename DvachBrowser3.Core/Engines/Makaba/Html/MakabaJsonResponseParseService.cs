@@ -72,7 +72,13 @@ namespace DvachBrowser3.Engines.Makaba.Html
             var name = WebUtility.HtmlDecode(data.Name ?? string.Empty).Replace("&nbsp;", " ");
             var result = new PostTree()
             {
-                Link = link,
+                Link = new PostLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = link.Board,
+                    Thread = link.Thread,
+                    Post = number
+                },
                 ParentLink = new ThreadLink()
                 {
                     Engine = CoreConstants.Engine.Makaba,

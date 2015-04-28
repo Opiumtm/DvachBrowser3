@@ -14,7 +14,7 @@ namespace DvachBrowser3.Logic
         /// <param name="src">Исходный тред.</param>
         /// <param name="part">Часть треда.</param>
         /// <returns></returns>
-        ThreadTree MergeTree(ThreadTree src, ThreadTreePartial part);
+        void MergeTree(ThreadTree src, ThreadTreePartial part);
 
         /// <summary>
         /// Установить обратные ссылки.

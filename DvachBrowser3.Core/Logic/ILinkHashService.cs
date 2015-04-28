@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Links;
+﻿using System.Collections.Generic;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Logic
 {
@@ -13,5 +14,11 @@ namespace DvachBrowser3.Logic
         /// <param name="link">Ссылка.</param>
         /// <returns>Хэш.</returns>
         string GetLinkHash(BoardLinkBase link);
+
+        /// <summary>
+        /// Получить средство сравнения.
+        /// </summary>
+        /// <returns>Средство сравнения.</returns>
+        IEqualityComparer<BoardLinkBase> GetComparer();
     }
 }

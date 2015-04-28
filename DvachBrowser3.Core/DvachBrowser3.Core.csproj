@@ -61,6 +61,7 @@
     <Compile Include="Common\NetworkProfile.cs" />
     <Compile Include="Common\RegexCacheService.cs" />
     <Compile Include="Common\SerializerCacheService.cs" />
+    <Compile Include="Common\ServiceDependencyInfoAttribute.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\UniqueIdHelper.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Logic\NetworkLogic\LoadThreadOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadThreadOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\NetworkLogicOperation.cs" />
+    <Compile Include="Logic\ThreadTreeProcessService.cs" />
     <Compile Include="Logic\UpdateBoardPageMode.cs" />
     <Compile Include="Logic\UpdateThreadMode.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using DvachBrowser3.Logic;
 
 namespace DvachBrowser3.Links
 {
@@ -7,6 +8,7 @@ namespace DvachBrowser3.Links
     /// Базовый класс для ссылки на борде.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
+
     [KnownType(typeof(BoardLink))]
     [KnownType(typeof(BoardPageLink))]
     [KnownType(typeof(ThreadLink))]
@@ -16,6 +18,9 @@ namespace DvachBrowser3.Links
     [KnownType(typeof(MediaLink))]
     [KnownType(typeof(YoutubeLink))]
     [KnownType(typeof(RootLink))]
+
+    [ServiceDependencyInfo(typeof(ILinkHashService))]
+    [ServiceDependencyInfo(typeof(ILinkTransformService))]
     public abstract class BoardLinkBase
     {
         /// <summary>

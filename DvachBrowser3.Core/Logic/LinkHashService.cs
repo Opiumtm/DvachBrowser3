@@ -24,12 +24,34 @@ namespace DvachBrowser3.Logic
                 { typeof(ThreadLink), TypeFunc<ThreadLink>(a => string.Format("thread-{0}-{1}-{2}", a.Engine, a.Board, a.Thread)) },
                 { typeof(ThreadPartLink), TypeFunc<ThreadPartLink>(a => string.Format("threadpart-{0}-{1}-{2}-{3}", a.Engine, a.Board, a.Thread, a.FromPost)) },
                 { typeof(PostLink), TypeFunc<PostLink>(a => string.Format("post-{0}-{1}-{2}-{3}", a.Engine, a.Board, a.Thread, a.Post)) },
-                { typeof(BoardMediaLink), TypeFunc<BoardMediaLink>(a => string.Format("boardmedia-{0}-{1}-{2}", a.Engine, a.Board, UniqueIdHelper.CreateId(a.RelativeUri.ToLower()))) },
-                { typeof(MediaLink), TypeFunc<MediaLink>(a => string.Format("media-{0}-{1}-{2}", a.Engine, a.IsAbsolute ? 1 : 0, UniqueIdHelper.CreateId(a.RelativeUri.ToLower()))) },
+                { typeof(BoardMediaLink), TypeFunc<BoardMediaLink>(a => string.Format("boardmedia-{0}-{1}-{2}", a.Engine, a.Board, GetHashId(a.RelativeUri))) },
+                { typeof(MediaLink), TypeFunc<MediaLink>(a => string.Format("media-{0}-{1}-{2}", a.Engine, a.IsAbsolute ? 1 : 0, GetHashId(a.RelativeUri))) },
                 { typeof(YoutubeLink), TypeFunc<YoutubeLink>(a => string.Format("youtube-{0}-{1}", a.Engine, a.YoutubeId)) },
                 { typeof(RootLink), TypeFunc<RootLink>(a => string.Format("root-{0}", a.Engine)) },
             };
+            comparer = new LinkComparer(this);
         }
+
+        private readonly Dictionary<string, Guid> hashIdCache = new Dictionary<string, Guid>();
+
+        private Guid GetHashId(string id)
+        {
+            lock (hashIdCache)
+            {
+                if (hashIdCache.Count > 512)
+                {
+                    hashIdCache.Clear();
+                }
+                var id1 = (id ?? "").ToLowerInvariant();
+                if (!hashIdCache.ContainsKey(id1))
+                {
+                    hashIdCache[id1] = UniqueIdHelper.CreateId(id1);
+                }
+                return hashIdCache[id1];
+            }
+        }
+
+        private readonly IEqualityComparer<BoardLinkBase> comparer;
 
         private static Func<BoardLinkBase, string> TypeFunc<T>(Func<T, string> func) where T : BoardLinkBase
         {
@@ -41,9 +63,62 @@ namespace DvachBrowser3.Logic
             var t = link.GetType();
             if (typeFuncs.ContainsKey(t))
             {
-                return typeFuncs[t](link).ToLower();
+                return typeFuncs[t](link).ToLowerInvariant();
             }
             throw new ArgumentException(string.Format("Неизвестный тип ссылки {0}", t.FullName));
+        }
+
+        /// <summary>
+        /// Получить средство сравнения.
+        /// </summary>
+        /// <returns>Средство сравнения.</returns>
+        public IEqualityComparer<BoardLinkBase> GetComparer()
+        {
+            return comparer;
+        }
+
+        /// <summary>
+        /// Средство сравнения.
+        /// </summary>
+        private sealed class LinkComparer : IEqualityComparer<BoardLinkBase>
+        {
+            /// <summary>
+            /// Родительский объект.
+            /// </summary>
+            private readonly LinkHashService parent;
+
+            /// <summary>
+            /// Конструктор.
+            /// </summary>
+            /// <param name="parent">Родительский объект.</param>
+            public LinkComparer(LinkHashService parent)
+            {
+                this.parent = parent;
+            }
+
+            /// <summary>
+            /// Determines whether the specified objects are equal.
+            /// </summary>
+            /// <returns>
+            /// true if the specified objects are equal; otherwise, false.
+            /// </returns>
+            /// <param name="x">The first object of type <paramref name="T"/> to compare.</param><param name="y">The second object of type <paramref name="T"/> to compare.</param>
+            public bool Equals(BoardLinkBase x, BoardLinkBase y)
+            {
+                return StringComparer.OrdinalIgnoreCase.Equals(parent.GetLinkHash(x) ?? "", parent.GetLinkHash(y) ?? "");
+            }
+
+            /// <summary>
+            /// Returns a hash code for the specified object.
+            /// </summary>
+            /// <returns>
+            /// A hash code for the specified object.
+            /// </returns>
+            /// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param><exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
+            public int GetHashCode(BoardLinkBase obj)
+            {
+                return StringComparer.OrdinalIgnoreCase.GetHashCode(parent.GetLinkHash(obj) ?? "");
+            }
         }
     }
 }
