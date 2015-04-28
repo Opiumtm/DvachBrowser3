@@ -55,8 +55,9 @@ namespace DvachBrowser3.Logic
         /// </summary>
         /// <param name="data">Данные поста.</param>
         /// <param name="captcha">Данные капчи.</param>
+        /// <param name="mode">Режим постинга.</param>
         /// <returns>Ссылка-результат (null, если нет такой ссылки).</returns>
-        IEngineOperationsWithProgress<BoardLinkBase, EngineProgress> Post(PostingData data, CaptchaPostingData captcha);
+        IEngineOperationsWithProgress<BoardLinkBase, EngineProgress> Post(PostingData data, CaptchaPostingData captcha, PostingMode mode = PostingMode.Default);
         
         /// <summary>
         /// Загрузить тред в архив.

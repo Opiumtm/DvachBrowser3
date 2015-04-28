@@ -17,5 +17,10 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// Капча.
         /// </summary>
         public CaptchaPostingData Captcha;
+
+        /// <summary>
+        /// Режим.
+        /// </summary>
+        public PostingMode Mode;
     }
 }

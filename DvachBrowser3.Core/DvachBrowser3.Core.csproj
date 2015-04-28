@@ -159,6 +159,7 @@
     <Compile Include="Logic\NetworkLogic\NetworkLogicOperation.cs" />
     <Compile Include="Logic\NetworkLogic\PostOperation.cs" />
     <Compile Include="Logic\NetworkLogic\PostOperationParameter.cs" />
+    <Compile Include="Logic\PostingMode.cs" />
     <Compile Include="Logic\ThreadTreeProcessService.cs" />
     <Compile Include="Logic\UpdateBoardPageMode.cs" />
     <Compile Include="Logic\UpdateThreadMode.cs" />

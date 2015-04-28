@@ -54,6 +54,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 var linkTransformService = Services.GetServiceOrThrow<ILinkTransformService>();
                 var linkHashService = Services.GetServiceOrThrow<ILinkHashService>();
                 var mediaIds = new PostingMediaFile[0];
+                var deleteData = (Parameter.Mode & PostingMode.DeleteFromStorage) != 0;
                 if (Parameter.Data.FieldData.ContainsKey(PostingFieldSemanticRole.MediaFile))
                 {
                     var d = Parameter.Data.FieldData[PostingFieldSemanticRole.MediaFile] as PostingMediaFiles;
@@ -95,25 +96,30 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 var postOperation = engine.Post(entryData);
                 postOperation.Progress += (sender, e) => OnProgress(e);
                 var result = await postOperation.Complete(token);
-                try
-                {
-                    await storage.PostData.DeletePostingData(Parameter.Data.Link);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-                foreach (var f in mediaIds)
+
+                if (deleteData)
                 {
                     try
                     {
-                        await storage.PostData.MediaStorage.DeleteMediaFile(f.MediaFileId);
+                        await storage.PostData.DeletePostingData(Parameter.Data.Link);
                     }
                     catch (Exception ex)
                     {
                         DebugHelper.BreakOnError(ex);
                     }
+                    foreach (var f in mediaIds)
+                    {
+                        try
+                        {
+                            await storage.PostData.MediaStorage.DeleteMediaFile(f.MediaFileId);
+                        }
+                        catch (Exception ex)
+                        {
+                            DebugHelper.BreakOnError(ex);
+                        }
+                    }                    
                 }
+
                 if (result.PostLink != null)
                 {
                     if (Parameter.Data.Link.LinkKind == BoardLinkKind.Thread)
