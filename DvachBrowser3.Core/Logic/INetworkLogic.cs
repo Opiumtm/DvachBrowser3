@@ -46,15 +46,9 @@ namespace DvachBrowser3.Logic
         /// Загрузить маленький медиафайл.
         /// </summary>
         /// <param name="link">Ссылка.</param>
+        /// <param name="mode">Режим загрузки.</param>
         /// <returns>Результат.</returns>
-        IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadSmallMediaFile(BoardLinkBase link);
-
-        /// <summary>
-        /// Загрузить полноразмерный медиафайл.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <returns>Результат.</returns>
-        IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadFullSizeMediaFile(BoardLinkBase link);
+        IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadMediaFile(BoardLinkBase link, LoadMediaFileMode mode);
 
         /// <summary>
         /// Отправить пост.

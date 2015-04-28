@@ -147,10 +147,13 @@
     <Compile Include="Logic\LinkHashService.cs" />
     <Compile Include="Logic\LinkTransformService.cs" />
     <Compile Include="Logic\LiveTileService.cs" />
+    <Compile Include="Logic\LoadMediaFileMode.cs" />
     <Compile Include="Logic\NetworkLogic.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperationParameter.cs" />
+    <Compile Include="Logic\NetworkLogic\LoadMediaFileOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\LoadMediaFileOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\LoadThreadOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadThreadOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\NetworkLogicOperation.cs" />

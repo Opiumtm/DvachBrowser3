@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Dynamic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace DvachBrowser3.Engines
 {
@@ -36,7 +36,7 @@ namespace DvachBrowser3.Engines
             return await DoComplete(client);
         }
 
-        /// <summary>
+       /// <summary>
         /// Выполнить операцию.
         /// </summary>
         /// <param name="client">Клиент.</param>
@@ -49,9 +49,23 @@ namespace DvachBrowser3.Engines
         /// <returns>HTTP-клиент.</returns>
         protected virtual async Task<HttpClient> CreateClient()
         {
-            var result = new HttpClient();
+            var result = new HttpClient(GetHttpFilter());
             await SetHeaders(result);
             return result;
+        }
+
+        /// <summary>
+        /// Получить фильтр HTTP.
+        /// </summary>
+        /// <returns>Фильтр HTTP.</returns>
+        protected virtual IHttpFilter GetHttpFilter()
+        {
+            var filter = new HttpBaseProtocolFilter();
+            filter.AutomaticDecompression = true;
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+            filter.CacheControl.WriteBehavior = HttpCacheWriteBehavior.NoCache;
+            filter.AllowUI = false;
+            return filter;
         }
 
         /// <summary>

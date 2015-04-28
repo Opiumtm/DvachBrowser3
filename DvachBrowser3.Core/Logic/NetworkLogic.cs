@@ -83,20 +83,15 @@ namespace DvachBrowser3.Logic
         /// Загрузить маленький медиафайл.
         /// </summary>
         /// <param name="link">Ссылка.</param>
+        /// <param name="mode">Режим загрузки.</param>
         /// <returns>Результат.</returns>
-        public IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadSmallMediaFile(BoardLinkBase link)
+        public IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadMediaFile(BoardLinkBase link, LoadMediaFileMode mode)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Загрузить полноразмерный медиафайл.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <returns>Результат.</returns>
-        public IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadFullSizeMediaFile(BoardLinkBase link)
-        {
-            throw new NotImplementedException();
+            if ((link.LinkKind & BoardLinkKind.Media) == 0 || (link.LinkKind & BoardLinkKind.Youtube) == 0)
+            {
+                throw new ArgumentException("Неправильный тип ссылки");
+            }
+            return new LoadMediaFileOperation(Services, new LoadMediaFileOperationParameter() {Link = link, Mode = mode});
         }
 
         /// <summary>

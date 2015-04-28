@@ -107,9 +107,18 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return GetMediaLink(link as BoardMediaLink);
             }
+            if (link is YoutubeLink)
+            {
+                return new Uri(string.Format("http://www.youtube.com/watch?v={0}", (link as YoutubeLink).YoutubeId), UriKind.Absolute);
+            }
             return null;
         }
 
+        /// <summary>
+        /// Ссылка HTML.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
         public Uri GetHtmlLink(BoardLinkBase link)
         {
             if (link is BoardPageLink)
@@ -142,6 +151,10 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return GetMediaLink(link as BoardMediaLink);
             }
+            if (link is YoutubeLink)
+            {
+                return new Uri(string.Format("http://www.youtube.com/watch?v={0}", (link as YoutubeLink).YoutubeId), UriKind.Absolute);
+            }
             return null;
         }
 
@@ -170,6 +183,16 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return new Uri(BaseUri, link.RelativeUri);
             }
+        }
+
+        /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        public Uri GetMediaLink(YoutubeLink link)
+        {
+            return new Uri(string.Format("http://i.ytimg.com/vi/{0}/0.jpg", link.YoutubeId), UriKind.Absolute);
         }
 
         private const string CaptchaUri = "makaba/captcha.fcgi";
@@ -260,6 +283,10 @@ namespace DvachBrowser3.Engines.Makaba
             if (link is BoardMediaLink)
             {
                 return GetMediaLink(link as BoardMediaLink);
+            }
+            if (link is YoutubeLink)
+            {
+                return new Uri(string.Format("http://www.youtube.com/watch?v={0}", (link as YoutubeLink).YoutubeId), UriKind.Absolute);
             }
             return null;
         }

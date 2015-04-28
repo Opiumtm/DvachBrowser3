@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
 {
@@ -26,7 +25,6 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             {
                 client.DefaultRequestHeaders[kv.Key] = kv.Value;
             }
-            client.DefaultRequestHeaders.AcceptEncoding.Add(new HttpContentCodingWithQualityHeaderValue("gzip"));
             client.DefaultRequestHeaders["User-Agent"] = config.BrowserUserAgent;
         }
     }

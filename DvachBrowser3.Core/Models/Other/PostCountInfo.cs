@@ -39,5 +39,11 @@ namespace DvachBrowser3.Other
         /// </summary>
         [DataMember]
         public DateTime LastView { get; set; }
+
+        /// <summary>
+        /// Тред скрыт.
+        /// </summary>
+        [DataMember]
+        public bool IsHidden { get; set; }
     }
 }

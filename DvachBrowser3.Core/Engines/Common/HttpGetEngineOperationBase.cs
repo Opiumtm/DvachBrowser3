@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 
 namespace DvachBrowser3.Engines

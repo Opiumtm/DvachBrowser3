@@ -63,6 +63,13 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetMediaLink(MediaLink link);
 
         /// <summary>
+        /// Ссылка на медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка.</returns>
+        Uri GetMediaLink(YoutubeLink link);
+
+        /// <summary>
         /// Получить URI капчи.
         /// </summary>
         /// <param name="captchaType">Тип капчи.</param>

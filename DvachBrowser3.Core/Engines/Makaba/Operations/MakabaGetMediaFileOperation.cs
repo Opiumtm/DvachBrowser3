@@ -26,9 +26,17 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>URI запроса.</returns>
         protected override Uri GetRequestUri()
         {
-            if (Parameter is BoardMediaLink || Parameter is MediaLink)
+            if (Parameter is BoardMediaLink)
             {
-                return Services.GetServiceOrThrow<IMakabaUriService>().GetBrowserLink(Parameter);
+                return Services.GetServiceOrThrow<IMakabaUriService>().GetMediaLink(Parameter as BoardMediaLink);
+            }
+            if (Parameter is MediaLink)
+            {
+                return Services.GetServiceOrThrow<IMakabaUriService>().GetMediaLink(Parameter as MediaLink);
+            }
+            if (Parameter is YoutubeLink)
+            {
+                return Services.GetServiceOrThrow<IMakabaUriService>().GetMediaLink(Parameter as YoutubeLink);
             }
             throw new ArgumentException("Неправильный формат ссылки (get media)");
         }
