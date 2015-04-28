@@ -37,7 +37,7 @@ namespace DvachBrowser3.Logic
         /// Установить обратные ссылки.
         /// </summary>
         /// <param name="src">Исходный тред.</param>
-        public void SetBackLinks(ThreadTree src)
+        public void SetBackLinks(PostTreeCollection src)
         {
             if (src.Posts == null)
             {
@@ -88,7 +88,7 @@ namespace DvachBrowser3.Logic
         /// Сортировать дерево по возрастанию номеров постов.
         /// </summary>
         /// <param name="src">Исходный тред.</param>
-        public void SortThreadTree(ThreadTree src)
+        public void SortThreadTree(PostTreeCollection src)
         {
             if (src.Posts == null)
             {

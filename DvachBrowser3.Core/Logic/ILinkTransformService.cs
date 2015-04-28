@@ -24,6 +24,13 @@ namespace DvachBrowser3.Logic
         BoardLinkBase ThreadPartLinkFromThreadLink(BoardLinkBase threadLink, BoardLinkBase lastPostLink);
 
         /// <summary>
+        /// Получить ссылку на страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Ссылка на страницу борды.</returns>
+        BoardLinkBase BoardPageLinkFromBoardLink(BoardLinkBase link);
+
+        /// <summary>
         /// Получить средство сравнения ссылок.
         /// </summary>
         /// <returns>Средство сравнения ссылок.</returns>

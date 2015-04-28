@@ -20,13 +20,13 @@ namespace DvachBrowser3.Logic
         /// Установить обратные ссылки.
         /// </summary>
         /// <param name="src">Исходный тред.</param>
-        void SetBackLinks(ThreadTree src);
+        void SetBackLinks(PostTreeCollection src);
 
         /// <summary>
         /// Сортировать дерево по возрастанию номеров постов.
         /// </summary>
         /// <param name="src">Исходный тред.</param>
-        void SortThreadTree(ThreadTree src);
+        void SortThreadTree(PostTreeCollection src);
 
         /// <summary>
         /// Получить короткую информацию о треде.

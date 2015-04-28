@@ -74,6 +74,36 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Получить ссылку на страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Ссылка на страницу борды.</returns>
+        public BoardLinkBase BoardPageLinkFromBoardLink(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                return new BoardPageLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                    Page = l.Page
+                };
+            }
+            if (link is BoardLink)
+            {
+                var l = link as BoardLink;
+                return new BoardPageLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                    Page = 0
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Получить средство сравнения ссылок.
         /// </summary>
         /// <returns>Средство сравнения ссылок.</returns>

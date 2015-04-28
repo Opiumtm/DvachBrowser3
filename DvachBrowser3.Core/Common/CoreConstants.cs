@@ -24,6 +24,11 @@ namespace DvachBrowser3
         public const int MaxVisitedThreads = 30;
 
         /// <summary>
+        /// Максимальное количество параллельных загрузок маленьких изображений.
+        /// </summary>
+        public const int MaxParallelSmallImageDownloads = 5;
+
+        /// <summary>
         /// Движок.
         /// </summary>
         // ReSharper disable MemberHidesStaticFromOuterClass

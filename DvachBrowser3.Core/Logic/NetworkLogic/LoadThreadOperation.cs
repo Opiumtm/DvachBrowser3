@@ -16,6 +16,11 @@ namespace DvachBrowser3.Logic.NetworkLogic
     /// </summary>
     public class LoadThreadOperation : NetworkLogicOperation<ThreadTree, LoadThreadOperationParameter>
     {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="services">Сервисы.</param>
+        /// <param name="parameter">Параметр.</param>
         public LoadThreadOperation(IServiceProvider services, LoadThreadOperationParameter parameter) : base(services, parameter)
         {
         }
@@ -65,7 +70,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             if ((engine.Capability & EngineCapability.LastModifiedRequest) != 0 && newEtag == null)
             {
                 var etagOperation = engine.GetResourceLastModified(threadLink);
-                etagOperation.Progress += (sender, e) => OnProgress(e);
+                SignalProcessing("Проверка обновлений...", "ETAG"); 
                 var newEtagObj = await etagOperation.Complete(token);
                 if (newEtagObj != null)
                 {
@@ -147,6 +152,10 @@ namespace DvachBrowser3.Logic.NetworkLogic
             if (saveToCache)
             {
                 await storage.ThreadData.SaveThread(result);
+                if ((engine.Capability & EngineCapability.LastModifiedRequest) != 0)
+                {
+                    await storage.ThreadData.SaveStamp(threadLink, newEtag);
+                }
                 if (updateVisit)
                 {
                     await UpdateVisitedDb(result, storage, threadLink, gotUpdateDate, gotPostCount, linkHashService, threadProcessService);
