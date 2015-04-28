@@ -72,7 +72,11 @@ namespace DvachBrowser3.Logic
         /// <returns>Результат.</returns>
         public IEngineOperationsWithProgress<BoardPageTree, EngineProgress> LoadBoardPage(BoardLinkBase link, UpdateBoardPageMode mode = UpdateBoardPageMode.CheckETag)
         {
-            throw new NotImplementedException();
+            if ((link.LinkKind & BoardLinkKind.BoardPage) == 0)
+            {
+                throw new ArgumentException("Неправильный тип ссылки");
+            }
+            return new LoadBoardPageOperation(Services, new LoadBoardPageOperationParameter() {Link = link, Mode = mode});
         }
 
         /// <summary>
