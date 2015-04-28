@@ -26,6 +26,7 @@ namespace DvachBrowser3
         /// <summary>
         /// Движок.
         /// </summary>
+        // ReSharper disable MemberHidesStaticFromOuterClass
         public static class Engine
         {
             /// <summary>
@@ -33,6 +34,7 @@ namespace DvachBrowser3
             /// </summary>
             public const string Makaba = "makaba";            
         }
+        // ReSharper restore MemberHidesStaticFromOuterClass
 
         /// <summary>
         /// Константы макабы.

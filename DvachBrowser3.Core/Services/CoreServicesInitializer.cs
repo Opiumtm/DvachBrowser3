@@ -5,6 +5,7 @@ using DvachBrowser3.Engines.Makaba.BoardInfo;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
+using DvachBrowser3.System;
 
 namespace DvachBrowser3
 {
@@ -16,8 +17,9 @@ namespace DvachBrowser3
         /// <summary>
         /// Инициализатор сервисов.
         /// </summary>
+        /// <param name="sysInfo">Информация о системе.</param>
         /// <param name="container">Сервисы.</param>
-        public static void InitializeServices(ServiceContainer container)
+        public static void InitializeServices(ServiceContainer container, SystemInfoParam sysInfo)
         {
             container.RegisterService<IRegexCacheService>(new RegexCacheService(container));
             container.RegisterService<IYoutubeIdService>(new YoutubeIdService(container));
@@ -33,6 +35,7 @@ namespace DvachBrowser3
             container.RegisterService<IStorageService>(new StorageService(container));
             container.RegisterService<ILinkTransformService>(new LinkTransformService(container));
             container.RegisterService<INetworkLogic>(new NetworkLogicService(container));
+            container.RegisterService<ISystemInfo>(new SystemInfo(container, sysInfo));
         }
     }
 }

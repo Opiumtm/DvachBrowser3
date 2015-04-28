@@ -115,5 +115,14 @@ namespace DvachBrowser3.Logic
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Проверить избранные треды на обновления.
+        /// </summary>
+        /// <returns>Операция проверки.</returns>
+        public IEngineOperationsWithProgress<Empty, EngineProgress> CheckFavoriteThreadsForUpdates()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

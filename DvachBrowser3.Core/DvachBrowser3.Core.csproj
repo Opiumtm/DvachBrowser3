@@ -140,6 +140,7 @@
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
     <Compile Include="Logic\ILinkTransformService.cs" />
+    <Compile Include="Logic\ILiveTileService.cs" />
     <Compile Include="Logic\INetworkLogic.cs" />
     <Compile Include="Logic\IThreadTreeProcessService.cs" />
     <Compile Include="Logic\LinkHashService.cs" />
@@ -229,6 +230,11 @@
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />
     <Compile Include="Models\Posts\ThreadTreePartial.cs" />
+    <Compile Include="Notifications\BadgeContent.cs" />
+    <Compile Include="Notifications\Common.cs" />
+    <Compile Include="Notifications\ContentInterfaces.cs" />
+    <Compile Include="Notifications\TileContent.cs" />
+    <Compile Include="Notifications\ToastContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CoreServicesInitializer.cs" />
     <Compile Include="Services\ServiceBase.cs" />
@@ -266,6 +272,10 @@
     <Compile Include="Storage\IThreadDataStorage.cs" />
     <Compile Include="Storage\PostingMediaStoreItem.cs" />
     <Compile Include="Storage\StorageService.cs" />
+    <Compile Include="System\AppPlatform.cs" />
+    <Compile Include="System\ISystemInfo.cs" />
+    <Compile Include="System\SystemInfo.cs" />
+    <Compile Include="System\SystemInfoParam.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">

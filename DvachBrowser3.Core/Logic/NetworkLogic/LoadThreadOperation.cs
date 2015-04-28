@@ -91,17 +91,20 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }
             if (partial && partialLink != null)
             {
-                token.ThrowIfCancellationRequested();
-                var statusOperation = engine.GetThreadStatus(threadLink);
-                SignalProcessing("Получение количества постов...", "THREAD STATUS");
-                var status = await statusOperation.Complete(token);
-                if (status != null)
+                if ((engine.Capability & EngineCapability.ThreadStatusRequest) != 0)
                 {
-                    if (status.IsFound)
+                    token.ThrowIfCancellationRequested();
+                    var statusOperation = engine.GetThreadStatus(threadLink);
+                    SignalProcessing("Получение количества постов...", "THREAD STATUS");
+                    var status = await statusOperation.Complete(token);
+                    if (status != null)
                     {
-                        gotPostCount = status.TotalPosts;
-                        gotUpdateDate = status.LastUpdate;
-                    }
+                        if (status.IsFound)
+                        {
+                            gotPostCount = status.TotalPosts;
+                            gotUpdateDate = status.LastUpdate;
+                        }
+                    }                    
                 }
                 token.ThrowIfCancellationRequested();
                 var partialOperation = engine.GetThread(partialLink);
@@ -188,6 +191,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                         await storage.ThreadData.FavoriteThreads.SaveLinkCollection(favorites);
                     }
                 }
+                await Services.GetServiceOrThrow<ILiveTileService>().UpdateFavoritesTile(favorites);
             }
 
             var visited = await storage.ThreadData.VisitedThreads.LoadLinkCollection();

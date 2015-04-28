@@ -70,5 +70,11 @@ namespace DvachBrowser3.Logic
         /// <param name="link">Ссылка.</param>
         /// <returns>Идентификатор архива.</returns>
         IEngineOperationsWithProgress<Guid, EngineProgress> DownloadToArchive(BoardLinkBase link);
+
+        /// <summary>
+        /// Проверить избранные треды на обновления.
+        /// </summary>
+        /// <returns>Операция проверки.</returns>
+        IEngineOperationsWithProgress<Empty, EngineProgress> CheckFavoriteThreadsForUpdates();
     }
 }
