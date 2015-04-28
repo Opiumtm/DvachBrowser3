@@ -14,8 +14,13 @@ namespace DvachBrowser3.Logic
         CheckETag = 0x0001,
 
         /// <summary>
+        /// Сохранить в кэш.
+        /// </summary>
+        SaveToCache = 0x0002,
+
+        /// <summary>
         /// По умолчанию.
         /// </summary>
-        Default = CheckETag
+        Default = CheckETag | SaveToCache
     }
 }

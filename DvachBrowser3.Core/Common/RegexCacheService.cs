@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace DvachBrowser3
 {
+    /// <summary>
+    /// Сервис кэширования регулярных выражений.
+    /// </summary>
     public sealed class RegexCacheService : ServiceBase, IRegexCacheService
     {
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();

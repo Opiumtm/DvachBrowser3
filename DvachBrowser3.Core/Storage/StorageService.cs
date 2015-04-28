@@ -3,7 +3,7 @@ using DvachBrowser3.Storage.Files;
 
 namespace DvachBrowser3.Storage
 {
-    public class StorageService : ServiceBase, IStorageService
+    public sealed class StorageService : ServiceBase, IStorageService
     {
         /// <summary>
         /// Конструктор.

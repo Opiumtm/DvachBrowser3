@@ -139,9 +139,15 @@
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
+    <Compile Include="Logic\ILinkTransformService.cs" />
     <Compile Include="Logic\INetworkLogic.cs" />
+    <Compile Include="Logic\IThreadTreeProcessService.cs" />
     <Compile Include="Logic\LinkHashService.cs" />
+    <Compile Include="Logic\LinkTransformService.cs" />
+    <Compile Include="Logic\NetworkLogic.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\LoadThreadOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\LoadThreadOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\NetworkLogicOperation.cs" />
     <Compile Include="Logic\UpdateBoardPageMode.cs" />
     <Compile Include="Logic\UpdateThreadMode.cs" />
@@ -236,6 +242,7 @@
     <Compile Include="Storage\Files\DraftCollection.cs" />
     <Compile Include="Storage\Files\DraftDataStorage.cs" />
     <Compile Include="Storage\Files\DraftMediaStore.cs" />
+    <Compile Include="Storage\Files\FavoriteCollectionStore.cs" />
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
     <Compile Include="Storage\Files\FolderStorage.cs" />
     <Compile Include="Storage\Files\GroupFolderStorage.cs" />

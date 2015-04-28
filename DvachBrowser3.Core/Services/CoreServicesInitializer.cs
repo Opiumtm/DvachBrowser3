@@ -31,6 +31,8 @@ namespace DvachBrowser3
             container.RegisterService<ILinkHashService>(new LinkHashService(container));
             container.RegisterService<ISerializerCacheService>(new SerializerCacheService(container));
             container.RegisterService<IStorageService>(new StorageService(container));
+            container.RegisterService<ILinkTransformService>(new LinkTransformService(container));
+            container.RegisterService<INetworkLogic>(new NetworkLogicService(container));
         }
     }
 }

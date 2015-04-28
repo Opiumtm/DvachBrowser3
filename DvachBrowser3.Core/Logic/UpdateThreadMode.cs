@@ -19,8 +19,18 @@ namespace DvachBrowser3.Logic
         Partial = 0x0002,
 
         /// <summary>
+        /// Обновить данные посещения.
+        /// </summary>
+        UpdateVisitData = 0x0004,
+
+        /// <summary>
+        /// Сохранить в кэш.
+        /// </summary>
+        SaveToCache = 0x0008,
+
+        /// <summary>
         /// По умолчанию.
         /// </summary>
-        Default = CheckETag | Partial
+        Default = CheckETag | Partial | UpdateVisitData | SaveToCache
     }
 }

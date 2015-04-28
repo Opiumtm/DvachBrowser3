@@ -289,5 +289,48 @@ namespace DvachBrowser3
             var random = new Random();
             return src.Select(item => new { element = item, order = random.Next() }).OrderBy(item => item.order).Select(item => item.element);
         }
+
+        /// <summary>
+        /// Удалить повторы.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <typeparam name="TKey">Тип ключа.</typeparam>
+        /// <param name="src">Исходное перечисление.</param>
+        /// <param name="keyFunc">Функция получения ключа.</param>
+        /// <param name="comparer">Средство сравнения.</param>
+        /// <returns>Результат.</returns>
+        public static IEnumerable<T> Deduplicate<T, TKey>(this IEnumerable<T> src, Func<T, TKey> keyFunc, IEqualityComparer<TKey> comparer = null)
+        {
+            comparer = comparer ?? EqualityComparer<TKey>.Default;
+            return src.GroupBy(keyFunc, comparer).Select(a => a.First());
+        }
+
+        /// <summary>
+        /// Получить последовательность с ключами.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <typeparam name="TKey">Тип ключа.</typeparam>
+        /// <param name="src">Исходное перечисление.</param>
+        /// <param name="keyFunc">Функция получения ключа.</param>
+        /// <returns>Результат.</returns>
+        public static IEnumerable<KeyValuePair<TKey, T>> WithKeys<T, TKey>(this IEnumerable<T> src, Func<T, TKey> keyFunc)
+        {
+            return src.Select(a => new KeyValuePair<TKey, T>(keyFunc(a), a));
+        }
+
+        /// <summary>
+        /// Удалить повторы и сделать словарём.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <typeparam name="TKey">Тип ключа.</typeparam>
+        /// <param name="src">Исходное перечисление.</param>
+        /// <param name="keyFunc">Функция получения ключа.</param>
+        /// <param name="comparer">Средство сравнения.</param>
+        /// <returns>Результат.</returns>
+        public static Dictionary<TKey, T> DeduplicateToDictionary<T, TKey>(this IEnumerable<T> src, Func<T, TKey> keyFunc, IEqualityComparer<TKey> comparer = null)
+        {
+            comparer = comparer ?? EqualityComparer<TKey>.Default;
+            return src.WithKeys(keyFunc).Deduplicate(a => a.Key, comparer).ToDictionary(a => a.Key, a => a.Value, comparer);
+        }
     }
 }

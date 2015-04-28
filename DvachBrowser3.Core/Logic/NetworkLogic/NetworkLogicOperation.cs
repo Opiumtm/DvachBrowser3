@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
@@ -64,6 +65,18 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
             EventHandler<EngineProgress> handler = Progress;
             if (handler != null) handler(this, e);
+        }
+
+        /// <summary>
+        /// Обработка данных.
+        /// </summary>
+        /// <param name="msg">Сообщение.</param>
+        /// <param name="kind">Тип операции.</param>
+        protected virtual void SignalProcessing(string msg, string kind)
+        {
+            dynamic otherData = new ExpandoObject();
+            otherData.Kind = kind;
+            OnProgress(new EngineProgress(msg, otherData));
         }
 
         /// <summary>

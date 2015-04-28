@@ -7,7 +7,7 @@ namespace DvachBrowser3
     /// <summary>
     /// Сервис кэша сериализаторов.
     /// </summary>
-    public class SerializerCacheService : ServiceBase, ISerializerCacheService
+    public sealed class SerializerCacheService : ServiceBase, ISerializerCacheService
     {
         private readonly Dictionary<Type, DataContractSerializer> serializers = new Dictionary<Type, DataContractSerializer>();
 

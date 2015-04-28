@@ -40,7 +40,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }
             token.ThrowIfCancellationRequested();
             var etagOperation = engine.GetResourceLastModified(Parameter);
-            etagOperation.Progress += (sender, e) => OnProgress(e);
+            SignalProcessing("Проверка обновлений...", "ETAG");
             var newEtag = await etagOperation.Complete(token);
             if (newEtag.LastModified == null)
             {

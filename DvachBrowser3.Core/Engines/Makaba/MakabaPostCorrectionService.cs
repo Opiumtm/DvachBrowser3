@@ -10,7 +10,7 @@ namespace DvachBrowser3.Engines.Makaba
     /// <summary>
     /// Сервис коррекции постов.
     /// </summary>
-    public class MakabaPostCorrectionService : ServiceBase, IPostCorrectionService
+    public sealed class MakabaPostCorrectionService : ServiceBase, IPostCorrectionService
     {
         private delegate bool ReplaceDelegate(ref string source);
 

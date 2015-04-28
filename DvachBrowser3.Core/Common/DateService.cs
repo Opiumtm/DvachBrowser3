@@ -5,7 +5,7 @@ namespace DvachBrowser3
     /// <summary>
     /// Сервис работы с датами.
     /// </summary>
-    public class DateService : ServiceBase, IDateService
+    public sealed class DateService : ServiceBase, IDateService
     {
         /// <summary>
         /// Конструктор.

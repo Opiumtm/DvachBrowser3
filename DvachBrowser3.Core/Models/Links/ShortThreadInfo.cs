@@ -35,6 +35,12 @@ namespace DvachBrowser3.Links
         public DateTime AddedDate { get; set; }
 
         /// <summary>
+        /// Время просмотра.
+        /// </summary>
+        [DataMember]
+        public DateTime ViewDate { get; set; }
+
+        /// <summary>
         /// Маленькое изображение.
         /// </summary>
         [DataMember]

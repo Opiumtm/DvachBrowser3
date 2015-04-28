@@ -19,6 +19,11 @@ namespace DvachBrowser3
         public const int PostContainerMaxCount = 50;
 
         /// <summary>
+        /// Максимальное количество посещённых тредов.
+        /// </summary>
+        public const int MaxVisitedThreads = 30;
+
+        /// <summary>
         /// Движок.
         /// </summary>
         public static class Engine
