@@ -184,7 +184,8 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         public async Task Delete()
         {
-            
+            await (await GetFileTask()).DeleteAsync();
+            Interlocked.Exchange(ref CachedValue, null);
         }
     }
 }

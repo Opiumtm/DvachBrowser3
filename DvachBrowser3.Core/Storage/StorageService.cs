@@ -16,6 +16,19 @@ namespace DvachBrowser3.Storage
             ThreadData = new ThreadDataStorage(services, "threads", 11 * 1024 * 1024, 10 * 1024 * 1024, "Данные тредов");
             PostData = new PostDataStorage(services, "posting", 6 * 1024 * 1024, 5 * 1024 * 1024, "Данные постинга", 
                 new PostingMediaStore(services, "posting-img", 11 * 1024 * 1024, 10 * 1024 * 1024, "Изображения постинга"));
+            Drafts = new DraftDataStorage(services, "drafts", "Черновики", new DraftMediaStore(services, "drafts-img", "Изображения черновиков"));
+            Archives = new ArchiveStore(services, "archive", "Архив");
+            CacheFolders = new ICacheFolderInfo[]
+            {
+                ThreadData,
+                SmallImages,
+                FullSizeMediaFiles,
+                PostData,
+                PostData.MediaStorage,
+                Drafts,
+                Drafts.MediaStorage,
+                Archives
+            };
         }
 
         /// <summary>

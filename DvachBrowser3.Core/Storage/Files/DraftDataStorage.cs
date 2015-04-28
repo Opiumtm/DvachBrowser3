@@ -14,20 +14,13 @@ namespace DvachBrowser3.Storage.Files
     public class DraftDataStorage : FolderStorage, IDraftDataStorage
     {
         /// <summary>
-        /// Кэшированный файл.
-        /// </summary>
-        protected readonly CachedFile<DraftCollection> CachedDb;
-
-        /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
-        /// <param name="maxCacheSize">Максимальный размер кэша.</param>
-        /// <param name="normalCacheSize">Нормальный размер кэша.</param>
         /// <param name="cacheDescription">Описание.</param>
         /// <param name="mediaStorage">Хранилище медиа файлов.</param>
-        public DraftDataStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription, IPostingMediaStore mediaStorage) : base(services, folderName, maxCacheSize, normalCacheSize, cacheDescription)
+        public DraftDataStorage(IServiceProvider services, string folderName, string cacheDescription, IPostingMediaStore mediaStorage) : base(services, folderName, ulong.MaxValue, ulong.MaxValue, cacheDescription)
         {
             MediaStorage = mediaStorage;
             CachedDb = new CachedFile<DraftCollection>(services, this, GetDraftBaseFile, GetDataFolder, false);
@@ -42,6 +35,11 @@ namespace DvachBrowser3.Storage.Files
         /// Лок базы.
         /// </summary>
         protected AsyncLock DbLock = new AsyncLock();
+
+        /// <summary>
+        /// Кэшированный файл.
+        /// </summary>
+        protected readonly CachedFile<DraftCollection> CachedDb;
 
         /// <summary>
         /// Сохранить черновик.
@@ -135,6 +133,19 @@ namespace DvachBrowser3.Storage.Files
         public override Task RecycleCache()
         {
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Очистить кэш.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public override async Task ClearCache()
+        {
+            using (await DbLock.LockAsync())
+            {
+                await base.ClearCache();
+                await CachedDb.Delete();
+            }
         }
 
         /// <summary>

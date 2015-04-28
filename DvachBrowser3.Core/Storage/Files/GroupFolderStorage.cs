@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
 {
     /// <summary>
-    /// Хранилище в файловой системе.
+    /// Хранилище в файловой системе с группировкой по директориям.
     /// </summary>
-    public class FolderStorage : CachedStorageBase, ICacheFolderInfo
+    public class GroupFolderStorage : CachedStorageBase, ICacheFolderInfo
     {
         /// <summary>
         /// Конструктор.
@@ -22,7 +19,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
         /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
         /// <param name="cacheDescription">Описание кэша.</param>
-        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
+        public GroupFolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
             : base(services, folderName)
         {
             MaxCacheSize = maxCacheSize;
@@ -39,7 +36,6 @@ namespace DvachBrowser3.Storage.Files
         /// Нормальный размер кэша в байтах.
         /// </summary>
         public ulong NormalCacheSize { get; private set; }
-
         /// <summary>
         /// Получить директорию данных.
         /// </summary>
@@ -96,12 +92,12 @@ namespace DvachBrowser3.Storage.Files
         {
             return Task.FromResult(new HashSet<string>());
         }
-
         /// <summary>
         /// Пересинхронизировать размер кэша.
         /// </summary>
         /// <returns>Таск.</returns>
-        public virtual async Task ResyncCacheSize()
+        /// <remarks>Хранилище архивов не поддерживает автоматическое удаление старых файлов.</remarks>
+        public async Task ResyncCacheSize()
         {
             using (await CacheLock.LockAsync())
             {
@@ -109,22 +105,34 @@ namespace DvachBrowser3.Storage.Files
                 var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = new StorageSizeCache();
-                var files = await cacheDir.GetFilesAsync();
-                foreach (var f in files)
+                var folders = await cacheDir.GetFoldersAsync();
+                foreach (var fld in folders)
                 {
                     try
                     {
-                        var p = await f.GetBasicPropertiesAsync();
-                        sizes.Sizes[f.Name] = new StorageSizeCacheItem {Size = p.Size, Date = p.DateModified};
+                        var files = await fld.GetFilesAsync();
+                        foreach (var f in files)
+                        {
+                            try
+                            {
+                                var p = await f.GetBasicPropertiesAsync();
+                                sizes.Sizes[string.Format("{0}/{1}", fld.Name, f.Name)] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
+                            }
+                            // ReSharper disable once EmptyGeneralCatchClause
+                            catch
+                            {
+                                // игнорируем
+                            }
+                        }
                     }
                     // ReSharper disable once EmptyGeneralCatchClause
                     catch
                     {
                         // игнорируем
                     }
+                    SetSizeCache(sizes);
+                    await sizes.Save(sizesFile, dataDir);
                 }
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
             }
         }
 
@@ -140,19 +148,26 @@ namespace DvachBrowser3.Storage.Files
                 var cacheDir = await GetCacheFolder();
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
-                var files = await cacheDir.GetFilesAsync();
-                var immunitySet = await GetRecycleImmunity();
-                var toDelete = files.ToArray();
+                var folders = await cacheDir.GetFoldersAsync();
+                var toDelete = folders.ToArray();
                 var visitedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var immunity = await GetRecycleImmunity();
                 foreach (var f in toDelete)
                 {
-                    visitedFiles.Add(f.Name);
-                    if (!immunitySet.Contains(f.Name))
+                    var toRemove = sizes.Sizes.Keys.Where(k => k.StartsWith(f.Name + "/", StringComparison.OrdinalIgnoreCase)).ToArray();
+                    foreach (var fn in toRemove)
+                    {
+                        visitedFiles.Add(fn);
+                    }
+                    if (!immunity.Contains(f.Name))
                     {
                         try
                         {
                             await f.DeleteAsync();
-                            sizes.Sizes.Remove(f.Name);
+                            foreach (var fn in toRemove)
+                            {
+                                sizes.Sizes.Remove(fn);
+                            }
                         }
                         // ReSharper disable once EmptyGeneralCatchClause
                         catch
@@ -171,81 +186,6 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
-        /// Синхронизировать размер файла кэша.
-        /// </summary>
-        /// <param name="file">Файл.</param>
-        /// <returns>Таск.</returns>
-        protected async Task SyncCacheFileSize(StorageFile file)
-        {
-            using (await CacheLock.LockAsync())
-            {
-                var dataDir = await GetDataFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                var p = await file.GetBasicPropertiesAsync();
-                sizes.Sizes[file.Name] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-            }            
-        }
-
-        /// <summary>
-        /// Удалить файл из кэша.
-        /// </summary>
-        /// <param name="fileName">Имя файла.</param>
-        /// <returns>Таск.</returns>
-        protected async Task RemoveFromSizeCache(string fileName)
-        {
-            using (await CacheLock.LockAsync())
-            {
-                var dataDir = await GetDataFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                sizes.Sizes.Remove(fileName);
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-            }
-        }
-
-        /// <summary>
-        /// Синхронизировать размер файла кэша в фоновом режиме.
-        /// </summary>
-        /// <param name="file">Файл.</param>
-        protected void BackgroundSyncCacheFileSize(StorageFile file)
-        {
-            Task.Factory.StartNew(new Action(async () =>
-            {
-                try
-                {
-                    await SyncCacheFileSize(file);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-            }));
-        }
-
-        /// <summary>
-        /// Удалить файл из кэша в фоновом режиме.
-        /// </summary>
-        /// <param name="fileName">Имя файла.</param>
-        protected void BackgroundRemoveFromSizeCache(string fileName)
-        {
-            Task.Factory.StartNew(new Action(async () =>
-            {
-                try
-                {
-                    await RemoveFromSizeCache(fileName);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-            }));
-        }
-
-        /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>
         /// <returns>Таск.</returns>
@@ -260,21 +200,29 @@ namespace DvachBrowser3.Storage.Files
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
                 var immunitySet = await GetRecycleImmunity();
-                var toCheck = sizes.Sizes.OrderBy(kv => kv.Value.Date).ToArray();
+                var toCheck = sizes.Sizes
+                    .Select(kv => new {kv, folder = kv.Key.Split('/').FirstOrDefault(), file = kv.Key.Split('/').Skip(1).FirstOrDefault()})
+                    .Where(kv => kv.folder != null && kv.file != null)
+                    .GroupBy(kv => kv.folder, StringComparer.OrdinalIgnoreCase)
+                    .Select(kv => new { folder = kv.Key, total = new StorageSizeCacheItem { Date = kv.Max(d => d.kv.Value.Date), Size = kv.Aggregate(0ul, (s,d) => s + d.kv.Value.Size)}, files = kv.Select(d => d.kv.Key).Distinct(StringComparer.OrdinalIgnoreCase).ToArray() })
+                    .OrderBy(kv => kv.total.Date).ToArray();
                 foreach (var f in toCheck)
                 {
                     if (totalSize <= NormalCacheSize)
                     {
                         break;
                     }
-                    if (!immunitySet.Contains(f.Key))
+                    if (!immunitySet.Contains(f.folder))
                     {
                         try
                         {
-                            var file = await cacheDir.GetFileAsync(f.Key);
-                            await file.DeleteAsync();
-                            totalSize -= f.Value.Size;
-                            sizes.Sizes.Remove(f.Key);
+                            var folder = await cacheDir.GetFolderAsync(f.folder);
+                            await folder.DeleteAsync();
+                            totalSize -= f.total.Size;
+                            foreach (var fn in f.files)
+                            {
+                                sizes.Sizes.Remove(fn);                                
+                            }
                         }
                         // ReSharper disable once EmptyGeneralCatchClause
                         catch
@@ -311,31 +259,151 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Удалить файл из кэша.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <returns>Таск.</returns>
+        protected async Task RemoveFromSizeCache(string fileName)
+        {
+            using (await CacheLock.LockAsync())
+            {
+                var dataDir = await GetDataFolder();
+                var sizesFile = await GetSizesCacheFile();
+                var sizes = await GetSizeCacheForChange(sizesFile);
+                sizes.Sizes.Remove(fileName);
+                SetSizeCache(sizes);
+                await sizes.Save(sizesFile, dataDir);
+            }
+        }
+
+        /// <summary>
+        /// Удалить файл из кэша.
+        /// </summary>
+        /// <param name="folderName">Имя директории.</param>
+        /// <returns>Таск.</returns>
+        protected async Task RemoveFolderFromSizeCache(string folderName)
+        {
+            using (await CacheLock.LockAsync())
+            {
+                var dataDir = await GetDataFolder();
+                var sizesFile = await GetSizesCacheFile();
+                var sizes = await GetSizeCacheForChange(sizesFile);
+                var toRemove = sizes.Sizes.Keys.Where(k => k.StartsWith(folderName + "/", StringComparison.OrdinalIgnoreCase)).ToArray();
+                foreach (var fileName in toRemove)
+                {
+                    sizes.Sizes.Remove(fileName);
+                }
+                SetSizeCache(sizes);
+                await sizes.Save(sizesFile, dataDir);
+            }
+        }
+
+        /// <summary>
+        /// Удалить файл из кэша в фоновом режиме.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        protected void BackgroundRemoveFromSizeCache(string fileName)
+        {
+            Task.Factory.StartNew(new Action(async () =>
+            {
+                try
+                {
+                    await RemoveFromSizeCache(fileName);
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Удалить директорию из кэша в фоновом режиме.
+        /// </summary>
+        /// <param name="folderName">Имя директории.</param>
+        protected void BackgroundRemoveFolderFromSizeCache(string folderName)
+        {
+            Task.Factory.StartNew(new Action(async () =>
+            {
+                try
+                {
+                    await RemoveFolderFromSizeCache(folderName);
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Синхронизировать размер файла кэша.
+        /// </summary>
+        /// <param name="folder">Директория.</param>
+        /// <param name="file">Файл.</param>
+        /// <returns>Таск.</returns>
+        protected async Task SyncCacheFileSize(StorageFolder folder, StorageFile file)
+        {
+            using (await CacheLock.LockAsync())
+            {
+                var dataDir = await GetDataFolder();
+                var sizesFile = await GetSizesCacheFile();
+                var sizes = await GetSizeCacheForChange(sizesFile);
+                var p = await file.GetBasicPropertiesAsync();
+                sizes.Sizes[string.Format("{0}/{1}", folder.Name, file.Name)] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
+                SetSizeCache(sizes);
+                await sizes.Save(sizesFile, dataDir);
+            }
+        }
+
+        /// <summary>
+        /// Синхронизировать размер файла кэша в фоновом режиме.
+        /// </summary>
+        /// <param name="folder">Директория.</param>
+        /// <param name="file">Файл.</param>
+        protected void BackgroundSyncCacheFileSize(StorageFolder folder, StorageFile file)
+        {
+            Task.Factory.StartNew(new Action(async () =>
+            {
+                try
+                {
+                    await SyncCacheFileSize(folder, file);
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+            }));
+        }
+
+        /// <summary>
         /// Сохранить объект в файл (с обновлением статистики в кэше размеров файлов).
         /// </summary>
         /// <typeparam name="T">Тип объекта.</typeparam>
+        /// <param name="folder">Директория.</param>
         /// <param name="file">Файл.</param>
         /// <param name="tempFolder">Временная директория.</param>
         /// <param name="obj">Объект.</param>
         /// <param name="compress">Сжимать файл.</param>
         /// <returns>Таск.</returns>
-        public async Task WriteCacheXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress) where T : class 
+        public async Task WriteCacheXmlObject<T>(StorageFolder folder, StorageFile file, StorageFolder tempFolder, T obj, bool compress) where T : class
         {
             await WriteXmlObject(file, tempFolder, obj, compress);
-            BackgroundSyncCacheFileSize(file);
+            BackgroundSyncCacheFileSize(folder, file);
         }
 
         /// <summary>
         /// Сохранить медиа файл в кэше.
         /// </summary>
+        /// <param name="folder">Директория.</param>
         /// <param name="file">Файл.</param>
         /// <param name="originalFile">Оригинальный файл.</param>
         /// <param name="deleteOriginal">Удалить оригинальный файл.</param>
         /// <returns>Результат.</returns>
-        public async Task WriteCacheMediaFile(StorageFile file, StorageFile originalFile, bool deleteOriginal)
+        public async Task WriteCacheMediaFile(StorageFolder folder, StorageFile file, StorageFile originalFile, bool deleteOriginal)
         {
             await WriteMediaFile(file, originalFile, deleteOriginal);
-            BackgroundSyncCacheFileSize(file);           
+            BackgroundSyncCacheFileSize(folder, file);
         }
     }
 }
