@@ -213,13 +213,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 var threadInfo = threadProcessService.GetShortInfo(result);
                 threadInfo.UpdatedDate = postCount.LastChange;
                 threadInfo.ViewDate = DateTime.Now;
-                var visitedDic = visited2.Links.DeduplicateToDictionary(linkHashService.GetLinkHash);
-                if (visitedDic.ContainsKey(threadHash))
-                {
-                    var oldVal = visitedDic[threadHash];
-                    visited2.Links.Remove(oldVal);
-                }
-                visited2.Links.Insert(0, threadLink);
+                visited2.Links.Add(threadLink);
                 if (visited2.ThreadInfo.ContainsKey(threadHash))
                 {
                     var oldInfo = visited2.ThreadInfo[threadHash];
@@ -230,18 +224,18 @@ namespace DvachBrowser3.Logic.NetworkLogic
                     threadInfo.AddedDate = DateTime.Now;
                 }
                 visited2.ThreadInfo[threadHash] = threadInfo;
-                visited2.Links = visited2.Links
+                var newLinks = visited2.Links
                     .WithKeys(linkHashService.GetLinkHash)
                     .Where(a => visited2.ThreadInfo.ContainsKey(a.Key))
-                    .Select(a => new { link = a.Value, info = visited2.ThreadInfo[a.Key] })
+                    .Select(a => new { link = a.Value, info = visited2.ThreadInfo[a.Key], hash = a.Key })
                     .Where(a => a.info != null)
                     .OrderByDescending(a => a.info.ViewDate)
-                    .Select(a => a.link)
                     .Take(CoreConstants.MaxVisitedThreads).ToList();
-                visitedDic = visited2.Links.DeduplicateToDictionary(linkHashService.GetLinkHash);
+                visited2.Links = newLinks.Select(a => a.link).ToList();
+                var newLinksHash = new HashSet<string>(newLinks.Select(a => a.hash));
                 foreach (var h in visited2.ThreadInfo.Keys.ToArray())
                 {
-                    if (!visitedDic.ContainsKey(h))
+                    if (!newLinksHash.Contains(h))
                     {
                         visited2.ThreadInfo.Remove(h);
                     }
