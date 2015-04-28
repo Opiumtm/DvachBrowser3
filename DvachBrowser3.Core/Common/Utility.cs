@@ -332,5 +332,15 @@ namespace DvachBrowser3
             comparer = comparer ?? EqualityComparer<TKey>.Default;
             return src.WithKeys(keyFunc).Deduplicate(a => a.Key, comparer).ToDictionary(a => a.Key, a => a.Value, comparer);
         }
+
+        /// <summary>
+        /// Удалить слэш в начале.
+        /// </summary>
+        /// <param name="src">Исходная строка.</param>
+        /// <returns>Строка.</returns>
+        public static string RemoveStartingSlash(this string src)
+        {
+            return src.StartsWith("/") ? src.Remove(0, 1) : src;
+        }
     }
 }

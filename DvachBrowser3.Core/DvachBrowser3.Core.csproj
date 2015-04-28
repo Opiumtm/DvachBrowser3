@@ -146,6 +146,7 @@
     <Compile Include="Logic\IThreadTreeProcessService.cs" />
     <Compile Include="Logic\LinkHashService.cs" />
     <Compile Include="Logic\LinkTransformService.cs" />
+    <Compile Include="Logic\LiveTileService.cs" />
     <Compile Include="Logic\NetworkLogic.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadThreadOperation.cs" />

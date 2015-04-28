@@ -28,5 +28,19 @@ namespace DvachBrowser3.Logic
         /// </summary>
         /// <returns>Средство сравнения ссылок.</returns>
         IComparer<BoardLinkBase> GetLinkComparer();
+
+        /// <summary>
+        /// Строка для отображения ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        string GetLinkDisplayString(BoardLinkBase link);
+
+        /// <summary>
+        /// Строка для отображения обратной ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        string GetBackLinkDisplayString(BoardLinkBase link);
     }
 }

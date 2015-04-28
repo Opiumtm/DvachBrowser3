@@ -9,5 +9,15 @@
         /// Платформа.
         /// </summary>
         public AppPlatform Platform;
+
+        /// <summary>
+        /// Иконка приложения.
+        /// </summary>
+        public string AppIcon;
+
+        /// <summary>
+        /// Маленькая иконка приложения.
+        /// </summary>
+        public string SmallAppIcon;
     }
 }

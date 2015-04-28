@@ -36,6 +36,8 @@ namespace DvachBrowser3
             container.RegisterService<ILinkTransformService>(new LinkTransformService(container));
             container.RegisterService<INetworkLogic>(new NetworkLogicService(container));
             container.RegisterService<ISystemInfo>(new SystemInfo(container, sysInfo));
+            container.RegisterService<IThreadTreeProcessService>(new ThreadTreeProcessService(container));
+            container.RegisterService<ILiveTileService>(new LiveTileService(container));
         }
     }
 }

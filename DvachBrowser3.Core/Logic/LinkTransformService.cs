@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Logic
@@ -81,6 +80,130 @@ namespace DvachBrowser3.Logic
         public IComparer<BoardLinkBase> GetLinkComparer()
         {
             return LinkComparer.Instance;
+        }
+
+        /// <summary>
+        /// Строка для отображения ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        public string GetLinkDisplayString(BoardLinkBase link)
+        {
+            if (link.GetType() == typeof (BoardLink))
+            {
+                var l = (BoardLink) link;
+                return string.Format("/{0}/", l.Board);
+            }
+            if (link.GetType() == typeof(BoardPageLink))
+            {
+                var l = (BoardPageLink)link;
+                return string.Format("/{0}/", l.Board);
+            }
+            if (link.GetType() == typeof(ThreadLink))
+            {
+                var l = (ThreadLink)link;
+                return string.Format("/{0}/{1}", l.Board, l.Thread);
+            }
+            if (link.GetType() == typeof(ThreadPartLink))
+            {
+                var l = (ThreadPartLink)link;
+                return string.Format("/{0}/{1}", l.Board, l.Thread);
+            }
+            if (link.GetType() == typeof(PostLink))
+            {
+                var l = (PostLink)link;
+                return string.Format("/{0}/{1}#{2}", l.Board, l.Thread, l.Post);
+            }
+            if (link.GetType() == typeof(BoardMediaLink))
+            {
+                var l = (BoardMediaLink)link;
+                return string.Format("/{0}/{1}", l.Board, l.RelativeUri.RemoveStartingSlash());
+            }
+            if (link.GetType() == typeof(MediaLink))
+            {
+                var l = (MediaLink)link;
+                return l.RelativeUri;
+            }
+            if (link.GetType() == typeof(YoutubeLink))
+            {
+                var l = (YoutubeLink)link;
+                return string.Format("youtube:{0}", l.YoutubeId);
+            }
+            if (link.GetType() == typeof(RootLink))
+            {
+                var l = (RootLink)link;
+                if (CoreConstants.Engine.Makaba.Equals(l.Engine, StringComparison.OrdinalIgnoreCase))
+                {
+                    return "2ch://";
+                }
+                else
+                {
+                    return (l.Engine ?? "").ToLower();
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Строка для отображения обратной ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        public string GetBackLinkDisplayString(BoardLinkBase link)
+        {
+            if (link.GetType() == typeof(BoardLink))
+            {
+                var l = (BoardLink)link;
+                return string.Format(">>/{0}/", l.Board);
+            }
+            if (link.GetType() == typeof(BoardPageLink))
+            {
+                var l = (BoardPageLink)link;
+                return string.Format(">>/{0}/", l.Board);
+            }
+            if (link.GetType() == typeof(ThreadLink))
+            {
+                var l = (ThreadLink)link;
+                return string.Format(">>{0}", l.Thread);
+            }
+            if (link.GetType() == typeof(ThreadPartLink))
+            {
+                var l = (ThreadPartLink)link;
+                return string.Format(">>{0}", l.Thread);
+            }
+            if (link.GetType() == typeof(PostLink))
+            {
+                var l = (PostLink)link;
+                return string.Format(">>{0}", l.Post);
+            }
+            if (link.GetType() == typeof(BoardMediaLink))
+            {
+                var l = (BoardMediaLink)link;
+                return string.Format(">>/{0}/{1}", l.Board, l.RelativeUri.RemoveStartingSlash());
+            }
+            if (link.GetType() == typeof(MediaLink))
+            {
+                var l = (MediaLink)link;
+                return ">>" + l.RelativeUri;
+            }
+            if (link.GetType() == typeof(YoutubeLink))
+            {
+                var l = (YoutubeLink)link;
+                return string.Format(">>youtube:{0}", l.YoutubeId);
+            }
+            if (link.GetType() == typeof(RootLink))
+            {
+                var l = (RootLink)link;
+                if (CoreConstants.Engine.Makaba.Equals(l.Engine, StringComparison.OrdinalIgnoreCase))
+                {
+                    return ">>2ch:";
+                }
+                else
+                {
+                    return string.Format(">>{0}:", (l.Engine ?? "").ToLower());
+                }
+            }
+            return ">>[?]";
         }
 
         /// <summary>

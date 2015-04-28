@@ -8,6 +8,16 @@
         /// <summary>
         /// Платформа.
         /// </summary>
-        AppPlatform Platform { get; } 
+        AppPlatform Platform { get; }
+
+        /// <summary>
+        /// Иконка приложения.
+        /// </summary>
+        string AppIcon { get; }
+
+        /// <summary>
+        /// Маленькая иконка приложения.
+        /// </summary>
+        string SmallAppIcon { get; }
     }
 }
