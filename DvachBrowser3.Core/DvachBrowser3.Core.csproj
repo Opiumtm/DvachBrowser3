@@ -139,7 +139,12 @@
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
+    <Compile Include="Logic\INetworkLogic.cs" />
     <Compile Include="Logic\LinkHashService.cs" />
+    <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\NetworkLogicOperation.cs" />
+    <Compile Include="Logic\UpdateBoardPageMode.cs" />
+    <Compile Include="Logic\UpdateThreadMode.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
     <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />

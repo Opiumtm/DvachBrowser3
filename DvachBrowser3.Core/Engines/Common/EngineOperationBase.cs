@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -85,6 +86,16 @@ namespace DvachBrowser3.Engines
         {
             EventHandler<EngineProgress> handler = Progress;
             if (handler != null) handler(this, e);
+        }
+
+        /// <summary>
+        /// Обработка данных.
+        /// </summary>
+        protected virtual void SignalProcessing()
+        {
+            dynamic otherData = new ExpandoObject();
+            otherData.Kind = "PARSE";
+            OnProgress(new EngineProgress("Обработка данных...", otherData));            
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Newtonsoft.Json;
@@ -40,6 +39,7 @@ namespace DvachBrowser3.Engines
             var str = await message.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TJson>(str);
             Operation = null;
+            SignalProcessing();
             return await ProcessJson(result, etag);
         }
 
