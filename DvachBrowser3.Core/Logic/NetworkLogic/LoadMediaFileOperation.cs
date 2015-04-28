@@ -68,7 +68,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <summary>
         /// Семафор для загрузки маленьких изображений.
         /// </summary>
-        protected readonly AsyncSemaphore Semaphore = new AsyncSemaphore(CoreConstants.MaxParallelSmallImageDownloads);
+        protected static readonly AsyncSemaphore Semaphore = new AsyncSemaphore(CoreConstants.MaxParallelSmallImageDownloads);
 
         /// <summary>
         /// Загрузить медиафайл.
@@ -87,6 +87,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }
             else
             {
+                SignalProcessing("Ожидание очереди загрузки...", "WAIT");
                 await Semaphore.WaitAsync(token);
                 try
                 {

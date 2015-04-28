@@ -102,7 +102,11 @@ namespace DvachBrowser3.Logic
         /// <returns>Ссылка-результат (null, если нет такой ссылки).</returns>
         public IEngineOperationsWithProgress<BoardLinkBase, EngineProgress> Post(PostingData data, CaptchaPostingData captcha)
         {
-            throw new NotImplementedException();
+            if ((data.Link.LinkKind & BoardLinkKind.Thread) == 0 || (data.Link.LinkKind & BoardLinkKind.BoardPage) == 0)
+            {
+                throw new ArgumentException("Неправильный тип ссылки");
+            }
+            return new PostOperation(Services, new PostOperationParameter() {Captcha = captcha, Data = data});
         }
 
         /// <summary>
