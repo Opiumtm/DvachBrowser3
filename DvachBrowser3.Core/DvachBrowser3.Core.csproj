@@ -153,6 +153,8 @@
     <Compile Include="Logic\NetworkLogic\CheckFavoritesOperation.cs" />
     <Compile Include="Logic\NetworkLogic\CheckFavoritesParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\DownloadArchiveOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\DownloadArchiveOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperationParameter.cs" />
     <Compile Include="Logic\NetworkLogic\LoadMediaFileOperation.cs" />

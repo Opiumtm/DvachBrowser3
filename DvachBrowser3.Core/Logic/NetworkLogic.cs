@@ -117,7 +117,11 @@ namespace DvachBrowser3.Logic
         /// <returns>Идентификатор архива.</returns>
         public IEngineOperationsWithProgress<Guid, EngineProgress> DownloadToArchive(BoardLinkBase link)
         {
-            throw new NotImplementedException();
+            if ((link.LinkKind & BoardLinkKind.Thread) == 0)
+            {
+                throw new ArgumentException("Неправильный тип ссылки");
+            }
+            return new DownloadArchiveOperation(Services, new DownloadArchiveOperationParameter() {Link = link});
         }
 
         /// <summary>
