@@ -19,5 +19,17 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public string Tripcode { get; set; }
+
+        /// <summary>
+        /// Цвет имени.
+        /// </summary>
+        [DataMember]
+        public string NameColorStr { get; set; }
+
+        /// <summary>
+        /// Цвет заголовка.
+        /// </summary>
+        [DataMember]
+        public PostColor NameColor { get; set; }
     }
 }

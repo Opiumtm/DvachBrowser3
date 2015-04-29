@@ -218,6 +218,7 @@
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
     <Compile Include="Models\Posts\KnownMediaType.cs" />
+    <Compile Include="Models\Posts\PostColor.cs" />
     <Compile Include="Models\Posts\PostFlags.cs" />
     <Compile Include="Models\Posts\PostImage.cs" />
     <Compile Include="Models\Posts\PostImageBase.cs" />

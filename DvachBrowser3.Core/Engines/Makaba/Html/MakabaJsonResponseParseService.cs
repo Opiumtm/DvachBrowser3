@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -17,6 +18,12 @@ namespace DvachBrowser3.Engines.Makaba.Html
     /// </summary>
     public sealed class MakabaJsonResponseParseService : ServiceBase, IMakabaJsonResponseParseService
     {
+        private const string IpIdRegexText = @"(?:.*)\s+ID:\s+<span\s+class=""postertripid"">(?<id>.*)</span>.*$";
+
+        private const string IpIdRegexText2 = @"(?:.*)\s+ID:\s+<span\s+id=""[^""]*""\s+style=""(?<style>[^""]*)"">(?<id>.*)</span>.*$";
+
+        private const string ColorRegexText = @"color:rgb\((?<r>\d+),(?<g>\d+),(?<b>\d+)\)\;$";
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -34,6 +41,9 @@ namespace DvachBrowser3.Engines.Makaba.Html
         /// <returns>Результат разбора.</returns>
         private PostTree Parse(BoardPost2 data, ThreadLink link, bool isPreview)
         {
+            var ipIdRegex = Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(IpIdRegexText);
+            var ipIdRegex2 = Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(IpIdRegexText2);
+            var colorRegex = Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(ColorRegexText);
             PostFlags flags = 0;
             if (data.Banned != "0" && !string.IsNullOrWhiteSpace(data.Banned))
             {
@@ -121,7 +131,35 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 {
                 }
             }
-            if (name.StartsWith("Аноним ID:", StringComparison.OrdinalIgnoreCase))
+            string nameColor = null;
+            PostColor color = null;
+            var match = ipIdRegex.Match(name);
+            var match2 = ipIdRegex2.Match(name);
+            if (match.Success)
+            {
+                name = match.Groups["id"].Captures[0].Value;
+            }
+            else if (match2.Success)
+            {
+                name = match2.Groups["id"].Captures[0].Value;
+                nameColor = match2.Groups["style"].Captures[0].Value;
+                var cmatch = colorRegex.Match(nameColor);
+                if (cmatch.Success)
+                {
+                    try
+                    {
+                        var r = byte.Parse(cmatch.Groups["r"].Captures[0].Value, CultureInfo.InvariantCulture.NumberFormat);
+                        var g = byte.Parse(cmatch.Groups["g"].Captures[0].Value, CultureInfo.InvariantCulture.NumberFormat);
+                        var b = byte.Parse(cmatch.Groups["b"].Captures[0].Value, CultureInfo.InvariantCulture.NumberFormat);
+                        color = new PostColor() { R = r, G = g, B = b };
+                    }
+                    catch (Exception)
+                    {
+                        color = null;
+                    }
+                }
+            }
+            else if (name.StartsWith("Аноним ID:", StringComparison.OrdinalIgnoreCase))
             {
                 name = name.Remove(0, "Аноним ID:".Length).Trim();
             }
@@ -130,13 +168,19 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 result.Extensions.Add(new PostTreePosterExtension()
                 {
                     Name = name,
-                    Tripcode = data.Tripcode
+                    Tripcode = data.Tripcode,
+                    NameColorStr = nameColor,
+                    NameColor = color
                 });
             }
-            var iconExtension = ParseIcon(data.Icon);
-            if (iconExtension != null)
+            var flagAndIcon = ParseFlagAndIcon(data.Icon);
+            if (flagAndIcon.Icon != null)
             {
-                result.Extensions.Add(iconExtension);
+                result.Extensions.Add(flagAndIcon.Icon);
+            }
+            if (flagAndIcon.Country != null)
+            {
+                result.Extensions.Add(flagAndIcon.Country);
             }
             if (data.Files != null)
             {
@@ -401,6 +445,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
         /// </summary>
         /// <param name="str">Строка.</param>
         /// <returns>Иконка.</returns>
+        [Obsolete("Использовать ParseFlagAndIcon")]
         public PostTreeIconExtension ParseIcon(string str)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -430,6 +475,72 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Парсить иконку и флаг.
+        /// </summary>
+        /// <param name="str">Строка.</param>
+        /// <returns>Иконка и флаг.</returns>
+        public FlagAndIcon ParseFlagAndIcon(string str)
+        {
+            var emptyResult = new FlagAndIcon() { Icon = null, Country = null };;
+            try
+            {
+                var html = new HtmlDocument();
+                html.LoadHtml(str);
+                if (html.DocumentNode == null || html.DocumentNode.ChildNodes == null)
+                {
+                    return emptyResult;
+                }
+                var images = html.DocumentNode
+                    .ChildNodes
+                    .Where(n => n.NodeType == HtmlNodeType.Element)
+                    .Where(n => n.Name.EqualsNc("img"))
+                    .ToArray();
+                PostTreeIconExtension icon = null;
+                PostTreeCountryExtension country = null;
+
+                icon = images
+                    .Where(obj => obj.GetAttributeValue("src", null) != null && obj.GetAttributeValue("title", null) != null)
+                    .Select(obj => new PostTreeIconExtension()
+                    {
+                        Uri = obj.GetAttributeValue("src", null),
+                        Description = obj.GetAttributeValue("title", null)
+                    })
+                    .FirstOrDefault();
+
+                country = images
+                    .Where(obj => obj.GetAttributeValue("src", null) != null)
+                    .Where(obj => (obj.GetAttributeValue("src", null) ?? "").StartsWith("/flags/", StringComparison.OrdinalIgnoreCase))
+                    .Select(obj => new PostTreeCountryExtension()
+                    {
+                        Uri = obj.GetAttributeValue("src", null),
+                    })
+                    .FirstOrDefault();
+
+                return new FlagAndIcon() { Icon = icon, Country = country};
+            }
+            catch
+            {
+                return emptyResult;
+            }
+        }
+
+        /// <summary>
+        /// Флаг и иконка.
+        /// </summary>
+        public struct FlagAndIcon
+        {
+            /// <summary>
+            /// Иконка.
+            /// </summary>
+            public PostTreeIconExtension Icon;
+
+            /// <summary>
+            /// Флаг.
+            /// </summary>
+            public PostTreeCountryExtension Country;
         }
     }
 }
