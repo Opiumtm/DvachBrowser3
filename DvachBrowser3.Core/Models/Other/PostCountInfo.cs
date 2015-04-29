@@ -45,5 +45,40 @@ namespace DvachBrowser3.Other
         /// </summary>
         [DataMember]
         public bool IsHidden { get; set; }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Результат.</returns>
+        public PostCountInfo Clone()
+        {
+            return new PostCountInfo()
+            {
+                IsHidden = IsHidden,
+                LastChange = LastChange,
+                LastView = LastView,
+                Link = Link,
+                LoadedPostCount = LoadedPostCount,
+                PostCount = PostCount
+            };
+        }
+
+        /// <summary>
+        /// Создать.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        public static PostCountInfo Create(BoardLinkBase link)
+        {
+            return new PostCountInfo()
+            {
+                IsHidden = false,
+                LastChange = DateTime.MinValue,
+                LastView = DateTime.MinValue,
+                Link = link,
+                LoadedPostCount = 0,
+                PostCount = 0
+            };
+        }
     }
 }

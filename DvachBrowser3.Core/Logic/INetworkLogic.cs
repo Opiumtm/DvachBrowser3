@@ -69,7 +69,8 @@ namespace DvachBrowser3.Logic
         /// <summary>
         /// Проверить избранные треды на обновления.
         /// </summary>
-        /// <returns>Операция проверки.</returns>
-        IEngineOperationsWithProgress<Empty, EngineProgress> CheckFavoriteThreadsForUpdates();
+        /// <param name="mode">Режим проверки.</param>
+        /// <returns>Данные избранных тредов (null - нет данных).</returns>
+        IEngineOperationsWithProgress<LinkCollection, EngineProgress> CheckFavoriteThreadsForUpdates(CheckFavoriteThreadsMode mode = CheckFavoriteThreadsMode.Default);
     }
 }

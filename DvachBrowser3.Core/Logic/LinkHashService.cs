@@ -60,6 +60,10 @@ namespace DvachBrowser3.Logic
 
         public string GetLinkHash(BoardLinkBase link)
         {
+            if (link == null)
+            {
+                return "null";
+            }
             var t = link.GetType();
             if (typeFuncs.ContainsKey(t))
             {

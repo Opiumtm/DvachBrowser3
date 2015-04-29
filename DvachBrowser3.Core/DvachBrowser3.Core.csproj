@@ -139,6 +139,7 @@
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
+    <Compile Include="Logic\CheckFavoriteThreadsMode.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
     <Compile Include="Logic\ILinkTransformService.cs" />
     <Compile Include="Logic\ILiveTileService.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Logic\LiveTileService.cs" />
     <Compile Include="Logic\LoadMediaFileMode.cs" />
     <Compile Include="Logic\NetworkLogic.cs" />
+    <Compile Include="Logic\NetworkLogic\CheckFavoritesOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\CheckFavoritesParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperation.cs" />
     <Compile Include="Logic\NetworkLogic\LoadBoardPageOperationParameter.cs" />
