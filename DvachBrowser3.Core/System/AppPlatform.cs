@@ -1,7 +1,7 @@
 ﻿namespace DvachBrowser3.System
 {
     /// <summary>
-    /// Платформаю
+    /// Платформа.
     /// </summary>
     public enum AppPlatform
     {
