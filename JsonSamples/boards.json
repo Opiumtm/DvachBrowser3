@@ -1,8 +1,9 @@
-﻿{
+{
 	"Взрослым": [{
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fag",
@@ -15,6 +16,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "уточка",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fg",
@@ -27,6 +29,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fur",
@@ -39,6 +42,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "g",
@@ -51,6 +55,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "ga",
@@ -63,6 +68,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "h",
@@ -75,6 +81,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "ho",
@@ -87,18 +94,20 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "sex",
 		"name": "Секс и отношения",
 		"pages": 7,
 		"sage": 1,
-		"tripcodes": 1
+		"tripcodes": 0
 	},
 	{
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fet",
@@ -111,6 +120,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "e",
@@ -123,6 +133,7 @@
 		"bump_limit": 500,
 		"category": "Взрослым",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "hc",
@@ -135,6 +146,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "bg",
@@ -147,6 +159,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "cg",
@@ -159,6 +172,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "mc",
@@ -171,6 +185,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "mmo",
@@ -183,6 +198,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "tes",
@@ -195,6 +211,7 @@
 		"bump_limit": 1000,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "vg",
@@ -207,18 +224,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "wr",
-		"name": "Текстовые авторские рпг",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Игры",
-		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "gb",
@@ -231,6 +237,7 @@
 		"bump_limit": 500,
 		"category": "Игры",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "moba",
@@ -238,1559 +245,25 @@
 		"pages": 8,
 		"sage": 1,
 		"tripcodes": 1
-	}],
-	"Пользовательские": [{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "sw",
-		"name": "Star Wars",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "voc",
-		"name": "Вокалоиды | закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "law",
-		"name": "Право и правоприменители",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "m",
-		"name": "Меха",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ya",
-		"name": "Яой",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "r34",
-		"name": "Правило 34",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "qtr4",
-		"name": "qtr4",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "tvch",
-		"name": "Двач - TV",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "wow",
-		"name": "World of Warcraft",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "gabe",
-		"name": "Gabe Logan Newell",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 0
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "tube",
-		"name": "Видеоблоги",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "cute",
-		"name": "Милое",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Тутэйшы",
-		"enable_posting": 1,
-		"icons": [{
-			"name": "Афiцыйны",
-			"num": 1,
-			"url": "/icons/logos_by/official.png"
-		},
-		{
-			"name": "БЧБ",
-			"num": 2,
-			"url": "/icons/logos_by/alternative.png"
-		},
-		{
-			"name": "Российская Федерация",
-			"num": 3,
-			"url": "/icons/logos_by/RU.png"
-		},
-		{
-			"name": "Украина",
-			"num": 4,
-			"url": "/icons/logos_by/UA.png"
-		},
-		{
-			"name": "СНГ",
-			"num": 5,
-			"url": "/icons/logos_by/sng.png"
-		},
-		{
-			"name": "Евросоюз",
-			"num": 6,
-			"url": "/icons/logos_by/euro.png"
-		},
-		{
-			"name": "США",
-			"num": 7,
-			"url": "/icons/logos_by/US.png"
-		},
-		{
-			"name": "Пагоня",
-			"num": 8,
-			"url": "/icons/logos_by/pagonia.png"
-		}],
-		"id": "by",
-		"name": "Беларусь",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "se",
-		"name": "Самообразование",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "kz",
-		"name": "Казачан",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "wt",
-		"name": "War Thunder",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "8",
-		"name": "8bit",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
+		"category": "Игры",
 		"default_name": "Пионер",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "es",
 		"name": "Бесконечное Лето",
-		"pages": 50,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "alco",
-		"name": "Алкоголь",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "brg",
-		"name": "Браузерные игры",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "arena",
-		"name": "Arena Shooters",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [{
-			"name": "Twilight Sparkle",
-			"num": 1,
-			"url": "/icons/logos/twilightsparkle.png"
-		},
-		{
-			"name": "Applejack",
-			"num": 2,
-			"url": "/icons/logos/applejack.png"
-		},
-		{
-			"name": "Fluttershy",
-			"num": 3,
-			"url": "/icons/logos/fluttershy.png"
-		},
-		{
-			"name": "Pinkie Pie",
-			"num": 4,
-			"url": "/icons/logos/pinkiepie.png"
-		},
-		{
-			"name": "Rarity",
-			"num": 5,
-			"url": "/icons/logos/rarity.png"
-		},
-		{
-			"name": "Rainbow Dash",
-			"num": 6,
-			"url": "/icons/logos/rainbowdash.png"
-		},
-		{
-			"name": "Princess Celestia",
-			"num": 7,
-			"url": "/icons/logos/celestia.png"
-		},
-		{
-			"name": "Princess Luna",
-			"num": 8,
-			"url": "/icons/logos/luna.png"
-		},
-		{
-			"name": "Nightmare Moon",
-			"num": 9,
-			"url": "/icons/logos/nmm.png"
-		},
-		{
-			"name": "Princess Cadance",
-			"num": 10,
-			"url": "/icons/logos/cadance.png"
-		},
-		{
-			"name": "Shining Armor",
-			"num": 11,
-			"url": "/icons/logos/shining.png"
-		},
-		{
-			"name": "Rose",
-			"num": 12,
-			"url": "/icons/logos/rose.png"
-		},
-		{
-			"name": "Vinyl Scratch",
-			"num": 13,
-			"url": "/icons/logos/vinylscratch.png"
-		},
-		{
-			"name": "Octavia",
-			"num": 14,
-			"url": "/icons/logos/octavia.png"
-		},
-		{
-			"name": "Lyra",
-			"num": 15,
-			"url": "/icons/logos/lyra.png"
-		},
-		{
-			"name": "Bon Bon",
-			"num": 16,
-			"url": "/icons/logos/bonbon2.png"
-		},
-		{
-			"name": "Derpy Hooves",
-			"num": 17,
-			"url": "/icons/logos/derpy.png"
-		},
-		{
-			"name": "Dr. Whooves",
-			"num": 18,
-			"url": "/icons/logos/drwhooves.png"
-		},
-		{
-			"name": "Trixie",
-			"num": 19,
-			"url": "/icons/logos/trixie.png"
-		},
-		{
-			"name": "Spitfire",
-			"num": 20,
-			"url": "/icons/logos/spitfire.png"
-		},
-		{
-			"name": "Zecora",
-			"num": 21,
-			"url": "/icons/logos/zecora.png"
-		},
-		{
-			"name": "Cutie Mark Crusaders",
-			"num": 22,
-			"url": "/icons/logos/cmc.png"
-		},
-		{
-			"name": "Spike",
-			"num": 23,
-			"url": "/icons/logos/spike.png"
-		},
-		{
-			"name": "Sombra",
-			"num": 24,
-			"url": "/icons/logos/sombra.png"
-		},
-		{
-			"name": "Discord",
-			"num": 25,
-			"url": "/icons/logos/chaos.png"
-		},
-		{
-			"name": "Queen Chrysalis",
-			"num": 26,
-			"url": "/icons/logos/chrysalis.png"
-		},
-		{
-			"name": "Bulk Biceps",
-			"num": 27,
-			"url": "/icons/logos/biceps.png"
-		},
-		{
-			"name": "Screwball",
-			"num": 28,
-			"url": "/icons/logos/screwball.png"
-		}],
-		"id": "mlpr",
-		"name": "My Little Pony Roleplay",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ebola",
-		"name": "Эбола",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ro",
-		"name": "Рогалики",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "cs",
-		"name": "Computer Science | закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "who",
-		"name": "Doctor Who",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "tat",
-		"name": "Татуировки | 
-закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "srv",
-		"name": "Серверы",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "plug",
-		"name": "Plug.dj",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "asmr",
-		"name": "ASMR",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "postrock",
-		"name": "postrock | закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "hippy",
-		"name": "Шестидесятые | 
-закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "hm",
-		"name": "Handsome 
-men",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "prj",
-		"name": "Проекты",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 1500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "dr",
-		"name": "Дневнички",
-		"pages": 100,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "electrach",
-		"name": "Электронная 
-музыка",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ing",
-		"name": "Инженерное 
-дело",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "got",
-		"name": "Песнь льда и пламени | 
-закрыта",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "crypt",
-		"name": "Криптоанархия",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "socionics",
-		"name": "Соционика и 
-психософия",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 0,
-		"icons": [],
-		"id": "pdx",
-		"name": "| 
-закрыта",
-		"pages": 20,
-		"sage": 0,
-		"tripcodes": 0
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "pok",
-		"name": "Pokemon",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "lap",
-		"name": "Лапник (4x4 
-клуб)",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "smo",
-		"name": "Курение",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "hg",
-		"name": "Хентайные игры/hentai 
-games",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "sad",
-		"name": "Садоводство",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "fi",
-		"name": "Рыбалка",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 0,
-		"icons": [],
-		"id": "ss13",
-		"name": "Space Station 
-13",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "vape",
-		"name": "Электронные 
-сигареты",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "mj",
-		"name": "Маджонг",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 1000,
-		"category": "Пользовательские",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [{
-			"name": "Новороссия",
-			"num": 1,
-			"url": "/icons/logos/neorossia.png"
-		},
-		{
-			"name": "Патриот",
-			"num": 2,
-			"url": "/icons/logos/patriot.png"
-		},
-		{
-			"name": "Аноним",
-			"num": 3,
-			"url": "/icons/logos/anon.png"
-		},
-		{
-			"name": "Коммунизм",
-			"num": 4,
-			"url": "/icons/logos/comm.png"
-		},
-		{
-			"name": "Крым",
-			"num": 5,
-			"url": "/icons/logos/krym.gif"
-		},
-		{
-			"name": "Украина",
-			"num": 6,
-			"url": "/icons/logos/ukr.png"
-		},
-		{
-			"name": "Азов",
-			"num": 7,
-			"url": "/icons/logos/azov.png"
-		},
-		{
-			"name": "ДНР",
-			"num": 8,
-			"url": "/icons/logos/dnr.gif"
-		},
-		{
-			"name": "ЛНР",
-			"num": 9,
-			"url": "/icons/logos/lnr.gif"
-		},
-		{
-			"name": "Бандера",
-			"num": 10,
-			"url": "/icons/logos/bndr.gif"
-		},
-		{
-			"name": "ISIS",
-			"num": 11,
-			"url": "/icons/logos/isis.png"
-		},
-		{
-			"name": "НАТО",
-			"num": 12,
-			"url": "/icons/logos/nato.png"
-		},
-		{
-			"name": "Военторг",
-			"num": 13,
-			"url": "/icons/logos/voent.png"
-		},
-		{
-			"name": "Укроп",
-			"num": 14,
-			"url": "/icons/logos/ukrop.png"
-		}],
-		"id": "nvr",
-		"name": "Новороссия: 
-ЛНР, 
-ДНР",
-		"pages": 12,
-		"sage": 1,
-		"tripcodes": 1
-	}],
-	"Пробное": [{
-		"bump_limit": 500,
-		"category": "Пробное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "zog",
-		"name": "Теории 
-заговора",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пробное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "guro",
-		"name": "Шок-контент",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Пробное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ussr",
-		"name": "СССР",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 1000,
-		"category": "Пробное",
-		"default_name": "Безосібний",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ukr",
-		"name": "/Ukr/aine — 
-Україна",
-		"pages": 8,
-		"sage": 1,
-		"tripcodes": 1
-	}],
-	"Разное": [{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "b",
-		"name": "/Б/ред",
-		"pages": 8,
-		"sage": 1,
-		"tripcodes": 0
-	},
-	{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "d",
-		"name": "Дискуссии о 
-Два.ч",
-		"pages": 7,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "soc",
-		"name": "Общение",
-		"pages": 7,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "r",
-		"name": "Просьбы",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "abu",
-		"name": "abu",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 1000,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "old",
-		"name": "Олдфаги",
-		"pages": 20,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Разное",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "media",
-		"name": "Анимация",
 		"pages": 20,
 		"sage": 1,
 		"tripcodes": 1
 	}],
-	"Творчество": [{
+	"Политика": [{
 		"bump_limit": 500,
-		"category": "Творчество",
+		"category": "Политика",
 		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "di",
-		"name": "Столовая",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "de",
-		"name": "Дизайн",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "diy",
-		"name": "Хобби",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "dom",
-		"name": "Домострой",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "izd",
-		"name": "Графомания",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "mus",
-		"name": "Музыканты",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "pa",
-		"name": "Живопись",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "p",
-		"name": "Фотография",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "wp",
-		"name": "Обои и высокое 
-разрешение",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "td",
-		"name": "Трёхмерная 
-графика",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "wrk",
-		"name": "Работа и 
-карьера",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Творчество",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "trv",
-		"name": "Путешествия и 
-отдых",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	}],
-	"Тематика": [{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "bi",
-		"name": "Велосипеды",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "biz",
-		"name": "Бизнес",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "bo",
-		"name": "Книги",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "c",
-		"name": "Комиксы и 
-мультфильмы",
-		"pages": 7,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "em",
-		"name": "Другие 
-страны",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ew",
-		"name": "Конец 
-света",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "fa",
-		"name": "Мода и 
-стиль",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "fiz",
-		"name": "Физкультура",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "fl",
-		"name": "Иностранные 
-языки",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ftb",
-		"name": "Футбол",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "hh",
-		"name": "Hip-Hop",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "hi",
-		"name": "История",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "me",
-		"name": "Медицина",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "mg",
-		"name": "Магия",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Princess 
-Luna",
-		"enable_posting": 1,
-		"icons": [{
-			"name": "Twilight 
-Sparkle",
-			"num": 1,
-			"url": "/icons/logos/twilightsparkle.png"
-		},
-		{
-			"name": "Applejack",
-			"num": 2,
-			"url": "/icons/logos/applejack.png"
-		},
-		{
-			"name": "Fluttershy",
-			"num": 3,
-			"url": "/icons/logos/fluttershy.png"
-		},
-		{
-			"name": "Pinkie 
-Pie",
-			"num": 4,
-			"url": "/icons/logos/pinkiepie.png"
-		},
-		{
-			"name": "Rarity",
-			"num": 5,
-			"url": "/icons/logos/rarity.png"
-		},
-		{
-			"name": "Rainbow 
-Dash",
-			"num": 6,
-			"url": "/icons/logos/rainbowdash.png"
-		},
-		{
-			"name": "Princess 
-Celestia",
-			"num": 7,
-			"url": "/icons/logos/celestia.png"
-		},
-		{
-			"name": "Princess 
-Luna",
-			"num": 8,
-			"url": "/icons/logos/luna.png"
-		},
-		{
-			"name": "Nightmare 
-Moon",
-			"num": 9,
-			"url": "/icons/logos/nmm.png"
-		},
-		{
-			"name": "Princess 
-Cadance",
-			"num": 10,
-			"url": "/icons/logos/cadance.png"
-		},
-		{
-			"name": "Shining 
-Armor",
-			"num": 11,
-			"url": "/icons/logos/shining.png"
-		},
-		{
-			"name": "Rose",
-			"num": 12,
-			"url": "/icons/logos/rose.png"
-		},
-		{
-			"name": "Vinyl 
-Scratch",
-			"num": 13,
-			"url": "/icons/logos/vinylscratch.png"
-		},
-		{
-			"name": "Octavia",
-			"num": 14,
-			"url": "/icons/logos/octavia.png"
-		},
-		{
-			"name": "Lyra",
-			"num": 15,
-			"url": "/icons/logos/lyra.png"
-		},
-		{
-			"name": "Bon 
-Bon",
-			"num": 16,
-			"url": "/icons/logos/bonbon2.png"
-		},
-		{
-			"name": "Derpy 
-Hooves",
-			"num": 17,
-			"url": "/icons/logos/derpy.png"
-		},
-		{
-			"name": "Dr. 
-Whooves",
-			"num": 18,
-			"url": "/icons/logos/drwhooves.png"
-		},
-		{
-			"name": "Trixie",
-			"num": 19,
-			"url": "/icons/logos/trixie.png"
-		},
-		{
-			"name": "Spitfire",
-			"num": 20,
-			"url": "/icons/logos/spitfire.png"
-		},
-		{
-			"name": "Zecora",
-			"num": 21,
-			"url": "/icons/logos/zecora.png"
-		},
-		{
-			"name": "Cutie 
-Mark 
-Crusaders",
-			"num": 22,
-			"url": "/icons/logos/cmc.png"
-		},
-		{
-			"name": "Spike",
-			"num": 23,
-			"url": "/icons/logos/spike.png"
-		},
-		{
-			"name": "Sombra",
-			"num": 24,
-			"url": "/icons/logos/sombra.png"
-		},
-		{
-			"name": "Discord",
-			"num": 25,
-			"url": "/icons/logos/chaos.png"
-		},
-		{
-			"name": "Queen 
-Chrysalis",
-			"num": 26,
-			"url": "/icons/logos/chrysalis.png"
-		},
-		{
-			"name": "Bulk 
-Biceps",
-			"num": 27,
-			"url": "/icons/logos/biceps.png"
-		},
-		{
-			"name": "Screwball",
-			"num": 28,
-			"url": "/icons/logos/screwball.png"
-		}],
-		"id": "mlp",
-		"name": "My 
-Little 
-Pony",
-		"pages": 8,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "mo",
-		"name": "Мотоциклы",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ne",
-		"name": "Животные и 
-природа",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "pvc",
-		"name": "Фигурки",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
-		"enable_posting": 1,
-		"icons": [],
-		"id": "ph",
-		"name": "Философия",
-		"pages": 10,
-		"sage": 1,
-		"tripcodes": 1
-	},
-	{
-		"bump_limit": 500,
-		"category": "Тематика",
-		"default_name": "Аноним",
+		"enable_likes": 1,
 		"enable_posting": 1,
 		"icons": [{
 			"name": "Коммунизм",
@@ -1958,22 +431,1229 @@ Pony",
 			"url": "/icons/logos/rept.png"
 		}],
 		"id": "po",
-		"name": "Политика 
-и 
-новости",
+		"name": "Политика и новости",
 		"pages": 7,
 		"sage": 1,
 		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Тематика",
+		"category": "Политика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
-		"id": "psy",
-		"name": "Психология и 
-психиатрия",
+		"id": "zog",
+		"name": "Теории заговора",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Политика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ussr",
+		"name": "СССР",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 1000,
+		"category": "Политика",
+		"default_name": "Безосібний",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ukr",
+		"name": "/Ukr/aine — Україна",
+		"pages": 8,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Политика",
+		"default_name": "Тутэйшы",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [{
+			"name": "Афiцыйны",
+			"num": 1,
+			"url": "/icons/logos_by/official.png"
+		},
+		{
+			"name": "БЧБ",
+			"num": 2,
+			"url": "/icons/logos_by/alternative.png"
+		},
+		{
+			"name": "Российская Федерация",
+			"num": 3,
+			"url": "/icons/logos_by/RU.png"
+		},
+		{
+			"name": "Украина",
+			"num": 4,
+			"url": "/icons/logos_by/UA.png"
+		},
+		{
+			"name": "СНГ",
+			"num": 5,
+			"url": "/icons/logos_by/sng.png"
+		},
+		{
+			"name": "Евросоюз",
+			"num": 6,
+			"url": "/icons/logos_by/euro.png"
+		},
+		{
+			"name": "США",
+			"num": 7,
+			"url": "/icons/logos_by/US.png"
+		},
+		{
+			"name": "Пагоня",
+			"num": 8,
+			"url": "/icons/logos_by/pagonia.png"
+		}],
+		"id": "by",
+		"name": "Беларусь",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 1000,
+		"category": "Политика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [{
+			"name": "Новороссия",
+			"num": 1,
+			"url": "/icons/logos/neorossia.png"
+		},
+		{
+			"name": "Патриот",
+			"num": 2,
+			"url": "/icons/logos/patriot.png"
+		},
+		{
+			"name": "Аноним",
+			"num": 3,
+			"url": "/icons/logos/anon.png"
+		},
+		{
+			"name": "Коммунизм",
+			"num": 4,
+			"url": "/icons/logos/comm.png"
+		},
+		{
+			"name": "Крым",
+			"num": 5,
+			"url": "/icons/logos/krym.gif"
+		},
+		{
+			"name": "Украина",
+			"num": 6,
+			"url": "/icons/logos/ukr.png"
+		},
+		{
+			"name": "Азов",
+			"num": 7,
+			"url": "/icons/logos/azov.png"
+		},
+		{
+			"name": "ДНР",
+			"num": 8,
+			"url": "/icons/logos/dnr.gif"
+		},
+		{
+			"name": "ЛНР",
+			"num": 9,
+			"url": "/icons/logos/lnr.gif"
+		},
+		{
+			"name": "Бандера",
+			"num": 10,
+			"url": "/icons/logos/bndr.gif"
+		},
+		{
+			"name": "ISIS",
+			"num": 11,
+			"url": "/icons/logos/isis.png"
+		},
+		{
+			"name": "НАТО",
+			"num": 12,
+			"url": "/icons/logos/nato.png"
+		},
+		{
+			"name": "Военторг",
+			"num": 13,
+			"url": "/icons/logos/voent.png"
+		},
+		{
+			"name": "Укроп",
+			"num": 14,
+			"url": "/icons/logos/ukrop.png"
+		}],
+		"id": "nvr",
+		"name": "Новороссия: ЛНР, ДНР",
+		"pages": 12,
+		"sage": 1,
+		"tripcodes": 1
+	}],
+	"Пользовательские": [{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "sw",
+		"name": "Star Wars",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "voc",
+		"name": "Вокалоиды | закрыта",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "law",
+		"name": "Право и правоприменители",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "m",
+		"name": "Меха",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ya",
+		"name": "Яой",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "r34",
+		"name": "Правило 34",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "qtr4",
+		"name": "qtr4",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "tvch",
+		"name": "Двач - TV",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "wow",
+		"name": "World of Warcraft",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "gabe",
+		"name": "Gabe Logan Newell",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 0
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "tube",
+		"name": "Видеоблоги",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "cute",
+		"name": "Милое",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "se",
+		"name": "Самообразование",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "kz",
+		"name": "Казачан",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "wt",
+		"name": "War Thunder",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "8",
+		"name": "8bit",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "alco",
+		"name": "Алкоголь",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "brg",
+		"name": "Браузерные игры",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "arena",
+		"name": "Arena Shooters",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [{
+			"name": "Twilight Sparkle",
+			"num": 1,
+			"url": "/icons/logos/twilightsparkle.png"
+		},
+		{
+			"name": "Applejack",
+			"num": 2,
+			"url": "/icons/logos/applejack.png"
+		},
+		{
+			"name": "Fluttershy",
+			"num": 3,
+			"url": "/icons/logos/fluttershy.png"
+		},
+		{
+			"name": "Pinkie Pie",
+			"num": 4,
+			"url": "/icons/logos/pinkiepie.png"
+		},
+		{
+			"name": "Rarity",
+			"num": 5,
+			"url": "/icons/logos/rarity.png"
+		},
+		{
+			"name": "Rainbow Dash",
+			"num": 6,
+			"url": "/icons/logos/rainbowdash.png"
+		},
+		{
+			"name": "Princess Celestia",
+			"num": 7,
+			"url": "/icons/logos/celestia.png"
+		},
+		{
+			"name": "Princess Luna",
+			"num": 8,
+			"url": "/icons/logos/luna.png"
+		},
+		{
+			"name": "Nightmare Moon",
+			"num": 9,
+			"url": "/icons/logos/nmm.png"
+		},
+		{
+			"name": "Princess Cadance",
+			"num": 10,
+			"url": "/icons/logos/cadance.png"
+		},
+		{
+			"name": "Shining Armor",
+			"num": 11,
+			"url": "/icons/logos/shining.png"
+		},
+		{
+			"name": "Rose",
+			"num": 12,
+			"url": "/icons/logos/rose.png"
+		},
+		{
+			"name": "Vinyl Scratch",
+			"num": 13,
+			"url": "/icons/logos/vinylscratch.png"
+		},
+		{
+			"name": "Octavia",
+			"num": 14,
+			"url": "/icons/logos/octavia.png"
+		},
+		{
+			"name": "Lyra",
+			"num": 15,
+			"url": "/icons/logos/lyra.png"
+		},
+		{
+			"name": "Bon Bon",
+			"num": 16,
+			"url": "/icons/logos/bonbon2.png"
+		},
+		{
+			"name": "Derpy Hooves",
+			"num": 17,
+			"url": "/icons/logos/derpy.png"
+		},
+		{
+			"name": "Dr. Whooves",
+			"num": 18,
+			"url": "/icons/logos/drwhooves.png"
+		},
+		{
+			"name": "Trixie",
+			"num": 19,
+			"url": "/icons/logos/trixie.png"
+		},
+		{
+			"name": "Spitfire",
+			"num": 20,
+			"url": "/icons/logos/spitfire.png"
+		},
+		{
+			"name": "Zecora",
+			"num": 21,
+			"url": "/icons/logos/zecora.png"
+		},
+		{
+			"name": "Cutie Mark Crusaders",
+			"num": 22,
+			"url": "/icons/logos/cmc.png"
+		},
+		{
+			"name": "Spike",
+			"num": 23,
+			"url": "/icons/logos/spike.png"
+		},
+		{
+			"name": "Sombra",
+			"num": 24,
+			"url": "/icons/logos/sombra.png"
+		},
+		{
+			"name": "Discord",
+			"num": 25,
+			"url": "/icons/logos/chaos.png"
+		},
+		{
+			"name": "Queen Chrysalis",
+			"num": 26,
+			"url": "/icons/logos/chrysalis.png"
+		},
+		{
+			"name": "Bulk Biceps",
+			"num": 27,
+			"url": "/icons/logos/biceps.png"
+		},
+		{
+			"name": "Screwball",
+			"num": 28,
+			"url": "/icons/logos/screwball.png"
+		}],
+		"id": "mlpr",
+		"name": "My Little Pony Roleplay",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ro",
+		"name": "Рогалики",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "cs",
+		"name": "Computer Science | закрыта",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "who",
+		"name": "Doctor Who",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "tat",
+		"name": "Татуировки | закрыта",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "srv",
+		"name": "Серверы",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "plug",
+		"name": "Plug.dj",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "asmr",
+		"name": "ASMR",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "prj",
+		"name": "Проекты",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 1500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "dr",
+		"name": "Дневнички",
+		"pages": 100,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "electrach",
+		"name": "Электронная музыка",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ing",
+		"name": "Инженерное дело",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "got",
+		"name": "Песнь льда и пламени | закрыта",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "crypt",
+		"name": "Криптоанархия",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "socionics",
+		"name": "Соционика и психософия",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 0,
+		"icons": [],
+		"id": "pdx",
+		"name": "CCLV Paradox",
+		"pages": 20,
+		"sage": 0,
+		"tripcodes": 0
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "pok",
+		"name": "Pokemon",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "lap",
+		"name": "Лапник (4x4 клуб)",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "smo",
+		"name": "Курение",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "hg",
+		"name": "Хентайные игры/hentai games",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "sad",
+		"name": "Садоводство",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "fi",
+		"name": "Рыбалка",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "vape",
+		"name": "Электронные сигареты",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "mj",
+		"name": "Маджонг",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ind",
+		"name": "Инди",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ld",
+		"name": "Осознанные сновидения",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ec",
+		"name": "Экономика",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Анонимка",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "fem",
+		"name": "Феминизм",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Пользовательские",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 0,
+		"icons": [],
+		"id": "ver",
+		"name": "Верстак",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	}],
+	"Пробное": [{
+		"bump_limit": 500,
+		"category": "Пробное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "guro",
+		"name": "Шок-контент",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	}],
+	"Разное": [{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "b",
+		"name": "/Б/ред",
+		"pages": 8,
+		"sage": 1,
+		"tripcodes": 0
+	},
+	{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "d",
+		"name": "Дискуссии о Два.ч",
+		"pages": 7,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "soc",
+		"name": "Общение",
+		"pages": 7,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "r",
+		"name": "Просьбы",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "abu",
+		"name": "abu",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 1000,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "old",
+		"name": "Олдфаги",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Разное",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "media",
+		"name": "Анимация",
+		"pages": 20,
+		"sage": 1,
+		"tripcodes": 1
+	}],
+	"Творчество": [{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "di",
+		"name": "Столовая",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "de",
+		"name": "Дизайн",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 1000,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "diy",
+		"name": "Хобби",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "dom",
+		"name": "Домострой",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "izd",
+		"name": "Графомания",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "mus",
+		"name": "Музыканты",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "pa",
+		"name": "Живопись",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "p",
+		"name": "Фотография",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "wp",
+		"name": "Обои и высокое разрешение",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "td",
+		"name": "Трёхмерная графика",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "wr",
+		"name": "Текстовые авторские рпг",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "wrk",
+		"name": "Работа и карьера",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Творчество",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "trv",
+		"name": "Путешествия и отдых",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	}],
+	"Тематика": [{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "bi",
+		"name": "Велосипеды",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
@@ -1982,6 +1662,393 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "biz",
+		"name": "Бизнес",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "bo",
+		"name": "Книги",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "c",
+		"name": "Комиксы и мультфильмы",
+		"pages": 7,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "em",
+		"name": "Другие страны",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ew",
+		"name": "Конец света",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "fa",
+		"name": "Мода и стиль",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 800,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "fiz",
+		"name": "Физкультура",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "fl",
+		"name": "Иностранные языки",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ftb",
+		"name": "Футбол",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "hh",
+		"name": "Hip-Hop",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "hi",
+		"name": "История",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "me",
+		"name": "Медицина",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "mg",
+		"name": "Магия",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Pony",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [{
+			"name": "Twilight Sparkle",
+			"num": 1,
+			"url": "/icons/logos/twilightsparkle.png"
+		},
+		{
+			"name": "Applejack",
+			"num": 2,
+			"url": "/icons/logos/applejack.png"
+		},
+		{
+			"name": "Fluttershy",
+			"num": 3,
+			"url": "/icons/logos/fluttershy.png"
+		},
+		{
+			"name": "Pinkie Pie",
+			"num": 4,
+			"url": "/icons/logos/pinkiepie.png"
+		},
+		{
+			"name": "Rarity",
+			"num": 5,
+			"url": "/icons/logos/rarity.png"
+		},
+		{
+			"name": "Rainbow Dash",
+			"num": 6,
+			"url": "/icons/logos/rainbowdash.png"
+		},
+		{
+			"name": "Princess Celestia",
+			"num": 7,
+			"url": "/icons/logos/celestia.png"
+		},
+		{
+			"name": "Princess Luna",
+			"num": 8,
+			"url": "/icons/logos/luna.png"
+		},
+		{
+			"name": "Nightmare Moon",
+			"num": 9,
+			"url": "/icons/logos/nmm.png"
+		},
+		{
+			"name": "Princess Cadance",
+			"num": 10,
+			"url": "/icons/logos/cadance.png"
+		},
+		{
+			"name": "Shining Armor",
+			"num": 11,
+			"url": "/icons/logos/shining.png"
+		},
+		{
+			"name": "Rose",
+			"num": 12,
+			"url": "/icons/logos/rose.png"
+		},
+		{
+			"name": "Vinyl Scratch",
+			"num": 13,
+			"url": "/icons/logos/vinylscratch.png"
+		},
+		{
+			"name": "Octavia",
+			"num": 14,
+			"url": "/icons/logos/octavia.png"
+		},
+		{
+			"name": "Lyra",
+			"num": 15,
+			"url": "/icons/logos/lyra.png"
+		},
+		{
+			"name": "Bon Bon",
+			"num": 16,
+			"url": "/icons/logos/bonbon2.png"
+		},
+		{
+			"name": "Derpy Hooves",
+			"num": 17,
+			"url": "/icons/logos/derpy.png"
+		},
+		{
+			"name": "Dr. Whooves",
+			"num": 18,
+			"url": "/icons/logos/drwhooves.png"
+		},
+		{
+			"name": "Trixie",
+			"num": 19,
+			"url": "/icons/logos/trixie.png"
+		},
+		{
+			"name": "Spitfire",
+			"num": 20,
+			"url": "/icons/logos/spitfire.png"
+		},
+		{
+			"name": "Zecora",
+			"num": 21,
+			"url": "/icons/logos/zecora.png"
+		},
+		{
+			"name": "Cutie Mark Crusaders",
+			"num": 22,
+			"url": "/icons/logos/cmc.png"
+		},
+		{
+			"name": "Spike",
+			"num": 23,
+			"url": "/icons/logos/spike.png"
+		},
+		{
+			"name": "Sombra",
+			"num": 24,
+			"url": "/icons/logos/sombra.png"
+		},
+		{
+			"name": "Discord",
+			"num": 25,
+			"url": "/icons/logos/chaos.png"
+		},
+		{
+			"name": "Queen Chrysalis",
+			"num": 26,
+			"url": "/icons/logos/chrysalis.png"
+		},
+		{
+			"name": "Bulk Biceps",
+			"num": 27,
+			"url": "/icons/logos/biceps.png"
+		},
+		{
+			"name": "Screwball",
+			"num": 28,
+			"url": "/icons/logos/screwball.png"
+		}],
+		"id": "mlp",
+		"name": "My Little Pony",
+		"pages": 8,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "mo",
+		"name": "Мотоциклы",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ne",
+		"name": "Животные и природа",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "pvc",
+		"name": "Фигурки",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "ph",
+		"name": "Философия",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
+		"enable_posting": 1,
+		"icons": [],
+		"id": "psy",
+		"name": "Психология и психиатрия",
+		"pages": 10,
+		"sage": 1,
+		"tripcodes": 1
+	},
+	{
+		"bump_limit": 500,
+		"category": "Тематика",
+		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [{
 			"name": "Агностицизм",
@@ -2014,8 +2081,7 @@ Pony",
 			"url": "/icons/logos/hinduism.png"
 		},
 		{
-			"name": "Свидетели 
-Иеговы",
+			"name": "Свидетели Иеговы",
 			"num": 7,
 			"url": "/icons/logos/jehovah.png"
 		},
@@ -2050,8 +2116,7 @@ Pony",
 			"url": "/icons/logos/zen2.png"
 		},
 		{
-			"name": "Тибетский 
-буддизм",
+			"name": "Тибетский буддизм",
 			"num": 14,
 			"url": "/icons/logos/tib.png"
 		},
@@ -2091,8 +2156,7 @@ Pony",
 			"url": "/icons/logos/fet2.png"
 		},
 		{
-			"name": "Собственные 
-воззрения",
+			"name": "Собственные воззрения",
 			"num": 22,
 			"url": "/icons/logos/other.png"
 		}],
@@ -2106,11 +2170,11 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "sf",
-		"name": "Научная 
-фантастика",
+		"name": "Научная фантастика",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
@@ -2119,6 +2183,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "sci",
@@ -2131,11 +2196,11 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "sn",
-		"name": "Паранормальные 
-явления",
+		"name": "Паранормальные явления",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
@@ -2144,6 +2209,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "sp",
@@ -2156,11 +2222,11 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "spc",
-		"name": "Космос и 
-астрономия",
+		"name": "Космос и астрономия",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
@@ -2169,11 +2235,11 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "tr",
-		"name": "Транспорт и 
-авиация",
+		"name": "Транспорт и авиация",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
@@ -2182,6 +2248,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "tv",
@@ -2194,6 +2261,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "un",
@@ -2206,6 +2274,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "w",
@@ -2218,6 +2287,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "wh",
@@ -2230,11 +2300,11 @@ Pony",
 		"bump_limit": 1000,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "wm",
-		"name": "Военная 
-техника",
+		"name": "Военная техника",
 		"pages": 7,
 		"sage": 1,
 		"tripcodes": 0
@@ -2243,6 +2313,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "mov",
@@ -2255,6 +2326,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "br",
@@ -2267,6 +2339,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "mu",
@@ -2279,6 +2352,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "au",
@@ -2291,6 +2365,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fs",
@@ -2303,6 +2378,7 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "cul",
@@ -2315,35 +2391,33 @@ Pony",
 		"bump_limit": 500,
 		"category": "Тематика",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "out",
-		"name": "Активный 
-отдых",
+		"name": "Активный отдых",
 		"pages": 20,
 		"sage": 1,
 		"tripcodes": 1
 	}],
-	"Техника и 
-софт": [{
+	"Техника и софт": [{
 		"bump_limit": 500,
-		"category": "Техника и 
-софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "hw",
-		"name": "Компьютерное 
-железо",
+		"name": "Компьютерное железо",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "pr",
@@ -2354,9 +2428,9 @@ Pony",
 	},
 	{
 		"bump_limit": 1000,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "ra",
@@ -2367,9 +2441,9 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "s",
@@ -2380,9 +2454,9 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "t",
@@ -2393,9 +2467,9 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "web",
@@ -2406,9 +2480,9 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "gd",
@@ -2419,23 +2493,22 @@ Pony",
 	},
 	{
 		"bump_limit": 1000,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "mobi",
-		"name": "Мобильные устройства и 
-приложения",
+		"name": "Мобильные устройства и приложения",
 		"pages": 15,
 		"sage": 1,
 		"tripcodes": 0
 	},
 	{
 		"bump_limit": 500,
-		"category": "Техника 
-и софт",
+		"category": "Техника и софт",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "cc",
@@ -2444,12 +2517,11 @@ Pony",
 		"sage": 1,
 		"tripcodes": 1
 	}],
-	"Японская 
-культура": [{
+	"Японская культура": [{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "a",
@@ -2460,23 +2532,22 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "aa",
-		"name": "Аниме 
-арт",
+		"name": "Аниме арт",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "fd",
@@ -2487,23 +2558,22 @@ Pony",
 	},
 	{
 		"bump_limit": 1000,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "ja",
-		"name": "Японская 
-культура",
+		"name": "Японская культура",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "ma",
@@ -2514,23 +2584,22 @@ Pony",
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "rm",
-		"name": "Rozen 
-Maiden",
+		"name": "Rozen Maiden",
 		"pages": 10,
 		"sage": 1,
 		"tripcodes": 0
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "to",
@@ -2541,28 +2610,26 @@ Maiden",
 	},
 	{
 		"bump_limit": 1000,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "vn",
-		"name": "Визуальные 
-новеллы",
+		"name": "Визуальные новеллы",
 		"pages": 50,
 		"sage": 1,
 		"tripcodes": 1
 	},
 	{
 		"bump_limit": 500,
-		"category": "Японская 
-культура",
+		"category": "Японская культура",
 		"default_name": "Аноним",
+		"enable_likes": 0,
 		"enable_posting": 1,
 		"icons": [],
 		"id": "jsf",
-		"name": "Japanese Street 
-Fashion",
+		"name": "Japanese Street Fashion",
 		"pages": 20,
 		"sage": 1,
 		"tripcodes": 1
