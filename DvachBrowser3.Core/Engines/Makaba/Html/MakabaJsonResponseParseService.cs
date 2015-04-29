@@ -484,7 +484,11 @@ namespace DvachBrowser3.Engines.Makaba.Html
         /// <returns>Иконка и флаг.</returns>
         public FlagAndIcon ParseFlagAndIcon(string str)
         {
-            var emptyResult = new FlagAndIcon() { Icon = null, Country = null };;
+            var emptyResult = new FlagAndIcon() { Icon = null, Country = null };
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return emptyResult;
+            }
             try
             {
                 var html = new HtmlDocument();

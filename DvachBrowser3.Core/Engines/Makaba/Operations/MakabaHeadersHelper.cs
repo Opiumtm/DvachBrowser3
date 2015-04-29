@@ -25,7 +25,11 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             {
                 client.DefaultRequestHeaders[kv.Key] = kv.Value;
             }
-            client.DefaultRequestHeaders["User-Agent"] = config.BrowserUserAgent;
+            var agent = config.BrowserUserAgent;
+            if (!string.IsNullOrWhiteSpace(agent))
+            {
+                client.DefaultRequestHeaders["User-Agent"] = agent;
+            }
         }
     }
 }

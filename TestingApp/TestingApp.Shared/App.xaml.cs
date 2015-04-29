@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3;
+using DvachBrowser3.System;
 using TestingApp.Common;
 
 // The Universal Hub Application project template is documented at http://go.microsoft.com/fwlink/?LinkID=391955
@@ -38,6 +40,13 @@ namespace TestingApp
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            var services = new ServiceContainer();
+#if WINDOWS_PHONE_APP
+            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.WindowsPhone });
+#else
+            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.Windows });
+#endif
+            ServiceLocator.Current = services;
         }
 
         /// <summary>
@@ -51,7 +60,7 @@ namespace TestingApp
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                //this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -108,7 +117,7 @@ namespace TestingApp
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(HubPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(TestPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

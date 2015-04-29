@@ -80,6 +80,7 @@ namespace DvachBrowser3.Storage.Files
                             {
                                 await serializer.WriteObjectAsync(xml, obj);
                             }
+                            await wr.FlushAsync();
                         }
                     }
                 }
@@ -91,6 +92,7 @@ namespace DvachBrowser3.Storage.Files
                         {
                             await serializer.WriteObjectAsync(xml, obj);
                         }
+                        await wr.FlushAsync();
                     }
                 }
             });

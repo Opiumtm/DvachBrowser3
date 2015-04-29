@@ -95,7 +95,7 @@ namespace DvachBrowser3.Engines
         {
             dynamic otherData = new ExpandoObject();
             otherData.Kind = "PARSE";
-            OnProgress(new EngineProgress("Обработка данных...", otherData));            
+            OnProgress(new EngineProgress("Обработка данных...", null, otherData));            
         }
 
         /// <summary>

@@ -20,9 +20,9 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="wr">Средство записи XML.</param>
         /// <param name="graph">Объект.</param>
         /// <returns>Таск.</returns>
-        public static Task WriteObjectAsync(this DataContractSerializer serializer, XmlWriter wr, object graph)
+        public static async Task WriteObjectAsync(this DataContractSerializer serializer, XmlWriter wr, object graph)
         {
-            return Task.Factory.StartNew(() => serializer.WriteObject(wr, graph));
+            await Task.Factory.StartNew(() => serializer.WriteObject(wr, graph));
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="serializer">Сериализатор.</param>
         /// <param name="rd">Средство чтения XML.</param>
         /// <returns>Таск.</returns>
-        public static Task<object> ReadObjectAsync(this DataContractSerializer serializer, XmlReader rd)
+        public static async Task<object> ReadObjectAsync(this DataContractSerializer serializer, XmlReader rd)
         {
-            return Task.Factory.StartNew(() => serializer.ReadObject(rd));
+            return await Task.Factory.StartNew(() => serializer.ReadObject(rd));
         }
 
         /// <summary>

@@ -76,7 +76,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
             dynamic otherData = new ExpandoObject();
             otherData.Kind = kind;
-            OnProgress(new EngineProgress(msg, otherData));
+            OnProgress(new EngineProgress(msg, null, otherData));
         }
 
         /// <summary>
