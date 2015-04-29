@@ -33,6 +33,7 @@ namespace DvachBrowser3.Logic
             var sysInfo = Services.GetServiceOrThrow<ISystemInfo>();
             var linkTransformService = Services.GetServiceOrThrow<ILinkTransformService>();
             var linkHashService = Services.GetServiceOrThrow<ILinkHashService>();
+            var dateService = Services.GetServiceOrThrow<IDateService>();
             var favorites2 = favorites as ThreadLinkCollection;
             Tuple<BoardLinkBase, FavoriteThreadInfo>[] updated;
             if (favorites2 == null || favorites2.Links == null || favorites2.ThreadInfo == null)
@@ -60,7 +61,7 @@ namespace DvachBrowser3.Logic
                     n.ImageIcon.Src = sysInfo.AppIcon;
                     n.TextHeading.Text = lastUpdate != null ? linkTransformService.GetLinkDisplayString(lastUpdate.Item1) : null;
                     n.TextBody1.Text = lastUpdate != null ? lastUpdate.Item2.Title : null;
-                    n.TextBody2.Text = lastUpdate != null ? lastUpdate.Item2.CountInfo.LastChange.ToString() : null;
+                    n.TextBody2.Text = lastUpdate != null ? dateService.ToUserString(lastUpdate.Item2.CountInfo.LastChange) : null;
                     var n2 = TileContentFactory.CreateTileSquare150x150IconWithBadge();
                     n2.ImageIcon.Src = sysInfo.AppIcon;
                     n.Square150x150Content = n2;
@@ -80,17 +81,17 @@ namespace DvachBrowser3.Logic
                             case 0:
                                 nw.TextHeading1.Text = linkTransformService.GetBackLinkDisplayString(lastUpdates[i].Item1);
                                 nw.TextBodyGroup1Field1.Text = lastUpdates[i].Item2.Title;
-                                nw.TextBodyGroup1Field2.Text = lastUpdates[i].Item2.CountInfo.LastChange.ToString();
+                                nw.TextBodyGroup1Field2.Text = dateService.ToUserString(lastUpdates[i].Item2.CountInfo.LastChange);
                                 break;
                             case 1:
                                 nw.TextHeading2.Text = linkTransformService.GetBackLinkDisplayString(lastUpdates[i].Item1);
                                 nw.TextBodyGroup2Field1.Text = lastUpdates[i].Item2.Title;
-                                nw.TextBodyGroup2Field2.Text = lastUpdates[i].Item2.CountInfo.LastChange.ToString();
+                                nw.TextBodyGroup2Field2.Text = dateService.ToUserString(lastUpdates[i].Item2.CountInfo.LastChange);
                                 break;
                             case 2:
                                 nw.TextHeading3.Text = linkTransformService.GetBackLinkDisplayString(lastUpdates[i].Item1);
                                 nw.TextBodyGroup3Field1.Text = lastUpdates[i].Item2.Title;
-                                nw.TextBodyGroup3Field2.Text = lastUpdates[i].Item2.CountInfo.LastChange.ToString();
+                                nw.TextBodyGroup3Field2.Text = dateService.ToUserString(lastUpdates[i].Item2.CountInfo.LastChange);
                                 break;
                         }
                     }
@@ -98,13 +99,13 @@ namespace DvachBrowser3.Logic
                     nw2.Branding = TileBranding.Logo;
                     nw2.TextHeading.Text = lastUpdate != null ? linkTransformService.GetLinkDisplayString(lastUpdate.Item1) : null;
                     nw2.TextBody1.Text = lastUpdate != null ? lastUpdate.Item2.Title : null;
-                    nw2.TextBody2.Text = lastUpdate != null ? lastUpdate.Item2.CountInfo.LastChange.ToString() : null;
+                    nw2.TextBody2.Text = lastUpdate != null ? dateService.ToUserString(lastUpdate.Item2.CountInfo.LastChange) : null;
                     nw.Wide310x150Content = nw2;
                     var nw3 = TileContentFactory.CreateTileSquare150x150Text01();
                     nw3.Branding = TileBranding.Logo;
                     nw3.TextHeading.Text = lastUpdate != null ? linkTransformService.GetLinkDisplayString(lastUpdate.Item1) : null;
                     nw3.TextBody1.Text = lastUpdate != null ? lastUpdate.Item2.Title : null;
-                    nw3.TextBody2.Text = lastUpdate != null ? lastUpdate.Item2.CountInfo.LastChange.ToString() : null;
+                    nw3.TextBody2.Text = lastUpdate != null ? dateService.ToUserString(lastUpdate.Item2.CountInfo.LastChange) : null;
                     nw2.Square150x150Content = nw3;
                     var nw4 = TileContentFactory.CreateTileSquare71x71Image();
                     nw4.Branding = TileBranding.Name;
