@@ -44,7 +44,7 @@ namespace TestingApp
 #if WINDOWS_PHONE_APP
             CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.WindowsPhone });
 #else
-            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.Windows });
+            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.Windows, AppIcon = "ms-appx:///Assets/Logo.png", SmallAppIcon = "ms-appx:///Assets/SmallLogo.png" });
 #endif
             ServiceLocator.Current = services;
         }

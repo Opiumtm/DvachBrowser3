@@ -151,13 +151,13 @@ namespace TestingApp
             try
             {
                 var logic = ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>();
-                var boardOperation = logic.LoadBoardPage(new BoardLink() { Engine = CoreConstants.Engine.Makaba, Board = "b" });
+                var boardOperation = logic.LoadThread(new ThreadLink() { Engine = CoreConstants.Engine.Makaba, Board = "b", Thread = 91822857});
                 boardOperation.Progress += (obj, msg) => ShowProgress(msg);
                 try
                 {
                     var boardResult = await boardOperation.Complete();
                     Log("Получены данные борды");
-                    Log("OP date: " + boardResult.Threads[0].OpPost.Date);                    
+                    Log("OP date: " + boardResult.Posts.Count);
                 }
                 finally
                 {

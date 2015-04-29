@@ -54,21 +54,25 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             message.EnsureSuccessStatusCode();
             var str = await message.Content.ReadAsStringAsync();
             Operation = null;
-            var errorObj = JsonConvert.DeserializeObject<ThreadPartialError>(str);
-            if (errorObj.Error != null)
+            SignalProcessing();
+            if (str.StartsWith("["))
             {
+                var result = JsonConvert.DeserializeObject<BoardPost2[]>(str);
+                var task = Task<IThreadResult>.Factory.StartNew(() =>
+                {
+                    var data = new OperationResult()
+                    {
+                        CollectionResult = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseThreadPartial(result, GetThreadLink())
+                    };
+                    return data;
+                });
+                return await task;                
+            }
+            else
+            {
+                var errorObj = JsonConvert.DeserializeObject<ThreadPartialError>(str);
                 throw new WebException(string.Format("{0}: {1}", errorObj.Code, errorObj.Error));
             }
-            var result = JsonConvert.DeserializeObject<BoardPost2[]>(str);
-            var task = Task<IThreadResult>.Factory.StartNew(() =>
-            {
-                var data = new OperationResult()
-                {
-                    CollectionResult = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseThreadPartial(result, GetThreadLink())
-                };
-                return data;
-            });
-            return await task;
         }
 
         private class OperationResult : IThreadResult

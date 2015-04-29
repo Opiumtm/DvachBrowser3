@@ -254,6 +254,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                     }
                 }
                 await storage.ThreadData.VisitedThreads.SaveLinkCollection(visited2);
+                await Services.GetServiceOrThrow<ILiveTileService>().UpdateFavoritesTile(visited2);
             }
         }
     }

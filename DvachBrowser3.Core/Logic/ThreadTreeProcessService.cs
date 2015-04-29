@@ -26,11 +26,17 @@ namespace DvachBrowser3.Logic
         /// <param name="part">Часть треда.</param>
         public void MergeTree(ThreadTree src, ThreadTreePartial part)
         {
+            var linkHashService = Services.GetServiceOrThrow<ILinkHashService>();
             if (src.Posts == null)
             {
                 src.Posts = new List<PostTree>();
             }
-            src.Posts.AddRange(part.Posts ?? new List<PostTree>());
+            var oldPosts = src.Posts.DeduplicateToDictionary(p => linkHashService.GetLinkHash(p.Link));
+            foreach (var np in part.Posts)
+            {
+                oldPosts[linkHashService.GetLinkHash(np.Link)] = np;
+            }
+            src.Posts = oldPosts.Values.ToList();
         }
 
         /// <summary>

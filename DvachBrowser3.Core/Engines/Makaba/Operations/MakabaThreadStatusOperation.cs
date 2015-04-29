@@ -47,12 +47,12 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>Результат.</returns>
         protected async override Task<IThreadStatusResult> ProcessJson(CheckUpdatesData message, string etag)
         {
-            if (!string.IsNullOrWhiteSpace(message.ErrorMessage))
+            if (string.IsNullOrWhiteSpace(message.ErrorMessage))
             {
                 return new OperationResult()
                 {
                     IsFound = true,
-                    TotalPosts = message.Posts > 0 ? (int?) message.Posts : null,
+                    TotalPosts = message.Posts >= 0 ? (int?) message.Posts + 1 : null,
                     LastUpdate = Services.GetServiceOrThrow<IDateService>().FromUnixTime(message.TimeStamp),
                 };
             }
