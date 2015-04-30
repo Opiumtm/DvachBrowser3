@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
-using Newtonsoft.Json;
+using Windows.Web.Http.Headers;
+using DvachBrowser3.Common;
 
 namespace DvachBrowser3.Engines
 {
@@ -11,7 +15,7 @@ namespace DvachBrowser3.Engines
     /// <typeparam name="T">Тип результата.</typeparam>
     /// <typeparam name="TParam">Тип параметра.</typeparam>
     /// <typeparam name="TJson">Тип объекта JSON.</typeparam>
-    public abstract class HttpGetJsonEngineOperationBase<T, TParam, TJson> : HttpGetEngineOperationBase<T, TParam>
+    public abstract class HttpGetJsonEngineOperationBase<T, TParam, TJson> : HttpDownloadEngineOperationBase<T, TParam>
     {
         /// <summary>
         /// Конструктор.
@@ -27,20 +31,21 @@ namespace DvachBrowser3.Engines
         /// Выполнить операцию.
         /// </summary>
         /// <param name="message">Сообщение.</param>
+        /// <param name="stream">Поток данных.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected sealed override async Task<T> DoComplete(HttpResponseMessage message)
+        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, CancellationToken token)
         {
-            message.EnsureSuccessStatusCode();
             string etag = null;
             if (message.Headers.ContainsKey("ETag"))
             {
                 etag = message.Headers["ETag"];
             }
-            var str = await message.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<TJson>(str);
-            Operation = null;
+            var serializer = Services.GetService<IJsonService>();
+            var encoding = GetEncoding(message);
+            var result = serializer.Deserialize<TJson>(stream, encoding);
             SignalProcessing();
-            return await ProcessJson(result, etag);
+            return await ProcessJson(result, etag, token);
         }
 
         /// <summary>
@@ -48,18 +53,30 @@ namespace DvachBrowser3.Engines
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="etag">ETAG.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Результат.</returns>
-        protected abstract Task<T> ProcessJson(TJson message, string etag);
+        protected abstract Task<T> ProcessJson(TJson message, string etag, CancellationToken token);
 
         /// <summary>
-        /// Опция определения.
+        /// Получить кодировку ответа.
         /// </summary>
-        protected sealed override HttpCompletionOption CompletionOption
+        /// <param name="msg">Сообщение.</param>
+        /// <returns>Кодировка.</returns>
+        protected virtual Encoding GetEncoding(HttpResponseMessage msg)
         {
-            get
+            if (msg.Content.Headers.ContainsKey("Content-Type"))
             {
-                return HttpCompletionOption.ResponseContentRead;
+                var ct = msg.Content.Headers["Content-Type"];
+                var regex =
+                    Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(@"[^;]*;\s*charset=(?<charset>.*)$");
+                var match = regex.Match(ct);
+                if (match.Success)
+                {
+                    var ctt = match.Groups["charset"].Captures[0].Value.Trim();
+                    return Encoding.GetEncoding(ctt);
+                }
             }
+            return Encoding.UTF8;
         }
     }
 }

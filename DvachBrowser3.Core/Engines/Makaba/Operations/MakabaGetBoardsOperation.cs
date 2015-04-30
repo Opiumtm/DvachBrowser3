@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Board;
@@ -38,8 +39,9 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="etag">ETAG.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Результат.</returns>
-        protected override async Task<IBoardListResult> ProcessJson(MobileBoardInfoGroups message, string etag)
+        protected override async Task<IBoardListResult> ProcessJson(MobileBoardInfoGroups message, string etag, CancellationToken token)
         {
             var service = Services.GetServiceOrThrow<IMakabaBoardInfoParser>();
             var result = new List<BoardReference>();

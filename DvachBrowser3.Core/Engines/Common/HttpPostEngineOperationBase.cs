@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 
@@ -25,24 +26,16 @@ namespace DvachBrowser3.Engines
         /// Выполнить операцию.
         /// </summary>
         /// <param name="client">Клиент.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected sealed override async Task<T> DoComplete(HttpClient client)
+        protected sealed override async Task<T> DoComplete(HttpClient client, CancellationToken token)
         {
             using (var content = await GetPostContent())
             {
                 var operation = client.PostAsync(GetRequestUri(), content);
-                operation.Progress = HttpProgress;
-                Operation = operation;
-                try
+                using (var message = await operation.AsTask(token, new Progress<HttpProgress>(HttpOperationProgress)))
                 {
-                    using (var message = await operation)
-                    {
-                        return await DoComplete(message);
-                    }
-                }
-                finally
-                {
-                    Operation = null;
+                    return await DoComplete(message, token);
                 }
             }
         }
@@ -57,7 +50,8 @@ namespace DvachBrowser3.Engines
         /// Выполнить операцию.
         /// </summary>
         /// <param name="message">Сообщение.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected abstract Task<T> DoComplete(HttpResponseMessage message);
+        protected abstract Task<T> DoComplete(HttpResponseMessage message, CancellationToken token);
     }
 }

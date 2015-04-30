@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Engines.Makaba.Json;
@@ -154,12 +155,14 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             throw new ArgumentException("Неправильный формат ссылки (post)");
         }
 
-        protected override async Task<IPostingResult> DoComplete(HttpResponseMessage message)
+        protected override async Task<IPostingResult> DoComplete(HttpResponseMessage message, CancellationToken token)
         {
             var pr = GetPostingRef();
             message.EnsureSuccessStatusCode();
-            var str = await message.Content.ReadAsStringAsync();
-            Operation = null;
+            ulong length;
+            var hasLength = message.Content.TryComputeLength(out length);
+            ulong? length1 = hasLength ? (ulong?) length : null;
+            var str = await message.Content.ReadAsStringAsync().AsTask(token, new Progress<ulong>(l => DownloadProgress(length1, l)));
             try
             {
                 var obj = JsonConvert.DeserializeObject<PostingJsonResult>(str);

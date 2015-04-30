@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Links;
@@ -37,8 +38,9 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// Выполнить операцию.
         /// </summary>
         /// <param name="message">Сообщение.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected async override Task<ILastModifiedCheckResult> DoComplete(HttpResponseMessage message)
+        protected async override Task<ILastModifiedCheckResult> DoComplete(HttpResponseMessage message, CancellationToken token)
         {
             if (message.Headers.ContainsKey("ETag"))
             {

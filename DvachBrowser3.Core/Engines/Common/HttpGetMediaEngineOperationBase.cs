@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Dynamic;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
 
 namespace DvachBrowser3.Engines
@@ -13,7 +16,7 @@ namespace DvachBrowser3.Engines
     /// </summary>
     /// <typeparam name="T">Тип результата.</typeparam>
     /// <typeparam name="TParam">Тип параметра.</typeparam>
-    public abstract class HttpGetMediaEngineOperationBase<T, TParam> : HttpGetEngineOperationBase<T, TParam>
+    public abstract class HttpGetMediaEngineOperationBase<T, TParam> : HttpDownloadEngineOperationBase<T, TParam>
     {
         /// <summary>
         /// Конструктор.
@@ -25,38 +28,27 @@ namespace DvachBrowser3.Engines
         {
         }
 
-        private ulong? totalBytes = null;
-
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
         /// <param name="message">Сообщение.</param>
+        /// <param name="stream">Поток данных.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected sealed override async Task<T> DoComplete(HttpResponseMessage message)
+        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, CancellationToken token)
         {
-            message.EnsureSuccessStatusCode();
-            ulong l;
-            if (message.Content.TryComputeLength(out l))
-            {
-                totalBytes = l;
-            }
             var tempFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(Guid.NewGuid() + ".tmp", CreationCollisionOption.GenerateUniqueName);
             Exception error = null;
-            var result = default(T);
             try
             {
                 using (var str = await tempFile.OpenAsync(FileAccessMode.ReadWrite))
                 {
-                    var operation = message.Content.WriteToStreamAsync(str);
-                    operation.Progress = DownloadProgress;
-                    Operation = operation;
-                    try
+                    using (var outStr = str.AsStream())
                     {
-                        await operation;
-                    }
-                    finally
-                    {
-                        Operation = null;
+                        using (var inStr = stream.AsStreamForRead())
+                        {
+                            await inStr.CopyToAsync(outStr);
+                        }
                     }
                 }
             }
@@ -76,7 +68,8 @@ namespace DvachBrowser3.Engines
                 }
                 throw error;
             }
-            return result;
+            var contentType = message.Headers.ContainsKey("Content-Type") ? message.Headers["Content-Type"] : null;
+            return await GetMediaResponse(tempFile, contentType, token);
         }
 
         /// <summary>
@@ -84,45 +77,8 @@ namespace DvachBrowser3.Engines
         /// </summary>
         /// <param name="tempFile">Временный файл.</param>
         /// <param name="mimeType">Тип файла.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Результат.</returns>
-        protected abstract Task<T> GetMediaResponse(StorageFile tempFile, string mimeType);
-
-        private void DownloadProgress(IAsyncOperationWithProgress<ulong, ulong> asyncInfo, ulong progressInfo)
-        {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "DOWNLOAD";
-            if (totalBytes != null && totalBytes > 0)
-            {
-                OnProgress(new EngineProgress(string.Format("Получено {0}/{1}", BytesToStr(progressInfo), BytesToStr(totalBytes.Value)), (double)progressInfo / (double)(totalBytes.Value) * 100.0, otherData));
-            }
-            else
-            {
-                OnProgress(new EngineProgress(string.Format("Получено {0}", BytesToStr(progressInfo)), null, otherData));
-            }
-        }
-
-        /// <summary>
-        /// Прогресс HTTP.
-        /// </summary>
-        /// <param name="asyncInfo">Асинхронная операция.</param>
-        /// <param name="progressInfo">Прогресс.</param>
-        protected override void HttpProgress(IAsyncOperationWithProgress<HttpResponseMessage, HttpProgress> asyncInfo, HttpProgress progressInfo)
-        {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "HTTP";
-            otherData.HttpProgress = progressInfo;
-            OnProgress(new EngineProgress("Соединение с сервером", null, otherData));
-        }
-
-        /// <summary>
-        /// Опция определения.
-        /// </summary>
-        protected sealed override HttpCompletionOption CompletionOption
-        {
-            get
-            {
-                return HttpCompletionOption.ResponseHeadersRead;
-            }
-        }
+        protected abstract Task<T> GetMediaResponse(StorageFile tempFile, string mimeType, CancellationToken token);
     }
 }

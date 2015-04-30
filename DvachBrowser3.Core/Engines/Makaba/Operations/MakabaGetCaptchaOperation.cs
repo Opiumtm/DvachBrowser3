@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Posting;
@@ -38,11 +39,12 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// Выполнить операцию.
         /// </summary>
         /// <param name="message">Сообщение.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected override async Task<ICaptchaResult> DoComplete(HttpResponseMessage message)
+        protected override async Task<ICaptchaResult> DoComplete(HttpResponseMessage message, CancellationToken token)
         {
             message.EnsureSuccessStatusCode();
-            var str = await message.Content.ReadAsStringAsync();
+            var str = await message.Content.ReadAsStringAsync().AsTask(token);
             using (var rd = new StringReader(str))
             {
                 var lines = (rd.ReadToEnd()).Split('\n');

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Engines.Makaba.Json;
@@ -44,8 +45,9 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="etag">ETAG.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Результат.</returns>
-        protected async override Task<IThreadStatusResult> ProcessJson(CheckUpdatesData message, string etag)
+        protected async override Task<IThreadStatusResult> ProcessJson(CheckUpdatesData message, string etag, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(message.ErrorMessage))
             {

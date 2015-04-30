@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Engines.Makaba.Json;
 using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
-using Newtonsoft.Json;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
 {
     /// <summary>
     /// Получить часть треда.
     /// </summary>
-    public sealed class MakabaGetThreadPartOperation : HttpGetEngineOperationBase<IThreadResult, BoardLinkBase>
+    public sealed class MakabaGetThreadPartOperation : HttpGetJsonEngineOperationBase<IThreadResult, BoardLinkBase, ThreadPartialResponse>
     {
         /// <summary>
         /// Конструктор.
@@ -49,30 +49,29 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             return Services.GetServiceOrThrow<IMakabaUriService>().GetJsonLink(GetThreadLink());
         }
 
-        protected override async Task<IThreadResult> DoComplete(HttpResponseMessage message)
+        /// <summary>
+        /// Обработать результат JSON.
+        /// </summary>
+        /// <param name="message">Сообщение.</param>
+        /// <param name="etag">ETAG.</param>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат.</returns>
+        protected override async Task<IThreadResult> ProcessJson(ThreadPartialResponse message, string etag, CancellationToken token)
         {
-            message.EnsureSuccessStatusCode();
-            var str = await message.Content.ReadAsStringAsync();
-            Operation = null;
-            SignalProcessing();
-            if (str.StartsWith("["))
+            if (message.Error != null)
             {
-                var result = JsonConvert.DeserializeObject<BoardPost2[]>(str);
-                var task = Task<IThreadResult>.Factory.StartNew(() =>
+                throw new WebException(string.Format("{0}: {1}", Math.Abs(message.Error.Code), message.Error.Error));                
+            }
+            var result = message.Posts;
+            var task = Task<IThreadResult>.Factory.StartNew(() =>
+            {
+                var data = new OperationResult()
                 {
-                    var data = new OperationResult()
-                    {
-                        CollectionResult = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseThreadPartial(result, GetThreadLink())
-                    };
-                    return data;
-                });
-                return await task;                
-            }
-            else
-            {
-                var errorObj = JsonConvert.DeserializeObject<ThreadPartialError>(str);
-                throw new WebException(string.Format("{0}: {1}", errorObj.Code, errorObj.Error));
-            }
+                    CollectionResult = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseThreadPartial(result, GetThreadLink())
+                };
+                return data;
+            });
+            return await task;
         }
 
         private class OperationResult : IThreadResult
@@ -89,14 +88,6 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         {
             await base.SetHeaders(client);
             await MakabaHeadersHelper.SetClientHeaders(Services, client);
-        }
-
-        protected override HttpCompletionOption CompletionOption
-        {
-            get
-            {
-                return HttpCompletionOption.ResponseContentRead;
-            }
         }
     }
 }

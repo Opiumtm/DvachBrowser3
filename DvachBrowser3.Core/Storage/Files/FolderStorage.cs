@@ -161,7 +161,7 @@ namespace DvachBrowser3.Storage.Files
                         }                        
                     }
                 }
-                foreach (var n in sizes.Sizes.Keys.Where(n => !visitedFiles.Contains(n)))
+                foreach (var n in sizes.Sizes.Keys.ToArray().Where(n => !visitedFiles.Contains(n)))
                 {
                     sizes.Sizes.Remove(n);
                 }

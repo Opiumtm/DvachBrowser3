@@ -4,6 +4,7 @@ using DvachBrowser3;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Storage;
 using TestingApp.Common;
 using System;
 using System.Collections.Generic;
@@ -150,8 +151,10 @@ namespace TestingApp
         {
             try
             {
+                var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                await storage.ThreadData.ClearCache();
                 var logic = ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>();
-                var boardOperation = logic.LoadThread(new ThreadLink() { Engine = CoreConstants.Engine.Makaba, Board = "b", Thread = 91822857});
+                var boardOperation = logic.LoadThread(new ThreadLink() { Engine = CoreConstants.Engine.Makaba, Board = "mobi", Thread = 510352 });
                 boardOperation.Progress += (obj, msg) => ShowProgress(msg);
                 try
                 {
@@ -163,6 +166,7 @@ namespace TestingApp
                 {
                     HideProgress();
                 }
+                Log((await storage.ThreadData.GetCacheSize()).ToString());
             }
             catch (Exception ex)
             {

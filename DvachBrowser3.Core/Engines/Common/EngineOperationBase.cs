@@ -28,55 +28,23 @@ namespace DvachBrowser3.Engines
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
+        /// <param name="token">Токен отмены операции.</param>
         /// <returns>Таск.</returns>
-        public abstract Task<T> Complete();
+        public abstract Task<T> Complete(CancellationToken token);
 
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
-        /// <param name="token">Токен отмены операции.</param>
         /// <returns>Таск.</returns>
-        public async Task<T> Complete(CancellationToken token)
+        public async Task<T> Complete()
         {
-            token.Register(Cancel);
-            // ReSharper disable once MethodSupportsCancellation
-            return await Complete();
+            return await Complete(new CancellationToken());
         }
 
         /// <summary>
         /// Прогресс операции.
         /// </summary>
         public event EventHandler<EngineProgress> Progress;
-
-        private IAsyncInfo asyncInfo;
-
-        protected IAsyncInfo Operation
-        {
-            get { return Interlocked.CompareExchange(ref asyncInfo, null, null); }
-            set { Interlocked.Exchange(ref asyncInfo, value); }
-        }
-
-        /// <summary>
-        /// Отменить.
-        /// </summary>
-        protected virtual void Cancel()
-        {
-            try
-            {
-                var operation = Operation;
-                if (operation != null)
-                {
-                    if (operation.Status == AsyncStatus.Started)
-                    {
-                        operation.Cancel();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-            }
-        }
 
         /// <summary>
         /// Прогресс.

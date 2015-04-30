@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DvachBrowser3.System
+namespace DvachBrowser3.SystemInformation
 {
     /// <summary>
     /// Информация о системе.

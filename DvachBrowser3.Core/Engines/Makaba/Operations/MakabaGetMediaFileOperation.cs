@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Web.Http;
@@ -46,8 +47,9 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// </summary>
         /// <param name="tempFile">Временный файл.</param>
         /// <param name="mimeType">Тип файла.</param>
+        /// <param name="token">Токен.</param>
         /// <returns>Результат.</returns>
-        protected override async Task<IMediaResult> GetMediaResponse(StorageFile tempFile, string mimeType)
+        protected override async Task<IMediaResult> GetMediaResponse(StorageFile tempFile, string mimeType, CancellationToken token)
         {
             return new OperationResult()
             {

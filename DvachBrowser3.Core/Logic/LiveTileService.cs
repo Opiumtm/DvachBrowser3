@@ -5,7 +5,7 @@ using Windows.UI.Notifications;
 using DvachBrowser3.Links;
 using DvachBrowser3.Notifications;
 using DvachBrowser3.Notifications.TileContent;
-using DvachBrowser3.System;
+using DvachBrowser3.SystemInformation;
 
 namespace DvachBrowser3.Logic
 {

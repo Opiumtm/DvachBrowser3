@@ -1,4 +1,4 @@
-﻿namespace DvachBrowser3.System
+﻿namespace DvachBrowser3.SystemInformation
 {
     /// <summary>
     /// Платформа.

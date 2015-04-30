@@ -55,9 +55,11 @@
     <Compile Include="Common\Empty.cs" />
     <Compile Include="Common\IConfiguration.cs" />
     <Compile Include="Common\IDateService.cs" />
+    <Compile Include="Common\IJsonService.cs" />
     <Compile Include="Common\IRegexCacheService.cs" />
     <Compile Include="Common\ISerializerCacheService.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
+    <Compile Include="Common\JsonService.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
     <Compile Include="Common\RegexCacheService.cs" />
     <Compile Include="Common\SerializerCacheService.cs" />
@@ -73,6 +75,8 @@
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
+    <Compile Include="Engines\Common\HttpClientHelpers.cs" />
+    <Compile Include="Engines\Common\HttpDownloadEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineHeadJsonEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpGetEngineOperationBase.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
     <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
     <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
+    <Compile Include="Engines\Makaba\Json\ThreadPartialResponse.cs" />
     <Compile Include="Engines\Makaba\MakabaEngine.cs" />
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />

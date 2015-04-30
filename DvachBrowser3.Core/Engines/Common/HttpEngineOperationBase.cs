@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Dynamic;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Web.Http;
@@ -25,23 +26,24 @@ namespace DvachBrowser3.Engines
         {
         }
 
-
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Таск.</returns>
-        public sealed override async Task<T> Complete()
+        public sealed override async Task<T> Complete(CancellationToken token)
         {
             var client = await CreateClient();
-            return await DoComplete(client);
+            return await DoComplete(client, token);
         }
 
        /// <summary>
         /// Выполнить операцию.
         /// </summary>
         /// <param name="client">Клиент.</param>
+        /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected abstract Task<T> DoComplete(HttpClient client);
+        protected abstract Task<T> DoComplete(HttpClient client, CancellationToken token);
 
         /// <summary>
         /// Создать HTTP-клиент.
@@ -86,9 +88,8 @@ namespace DvachBrowser3.Engines
         /// <summary>
         /// Прогресс HTTP.
         /// </summary>
-        /// <param name="asyncInfo">Асинхронная операция.</param>
         /// <param name="progressInfo">Прогресс.</param>
-        protected virtual void HttpProgress(IAsyncOperationWithProgress<HttpResponseMessage, HttpProgress> asyncInfo, HttpProgress progressInfo)
+        protected virtual void HttpOperationProgress(HttpProgress progressInfo)
         {
             dynamic otherData = new ExpandoObject();
             otherData.Kind = "HTTP";
@@ -121,9 +122,28 @@ namespace DvachBrowser3.Engines
             }
         }
 
-        private const ulong Kb = 1024*1024;
+        /// <summary>
+        /// Прогресс загрузки.
+        /// </summary>
+        /// <param name="total">Всего.</param>
+        /// <param name="progressInfo">Загружено.</param>
+        protected virtual void DownloadProgress(ulong? total, ulong progressInfo)
+        {
+            dynamic otherData = new ExpandoObject();
+            otherData.Kind = "DOWNLOAD";
+            if (total != null && total > 0)
+            {
+                OnProgress(new EngineProgress(string.Format("Получено {0}/{1}", BytesToStr(progressInfo), BytesToStr(total.Value)), (double)progressInfo / (double)(total.Value) * 100.0, otherData));
+            }
+            else
+            {
+                OnProgress(new EngineProgress(string.Format("Получено {0}", BytesToStr(progressInfo)), null, otherData));
+            }            
+        }
 
-        private const ulong Mb = 1024*1024*1024;
+        private const ulong Kb = 1024;
+
+        private const ulong Mb = 1024*1024;
 
         /// <summary>
         /// Байты в строку.

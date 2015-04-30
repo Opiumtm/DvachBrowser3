@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using DvachBrowser3.Engines.Makaba.Html;
@@ -81,7 +82,14 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             return Services.GetServiceOrThrow<IMakabaUriService>().GetJsonLink(GetPageLink());
         }
 
-        protected override async Task<IBoardPageResult> ProcessJson(BoardEntity2 message, string etag)
+        /// <summary>
+        /// Обработать результат JSON.
+        /// </summary>
+        /// <param name="message">Сообщение.</param>
+        /// <param name="etag">ETAG.</param>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат.</returns>
+        protected override async Task<IBoardPageResult> ProcessJson(BoardEntity2 message, string etag, CancellationToken token)
         {
             var task = Task<IBoardPageResult>.Factory.StartNew(() =>
             {

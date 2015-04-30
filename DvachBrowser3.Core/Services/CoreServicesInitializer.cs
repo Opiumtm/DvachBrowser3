@@ -1,11 +1,12 @@
 ﻿using DvachBrowser3.Captcha;
+using DvachBrowser3.Common;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Engines.Makaba.BoardInfo;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
-using DvachBrowser3.System;
+using DvachBrowser3.SystemInformation;
 
 namespace DvachBrowser3
 {
@@ -38,6 +39,7 @@ namespace DvachBrowser3
             container.RegisterService<ISystemInfo>(new SystemInfo(container, sysInfo));
             container.RegisterService<IThreadTreeProcessService>(new ThreadTreeProcessService(container));
             container.RegisterService<ILiveTileService>(new LiveTileService(container));
+            container.RegisterService<IJsonService>(new JsonService(container));
         }
     }
 }
