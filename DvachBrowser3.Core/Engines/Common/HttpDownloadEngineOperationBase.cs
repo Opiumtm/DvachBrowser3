@@ -35,10 +35,9 @@ namespace DvachBrowser3.Engines
             var hasLength = message.Content.TryComputeLength(out length);
             var operation = message.Content.ReadAsInputStreamAsync();
             ulong? length1 = hasLength ? (ulong?) length : null;
-            var progress = new Progress<ulong>(l => DownloadProgress(length1, l));
             using (var stream = await operation.AsTask(token))
             {
-                return await DoComplete(message, stream.AsHttpCounting(progress), token);
+                return await DoComplete(message, stream, length1, token);
             }
         }
 
@@ -49,7 +48,7 @@ namespace DvachBrowser3.Engines
         /// <param name="stream">Поток данных.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected abstract Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, CancellationToken token);
+        protected abstract Task<T> DoComplete(HttpResponseMessage message, IInputStream Stream, ulong? size, CancellationToken token);
 
         /// <summary>
         /// Опция определения.

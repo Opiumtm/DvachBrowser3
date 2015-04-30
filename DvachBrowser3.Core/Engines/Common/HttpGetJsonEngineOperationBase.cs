@@ -32,9 +32,10 @@ namespace DvachBrowser3.Engines
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="stream">Поток данных.</param>
+        /// <param name="size">Размер.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, CancellationToken token)
+        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, ulong? size, CancellationToken token)
         {
             string etag = null;
             if (message.Headers.ContainsKey("ETag"))
@@ -43,7 +44,13 @@ namespace DvachBrowser3.Engines
             }
             var serializer = Services.GetService<IJsonService>();
             var encoding = GetEncoding(message);
-            var result = serializer.Deserialize<TJson>(stream, encoding);
+            TJson result;
+            using (var buffer = new SemiBufferedStream(96*1024))
+            {
+                await stream.CopyToNetStreamWithProgress(buffer, new Progress<ulong>(l => DownloadProgress(size, l)), token);
+                buffer.Position = 0;
+                result = serializer.Deserialize<TJson>(buffer, encoding);
+            }
             SignalProcessing();
             return await ProcessJson(result, etag, token);
         }

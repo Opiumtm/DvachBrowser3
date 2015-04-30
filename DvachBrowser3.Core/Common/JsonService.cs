@@ -45,19 +45,16 @@ namespace DvachBrowser3.Common
         /// <param name="str">Входной поток.</param>
         /// <param name="encoding">Кодировка.</param>
         /// <returns>Объект.</returns>
-        public T Deserialize<T>(IInputStream str, Encoding encoding)
+        public T Deserialize<T>(Stream str, Encoding encoding)
         {
             try
             {
                 var serializer = new JsonSerializer();
-                using (var nstr = str.AsStreamForRead())
+                using (var rd = new StreamReader(str, encoding))
                 {
-                    using (var rd = new StreamReader(nstr, encoding))
+                    using (var json = new JsonTextReader(rd))
                     {
-                        using (var json = new JsonTextReader(rd))
-                        {
-                            return serializer.Deserialize<T>(json);
-                        }
+                        return serializer.Deserialize<T>(json);
                     }
                 }
             }

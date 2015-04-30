@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using Windows.Storage.Streams;
 
 namespace DvachBrowser3.Common
@@ -23,6 +24,6 @@ namespace DvachBrowser3.Common
         /// <param name="str">Входной поток.</param>
         /// <param name="encoding">Кодировка.</param>
         /// <returns>Объект.</returns>
-        T Deserialize<T>(IInputStream str, Encoding encoding);
+        T Deserialize<T>(Stream str, Encoding encoding);
     }
 }

@@ -62,8 +62,10 @@
     <Compile Include="Common\JsonService.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
     <Compile Include="Common\RegexCacheService.cs" />
+    <Compile Include="Common\SemiBufferedStream.cs" />
     <Compile Include="Common\SerializerCacheService.cs" />
     <Compile Include="Common\ServiceDependencyInfoAttribute.cs" />
+    <Compile Include="Common\StreamHelpers.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\UniqueIdHelper.cs" />
@@ -75,7 +77,6 @@
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
-    <Compile Include="Engines\Common\HttpClientHelpers.cs" />
     <Compile Include="Engines\Common\HttpDownloadEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineHeadJsonEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineOperationBase.cs" />

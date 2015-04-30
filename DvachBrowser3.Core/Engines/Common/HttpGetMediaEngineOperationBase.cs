@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Dynamic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
@@ -33,9 +30,10 @@ namespace DvachBrowser3.Engines
         /// </summary>
         /// <param name="message">Сообщение.</param>
         /// <param name="stream">Поток данных.</param>
+        /// <param name="size">Размер.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Операция.</returns>
-        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, CancellationToken token)
+        protected override async Task<T> DoComplete(HttpResponseMessage message, IInputStream stream, ulong? size, CancellationToken token)
         {
             var tempFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(Guid.NewGuid() + ".tmp", CreationCollisionOption.GenerateUniqueName);
             Exception error = null;
@@ -45,10 +43,7 @@ namespace DvachBrowser3.Engines
                 {
                     using (var outStr = str.AsStream())
                     {
-                        using (var inStr = stream.AsStreamForRead())
-                        {
-                            await inStr.CopyToAsync(outStr);
-                        }
+                        await stream.CopyToNetStreamWithProgress(outStr, new Progress<ulong>(l => DownloadProgress(size, l)), token);
                     }
                 }
             }
@@ -68,7 +63,7 @@ namespace DvachBrowser3.Engines
                 }
                 throw error;
             }
-            var contentType = message.Headers.ContainsKey("Content-Type") ? message.Headers["Content-Type"] : null;
+            var contentType = message.Content.Headers.ContainsKey("Content-Type") ? message.Content.Headers["Content-Type"] : null;
             return await GetMediaResponse(tempFile, contentType, token);
         }
 
