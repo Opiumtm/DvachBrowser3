@@ -74,5 +74,10 @@ namespace DvachBrowser3.ViewModels
         /// Строка с размерами.
         /// </summary>
         string SizeString { get; }
+
+        /// <summary>
+        /// Имя.
+        /// </summary>
+        string Name { get; }
     }
 }
