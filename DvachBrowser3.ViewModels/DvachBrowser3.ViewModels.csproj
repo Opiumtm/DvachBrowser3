@@ -50,6 +50,7 @@
     <Compile Include="Configuration\IViewConfigurationService.cs" />
     <Compile Include="Configuration\ViewConfiguration.cs" />
     <Compile Include="Configuration\ViewConfigurationService.cs" />
+    <Compile Include="ICancellationTokenSource.cs" />
     <Compile Include="IPageStateAware.cs" />
     <Compile Include="Navigation\BoardLinkKeyService.cs" />
     <Compile Include="Navigation\BoardLinkNavigaionKey.cs" />
