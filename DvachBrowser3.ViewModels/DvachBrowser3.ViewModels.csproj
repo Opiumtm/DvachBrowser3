@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\IPostViewModel.cs" />
     <Compile Include="ViewModels\IQuoteViewModel.cs" />
     <Compile Include="ViewModels\IThumbnailViewModel.cs" />
+    <Compile Include="ViewModels\NetworkOperationWrapper.cs" />
     <Compile Include="ViewModels\PostCollectionViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\QuoteViewModel.cs" />
