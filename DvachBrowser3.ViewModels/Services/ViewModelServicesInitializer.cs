@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Navigation;
+﻿using DvachBrowser3.Configuration;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.SystemInformation;
 
 namespace DvachBrowser3
@@ -17,6 +18,8 @@ namespace DvachBrowser3
         {
             container.RegisterService<INavigationKeyService>(new NavigationKeyService(container));
             container.RegisterService<INavigationService>(new NavigationService(container));
+            container.RegisterService<IViewConfigurationService>(new ViewConfigurationService(container));
+            container.RegisterService<IBoardLinkKeyService>(new BoardLinkKeyService(container));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using DvachBrowser3.Configuration;
+using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.SystemInformation;
 
@@ -41,6 +43,30 @@ namespace DvachBrowser3
         public AppPlatform Platform
         {
             get { return platform.Value; }
+        }
+
+        /// <summary>
+        /// Конфигурация.
+        /// </summary>
+        protected IViewConfigurationService Configuration
+        {
+            get { return Services.GetServiceOrThrow<IViewConfigurationService>(); }
+        }
+
+        /// <summary>
+        /// Сетевая логика.
+        /// </summary>
+        protected INetworkLogic NetworkLogic
+        {
+            get { return Services.GetServiceOrThrow<INetworkLogic>(); }
+        }
+
+        /// <summary>
+        /// Сервис получения ключей из ссылок.
+        /// </summary>
+        public IBoardLinkKeyService LinkKeyService
+        {
+            get { return Services.GetServiceOrThrow<IBoardLinkKeyService>(); }
         }
     }
 }

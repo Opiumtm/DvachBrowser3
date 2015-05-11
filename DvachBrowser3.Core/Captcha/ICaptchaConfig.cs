@@ -8,6 +8,6 @@
         /// <summary>
         /// URI капчи яндекса.
         /// </summary>
-        string YandexCaptchaUri { get; set; } 
+        string YandexCaptchaUri { get; set; }
     }
 }

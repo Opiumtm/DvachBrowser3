@@ -14,8 +14,8 @@ namespace DvachBrowser3.Configuration.Makaba
         /// <returns>Значение.</returns>
         protected override ApplicationDataCompositeValue GetValue()
         {
-            return ApplicationData.Current.LocalSettings.Values.ContainsKey("MakabaPost")
-                ? (ApplicationDataCompositeValue)ApplicationData.Current.LocalSettings.Values["MakabaPost"]
+            return ApplicationData.Current.RoamingSettings.Values.ContainsKey("MakabaPost")
+                ? (ApplicationDataCompositeValue)ApplicationData.Current.RoamingSettings.Values["MakabaPost"]
                 : new ApplicationDataCompositeValue();
         }
 
@@ -25,7 +25,7 @@ namespace DvachBrowser3.Configuration.Makaba
         /// <param name="value">Значение.</param>
         protected override void SetValue(ApplicationDataCompositeValue value)
         {
-            ApplicationData.Current.LocalSettings.Values["MakabaPost"] = value;
+            ApplicationData.Current.RoamingSettings.Values["MakabaPost"] = value;
         }
 
         /// <summary>

@@ -28,8 +28,8 @@ namespace DvachBrowser3.Configuration
         /// <returns>Значение.</returns>
         protected override ApplicationDataCompositeValue GetValue()
         {
-            return ApplicationData.Current.LocalSettings.Values.ContainsKey("Captcha")
-                ? (ApplicationDataCompositeValue) ApplicationData.Current.LocalSettings.Values["Captcha"]
+            return ApplicationData.Current.RoamingSettings.Values.ContainsKey("Captcha")
+                ? (ApplicationDataCompositeValue) ApplicationData.Current.RoamingSettings.Values["Captcha"]
                 : new ApplicationDataCompositeValue();
         }
 
@@ -39,7 +39,7 @@ namespace DvachBrowser3.Configuration
         /// <param name="value">Значение.</param>
         protected override void SetValue(ApplicationDataCompositeValue value)
         {
-            ApplicationData.Current.LocalSettings.Values["Captcha"] = value;
+            ApplicationData.Current.RoamingSettings.Values["Captcha"] = value;
         }
     }
 }

@@ -49,5 +49,12 @@ namespace DvachBrowser3.Logic
         /// <param name="link">Ссылка.</param>
         /// <returns>Строка.</returns>
         string GetBackLinkDisplayString(BoardLinkBase link);
+
+        /// <summary>
+        /// Строка номера поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        string GetPostNumberDisplayString(BoardLinkBase link);
     }
 }

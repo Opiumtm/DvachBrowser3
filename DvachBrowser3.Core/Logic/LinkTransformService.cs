@@ -237,6 +237,26 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Строка номера поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Строка.</returns>
+        public string GetPostNumberDisplayString(BoardLinkBase link)
+        {
+            if (link is ThreadLink)
+            {
+                var l = link as ThreadLink;
+                return l.Thread.ToString();
+            }
+            if (link is PostLink)
+            {
+                var l = link as PostLink;
+                return l.Post.ToString();
+            }
+            return "[?]";
+        }
+
+        /// <summary>
         /// Средство сравнения ссылок.
         /// </summary>
         private sealed class LinkComparer : IComparer<BoardLinkBase>

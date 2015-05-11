@@ -45,12 +45,18 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IViewConfiguration.cs" />
+    <Compile Include="Configuration\IViewConfigurationService.cs" />
+    <Compile Include="Configuration\ViewConfiguration.cs" />
+    <Compile Include="Configuration\ViewConfigurationService.cs" />
     <Compile Include="IPageStateAware.cs" />
+    <Compile Include="Navigation\BoardLinkKeyService.cs" />
     <Compile Include="Navigation\BoardLinkNavigaionKey.cs" />
     <Compile Include="Navigation\BoardLinkNavigationFactory.cs" />
     <Compile Include="Navigation\BoardMediaNavigationKey.cs" />
     <Compile Include="Navigation\BoardNavigationKey.cs" />
     <Compile Include="Navigation\BoardPageNavigationKey.cs" />
+    <Compile Include="Navigation\IBoardLinkKeyService.cs" />
     <Compile Include="Navigation\INavigationKey.cs" />
     <Compile Include="Navigation\INavigationKeyFactory.cs" />
     <Compile Include="Navigation\INavigationKeyService.cs" />
@@ -62,12 +68,18 @@
     <Compile Include="Navigation\RootNavigationKey.cs" />
     <Compile Include="Navigation\ThreadNavigationKey.cs" />
     <Compile Include="Navigation\YoutubeNavigationKey.cs" />
-    <Compile Include="ObservableObject.cs" />
     <Compile Include="PageViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ViewModelServicesInitializer.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModels\IPostCollectionViewModel.cs" />
+    <Compile Include="ViewModels\IPostViewModel.cs" />
+    <Compile Include="ViewModels\IQuoteViewModel.cs" />
+    <Compile Include="ViewModels\PostCollectionViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
+    <Compile Include="ViewModels\QuoteViewModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

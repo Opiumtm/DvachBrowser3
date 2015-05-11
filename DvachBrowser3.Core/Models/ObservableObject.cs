@@ -21,6 +21,15 @@ namespace DvachBrowser3
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChangedCallback(propertyName);
+        }
+
+        /// <summary>
+        /// Обратный вызов по изменению свойства.
+        /// </summary>
+        /// <param name="propertyName">Имя свойства.</param>
+        protected virtual void PropertyChangedCallback(string propertyName)
+        {
         }
     }
 }
