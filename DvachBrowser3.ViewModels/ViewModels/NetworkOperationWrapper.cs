@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Input;
 using Windows.System.UserProfile;
 using DvachBrowser3.Engines;
 
@@ -16,33 +17,36 @@ namespace DvachBrowser3.ViewModels
 
         private readonly Func<TResult, T> eventFactory;
 
+        private readonly Func<CancellationToken> cancellationToken;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="operationFactory">Фабрика операций.</param>
         /// <param name="eventFactory">Фабрика событий.</param>
-        public NetworkOperationWrapper(Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory, Func<TResult, T> eventFactory)
+        /// <param name="cancellationToken">Токен отмены.</param>
+        public NetworkOperationWrapper(Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory, Func<TResult, T> eventFactory, Func<CancellationToken> cancellationToken = null)
         {
             if (operationFactory == null) throw new ArgumentNullException("operationFactory");
             if (eventFactory == null) throw new ArgumentNullException("eventFactory");
             this.operationFactory = operationFactory;
             this.eventFactory = eventFactory;
-            CanExecute = true;
+            this.cancellationToken = cancellationToken;
+            IsCanExecute = true;
         }
 
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
-        /// <param name="token">Токен отмены.</param>
-        public async void ExecuteOperation(CancellationToken token)
+        public async void ExecuteOperation()
         {
             try
             {
-                if (!CanExecute)
+                if (!IsCanExecute)
                 {
                     return;
                 }
-                CanExecute = false;
+                IsCanExecute = false;
                 IsExecuting = true;
                 try
                 {
@@ -52,7 +56,7 @@ namespace DvachBrowser3.ViewModels
                     operation.Progress += OperationOnProgress;
                     try
                     {
-                        var r = await operation.Complete(token);
+                        var r = await operation.Complete(cancellationToken != null ? cancellationToken() : new CancellationToken());
                         IsOk = true;
                         IsError = false;
                         ErrorText = null;
@@ -68,7 +72,7 @@ namespace DvachBrowser3.ViewModels
                 }
                 finally
                 {
-                    CanExecute = true;
+                    IsCanExecute = true;
                     IsExecuting = false;
                 }
             }
@@ -133,13 +137,14 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Можно выполнять.
         /// </summary>
-        public bool CanExecute
+        public bool IsCanExecute
         {
             get { return canExecute; }
             set
             {
                 canExecute = value;
                 OnPropertyChanged();
+                OnCanExecuteChanged();
             }
         }
 
@@ -186,6 +191,39 @@ namespace DvachBrowser3.ViewModels
         {
             EventHandler<T> handler = SetResult;
             if (handler != null) handler(this, e);
+        }
+
+        /// <summary>
+        /// Можно выполнить.
+        /// </summary>
+        /// <param name="parameter">Параметр.</param>
+        /// <returns>Результат.</returns>
+        public bool CanExecute(object parameter)
+        {
+            return IsCanExecute;
+        }
+
+        /// <summary>
+        /// Выполнить команду.
+        /// </summary>
+        /// <param name="parameter">Параметр.</param>
+        public void Execute(object parameter)
+        {
+            ExecuteOperation();
+        }
+
+        /// <summary>
+        /// Можно выполнить.
+        /// </summary>
+        public event EventHandler CanExecuteChanged;
+
+        /// <summary>
+        /// Можно выполнить.
+        /// </summary>
+        private void OnCanExecuteChanged()
+        {
+            EventHandler handler = CanExecuteChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
     }
 }

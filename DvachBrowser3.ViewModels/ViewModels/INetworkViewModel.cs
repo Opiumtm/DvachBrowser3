@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows.Input;
 using DvachBrowser3.Engines;
 
 namespace DvachBrowser3.ViewModels
@@ -7,13 +8,12 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель, поддерживающая сетевую загрузку.
     /// </summary>
-    public interface INetworkViewModel
+    public interface INetworkViewModel : ICommand
     {
         /// <summary>
         /// Выполнить операцию.
         /// </summary>
-        /// <param name="token">Токен отмены.</param>
-        void ExecuteOperation(CancellationToken token);
+        void ExecuteOperation();
 
         /// <summary>
         /// Операция выполняется.
@@ -33,7 +33,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Можно выполнять.
         /// </summary>
-        bool CanExecute { get; }
+        bool IsCanExecute { get; }
 
         /// <summary>
         /// Прогресс операции.
