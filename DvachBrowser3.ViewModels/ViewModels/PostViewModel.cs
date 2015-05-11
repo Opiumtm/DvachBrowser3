@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DvachBrowser3.Engines;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Posts;
@@ -32,6 +33,7 @@ namespace DvachBrowser3.ViewModels
             {
                 Quotes = new List<IQuoteViewModel>();
             }
+            hyperlink = new Lazy<string>(GetHyperlink);
         }
 
         /// <summary>
@@ -80,5 +82,53 @@ namespace DvachBrowser3.ViewModels
         /// Ответы на этот пост.
         /// </summary>
         public IList<IQuoteViewModel> Quotes { get; private set; }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        public string Subject
+        {
+            get { return Data.Subject ?? ""; }
+        }
+
+        /// <summary>
+        /// Дата.
+        /// </summary>
+        public string Date
+        {
+            get { return Configuration.View.BoardNativeDates ? Data.BoardSpecificDate ?? "" : CommonDate; }
+        }
+
+        private string CommonDate
+        {
+            get { return Services.GetServiceOrThrow<IDateService>().ToUserString(Data.Date); }
+        }
+
+        private readonly Lazy<string> hyperlink;
+
+        private string GetHyperlink()
+        {
+            var engines = Services.GetServiceOrThrow<INetworkEngines>();
+            var engine = engines.GetEngineById(Data.Link.Engine);
+            return engine.EngineUriService.GetBrowserLink(Data.Link).ToString();
+        }
+
+        /// <summary>
+        /// Гиперссылка.
+        /// </summary>
+        public string Hyperlink
+        {
+            get { return hyperlink.Value; }
+        }
+
+        /// <summary>
+        /// Вход на страницу.
+        /// </summary>
+        public void OnPageEntry()
+        {           
+            // ReSharper disable ExplicitCallerInfoArgument
+            OnPropertyChanged("Date");
+            // ReSharper restore ExplicitCallerInfoArgument
+        }
     }
 }

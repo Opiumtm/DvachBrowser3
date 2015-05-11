@@ -7,7 +7,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления поста.
     /// </summary>
-    public interface IPostViewModel
+    public interface IPostViewModel : IHyperlinkViewModel, IEntryInvalidateViewModel
     {
         /// <summary>
         /// Родительская коллекция.
@@ -43,5 +43,15 @@ namespace DvachBrowser3.ViewModels
         /// Ответы на этот пост.
         /// </summary>
         IList<IQuoteViewModel> Quotes { get; }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        string Subject { get; }
+
+        /// <summary>
+        /// Дата.
+        /// </summary>
+        string Date { get; }
     }
 }
