@@ -54,8 +54,10 @@
     <Compile Include="Navigation\INavigationKey.cs" />
     <Compile Include="Navigation\INavigationKeyFactory.cs" />
     <Compile Include="Navigation\INavigationKeyService.cs" />
+    <Compile Include="Navigation\INavigationService.cs" />
     <Compile Include="Navigation\MediaNavigationKey.cs" />
     <Compile Include="Navigation\NavigationKeyService.cs" />
+    <Compile Include="Navigation\NavigationService.cs" />
     <Compile Include="Navigation\PostNavigationKey.cs" />
     <Compile Include="Navigation\RootNavigationKey.cs" />
     <Compile Include="Navigation\ThreadNavigationKey.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="PageViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ViewModelServicesInitializer.cs" />
+    <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,6 +16,7 @@ namespace DvachBrowser3
         public static void InitializeServices(ServiceContainer container, SystemInfoParam sysInfo)
         {
             container.RegisterService<INavigationKeyService>(new NavigationKeyService(container));
+            container.RegisterService<INavigationService>(new NavigationService(container));
         }
     }
 }

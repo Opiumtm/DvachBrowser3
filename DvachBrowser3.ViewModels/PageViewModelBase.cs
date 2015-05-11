@@ -5,7 +5,7 @@ namespace DvachBrowser3
     /// <summary>
     /// Базовый класс модели представления страницы.
     /// </summary>
-    public abstract class PageViewModelBase : ObservableObject, IPageStateAware
+    public abstract class PageViewModelBase : ViewModelBase, IPageStateAware
     {
         /// <summary>
         /// Загрузить состояние.
