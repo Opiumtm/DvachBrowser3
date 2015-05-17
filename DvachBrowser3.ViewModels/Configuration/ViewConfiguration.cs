@@ -39,5 +39,18 @@ namespace DvachBrowser3.Configuration
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Открывать YouTube в браузере.
+        /// </summary>
+        public bool OpenYoutubeInBrowser
+        {
+            get { return GetValue("OpenYoutubeInBrowser", false); }
+            set
+            {
+                SetValue("OpenYoutubeInBrowser", value);
+                OnPropertyChanged();
+            }
+        }
     }
 }

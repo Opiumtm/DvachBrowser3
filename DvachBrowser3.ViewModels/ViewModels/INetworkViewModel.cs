@@ -41,6 +41,21 @@ namespace DvachBrowser3.ViewModels
         event EventHandler<EngineProgress> Progress;
 
         /// <summary>
+        /// Ошибка.
+        /// </summary>
+        event EventHandler Error;
+
+        /// <summary>
+        /// Завершено.
+        /// </summary>
+        event EventHandler Completed;
+
+        /// <summary>
+        /// Начато.
+        /// </summary>
+        event EventHandler Started;
+
+        /// <summary>
         /// Текст ошибки.
         /// </summary>
         string ErrorText { get; }

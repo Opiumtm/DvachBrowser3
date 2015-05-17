@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System.UserProfile;
 using DvachBrowser3.Engines;
@@ -15,7 +16,7 @@ namespace DvachBrowser3.ViewModels
     {
         private readonly Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory;
 
-        private readonly Func<TResult, T> eventFactory;
+        private readonly Func<TResult, Task<T>> eventFactory;
 
         private readonly Func<CancellationToken> cancellationToken;
 
@@ -25,7 +26,7 @@ namespace DvachBrowser3.ViewModels
         /// <param name="operationFactory">Фабрика операций.</param>
         /// <param name="eventFactory">Фабрика событий.</param>
         /// <param name="cancellationToken">Токен отмены.</param>
-        public NetworkOperationWrapper(Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory, Func<TResult, T> eventFactory, Func<CancellationToken> cancellationToken = null)
+        public NetworkOperationWrapper(Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory, Func<TResult, Task<T>> eventFactory, Func<CancellationToken> cancellationToken = null)
         {
             if (operationFactory == null) throw new ArgumentNullException("operationFactory");
             if (eventFactory == null) throw new ArgumentNullException("eventFactory");
@@ -52,6 +53,7 @@ namespace DvachBrowser3.ViewModels
                 {
                     IsOk = false;
                     IsError = false;
+                    OnStarted();
                     var operation = operationFactory();
                     operation.Progress += OperationOnProgress;
                     try
@@ -60,7 +62,7 @@ namespace DvachBrowser3.ViewModels
                         IsOk = true;
                         IsError = false;
                         ErrorText = null;
-                        var e = eventFactory(r);
+                        var e = await eventFactory(r);
                         OnSetResult(e);
                     }
                     catch (Exception ex)
@@ -68,12 +70,14 @@ namespace DvachBrowser3.ViewModels
                         IsError = true;
                         IsOk = false;
                         ErrorText = ex.Message;
+                        OnError();
                     }
                 }
                 finally
                 {
                     IsCanExecute = true;
                     IsExecuting = false;
+                    OnCompleted();
                 }
             }
             catch (Exception ex)
@@ -152,6 +156,39 @@ namespace DvachBrowser3.ViewModels
         /// Прогресс операции.
         /// </summary>
         public event EventHandler<EngineProgress> Progress;
+
+        /// <summary>
+        /// Ошибка.
+        /// </summary>
+        public event EventHandler Error;
+
+        private void OnError()
+        {
+            EventHandler handler = Error;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Завершено.
+        /// </summary>
+        public event EventHandler Completed;
+
+        private void OnCompleted()
+        {
+            EventHandler handler = Completed;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Начато.
+        /// </summary>
+        public event EventHandler Started;
+
+        private void OnStarted()
+        {
+            EventHandler handler = Started;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Прогресс операции.

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using DvachBrowser3.Configuration;
+using DvachBrowser3.Engines;
 
 namespace DvachBrowser3.Navigation
 {
@@ -77,6 +81,25 @@ namespace DvachBrowser3.Navigation
                 }
             }
             throw new ArgumentException(string.Format("Неизвестный тип страницы {0}", typeName));
+        }
+
+        /// <summary>
+        /// Показать YouTube.
+        /// </summary>
+        /// <param name="youtubeId">ID Youtube.</param>
+        public async Task ViewYoutube(string youtubeId)
+        {
+            var config = Services.GetServiceOrThrow<IViewConfigurationService>();
+            var uriService = Services.GetServiceOrThrow<IYoutubeUriService>();
+            var inBrowser = config.View.OpenYoutubeInBrowser;
+            if (inBrowser)
+            {
+                await Launcher.LaunchUriAsync(uriService.GetViewUri(youtubeId));
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(uriService.GetLaunchApplicationUri(youtubeId));
+            }
         }
     }
 }

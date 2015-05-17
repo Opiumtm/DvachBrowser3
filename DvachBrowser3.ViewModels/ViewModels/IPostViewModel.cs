@@ -7,7 +7,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления поста.
     /// </summary>
-    public interface IPostViewModel : IHyperlinkViewModel, IEntryInvalidateViewModel
+    public interface IPostViewModel : IHyperlinkViewModel, IEntryInvalidateViewModel, ICancellationTokenSource
     {
         /// <summary>
         /// Родительская коллекция.
@@ -45,6 +45,11 @@ namespace DvachBrowser3.ViewModels
         IList<IQuoteViewModel> Quotes { get; }
 
         /// <summary>
+        /// Медиа файлы.
+        /// </summary>
+        IList<IThumbnailViewModel> Media { get; }
+
+        /// <summary>
         /// Заголовок.
         /// </summary>
         string Subject { get; }
@@ -53,5 +58,50 @@ namespace DvachBrowser3.ViewModels
         /// Дата.
         /// </summary>
         string Date { get; }
+
+        /// <summary>
+        /// Постер.
+        /// </summary>
+        IPosterViewModel Poster { get; }
+
+        /// <summary>
+        /// Страна.
+        /// </summary>
+        IIconViewModel Country { get; }
+
+        /// <summary>
+        /// Иконка.
+        /// </summary>
+        IIconWithNameViewModel Icon { get; }
+
+        /// <summary>
+        /// Почта.
+        /// </summary>
+        string Email { get; }
+
+        /// <summary>
+        /// Есть почта.
+        /// </summary>
+        bool HasEmail { get; }
+
+        /// <summary>
+        /// Флаги.
+        /// </summary>
+        IPostFlagsViewModel Flags { get; }
+
+        /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        int Counter { get; }
+
+        /// <summary>
+        /// Хэш поста.
+        /// </summary>
+        string Hash { get; }
+
+        /// <summary>
+        /// Текст поста.
+        /// </summary>
+        PostNodes Comment { get; }
     }
 }

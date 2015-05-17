@@ -1,4 +1,6 @@
-﻿using Windows.UI.Core;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Documents;
 using DvachBrowser3;
 using DvachBrowser3.Engines;
@@ -167,6 +169,49 @@ namespace TestingApp
                     HideProgress();
                 }
                 Log((await storage.ThreadData.GetCacheSize()).ToString());
+            }
+            catch (Exception ex)
+            {
+                Log(ex.ToString());
+            }
+        }
+
+        private async void CancellationSourceTestButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Task testTask;
+                var source = new CancellationTokenSource();
+                try
+                {
+                    var token = source.Token;
+                    testTask = Task.Factory.StartNew(async t =>
+                    {
+                        var taskToken = (CancellationToken) t;
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task before wait"));
+                        await Task.Delay(TimeSpan.FromSeconds(3));
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task before cancel"));
+                        taskToken.ThrowIfCancellationRequested();
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task after cancel"));
+                    }, token, token);
+                    testTask = testTask.ContinueWith(async (task, obj) =>
+                    {
+                        await task;
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task after cancel2"));
+                    }, null, token);
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task created"));
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Before cancel"));
+                    source.Cancel();
+                }
+                finally
+                {
+                    source.Dispose();
+                }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Before await"));
+                await testTask;
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log("Task awaited"));
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Log(string.Format("Task cancel = {0}", testTask.IsCanceled)));
             }
             catch (Exception ex)
             {

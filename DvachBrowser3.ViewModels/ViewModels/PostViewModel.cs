@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using DvachBrowser3.Engines;
+using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Posts;
@@ -33,7 +35,62 @@ namespace DvachBrowser3.ViewModels
             {
                 Quotes = new List<IQuoteViewModel>();
             }
+            if (Data.Media != null)
+            {
+                Media = Data.Media.Select(m => new ThumbnailViewModel(this, m)).OfType<IThumbnailViewModel>().ToList();
+            }
+            else
+            {
+                Media = new List<IThumbnailViewModel>();
+            }
             hyperlink = new Lazy<string>(GetHyperlink);
+            if (data.Extensions == null)
+            {
+                data.Extensions = new List<PostTreeExtension>();
+            }
+            var posterExtension = data.Extensions.OfType<PostTreePosterExtension>().FirstOrDefault();
+            if (posterExtension != null)
+            {
+                Poster = new PosterViewModel(posterExtension, this);
+            }
+            if (data.Link != null)
+            {
+                var iconExtension = data.Extensions.OfType<PostTreeIconExtension>().FirstOrDefault();
+                if (iconExtension != null)
+                {
+                    Icon = new GlobalBoardIconViewModel(this, new MediaLink() { Engine = data.Link.Engine, IsAbsolute = false, RelativeUri = iconExtension.Uri }, true, iconExtension.Description);
+                }
+                var countryExtension = data.Extensions.OfType<PostTreeCountryExtension>().FirstOrDefault();
+                if (countryExtension != null)
+                {
+                    Country = new GlobalBoardIconViewModel(this, new MediaLink() { Engine = data.Link.Engine, IsAbsolute = false, RelativeUri = countryExtension.Uri}, true);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(data.Email))
+            {
+                var mail = data.Email.Trim();
+                if (mail.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase))
+                {
+                    mail = mail.Remove(0, "mailto:".Length);
+                    mail = mail.Trim();
+                }
+                if ("sage".Equals(mail, StringComparison.OrdinalIgnoreCase))
+                {
+                    Email = "";
+                    HasEmail = false;
+                }
+                else
+                {
+                    Email = mail;
+                    HasEmail = true;
+                }
+            }
+            else
+            {
+                Email = "";
+                HasEmail = false;
+            }
+            Flags = new PostFlagsViewModel(this, data.Flags);
         }
 
         /// <summary>
@@ -83,6 +140,8 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IList<IQuoteViewModel> Quotes { get; private set; }
 
+        public IList<IThumbnailViewModel> Media { get; private set; }
+
         /// <summary>
         /// Заголовок.
         /// </summary>
@@ -97,6 +156,60 @@ namespace DvachBrowser3.ViewModels
         public string Date
         {
             get { return Configuration.View.BoardNativeDates ? Data.BoardSpecificDate ?? "" : CommonDate; }
+        }
+
+        /// <summary>
+        /// Постер.
+        /// </summary>
+        public IPosterViewModel Poster { get; private set; }
+
+        /// <summary>
+        /// Страна.
+        /// </summary>
+        public IIconViewModel Country { get; private set; }
+
+        /// <summary>
+        /// Иконка.
+        /// </summary>
+        public IIconWithNameViewModel Icon { get; private set; }
+
+        /// <summary>
+        /// Почта.
+        /// </summary>
+        public string Email { get; private set; }
+
+        /// <summary>
+        /// Есть почта.
+        /// </summary>
+        public bool HasEmail { get; private set; }
+
+        /// <summary>
+        /// Флаги.
+        /// </summary>
+        public IPostFlagsViewModel Flags { get; private set; }
+
+        /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        public int Counter
+        {
+            get { return Data.Counter; }
+        }
+
+        /// <summary>
+        /// Хэш поста.
+        /// </summary>
+        public string Hash
+        {
+            get { return Data.Hash; }
+        }
+
+        /// <summary>
+        /// Текст поста.
+        /// </summary>
+        public PostNodes Comment
+        {
+            get { return Data.Comment ?? new PostNodes() {Nodes = new List<PostNodeBase>()}; }
         }
 
         private string CommonDate
@@ -129,6 +242,15 @@ namespace DvachBrowser3.ViewModels
             // ReSharper disable ExplicitCallerInfoArgument
             OnPropertyChanged("Date");
             // ReSharper restore ExplicitCallerInfoArgument
+        }
+
+        /// <summary>
+        /// Получить токен отмены.
+        /// </summary>
+        /// <returns>Токен отмены.</returns>
+        CancellationToken ICancellationTokenSource.GetToken()
+        {
+            return Parent.GetToken();
         }
     }
 }

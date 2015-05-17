@@ -9,5 +9,10 @@
         /// Отображать даты в формате борды.
         /// </summary>
         bool BoardNativeDates { get; set; }
+
+        /// <summary>
+        /// Открывать YouTube в браузере.
+        /// </summary>
+        bool OpenYoutubeInBrowser { get; set; }
     }
 }

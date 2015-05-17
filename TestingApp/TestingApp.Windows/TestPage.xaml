@@ -55,6 +55,7 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0">
                 <Button Margin="5" x:Name="TestButton" Click="TestButton_OnClick">Тест</Button>
+                <Button Margin="5" x:Name="CancellationSourceTestButton" Click="CancellationSourceTestButton_OnClick">Тест отмены</Button>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>

@@ -79,5 +79,10 @@ namespace DvachBrowser3.ViewModels
         /// Имя.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Есть предварительный просмотр в медиа.
+        /// </summary>
+        bool HasThumbnailInMedia { get; }
     }
 }

@@ -101,6 +101,7 @@
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
+    <Compile Include="Engines\IYoutubeUriService.cs" />
     <Compile Include="Engines\Makaba\BoardInfo\IMakabaBoardInfoParser.cs" />
     <Compile Include="Engines\Makaba\BoardInfo\MakabaBoardInfoParser.cs" />
     <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
+    <Compile Include="Engines\YoutubeUriService.cs" />
     <Compile Include="Logic\CheckFavoriteThreadsMode.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
     <Compile Include="Logic\ILinkTransformService.cs" />

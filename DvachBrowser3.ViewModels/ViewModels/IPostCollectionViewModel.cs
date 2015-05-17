@@ -5,7 +5,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Коллекция постов.
     /// </summary>
-    public interface IPostCollectionViewModel
+    public interface IPostCollectionViewModel : ICancellationTokenSource
     {
         /// <summary>
         /// Перейти к посту.

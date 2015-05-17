@@ -40,6 +40,7 @@ namespace DvachBrowser3
             container.RegisterService<IThreadTreeProcessService>(new ThreadTreeProcessService(container));
             container.RegisterService<ILiveTileService>(new LiveTileService(container));
             container.RegisterService<IJsonService>(new JsonService(container));
+            container.RegisterService<IYoutubeUriService>(new YoutubeUriService(container));
         }
     }
 }
