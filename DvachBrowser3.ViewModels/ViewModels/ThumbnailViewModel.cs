@@ -36,14 +36,15 @@ namespace DvachBrowser3.ViewModels
             var youtube = media as PostYoutubeVideo;
             if (youtube != null)
             {
+                var ys = Services.GetServiceOrThrow<IYoutubeUriService>();
                 thumbnail = new PostImage
                 {
                     Link = new YoutubeLink {Engine = Media.Link.Engine, YoutubeId = youtube.YoutubeVideoId},
                     Size = null,
                     Name = null,
                     ParentLink = Parent.Data.Link,
-                    Height = 360,
-                    Width = 480
+                    Height = ys.ThumbnailHeight,
+                    Width = ys.ThumbnailWidth
                 };
             }
             if (thumbnail != null)
