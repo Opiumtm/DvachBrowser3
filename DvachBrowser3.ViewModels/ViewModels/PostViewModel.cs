@@ -212,6 +212,29 @@ namespace DvachBrowser3.ViewModels
             get { return Data.Comment ?? new PostNodes() {Nodes = new List<PostNodeBase>()}; }
         }
 
+        /// <summary>
+        /// Пост попал в отображение.
+        /// </summary>
+        public void GotIntoView()
+        {
+            Parent.PostGotIntoView(Data.Link);
+        }
+
+        private PostViewMode postViewMode;
+
+        /// <summary>
+        /// Режим отображения поста.
+        /// </summary>
+        public PostViewMode ViewMode
+        {
+            get { return postViewMode; }
+            set
+            {
+                postViewMode = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string CommonDate
         {
             get { return Services.GetServiceOrThrow<IDateService>().ToUserString(Data.Date); }

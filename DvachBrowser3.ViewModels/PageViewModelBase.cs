@@ -23,5 +23,19 @@ namespace DvachBrowser3
         public virtual void OnSaveState(Dictionary<string, object> pageState)
         {            
         }
+
+        /// <summary>
+        /// Выход со страницы.
+        /// </summary>
+        public virtual void OnLeavePage()
+        {
+        }
+
+        /// <summary>
+        /// Вход на страницу.
+        /// </summary>
+        public virtual void OnEnterPage()
+        {
+        }
     }
 }

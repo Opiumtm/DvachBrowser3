@@ -19,5 +19,15 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="pageState">Состояние страницы.</param>
         void OnSaveState(Dictionary<string, object> pageState);
+
+        /// <summary>
+        /// Выход со страницы.
+        /// </summary>
+        void OnLeavePage();
+
+        /// <summary>
+        /// Вход на страницу.
+        /// </summary>
+        void OnEnterPage();
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.System.UserProfile;
 using DvachBrowser3.Engines;
 
 namespace DvachBrowser3.ViewModels

@@ -31,6 +31,11 @@ namespace DvachBrowser3.Logic
         /// <summary>
         /// По умолчанию.
         /// </summary>
-        Default = CheckETag | Partial | UpdateVisitData | SaveToCache
+        Default = CheckETag | Partial | UpdateVisitData | SaveToCache,
+
+        /// <summary>
+        /// По умолчанию для полной загрузки треда.
+        /// </summary>
+        DefaultReload = UpdateVisitData | SaveToCache,
     }
 }

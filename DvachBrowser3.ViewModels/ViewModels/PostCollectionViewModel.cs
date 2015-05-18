@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using DvachBrowser3.Links;
+using DvachBrowser3.Other;
+using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -13,10 +16,28 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="data">Данные.</param>
         /// <param name="tokenSource">Источник токенов.</param>
-        public PostCollectionViewModel(ICancellationTokenSource tokenSource = null)
+        public PostCollectionViewModel(PostTreeCollection data, ICancellationTokenSource tokenSource = null)
         {
+            if (data == null) throw new ArgumentNullException("data");
+            this.Data = data;
             this.tokenSource = tokenSource;
+            if (data.GetType() == typeof (ThreadTree))
+            {
+                Kind = PostCollectionKind.Thread;
+            } else if (data.GetType() == typeof (ArchiveThreadTree))
+            {
+                Kind = PostCollectionKind.Archive;
+            }
+            else if (data.GetType() == typeof (ThreadPreviewTree))
+            {
+                Kind = PostCollectionKind.ThreadPreview;
+            }
+            else
+            {
+                Kind = PostCollectionKind.Other;
+            }
         }
 
         /// <summary>
@@ -27,6 +48,16 @@ namespace DvachBrowser3.ViewModels
         {
             throw new System.NotImplementedException();
         }
+
+        /// <summary>
+        /// Тип коллекции.
+        /// </summary>
+        public PostCollectionKind Kind { get; private set; }
+
+        /// <summary>
+        /// Данные.
+        /// </summary>
+        public PostTreeCollection Data { get; private set; }
 
         /// <summary>
         /// Получить токен отмены.

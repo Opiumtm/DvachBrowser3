@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using DvachBrowser3.Links;
+using DvachBrowser3.Other;
 
 namespace DvachBrowser3.Posts
 {
@@ -11,6 +12,7 @@ namespace DvachBrowser3.Posts
     [KnownType(typeof(ThreadTree))]
     [KnownType(typeof(ThreadPreviewTree))]
     [KnownType(typeof(ThreadTreePartial))]
+    [KnownType(typeof(ArchiveThreadTree))]
     public abstract class PostTreeCollection
     {
         /// <summary>

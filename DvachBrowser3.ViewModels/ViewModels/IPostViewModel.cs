@@ -103,5 +103,15 @@ namespace DvachBrowser3.ViewModels
         /// Текст поста.
         /// </summary>
         PostNodes Comment { get; }
+
+        /// <summary>
+        /// Пост попал в отображение.
+        /// </summary>
+        void GotIntoView();
+
+        /// <summary>
+        /// Режим отображения поста.
+        /// </summary>
+        PostViewMode ViewMode { get; set; }
     }
 }

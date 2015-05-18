@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.Engines;
@@ -59,6 +60,7 @@ namespace DvachBrowser3.ViewModels
                 NetworkOperation = new EmptyNetworkOperationWrapper();
                 HasThumbnailInMedia = false;
             }
+            NavigateToMediaCommand = new ViewModelRelayCommand(NavigateToMedia);
         }
 
         private void NetworkOperationOnSetResult(object sender, ImageSourceResult imageSourceResult)
@@ -155,6 +157,11 @@ namespace DvachBrowser3.ViewModels
                 Navigation.Navigate(ViewModelConstants.Pages.MediaView, MediaKey);
             }
         }
+
+        /// <summary>
+        /// Команда перехода к медиафайлу.
+        /// </summary>
+        public ICommand NavigateToMediaCommand { get; private set; }
 
         /// <summary>
         /// Сетевая операция.

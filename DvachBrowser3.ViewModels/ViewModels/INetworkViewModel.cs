@@ -60,4 +60,17 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         string ErrorText { get; }
     }
+
+    /// <summary>
+    /// Модель, поддерживающая сетевую загрузку.
+    /// </summary>
+    /// <typeparam name="TArg">Тип аргумента.</typeparam>
+    public interface INetworkViewModel<in TArg> : INetworkViewModel
+    {
+        /// <summary>
+        /// Выполнить операцию.
+        /// </summary>
+        /// <param name="arg">Аргумент.</param>
+        void ExecuteOperation(TArg arg);
+    }
 }

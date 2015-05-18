@@ -23,24 +23,26 @@ namespace DvachBrowser3
         }
 
         /// <summary>
-        /// Сохранить состояние.
+        /// Вход на страницу.
         /// </summary>
-        /// <param name="pageState">Состояние страницы.</param>
-        public override void OnSaveState(Dictionary<string, object> pageState)
+        public override void OnEnterPage()
         {
-            base.OnSaveState(pageState);
+            base.OnEnterPage();
             if (TokenSource != null)
             {
                 TokenSource.Cancel();
                 TokenSource.Dispose();
-                TokenSource = null;                
+                TokenSource = null;
             }
         }
 
-        public override void OnLoadState(object navigationParameter, Dictionary<string, object> pageState)
+        /// <summary>
+        /// Выход со страницы.
+        /// </summary>
+        public override void OnLeavePage()
         {
             TokenSource = new CancellationTokenSource();
-            base.OnLoadState(navigationParameter, pageState);
+            base.OnLeavePage();
         }
     }
 }

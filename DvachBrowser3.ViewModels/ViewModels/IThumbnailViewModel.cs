@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Windows.Input;
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Posts;
@@ -34,6 +35,11 @@ namespace DvachBrowser3.ViewModels
         /// Навигация к отображению медиафайла.
         /// </summary>
         void NavigateToMedia();
+
+        /// <summary>
+        /// Команда перехода к медиафайлу.
+        /// </summary>
+        ICommand NavigateToMediaCommand { get; }
 
         /// <summary>
         /// Сетевая операция.
