@@ -1,8 +1,10 @@
 ﻿using System;
+using Windows.UI.Core;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.SystemInformation;
+using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3
 {
@@ -67,6 +69,14 @@ namespace DvachBrowser3
         public IBoardLinkKeyService LinkKeyService
         {
             get { return Services.GetServiceOrThrow<IBoardLinkKeyService>(); }
+        }
+
+        /// <summary>
+        /// Диспетчер.
+        /// </summary>
+        protected CoreDispatcher Dispatcher
+        {
+            get { return GlobalDispatcherHelper.Dispatcher; }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.ViewModels
@@ -8,15 +10,20 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public sealed class StaticPostCollectionSource : IPostCollectionSource
     {
+        private readonly ICancellationTokenSource tokenSource;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="kind">Тип коллекции.</param>
         /// <param name="preloadedCollection">Коллекция.</param>
-        public StaticPostCollectionSource(PostCollectionKind kind, PostTreeCollection preloadedCollection)
+        /// <param name="tokenSource">Источник токенов.</param>
+        public StaticPostCollectionSource(PostCollectionKind kind, PostTreeCollection preloadedCollection, ICancellationTokenSource tokenSource = null)
         {
+            if (preloadedCollection == null) throw new ArgumentNullException("preloadedCollection");
             Kind = kind;
             PreloadedCollection = preloadedCollection;
+            this.tokenSource = tokenSource;
         }
 
         /// <summary>
@@ -25,10 +32,18 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Токен отмены.</returns>
         public CancellationToken GetToken()
         {
-            return new CancellationToken();
+            return tokenSource != null ? tokenSource.GetToken() : new CancellationToken();
         }
 
         public PostCollectionKind Kind { get; private set; }
+
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        public BoardLinkBase Link
+        {
+            get { return PreloadedCollection.Link; }
+        }
 
         /// <summary>
         /// Операция обновления (может быть null, если обновления не поддерживаются).

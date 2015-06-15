@@ -1,4 +1,5 @@
 ﻿using System;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -11,7 +12,7 @@ namespace DvachBrowser3.ViewModels
         /// Конструктор.
         /// </summary>
         /// <param name="post">Пост.</param>
-        public BringIntoViewEventArgs(IPostViewModel post)
+        public BringIntoViewEventArgs(BoardLinkBase post)
         {
             Post = post;
         }
@@ -19,6 +20,6 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Пост.
         /// </summary>
-        public IPostViewModel Post { get; private set; } 
+        public BoardLinkBase Post { get; private set; } 
     }
 }

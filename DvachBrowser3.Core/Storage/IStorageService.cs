@@ -42,5 +42,10 @@ namespace DvachBrowser3.Storage
         /// Архивы.
         /// </summary>
         IArchiveStore Archives { get; }
+
+        /// <summary>
+        /// Хранилище текущих постов.
+        /// </summary>
+        ICurrentPostStore CurrentPostStore { get; }
     }
 }

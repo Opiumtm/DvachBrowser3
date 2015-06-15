@@ -18,6 +18,7 @@ namespace DvachBrowser3.Storage
                 new PostingMediaStore(services, "posting-img", 11 * 1024 * 1024, 10 * 1024 * 1024, "Изображения постинга"));
             Drafts = new DraftDataStorage(services, "drafts", "Черновики", new DraftMediaStore(services, "drafts-img", "Изображения черновиков"));
             Archives = new ArchiveStore(services, "archive", "Архив");
+            CurrentPostStore = new CurrentPostStore(services, "other", "currentposts.cache");
             CacheFolders = new ICacheFolderInfo[]
             {
                 ThreadData,
@@ -65,5 +66,10 @@ namespace DvachBrowser3.Storage
         /// Архивы.
         /// </summary>
         public IArchiveStore Archives { get; private set; }
+
+        /// <summary>
+        /// Хранилище текущих постов.
+        /// </summary>
+        public ICurrentPostStore CurrentPostStore { get; private set; }
     }
 }

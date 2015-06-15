@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 
 namespace DvachBrowser3
 {
@@ -23,11 +25,39 @@ namespace DvachBrowser3
         /// <summary>
         /// Выход со страницы.
         /// </summary>
-        void OnLeavePage();
+        /// <returns>Таск.</returns>
+        Task OnLeavePage();
 
         /// <summary>
         /// Вход на страницу.
         /// </summary>
-        void OnEnterPage();
+        /// <returns>Таск.</returns>
+        Task OnEnterPage();
+
+        /// <summary>
+        /// Перед загрузкой состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+
+        Task BeforeLoadState();
+
+        /// <summary>
+        /// После сохранения состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        Task AfterLoadState();
+
+        /// <summary>
+        /// Перед сохранением состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+
+        Task BeforeSaveState();
+
+        /// <summary>
+        /// После сохранения состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        Task AfterSaveState();
     }
 }

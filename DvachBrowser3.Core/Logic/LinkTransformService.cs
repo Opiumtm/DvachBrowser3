@@ -257,6 +257,69 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Ссылка из этого треда.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <param name="postLink">Ссылка на пост.</param>
+        /// <returns>Результат проверки.</returns>
+        public bool IsThisTread(BoardLinkBase threadLink, BoardLinkBase postLink)
+        {
+            var tlink = threadLink as ThreadLink;
+            var plink = postLink as PostLink;
+            if (tlink != null && plink != null)
+            {
+                if (StringComparer.OrdinalIgnoreCase.Equals(tlink.Engine, plink.Engine) && StringComparer.OrdinalIgnoreCase.Equals(tlink.Board, plink.Board) && tlink.Thread == plink.Thread)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Получить ссылку на пост по номеру поста.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <param name="postNum">Номер поста.</param>
+        /// <returns>Ссылка на пост (null, если это невозможно).</returns>
+        public BoardLinkBase GetPostLinkByNum(BoardLinkBase threadLink, int postNum)
+        {
+            var tlink = threadLink as ThreadLink;
+            if (tlink == null)
+            {
+                return null;
+            }
+            return new PostLink()
+            {
+                Board = tlink.Board,
+                Engine = tlink.Engine,
+                Thread = tlink.Thread,
+                Post = postNum
+            };
+        }
+
+        /// <summary>
+        /// Получить ссылку на пост по ссылке на тред.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <returns>Ссылка на пост (null, если это невозможно).</returns>
+        public BoardLinkBase GetRootPostLink(BoardLinkBase threadLink)
+        {
+            var tlink = threadLink as ThreadLink;
+            if (tlink == null)
+            {
+                return null;
+            }
+            return new PostLink()
+            {
+                Board = tlink.Board,
+                Engine = tlink.Engine,
+                Thread = tlink.Thread,
+                Post = tlink.Thread
+            };
+        }
+
+        /// <summary>
         /// Средство сравнения ссылок.
         /// </summary>
         private sealed class LinkComparer : IComparer<BoardLinkBase>

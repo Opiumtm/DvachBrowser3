@@ -56,5 +56,28 @@ namespace DvachBrowser3.Logic
         /// <param name="link">Ссылка.</param>
         /// <returns>Строка.</returns>
         string GetPostNumberDisplayString(BoardLinkBase link);
+
+        /// <summary>
+        /// Ссылка из этого треда.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <param name="postLink">Ссылка на пост.</param>
+        /// <returns>Результат проверки.</returns>
+        bool IsThisTread(BoardLinkBase threadLink, BoardLinkBase postLink);
+
+        /// <summary>
+        /// Получить ссылку на пост по номеру поста.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <param name="postNum">Номер поста.</param>
+        /// <returns>Ссылка на пост (null, если это невозможно).</returns>
+        BoardLinkBase GetPostLinkByNum(BoardLinkBase threadLink, int postNum);
+
+        /// <summary>
+        /// Получить ссылку на пост по ссылке на тред.
+        /// </summary>
+        /// <param name="threadLink">Ссылка на тред.</param>
+        /// <returns>Ссылка на пост (null, если это невозможно).</returns>
+        BoardLinkBase GetRootPostLink(BoardLinkBase threadLink);
     }
 }

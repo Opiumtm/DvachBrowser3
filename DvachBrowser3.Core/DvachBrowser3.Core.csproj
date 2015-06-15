@@ -270,6 +270,8 @@
     <Compile Include="Storage\Files\ArchiveStore.cs" />
     <Compile Include="Storage\Files\CachedFile.cs" />
     <Compile Include="Storage\Files\CachedStorageBase.cs" />
+    <Compile Include="Storage\Files\CurrentPostStore.cs" />
+    <Compile Include="Storage\Files\CurrentPostStoreData.cs" />
     <Compile Include="Storage\Files\DraftCollection.cs" />
     <Compile Include="Storage\Files\DraftDataStorage.cs" />
     <Compile Include="Storage\Files\DraftMediaStore.cs" />
@@ -288,6 +290,7 @@
     <Compile Include="Storage\Files\ThreadDataStorage.cs" />
     <Compile Include="Storage\IArchiveStore.cs" />
     <Compile Include="Storage\ICacheFolderInfo.cs" />
+    <Compile Include="Storage\ICurrentPostStore.cs" />
     <Compile Include="Storage\IDraftDataStorage.cs" />
     <Compile Include="Storage\ILinkCollectionStore.cs" />
     <Compile Include="Storage\IMediaStorage.cs" />

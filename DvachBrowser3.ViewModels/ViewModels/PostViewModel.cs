@@ -217,7 +217,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public void GotIntoView()
         {
-            Parent.PostGotIntoView(Data.Link);
+            Parent.PostNavigation.PostGotIntoView(Data.Link);
         }
 
         private PostViewMode postViewMode;

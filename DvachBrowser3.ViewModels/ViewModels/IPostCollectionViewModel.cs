@@ -12,18 +12,6 @@ namespace DvachBrowser3.ViewModels
     public interface IPostCollectionViewModel : ICancellationTokenSource, IPageStateAware
     {
         /// <summary>
-        /// Перейти к посту.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        void GotoPost(BoardLinkBase link);
-
-        /// <summary>
-        /// Перейти к посту.
-        /// </summary>
-        /// <param name="number">Номер.</param>
-        void GotoPost(int number);
-
-        /// <summary>
         /// Тип коллекции.
         /// </summary>
         PostCollectionKind Kind { get; }
@@ -56,7 +44,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Текущий фильтр.
         /// </summary>
-        IPostFlagsViewModel CurrentFilter { get; }
+        IPostCollectionFilterMode CurrentFilter { get; }
 
         /// <summary>
         /// Сбросить фильтр (установить фильтр по умолчанию).
@@ -74,25 +62,15 @@ namespace DvachBrowser3.ViewModels
         void RefreshFilter();
 
         /// <summary>
-        /// Пост попал в отображение.
+        /// Навигация по постам.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        void PostGotIntoView(BoardLinkBase id);
+        IPostNavigation PostNavigation { get; }
 
         /// <summary>
-        /// Отобразить пост.
+        /// Найти пост.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        void BringIntoView(BoardLinkBase id);
-
-        /// <summary>
-        /// Нужно отобразить пост.
-        /// </summary>
-        event BringIntoViewEventHandler NeedBringIntoView;
-
-        /// <summary>
-        /// Верхний отображаемый пост.
-        /// </summary>
-        BoardLinkBase TopViewPost { get; }
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Пост.</returns>
+        IPostViewModel FindPost(BoardLinkBase link);
     }
 }

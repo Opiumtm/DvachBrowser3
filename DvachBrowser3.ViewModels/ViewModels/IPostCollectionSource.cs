@@ -1,4 +1,5 @@
 ﻿using System;
+using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.ViewModels
@@ -12,6 +13,11 @@ namespace DvachBrowser3.ViewModels
         /// Тип коллекции.
         /// </summary>
         PostCollectionKind Kind { get; }
+
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        BoardLinkBase Link { get; }
 
         /// <summary>
         /// Операция обновления (может быть null, если обновления не поддерживаются).

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DvachBrowser3
 {
@@ -27,15 +28,55 @@ namespace DvachBrowser3
         /// <summary>
         /// Выход со страницы.
         /// </summary>
-        public virtual void OnLeavePage()
+        /// <returns>Таск.</returns>
+        public virtual Task OnLeavePage()
         {
+            return Task.FromResult(true);
         }
 
         /// <summary>
         /// Вход на страницу.
         /// </summary>
-        public virtual void OnEnterPage()
+        /// <returns>Таск.</returns>
+        public virtual Task OnEnterPage()
         {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Перед загрузкой состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public virtual Task BeforeLoadState()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// После сохранения состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public virtual Task AfterLoadState()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Перед сохранением состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public virtual Task BeforeSaveState()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// После сохранения состояния.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public virtual Task AfterSaveState()
+        {
+            return Task.FromResult(true);
         }
     }
 }
