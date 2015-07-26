@@ -56,5 +56,10 @@ namespace DvachBrowser3.ViewModels
         /// Трипкод администратора.
         /// </summary>
         bool AdminTrip { get; }
+
+        /// <summary>
+        /// Мой пост.
+        /// </summary>
+        bool MyPost { get; }
     }
 }

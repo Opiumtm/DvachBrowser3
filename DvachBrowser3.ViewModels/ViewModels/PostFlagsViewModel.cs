@@ -1,4 +1,6 @@
 ﻿using System;
+using Windows.UI.Core;
+using Windows.Web.Syndication;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.ViewModels
@@ -83,6 +85,14 @@ namespace DvachBrowser3.ViewModels
         public bool AdminTrip
         {
             get { return (flags & PostFlags.AdminTrip) != 0; }
+        }
+
+        /// <summary>
+        /// Мой пост.
+        /// </summary>
+        public bool MyPost
+        {
+            get { return Parent.Parent.CollectionSource.GetMyFlag(Parent.Data.Link); }
         }
 
         /// <summary>

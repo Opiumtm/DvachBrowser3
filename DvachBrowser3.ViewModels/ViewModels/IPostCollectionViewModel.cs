@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
@@ -37,31 +38,6 @@ namespace DvachBrowser3.ViewModels
         bool PostsLoaded { get; }
 
         /// <summary>
-        /// Фильтры.
-        /// </summary>
-        IList<IPostCollectionFilterMode> Filters { get; }
-
-        /// <summary>
-        /// Текущий фильтр.
-        /// </summary>
-        IPostCollectionFilterMode CurrentFilter { get; }
-
-        /// <summary>
-        /// Сбросить фильтр (установить фильтр по умолчанию).
-        /// </summary>
-        void ResetFilter();
-
-        /// <summary>
-        /// Команда сброса фильтра.
-        /// </summary>
-        ICommand ResetFilterCommand { get; }
-
-        /// <summary>
-        /// Обновить фильтр.
-        /// </summary>
-        void RefreshFilter();
-
-        /// <summary>
         /// Навигация по постам.
         /// </summary>
         IPostNavigation PostNavigation { get; }
@@ -72,5 +48,10 @@ namespace DvachBrowser3.ViewModels
         /// <param name="link">Ссылка.</param>
         /// <returns>Пост.</returns>
         IPostViewModel FindPost(BoardLinkBase link);
+
+        /// <summary>
+        /// Поинт постинга.
+        /// </summary>
+        IPostingPointHost PostingPoint { get; }
     }
 }

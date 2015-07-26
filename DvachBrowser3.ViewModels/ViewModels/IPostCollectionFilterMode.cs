@@ -6,7 +6,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Режим фильтрации коллекции.
     /// </summary>
-    public interface IPostCollectionFilterMode
+    public interface IPostCollectionFilterMode : IPageStateAware
     {
         /// <summary>
         /// Родительская модель представления.

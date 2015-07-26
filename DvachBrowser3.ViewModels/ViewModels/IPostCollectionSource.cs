@@ -38,5 +38,17 @@ namespace DvachBrowser3.ViewModels
         /// Предварительно загруженная коллекция (null, если нет).
         /// </summary>
         PostTreeCollection PreloadedCollection { get; }
+
+        /// <summary>
+        /// Поддерживает постинг.
+        /// </summary>
+        bool AllowPosting { get; }
+
+        /// <summary>
+        /// Получить флаг моего поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Флаг.</returns>
+        bool GetMyFlag(BoardLinkBase link);
     }
 }

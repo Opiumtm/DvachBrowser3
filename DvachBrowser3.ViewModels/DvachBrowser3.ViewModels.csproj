@@ -48,6 +48,7 @@
     <Compile Include="CancellablePageViewMovelBase.cs" />
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="Common\ViewModelConstants.cs" />
+    <Compile Include="Common\ViewModelLazy.cs" />
     <Compile Include="Configuration\IViewConfiguration.cs" />
     <Compile Include="Configuration\IViewConfigurationService.cs" />
     <Compile Include="Configuration\ViewConfiguration.cs" />
@@ -93,7 +94,9 @@
     <Compile Include="ViewModels\IPostCollectionSource.cs" />
     <Compile Include="ViewModels\IPostCollectionViewModel.cs" />
     <Compile Include="ViewModels\IPosterViewModel.cs" />
+    <Compile Include="ViewModels\IPostFiltering.cs" />
     <Compile Include="ViewModels\IPostFlagsViewModel.cs" />
+    <Compile Include="ViewModels\IPostingPointHost.cs" />
     <Compile Include="ViewModels\IPostNavigation.cs" />
     <Compile Include="ViewModels\IPostViewModel.cs" />
     <Compile Include="ViewModels\IQuoteViewModel.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="ViewModels\PostCollectionViewModel.cs" />
     <Compile Include="ViewModels\PosterViewModel.cs" />
     <Compile Include="ViewModels\PostFlagsViewModel.cs" />
+    <Compile Include="ViewModels\PostingPointHost.cs" />
     <Compile Include="ViewModels\PostNavigation.cs" />
     <Compile Include="ViewModels\PostViewMode.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
@@ -115,7 +119,17 @@
     <Compile Include="ViewModels\SupportedPostCollecetionUpdates.cs" />
     <Compile Include="ViewModels\ThumbnailViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Nito.AsyncEx">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.0\lib\portable-net45+netcore45+wpa81+MonoTouch+MonoAndroid\Nito.AsyncEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.0\lib\portable-net45+netcore45+wpa81+MonoTouch+MonoAndroid\Nito.AsyncEx.Concurrent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

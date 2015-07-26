@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Media.Protection;
 using Windows.UI.Core;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
+using DvachBrowser3.Storage;
+using Nito.AsyncEx;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -38,6 +39,11 @@ namespace DvachBrowser3.ViewModels
                 SetData(Data);
             }
             CollectionSource.CollectionLoaded += CollectionSourceOnCollectionLoaded;
+            if (collectionSource.AllowPosting)
+            {
+                PostingPoint = new PostingPointHost(collectionSource.Link);
+                PostingPoint.SuccessfulPosting += PostingPointOnSuccessfulPosting;
+            }
         }
 
         private void CollectionSourceOnCollectionLoaded(object sender, PostCollectionLoadedEventArgs e)
@@ -165,6 +171,15 @@ namespace DvachBrowser3.ViewModels
             var comparer = Services.GetServiceOrThrow<ILinkHashService>().GetComparer();
             return Posts.FirstOrDefault(p => comparer.Equals(link, p.Data.Link));
         }
+
+        private void PostingPointOnSuccessfulPosting(object sender, SuccessfulPostingEventArgs successfulPostingEventArgs)
+        {
+        }
+
+        /// <summary>
+        /// Поинт постинга.
+        /// </summary>
+        public IPostingPointHost PostingPoint { get; private set; }
 
         /// <summary>
         /// Получить токен отмены.
