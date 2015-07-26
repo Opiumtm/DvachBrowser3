@@ -58,5 +58,10 @@ namespace DvachBrowser3.ViewModels
         /// Фильтрация.
         /// </summary>
         IPostFiltering Filtering { get; }
+
+        /// <summary>
+        /// Есть обновления.
+        /// </summary>
+        bool HasUpdates { get; }
     }
 }

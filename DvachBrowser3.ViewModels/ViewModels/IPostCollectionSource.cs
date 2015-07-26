@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Store;
 using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
 
@@ -27,7 +29,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Поддерживаемые режимы обновления.
         /// </summary>
-        SupportedPostCollecetionUpdates SupportedUpdates { get; }
+        SupportedPostCollectionUpdates SupportedUpdates { get; }
 
         /// <summary>
         /// Коллекция загружена.
@@ -50,5 +52,22 @@ namespace DvachBrowser3.ViewModels
         /// <param name="link">Ссылка.</param>
         /// <returns>Флаг.</returns>
         bool GetMyFlag(BoardLinkBase link);
+
+        /// <summary>
+        /// Загрузить из кэша (если нет PreloadedCollection).
+        /// </summary>
+        /// <returns>true, если тред есть в кэше.</returns>
+        Task<bool> LoadFromCache();
+
+        /// <summary>
+        /// Проверить на обновления.
+        /// </summary>
+        /// <returns>Результат.</returns>
+        Task<bool?> CheckForUpdates();
+
+        /// <summary>
+        /// Может проверять на апдейты.
+        /// </summary>
+        bool CanCheckForUpdates { get; }
     }
 }

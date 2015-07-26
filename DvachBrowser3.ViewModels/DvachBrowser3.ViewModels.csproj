@@ -49,8 +49,11 @@
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="Common\ViewModelConstants.cs" />
     <Compile Include="Common\ViewModelLazy.cs" />
+    <Compile Include="Configuration\INetworkProfileConfiguration.cs" />
     <Compile Include="Configuration\IViewConfiguration.cs" />
     <Compile Include="Configuration\IViewConfigurationService.cs" />
+    <Compile Include="Configuration\LoadThreadOnStartMode.cs" />
+    <Compile Include="Configuration\NetworkProfileConfiguration.cs" />
     <Compile Include="Configuration\ViewConfiguration.cs" />
     <Compile Include="Configuration\ViewConfigurationService.cs" />
     <Compile Include="ICancellationTokenSource.cs" />
@@ -102,6 +105,9 @@
     <Compile Include="ViewModels\IQuoteViewModel.cs" />
     <Compile Include="ViewModels\IThumbnailViewModel.cs" />
     <Compile Include="ViewModels\NetworkOperationWrapper.cs" />
+    <Compile Include="ViewModels\NetworkOperationWrapperBase.cs" />
+    <Compile Include="ViewModels\NetworkThreadPostCollectionSource.cs" />
+    <Compile Include="ViewModels\NetworkThreadPostCollectionUpdateOperation.cs" />
     <Compile Include="ViewModels\PostCollectionKind.cs" />
     <Compile Include="ViewModels\PostCollectionLoadedEventArgs.cs" />
     <Compile Include="ViewModels\PostCollectionLoadedEventHandler.cs" />
@@ -116,7 +122,9 @@
     <Compile Include="ViewModels\QuoteViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\StaticPostCollectionSource.cs" />
-    <Compile Include="ViewModels\SupportedPostCollecetionUpdates.cs" />
+    <Compile Include="ViewModels\SuccessfulPostingEventArgs.cs" />
+    <Compile Include="ViewModels\SuccessfulPostingEventHandler.cs" />
+    <Compile Include="ViewModels\SupportedPostCollectionUpdates.cs" />
     <Compile Include="ViewModels\ThumbnailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

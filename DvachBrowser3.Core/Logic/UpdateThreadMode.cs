@@ -34,6 +34,16 @@ namespace DvachBrowser3.Logic
         Default = CheckETag | Partial | UpdateVisitData | SaveToCache,
 
         /// <summary>
+        /// По умолчанию частичный.
+        /// </summary>
+        DefaultPartial = CheckETag | Partial | UpdateVisitData | SaveToCache,
+
+        /// <summary>
+        /// По умолчанию полный.
+        /// </summary>
+        DefaultFull = CheckETag | UpdateVisitData | SaveToCache,
+
+        /// <summary>
         /// По умолчанию для полной загрузки треда.
         /// </summary>
         DefaultReload = UpdateVisitData | SaveToCache,

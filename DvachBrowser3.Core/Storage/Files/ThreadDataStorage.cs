@@ -71,7 +71,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Board], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFile(fileName);
+                var file = await GetCacheFileOrNull(fileName);
                 return await ReadXmlObject<BoardPageTree>(file, true);
             }
             catch (Exception ex)
@@ -100,7 +100,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Thread], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFile(fileName);
+                var file = await GetCacheFileOrNull(fileName);
                 return await ReadXmlObject<ThreadTree>(file, true);
             }
             catch (Exception ex)
@@ -169,7 +169,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.PostCount], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFile(fileName);
+                var file = await GetCacheFileOrNull(fileName);
                 return await ReadXmlObject<PostCountInfo>(file, false);
             }
             catch (Exception ex)
@@ -203,7 +203,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.MyPosts], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFile(fileName);
+                var file = await GetCacheFileOrNull(fileName);
                 return await ReadXmlObject<MyPostsInfo>(file, false);
             }
             catch (Exception ex)
@@ -238,7 +238,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Stamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFile(fileName);
+                var file = await GetCacheFileOrNull(fileName);
                 var result = await ReadXmlObject<StringWrapper>(file, false);
                 return result != null ? result.Value : null;
             }

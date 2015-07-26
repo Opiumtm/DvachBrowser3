@@ -107,6 +107,10 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Объект.</returns>
         public async Task<T> ReadXmlObject<T>(StorageFile file, bool compress) where T : class 
         {
+            if (file == null)
+            {
+                return null;
+            }
             var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
             return await file.PoliteRead(async str =>
             {

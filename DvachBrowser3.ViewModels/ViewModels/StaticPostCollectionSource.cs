@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Other;
@@ -74,11 +75,11 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Поддерживаемые режимы обновления.
         /// </summary>
-        public SupportedPostCollecetionUpdates SupportedUpdates
+        public SupportedPostCollectionUpdates SupportedUpdates
         {
             get
             {
-                return SupportedPostCollecetionUpdates.None;
+                return SupportedPostCollectionUpdates.None;
             }
         }
 
@@ -105,6 +106,32 @@ namespace DvachBrowser3.ViewModels
         public bool GetMyFlag(BoardLinkBase link)
         {
             return myPosts.Contains(ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
+        }
+
+        /// <summary>
+        /// Загрузить из кэша (если нет PreloadedCollection).
+        /// </summary>
+        /// <returns>true, если тред есть в кэше.</returns>
+        public Task<bool> LoadFromCache()
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Проверить на обновления.
+        /// </summary>
+        /// <returns>Результат.</returns>
+        public Task<bool?> CheckForUpdates()
+        {
+            return Task.FromResult((bool?)false);
+        }
+
+        /// <summary>
+        /// Может проверять на апдейты.
+        /// </summary>
+        public bool CanCheckForUpdates
+        {
+            get { return false; }
         }
     }
 }

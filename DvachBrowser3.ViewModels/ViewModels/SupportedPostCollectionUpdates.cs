@@ -3,7 +3,7 @@
     /// <summary>
     /// Поддерживаемые апдейты коллекции.
     /// </summary>
-    public enum SupportedPostCollecetionUpdates
+    public enum SupportedPostCollectionUpdates
     {
         /// <summary>
         /// Обновления не поддерживаются.

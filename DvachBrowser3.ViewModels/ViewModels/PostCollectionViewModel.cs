@@ -4,14 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
+using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
-using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
-using DvachBrowser3.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -34,15 +32,58 @@ namespace DvachBrowser3.ViewModels
             this.storagePrefix = storagePrefix ?? "";
             PostNavigation = new PostNavigation(this, CollectionSource.Link, this.storagePrefix);
             Posts = new ObservableCollection<IPostViewModel>();
-            if (CollectionSource.PreloadedCollection != null)
-            {
-                SetData(Data);
-            }
             CollectionSource.CollectionLoaded += CollectionSourceOnCollectionLoaded;
             if (collectionSource.AllowPosting)
             {
                 PostingPoint = new PostingPointHost(collectionSource.Link);
                 PostingPoint.SuccessfulPosting += PostingPointOnSuccessfulPosting;
+            }
+            if (CollectionSource.PreloadedCollection != null)
+            {
+                SetData(Data);
+            }
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, InitializeData);
+        }
+
+        private async void InitializeData()
+        {
+            try
+            {
+                var loadOnStart = ServiceLocator.Current.GetServiceOrThrow<IViewConfigurationService>().NetworkProfile.LoadThreadOnStart;
+                if (CollectionSource.SupportedUpdates != SupportedPostCollectionUpdates.None)
+                {
+                    var cached = await CollectionSource.LoadFromCache();
+                    if ((loadOnStart == LoadThreadOnStartMode.Load || !cached) && CollectionSource.UpdateOperation != null)
+                    {
+                        CollectionSource.UpdateOperation.ExecuteOperation(PostCollectionUpdateMode.Default);
+                        return;
+                    }
+                }
+                else
+                {
+                    await CollectionSource.LoadFromCache();
+                }
+                if (loadOnStart == LoadThreadOnStartMode.CheckForUpdates && CollectionSource.CanCheckForUpdates)
+                {
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, CheckForUpdates);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
+        private async void CheckForUpdates()
+        {
+            try
+            {
+                HasUpdates = await CollectionSource.CheckForUpdates() ?? HasUpdates;            
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // ignore
             }
         }
 
@@ -156,6 +197,21 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IPostFiltering Filtering { get; private set; }
 
+        private bool hasUpdates;
+
+        /// <summary>
+        /// Есть обновления.
+        /// </summary>
+        public bool HasUpdates
+        {
+            get { return hasUpdates; }
+            private set
+            {
+                hasUpdates = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Получить токен отмены.
         /// </summary>
@@ -175,6 +231,18 @@ namespace DvachBrowser3.ViewModels
             base.OnLoadState(navigationParameter, pageState);
             PostNavigation.OnLoadState(navigationParameter, pageState);
             Filtering.OnLoadState(navigationParameter, pageState);
+            if (pageState != null)
+            {
+                var hasUpdatesKey = storagePrefix + "_HasUpdates";
+                if (pageState.ContainsKey(hasUpdatesKey))
+                {
+                    HasUpdates = (bool)pageState[hasUpdatesKey];
+                }                
+            }
+            else
+            {
+                HasUpdates = false;
+            }
         }
 
         /// <summary>
@@ -186,6 +254,8 @@ namespace DvachBrowser3.ViewModels
             base.OnSaveState(pageState);
             PostNavigation.OnSaveState(pageState);
             Filtering.OnSaveState(pageState);
+            var hasUpdatesKey = storagePrefix + "_HasUpdates";
+            pageState[hasUpdatesKey] = HasUpdates;
         }
 
         /// <summary>
@@ -232,6 +302,8 @@ namespace DvachBrowser3.ViewModels
             await Filtering.BeforeSaveState();
         }
 
+        private DispatcherTimer updateCheckTimer;
+
         /// <summary>
         /// Вход на страницу.
         /// </summary>
@@ -245,6 +317,24 @@ namespace DvachBrowser3.ViewModels
             {
                 p.OnPageEntry();
             }
+            var networkProfile = ServiceLocator.Current.GetServiceOrThrow<IViewConfigurationService>().NetworkProfile;
+            if (networkProfile.UpdateCheck)
+            {
+                updateCheckTimer = new DispatcherTimer();
+                var interval = networkProfile.UpdateCheckPeriod;
+                if (interval < TimeSpan.FromSeconds(5))
+                {
+                    interval = TimeSpan.FromSeconds(5);
+                }
+                updateCheckTimer.Interval = interval;
+                updateCheckTimer.Tick += UpdateCheckTimerOnTick;
+                updateCheckTimer.Start();
+            }
+        }
+
+        private void UpdateCheckTimerOnTick(object sender, object o)
+        {
+            CheckForUpdates();
         }
 
         /// <summary>
@@ -256,6 +346,11 @@ namespace DvachBrowser3.ViewModels
             await base.OnLeavePage();
             await PostNavigation.OnLeavePage();
             await Filtering.OnLeavePage();
+            if (updateCheckTimer != null)
+            {
+                updateCheckTimer.Stop();
+                updateCheckTimer = null;
+            }
         }
     }
 }

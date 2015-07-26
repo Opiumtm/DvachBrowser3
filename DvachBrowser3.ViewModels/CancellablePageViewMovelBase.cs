@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DvachBrowser3
 {
@@ -25,24 +26,24 @@ namespace DvachBrowser3
         /// <summary>
         /// Вход на страницу.
         /// </summary>
-        public override void OnEnterPage()
+        public override async Task OnEnterPage()
         {
-            base.OnEnterPage();
+            await base.OnEnterPage();
+            TokenSource = new CancellationTokenSource();
+        }
+
+        /// <summary>
+        /// Выход со страницы.
+        /// </summary>
+        public override async Task OnLeavePage()
+        {
+            await base.OnLeavePage();
             if (TokenSource != null)
             {
                 TokenSource.Cancel();
                 TokenSource.Dispose();
                 TokenSource = null;
             }
-        }
-
-        /// <summary>
-        /// Выход со страницы.
-        /// </summary>
-        public override void OnLeavePage()
-        {
-            TokenSource = new CancellationTokenSource();
-            base.OnLeavePage();
         }
     }
 }

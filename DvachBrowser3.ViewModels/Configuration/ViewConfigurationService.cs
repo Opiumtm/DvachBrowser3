@@ -14,11 +14,17 @@ namespace DvachBrowser3.Configuration
         public ViewConfigurationService(IServiceProvider services) : base(services)
         {
             View = new ViewConfiguration();
+            NetworkProfile = new NetworkProfileConfiguration();
         }
 
         /// <summary>
         /// Конфигурация отображения.
         /// </summary>
         public IViewConfiguration View { get; private set; }
+
+        /// <summary>
+        /// Конфигурация профиля сети.
+        /// </summary>
+        public INetworkProfileConfiguration NetworkProfile { get; private set; }
     }
 }

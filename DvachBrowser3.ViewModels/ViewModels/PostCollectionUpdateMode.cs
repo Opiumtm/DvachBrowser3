@@ -6,6 +6,11 @@
     public enum PostCollectionUpdateMode
     {
         /// <summary>
+        /// По умолчанию.
+        /// </summary>
+        Default,
+
+        /// <summary>
         /// Частичное обновление.
         /// </summary>
         Partial,
@@ -19,5 +24,10 @@
         /// Полная перезагрузка треда.
         /// </summary>
         Reload,
+
+        /// <summary>
+        /// Загружено из кэша.
+        /// </summary>
+        FromCache,
     }
 }

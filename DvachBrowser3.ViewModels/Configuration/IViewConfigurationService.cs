@@ -8,6 +8,11 @@
         /// <summary>
         /// Конфигурация отображения.
         /// </summary>
-        IViewConfiguration View { get; } 
+        IViewConfiguration View { get; }
+
+        /// <summary>
+        /// Конфигурация профиля сети.
+        /// </summary>
+        INetworkProfileConfiguration NetworkProfile { get; }
     }
 }

@@ -45,7 +45,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public void NavigateTo()
         {
-            Parent.Parent.GotoPost(Link);
+            Parent.Parent.PostNavigation.GotoPost(Link);
         }
     }
 }
