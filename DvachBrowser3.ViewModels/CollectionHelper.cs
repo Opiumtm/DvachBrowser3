@@ -69,6 +69,8 @@ namespace DvachBrowser3
 
         private readonly IList<T> originalData;
 
+        private readonly Action<T, TSrc> updateAction;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -80,7 +82,7 @@ namespace DvachBrowser3
         /// <param name="compareFunc">Сравнение элементов.</param>
         /// <param name="newData">Новые данные.</param>
         /// <param name="originalData">Оригинальные данные.</param>
-        public SortedCollectionUpdateHelper(IEqualityComparer<TId> eqComparer, IComparer<TId> idComparer, Func<TSrc, TId> srcIdFunc, Func<T, TId> idFunc, Func<TSrc, T> createFunc, Func<TSrc, T, bool> compareFunc, IList<TSrc> newData, IList<T> originalData)
+        public SortedCollectionUpdateHelper(IEqualityComparer<TId> eqComparer, IComparer<TId> idComparer, Func<TSrc, TId> srcIdFunc, Func<T, TId> idFunc, Func<TSrc, T> createFunc, Func<TSrc, T, bool> compareFunc, Action<T, TSrc> updateAction, IList<TSrc> newData, IList<T> originalData)
         {
             this.eqComparer = eqComparer;
             this.idComparer = idComparer;
@@ -90,6 +92,7 @@ namespace DvachBrowser3
             this.compareFunc = compareFunc;
             this.newData = newData;
             this.originalData = originalData;
+            this.updateAction = updateAction;
         }
 
         /// <summary>
@@ -125,7 +128,8 @@ namespace DvachBrowser3
                         result[id] = new SortedCollectionDiff<T>()
                         {
                             State = SortedCollectionDiffState.None,
-                            Value = default(T)
+                            Value = default(T),
+                            UpdateAction = () => updateAction(o, s)
                         };
                     }
                     else
@@ -191,6 +195,7 @@ namespace DvachBrowser3
                 switch (d.State)
                 {
                     case SortedCollectionDiffState.None:
+                        if (d.UpdateAction != null) d.UpdateAction();
                         counter++;
                         break;
                     case SortedCollectionDiffState.Change:
@@ -237,6 +242,11 @@ namespace DvachBrowser3
         /// Состояние.
         /// </summary>
         public SortedCollectionDiffState State;
+
+        /// <summary>
+        /// Обновить.
+        /// </summary>
+        public Action UpdateAction;
     }
 
     public enum SortedCollectionDiffState

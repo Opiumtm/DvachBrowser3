@@ -90,7 +90,7 @@ namespace DvachBrowser3.ViewModels
                 Email = "";
                 HasEmail = false;
             }
-            Flags = new PostFlagsViewModel(this, data.Flags);
+            Flags = new PostFlagsViewModel(this, Data.Flags);
         }
 
         /// <summary>
@@ -135,12 +135,35 @@ namespace DvachBrowser3.ViewModels
             get { return LinkKeyService.GetKey(Data.ParentLink); }
         }
 
+        private IList<IQuoteViewModel> quotes;
+
         /// <summary>
         /// Ответы на этот пост.
         /// </summary>
-        public IList<IQuoteViewModel> Quotes { get; private set; }
+        public IList<IQuoteViewModel> Quotes
+        {
+            get { return quotes; }
+            set
+            {
+                quotes = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public IList<IThumbnailViewModel> Media { get; private set; }
+        private IList<IThumbnailViewModel> media;
+
+        /// <summary>
+        /// Медиа файлы.
+        /// </summary>
+        public IList<IThumbnailViewModel> Media
+        {
+            get { return media; }
+            set
+            {
+                media = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Заголовок.
@@ -183,10 +206,20 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public bool HasEmail { get; private set; }
 
+        private IPostFlagsViewModel flags;
+
         /// <summary>
         /// Флаги.
         /// </summary>
-        public IPostFlagsViewModel Flags { get; private set; }
+        public IPostFlagsViewModel Flags
+        {
+            get { return flags; }
+            set
+            {
+                flags = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Счётчик постов.
@@ -232,6 +265,41 @@ namespace DvachBrowser3.ViewModels
             {
                 postViewMode = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Обновить квоты.
+        /// </summary>
+        /// <param name="src">Новое значение.</param>
+        public void UpdateQuotesAndFlags(PostTree src)
+        {
+            if (src != null)
+            {
+                Data.Quotes = src.Quotes;
+                Data.Flags = src.Flags;
+                Data.Media = src.Media;
+                if (Data.Quotes != null)
+                {
+                    var comparer = Services.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
+                    Quotes = Data.Quotes.OrderBy(l => l, comparer).Select(l => new QuoteViewModel(this, l)).OfType<IQuoteViewModel>().ToList();
+                }
+                else
+                {
+                    Quotes = new List<IQuoteViewModel>();
+                }
+                Flags = new PostFlagsViewModel(this, Data.Flags);
+                if (Data.Media != null)
+                {
+                    Media = Data.Media.Select(m => new ThumbnailViewModel(this, m)).OfType<IThumbnailViewModel>().ToList();
+                }
+                else
+                {
+                    Media = new List<IThumbnailViewModel>();
+                }
+                Data.Counter = src.Counter;
+                // ReSharper disable once ExplicitCallerInfoArgument
+                OnPropertyChanged("Counter");
             }
         }
 

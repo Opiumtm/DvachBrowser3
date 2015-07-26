@@ -50,6 +50,13 @@ namespace DvachBrowser3.ViewModels
         IPostViewModel FindPost(BoardLinkBase link);
 
         /// <summary>
+        /// Диалог моего поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        bool IsMyPostDialog(BoardLinkBase link);
+
+        /// <summary>
         /// Поинт постинга.
         /// </summary>
         IPostingPointHost PostingPoint { get; }

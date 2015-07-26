@@ -113,5 +113,11 @@ namespace DvachBrowser3.ViewModels
         /// Режим отображения поста.
         /// </summary>
         PostViewMode ViewMode { get; set; }
+
+        /// <summary>
+        /// Обновить квоты.
+        /// </summary>
+        /// <param name="src">Новое значение.</param>
+        void UpdateQuotesAndFlags(PostTree src);
     }
 }

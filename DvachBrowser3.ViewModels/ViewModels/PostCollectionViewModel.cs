@@ -32,6 +32,9 @@ namespace DvachBrowser3.ViewModels
             this.storagePrefix = storagePrefix ?? "";
             PostNavigation = new PostNavigation(this, CollectionSource.Link, this.storagePrefix);
             Posts = new ObservableCollection<IPostViewModel>();
+            var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
+            postById = new Dictionary<BoardLinkBase, IPostViewModel>(comparer);
+            myDialogPosts = new HashSet<BoardLinkBase>(comparer);
             CollectionSource.CollectionLoaded += CollectionSourceOnCollectionLoaded;
             if (collectionSource.AllowPosting)
             {
@@ -115,6 +118,13 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IList<IPostViewModel> Posts { get; private set; }
 
+        private readonly Dictionary<BoardLinkBase, IPostViewModel> postById;
+
+        /// <summary>
+        /// Посты моего диалога.
+        /// </summary>
+        private readonly HashSet<BoardLinkBase> myDialogPosts;
+
         private void SetData(PostTreeCollection data)
         {
             // ReSharper disable ExplicitCallerInfoArgument
@@ -137,6 +147,7 @@ namespace DvachBrowser3.ViewModels
                     s => s.Data.Link,
                     s => new PostViewModel(s, this),
                     CheckHashes,
+                    UpdatePost, 
                     newPosts,
                     Posts
                     );
@@ -147,12 +158,42 @@ namespace DvachBrowser3.ViewModels
             {
                 Posts.Clear();
             }
+            postById.Clear();
+            foreach (var p in Posts.Where(p => p.Data.Link != null))
+            {
+                postById[p.Data.Link] = p;
+            }
+            myDialogPosts.Clear();
+            foreach (var p in Posts.Where(p => p.Flags.MyPost))
+            {
+                AddMyDialogs(p);
+            }
             Filtering.RefreshFilter();
+        }
+
+        private void AddMyDialogs(IPostViewModel post)
+        {
+            if (post.Data.Link != null)
+            {
+                if (!myDialogPosts.Contains(post.Data.Link))
+                {
+                    myDialogPosts.Add(post.Data.Link);
+                }
+                foreach (var p2 in post.Quotes.Where(q => q.Link != null).Select(q => postById.ContainsKey(q.Link) ? postById[q.Link] : null).Where(p2 => p2 != null))
+                {
+                    AddMyDialogs(p2);
+                }
+            }
+        }
+
+        private void UpdatePost(IPostViewModel postViewModel, PostTree postTree)
+        {
+            postViewModel.UpdateQuotesAndFlags(postTree);
         }
 
         private bool CheckHashes(PostTree src, IPostViewModel view)
         {
-            if (src.Hash == null || view.Data.Hash == null)
+            if (src.Hash == null || view.Hash == null)
             {
                 return false;
             }
@@ -179,8 +220,27 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Пост.</returns>
         public IPostViewModel FindPost(BoardLinkBase link)
         {
-            var comparer = Services.GetServiceOrThrow<ILinkHashService>().GetComparer();
-            return Posts.FirstOrDefault(p => comparer.Equals(link, p.Data.Link));
+            if (link == null)
+            {
+                return null;
+            }
+            return postById.ContainsKey(link) ? postById[link] : null;
+        }
+
+        public bool IsMyPostDialog(BoardLinkBase link)
+        {
+            if (link == null)
+            {
+                return false;
+            }
+            return myDialogPosts.Contains(link);
+        }
+
+        private readonly Lazy<ILinkHashService> linkHashService = new Lazy<ILinkHashService>(() => ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>());
+
+        private string GetLinkHash(BoardLinkBase link)
+        {
+            return linkHashService.Value.GetLinkHash(link);
         }
 
         private void PostingPointOnSuccessfulPosting(object sender, SuccessfulPostingEventArgs successfulPostingEventArgs)

@@ -9,6 +9,11 @@ namespace DvachBrowser3.ViewModels
     public interface IPostFiltering : IPageStateAware
     {
         /// <summary>
+        /// Родительская модель представления.
+        /// </summary>
+        IPostCollectionViewModel Parent { get; }
+
+        /// <summary>
         /// Фильтры.
         /// </summary>
         IList<IPostCollectionFilterMode> Filters { get; }
@@ -31,6 +36,11 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Обновить фильтр.
         /// </summary>
-        void RefreshFilter();         
+        void RefreshFilter();
+
+        /// <summary>
+        /// Скрывать отфильтрованные посты.
+        /// </summary>
+        bool HideFilteredPosts { get; set; }
     }
 }

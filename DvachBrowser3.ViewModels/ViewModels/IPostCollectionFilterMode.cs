@@ -6,12 +6,17 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Режим фильтрации коллекции.
     /// </summary>
-    public interface IPostCollectionFilterMode : IPageStateAware
+    public interface IPostCollectionFilterMode
     {
         /// <summary>
         /// Родительская модель представления.
         /// </summary>
-        IPostCollectionViewModel Parent { get; }
+        IPostFiltering Parent { get; }
+
+        /// <summary>
+        /// Идентификатор.
+        /// </summary>
+        string Id { get; }
 
         /// <summary>
         /// Имя.
@@ -51,23 +56,8 @@ namespace DvachBrowser3.ViewModels
         bool FilterPost(IPostViewModel post);
 
         /// <summary>
-        /// Скрывать отфильтрованные посты.
-        /// </summary>
-        bool HideFilteredPosts { get; set; }
-
-        /// <summary>
         /// Фильтр по умолчанию.
         /// </summary>
         bool IsDefault { get; }
-
-        /// <summary>
-        /// Можно скрывать фильтрованные посты.
-        /// </summary>
-        bool CanHideFilteredPosts { get; }
-
-        /// <summary>
-        /// Список постов обновился.
-        /// </summary>
-        void PostListUpdated();
     }
 }
