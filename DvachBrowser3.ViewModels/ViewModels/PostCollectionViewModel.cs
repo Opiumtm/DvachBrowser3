@@ -106,12 +106,7 @@ namespace DvachBrowser3.ViewModels
             {
                 Posts.Clear();
             }
-            ApplyFilter();
-        }
-
-        private void ApplyFilter()
-        {
-            throw new NotImplementedException();
+            Filtering.RefreshFilter();
         }
 
         private bool CheckHashes(PostTree src, IPostViewModel view)
@@ -129,31 +124,6 @@ namespace DvachBrowser3.ViewModels
         public bool PostsLoaded
         {
             get { return Data != null; }
-        }
-
-        public IList<IPostCollectionFilterMode> Filters
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IPostCollectionFilterMode CurrentFilter
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void ResetFilter()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICommand ResetFilterCommand
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void RefreshFilter()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -182,6 +152,11 @@ namespace DvachBrowser3.ViewModels
         public IPostingPointHost PostingPoint { get; private set; }
 
         /// <summary>
+        /// Фильтрация.
+        /// </summary>
+        public IPostFiltering Filtering { get; private set; }
+
+        /// <summary>
         /// Получить токен отмены.
         /// </summary>
         /// <returns>Токен отмены.</returns>
@@ -199,6 +174,7 @@ namespace DvachBrowser3.ViewModels
         {
             base.OnLoadState(navigationParameter, pageState);
             PostNavigation.OnLoadState(navigationParameter, pageState);
+            Filtering.OnLoadState(navigationParameter, pageState);
         }
 
         /// <summary>
@@ -209,6 +185,7 @@ namespace DvachBrowser3.ViewModels
         {
             base.OnSaveState(pageState);
             PostNavigation.OnSaveState(pageState);
+            Filtering.OnSaveState(pageState);
         }
 
         /// <summary>
@@ -219,6 +196,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.AfterLoadState();
             await PostNavigation.AfterLoadState();
+            await Filtering.AfterLoadState();
         }
 
         /// <summary>
@@ -229,6 +207,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.AfterSaveState();
             await PostNavigation.AfterSaveState();
+            await Filtering.AfterSaveState();
         }
 
         /// <summary>
@@ -239,6 +218,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.BeforeLoadState();
             await PostNavigation.BeforeLoadState();
+            await Filtering.BeforeLoadState();
         }
 
         /// <summary>
@@ -249,6 +229,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.BeforeSaveState();
             await PostNavigation.BeforeSaveState();
+            await Filtering.BeforeSaveState();
         }
 
         /// <summary>
@@ -259,6 +240,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.OnEnterPage();
             await PostNavigation.OnEnterPage();
+            await Filtering.OnEnterPage();
             foreach (var p in Posts)
             {
                 p.OnPageEntry();
@@ -273,6 +255,7 @@ namespace DvachBrowser3.ViewModels
         {
             await base.OnLeavePage();
             await PostNavigation.OnLeavePage();
+            await Filtering.OnLeavePage();
         }
     }
 }

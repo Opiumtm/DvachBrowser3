@@ -53,5 +53,10 @@ namespace DvachBrowser3.ViewModels
         /// Поинт постинга.
         /// </summary>
         IPostingPointHost PostingPoint { get; }
+
+        /// <summary>
+        /// Фильтрация.
+        /// </summary>
+        IPostFiltering Filtering { get; }
     }
 }
