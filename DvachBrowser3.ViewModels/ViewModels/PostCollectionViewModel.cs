@@ -318,7 +318,7 @@ namespace DvachBrowser3.ViewModels
                 p.OnPageEntry();
             }
             var networkProfile = ServiceLocator.Current.GetServiceOrThrow<IViewConfigurationService>().NetworkProfile;
-            if (networkProfile.UpdateCheck)
+            if (networkProfile.UpdateCheck && CollectionSource.CanCheckForUpdates)
             {
                 updateCheckTimer = new DispatcherTimer();
                 var interval = networkProfile.UpdateCheckPeriod;
