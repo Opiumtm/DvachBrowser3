@@ -84,7 +84,12 @@
     <Compile Include="ViewModels\BringIntoViewEventArgs.cs" />
     <Compile Include="ViewModels\BringIntoViewEventHandler.cs" />
     <Compile Include="ViewModels\EmptyNetworkOperationWrapper.cs" />
+    <Compile Include="ViewModels\Filters\MediaFilterMode.cs" />
+    <Compile Include="ViewModels\Filters\MyDialogFilterMode.cs" />
+    <Compile Include="ViewModels\Filters\NoFilterMode.cs" />
     <Compile Include="ViewModels\Filters\PostCollectionFilterModeBase.cs" />
+    <Compile Include="ViewModels\Filters\PosterFilterMode.cs" />
+    <Compile Include="ViewModels\Filters\SearchFilterMode.cs" />
     <Compile Include="ViewModels\GlobalBoardIconViewModel.cs" />
     <Compile Include="ViewModels\GlobalDispatcherHelper.cs" />
     <Compile Include="ViewModels\IEntryInvalidateViewModel.cs" />
