@@ -31,6 +31,7 @@ namespace DvachBrowser3.ViewModels
             CollectionSource = collectionSource;
             this.storagePrefix = storagePrefix ?? "";
             PostNavigation = new PostNavigation(this, CollectionSource.Link, this.storagePrefix);
+            Filtering = new PostFiltering(this, this.storagePrefix);
             Posts = new ObservableCollection<IPostViewModel>();
             var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
             postById = new Dictionary<BoardLinkBase, IPostViewModel>(comparer);

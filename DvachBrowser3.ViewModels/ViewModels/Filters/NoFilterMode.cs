@@ -26,7 +26,7 @@
         /// </summary>
         public override string Id
         {
-            get { return ""; }
+            get { return "no"; }
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Текущий фильтр.
         /// </summary>
-        IPostCollectionFilterMode CurrentFilter { get; }
+        IPostCollectionFilterMode CurrentFilter { get; set; }
 
         /// <summary>
         /// Сбросить фильтр (установить фильтр по умолчанию).

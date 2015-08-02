@@ -342,5 +342,53 @@ namespace DvachBrowser3
         {
             return src.StartsWith("/") ? src.Remove(0, 1) : src;
         }
+
+        /// <summary>
+        /// Разбить последовательность.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <param name="src">Источник.</param>
+        /// <param name="count">На сколько разбивать.</param>
+        /// <returns>Разбитая последовательность.</returns>
+        public static IEnumerable<IGrouping<int, T>> Split<T>(this IEnumerable<T> src, int count = 100)
+        {
+            if (count <= 0)
+            {
+                count = 1;
+            }
+            return src.WithCounter().GroupBy(t => t.Key/count, t => t.Value);
+        }
+
+        /// <summary>
+        /// Разбить последовательность.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <param name="src">Источник.</param>
+        /// <param name="count">На сколько разбивать.</param>
+        /// <returns>Разбитая последовательность.</returns>
+        public static ILookup<int, T> SplitLookup<T>(this IEnumerable<T> src, int count = 100)
+        {
+            if (count <= 0)
+            {
+                count = 1;
+            }
+            return src.WithCounter().ToLookup(t => t.Key / count, t => t.Value);
+        }
+
+        /// <summary>
+        /// Получить список вместе со счётчиком.
+        /// </summary>
+        /// <typeparam name="T">Тип элемента.</typeparam>
+        /// <param name="src">Источник.</param>
+        /// <returns>Последовательность со счётчиком.</returns>
+        public static IEnumerable<KeyValuePair<int, T>> WithCounter<T>(this IEnumerable<T> src)
+        {
+            int i = 0;
+            foreach (var t in src)
+            {
+                yield return new KeyValuePair<int, T>(i, t);
+                i++;
+            }
+        }
     }
 }

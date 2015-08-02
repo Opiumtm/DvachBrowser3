@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\PostCollectionUpdateMode.cs" />
     <Compile Include="ViewModels\PostCollectionViewModel.cs" />
     <Compile Include="ViewModels\PosterViewModel.cs" />
+    <Compile Include="ViewModels\PostFiltering.cs" />
     <Compile Include="ViewModels\PostFlagsViewModel.cs" />
     <Compile Include="ViewModels\PostingPointHost.cs" />
     <Compile Include="ViewModels\PostNavigation.cs" />

@@ -45,7 +45,7 @@ namespace DvachBrowser3.ViewModels.Filters
         /// <summary>
         /// Фильтр.
         /// </summary>
-        private string filter;
+        private string filter = "";
 
         /// <summary>
         /// Фильтр.
