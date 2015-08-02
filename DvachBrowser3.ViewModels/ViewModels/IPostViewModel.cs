@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Posts;
 
@@ -7,7 +8,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления поста.
     /// </summary>
-    public interface IPostViewModel : IHyperlinkViewModel, IEntryInvalidateViewModel, ICancellationTokenSource
+    public interface IPostViewModel : IHyperlinkViewModel, IEntryInvalidateViewModel, ICancellationTokenSource, INotifyPropertyChanged
     {
         /// <summary>
         /// Родительская коллекция.
