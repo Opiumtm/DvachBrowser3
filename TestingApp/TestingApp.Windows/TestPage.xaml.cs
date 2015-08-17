@@ -218,5 +218,10 @@ namespace TestingApp
                 Log(ex.ToString());
             }
         }
+
+        private void NavigateToText_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof (TextPage));
+        }
     }
 }

@@ -77,9 +77,14 @@
     <Compile Include="Navigation\ThreadNavigationKey.cs" />
     <Compile Include="Navigation\YoutubeNavigationKey.cs" />
     <Compile Include="PageViewModelBase.cs" />
+    <Compile Include="PostText\IPostTextRenderService.cs" />
+    <Compile Include="PostText\PostTextRenderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ViewModelKnownTypes.cs" />
     <Compile Include="Services\ViewModelServicesInitializer.cs" />
+    <Compile Include="Styles\IBrowserStyle.cs" />
+    <Compile Include="Styles\IPostTextStyle.cs" />
+    <Compile Include="Styles\IStyleManager.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModels\BringIntoViewEventArgs.cs" />
     <Compile Include="ViewModels\BringIntoViewEventHandler.cs" />

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvachBrowser3.Views.Windows
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvachBrowser.Views.Windows81", "DvachBrowser.Views.Windows81\DvachBrowser.Views.Windows81.csproj", "{94E030C3-520E-4F46-88F6-36EE8FDD496D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DvachBrowser3.TextRender", "DvachBrowser3.TextRender\DvachBrowser3.TextRender.csproj", "{EAA28772-59F6-490D-B680-C2B8DFAE8421}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TestingApp\TestingApp.Shared\TestingApp.Shared.projitems*{ac570dd0-360d-44f2-aafd-631dcc0e2ee6}*SharedItemsImports = 4
@@ -136,6 +138,16 @@ Global
 		{94E030C3-520E-4F46-88F6-36EE8FDD496D}.Release|x64.Build.0 = Release|x64
 		{94E030C3-520E-4F46-88F6-36EE8FDD496D}.Release|x86.ActiveCfg = Release|x86
 		{94E030C3-520E-4F46-88F6-36EE8FDD496D}.Release|x86.Build.0 = Release|x86
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Release|x64.ActiveCfg = Release|Any CPU
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,5 +161,6 @@ Global
 		{9C4CC7EE-9752-4FA7-80E6-9906C6501798} = {DB6739EE-2B44-43C7-B62D-E4D28A935C3B}
 		{0E5E8768-DD8E-4F24-8863-03F048711049} = {E973B5D7-CF76-4571-825D-849E7A01A7AD}
 		{94E030C3-520E-4F46-88F6-36EE8FDD496D} = {E973B5D7-CF76-4571-825D-849E7A01A7AD}
+		{EAA28772-59F6-490D-B680-C2B8DFAE8421} = {DB6739EE-2B44-43C7-B62D-E4D28A935C3B}
 	EndGlobalSection
 EndGlobal
