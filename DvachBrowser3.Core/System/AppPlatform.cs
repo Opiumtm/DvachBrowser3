@@ -14,5 +14,10 @@
         /// Windows 8.1
         /// </summary>
         Windows,
+
+        /// <summary>
+        /// Windows 10
+        /// </summary>
+        Windows10Universal,
     }
 }

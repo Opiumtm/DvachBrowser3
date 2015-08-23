@@ -147,6 +147,14 @@
     <Compile Include="Engines\YandexCaptchaKeys.cs" />
     <Compile Include="Engines\YandexCaptchaPostingData.cs" />
     <Compile Include="Engines\YoutubeUriService.cs" />
+    <Compile Include="Lifecycle\INavigationHelper.cs" />
+    <Compile Include="Lifecycle\INavigationHelperFactory.cs" />
+    <Compile Include="Lifecycle\LoadStateEventArgs.cs" />
+    <Compile Include="Lifecycle\LoadStateEventHandler.cs" />
+    <Compile Include="Lifecycle\SaveStateEventArgs.cs" />
+    <Compile Include="Lifecycle\SaveStateEventHandler.cs" />
+    <Compile Include="Lifecycle\SuspensionManager.cs" />
+    <Compile Include="Lifecycle\SuspensionManagerException.cs" />
     <Compile Include="Logic\CheckFavoriteThreadsMode.cs" />
     <Compile Include="Logic\ILinkHashService.cs" />
     <Compile Include="Logic\ILinkTransformService.cs" />
