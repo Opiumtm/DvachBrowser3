@@ -104,5 +104,13 @@ namespace DvachBrowser3.Engines.Makaba
         /// Регулярное выражение URI поста.
         /// </summary>
         Regex PostLinkRegex2 { get; }
+
+        /// <summary>
+        /// Получить URI для постинга без капчи.
+        /// </summary>
+        /// <param name="check">Проверить.</param>
+        /// <param name="appId">ID приложения.</param>
+        /// <returns>Ссылка.</returns>
+        Uri GetNocaptchaUri(bool check, string appId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using Windows.Foundation.Metadata;
 using DvachBrowser3.Links;
@@ -212,6 +213,14 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return new Uri(BaseUri, CaptchaUri + "?type=recaptcha");
             }
+            if (captchaType == CaptchaType.GoogleRecaptcha2СhV1)
+            {
+                return new Uri(BaseUri, CaptchaUri + "type=recaptchav1&mobile=1");
+            }
+            if (captchaType == CaptchaType.GoogleRecaptcha2СhV2)
+            {
+                return new Uri(BaseUri, CaptchaUri + "type=recaptcha&mobile=1");
+            }
             return null;
         }
 
@@ -308,6 +317,21 @@ namespace DvachBrowser3.Engines.Makaba
         public Regex PostLinkRegex2
         {
             get { return Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegex2Text); }
+        }
+
+        /// <summary>
+        /// Получить URI для постинга без капчи.
+        /// </summary>
+        /// <param name="check">Проверить.</param>
+        /// <param name="appId">ID приложения.</param>
+        /// <returns>Ссылка.</returns>
+        public Uri GetNocaptchaUri(bool check, string appId)
+        {
+            if (check)
+            {
+                return new Uri(BaseUri, $"/makaba/captcha.fcgi?appid={WebUtility.UrlEncode(appId)}&check=1");
+            }
+            return new Uri(BaseUri, $"/makaba/captcha.fcgi?appid={WebUtility.UrlEncode(appId)}");
         }
 
         /// <summary>

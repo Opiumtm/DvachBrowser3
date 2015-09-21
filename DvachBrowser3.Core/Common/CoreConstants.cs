@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DvachBrowser3
 {
@@ -54,6 +55,33 @@ namespace DvachBrowser3
                 "b", "fag", "fg", "fur", "g", "ga", "h", "ho", "sex", "fet", "e", "hc", "gb", "ya", "r34", "hm", "guro",
                 "vn", "hg", "es"
             };            
+        }
+
+        /// <summary>
+        /// Ключи API.
+        /// </summary>
+        public static class ApiKeys
+        {
+            /// <summary>
+            /// ID приложения.
+            /// </summary>
+            public const string ApplicationId = "appid";
+
+            /// <summary>
+            /// Секретный ключ.
+            /// </summary>
+            public const string SecretKey = "secretkey";
+
+            /// <summary>
+            /// Контейнеры.
+            /// </summary>
+            public static class Containers
+            {
+                /// <summary>
+                /// Постинг макабы.
+                /// </summary>
+                public const string MakabaPosting = "makaba/posting";
+            }
         }
     }
 }

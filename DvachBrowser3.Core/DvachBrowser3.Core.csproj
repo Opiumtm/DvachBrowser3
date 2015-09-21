@@ -41,6 +41,10 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeys\ApiKeyService.cs" />
+    <Compile Include="ApiKeys\IApiKey.cs" />
+    <Compile Include="ApiKeys\IApiKeyContainer.cs" />
+    <Compile Include="ApiKeys\IApiKeyService.cs" />
     <Compile Include="Captcha\CaptchaService.cs" />
     <Compile Include="Captcha\ICaptcha.cs" />
     <Compile Include="Captcha\ICaptchaConfig.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
     <Compile Include="Engines\INetworkEngines.cs" />
+    <Compile Include="Engines\INoCaptchaCheckResult.cs" />
     <Compile Include="Engines\IPostCorrectionService.cs" />
     <Compile Include="Engines\IPostingResult.cs" />
     <Compile Include="Engines\IThreadResult.cs" />
@@ -129,6 +134,7 @@
     <Compile Include="Engines\Makaba\MakabaEngine.cs" />
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaCheckNoCaptchaAbilityOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
@@ -141,6 +147,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaThreadStatusOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\NetworkEngines.cs" />
+    <Compile Include="Engines\NoCaptchaPostingData.cs" />
     <Compile Include="Engines\PostEntryData.cs" />
     <Compile Include="Engines\RecaptchaCaptchaKeys.cs" />
     <Compile Include="Engines\RecaptchaCaptchaPostingData.cs" />

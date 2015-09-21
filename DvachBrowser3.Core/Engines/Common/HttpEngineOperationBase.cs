@@ -34,10 +34,52 @@ namespace DvachBrowser3.Engines
         public sealed override async Task<T> Complete(CancellationToken token)
         {
             var client = await CreateClient();
+            T shortRes;
+            if (ShortComplete(out shortRes))
+            {
+                return shortRes;
+            }
+            if (SetResultOnError)
+            {
+                try
+                {
+                    return await DoComplete(client, token);
+                }
+                catch (Exception ex)
+                {
+                    return OnError(ex);
+                }
+            }
             return await DoComplete(client, token);
         }
 
-       /// <summary>
+        /// <summary>
+        /// Короткий результат.
+        /// </summary>
+        /// <param name="result">Результат.</param>
+        /// <returns>true, если запрос делать не нужно.</returns>
+        protected virtual bool ShortComplete(out T result)
+        {
+            result = default(T);
+            return false;
+        }
+
+        /// <summary>
+        /// Установить результат для ошибки.
+        /// </summary>
+        protected virtual bool SetResultOnError => false;
+
+        /// <summary>
+        /// Результат по ошибке.
+        /// </summary>
+        /// <param name="error">Ошибка.</param>
+        /// <returns>Результат.</returns>
+        protected virtual T OnError(Exception error)
+        {
+            return default(T);
+        }
+
+        /// <summary>
         /// Выполнить операцию.
         /// </summary>
         /// <param name="client">Клиент.</param>

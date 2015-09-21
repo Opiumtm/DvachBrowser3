@@ -116,5 +116,12 @@ namespace DvachBrowser3.Engines
         /// <param name="link">Ссылка.</param>
         /// <returns>Информация о последнем изменении.</returns>
         IEngineOperationsWithProgress<ILastModifiedCheckResult, EngineProgress> GetResourceLastModified(BoardLinkBase link);
+
+        /// <summary>
+        /// Проверить возможность постить без капчи.
+        /// </summary>
+        /// <param name="postLink">Ссылка для постинга (корневая ссылка - для проверки возможности в целом).</param>
+        /// <returns>Результат.</returns>
+        IEngineOperationsWithProgress<INoCaptchaCheckResult, EngineProgress> CheckNoCaptchaAbility(BoardLinkBase postLink);
     }
 }

@@ -6,7 +6,7 @@ namespace DvachBrowser3.Posting
     /// Типы капчи.
     /// </summary>
     [Flags]
-    public enum CaptchaTypes : int
+    public enum CaptchaTypes : ulong
     {
         /// <summary>
         /// Яндекс.
@@ -17,5 +17,15 @@ namespace DvachBrowser3.Posting
         /// Рекапча.
         /// </summary>
         Recaptcha = CaptchaType.Recaptcha,
+
+        /// <summary>
+        /// Реализация рекапчи v1 двача.
+        /// </summary>
+        GoogleRecaptcha2СhV1 = CaptchaType.GoogleRecaptcha2СhV1,
+
+        /// <summary>
+        /// Реализация рекапчи v2 двача.
+        /// </summary>
+        GoogleRecaptcha2СhV2 = CaptchaType.GoogleRecaptcha2СhV2,
     }
 }

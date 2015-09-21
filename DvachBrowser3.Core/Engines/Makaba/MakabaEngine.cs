@@ -52,7 +52,8 @@ namespace DvachBrowser3.Engines.Makaba
                     EngineCapability.PartialThreadRequest | 
                     EngineCapability.ThreadStatusRequest | 
                     EngineCapability.SearchRequest |
-                    EngineCapability.TopPostsRequest;
+                    EngineCapability.TopPostsRequest |
+                    EngineCapability.NoCaptcha;
             }
         }
 
@@ -81,7 +82,7 @@ namespace DvachBrowser3.Engines.Makaba
         {
             get
             {
-                return CaptchaTypes.Yandex | CaptchaTypes.Recaptcha;
+                return CaptchaTypes.GoogleRecaptcha2СhV1 | CaptchaTypes.GoogleRecaptcha2СhV2;
             }
         }
 
@@ -199,6 +200,16 @@ namespace DvachBrowser3.Engines.Makaba
         public IEngineOperationsWithProgress<ILastModifiedCheckResult, EngineProgress> GetResourceLastModified(BoardLinkBase link)
         {
             return new MakabaLastModifiedOperation(link, Services);
+        }
+
+        /// <summary>
+        /// Проверить возможность постить без капчи.
+        /// </summary>
+        /// <param name="postLink">Ссылка для постинга (корневая ссылка - для проверки возможности в целом).</param>
+        /// <returns>Результат.</returns>
+        public IEngineOperationsWithProgress<INoCaptchaCheckResult, EngineProgress> CheckNoCaptchaAbility(BoardLinkBase postLink)
+        {
+            return new MakabaCheckNoCaptchaAbilityOperation(postLink, Services);
         }
     }
 }

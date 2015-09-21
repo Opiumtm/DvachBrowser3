@@ -37,5 +37,10 @@ namespace DvachBrowser3.Engines
         /// Запрос на последнее изменение (last modified header).
         /// </summary>
         LastModifiedRequest = 0x0020,
+
+        /// <summary>
+        /// Без ввода капчи.
+        /// </summary>
+        NoCaptcha = 0x0040
     }
 }

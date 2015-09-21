@@ -10,4 +10,15 @@
         /// </summary>
         public string RecaptchaHash { get; set; }
     }
+
+    /// <summary>
+    /// Данные рекапчи (второй вариант).
+    /// </summary>
+    public class RecaptchaV1CaptchaPostingData : CaptchaPostingData
+    {
+        /// <summary>
+        /// Челлендж.
+        /// </summary>
+        public string Challenge { get; set; }
+    }
 }

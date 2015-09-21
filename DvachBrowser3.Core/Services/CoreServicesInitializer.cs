@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Captcha;
+﻿using DvachBrowser3.ApiKeys;
+using DvachBrowser3.Captcha;
 using DvachBrowser3.Common;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
@@ -41,6 +42,7 @@ namespace DvachBrowser3
             container.RegisterService<ILiveTileService>(new LiveTileService(container));
             container.RegisterService<IJsonService>(new JsonService(container));
             container.RegisterService<IYoutubeUriService>(new YoutubeUriService(container));
+            container.RegisterService<IApiKeyService>(new ApiKeyService(container));
         }
     }
 }
