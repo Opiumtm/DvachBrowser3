@@ -215,8 +215,8 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>ID приложения.</returns>
         private ApiKey GetAppId()
         {
-            var apiKeys = Services.GetServiceOrThrow<IApiKeyService>();
-            var container = apiKeys.Find(CoreConstants.ApiKeys.Containers.MakabaPosting);
+            var api = Services.GetServiceOrThrow<IApiKeyService>();
+            var container = api.Find(CoreConstants.ApiKeys.Containers.MakabaPosting);
             var keys = container?.GetKeys();
             if (keys == null)
             {
