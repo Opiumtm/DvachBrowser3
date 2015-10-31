@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="DvachBrowser3.Views.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Template10.Controls"
+
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="NormalVisualState" />
+                <VisualState x:Name="BusyVisualState">
+                    <VisualState.Setters>
+                        <Setter Target="BusyRing.(ProgressRing.IsActive)" Value="True" />
+                        <Setter Target="BusyScreen.(UIElement.Visibility)" Value="Visible" />
+                        <Setter Target="MyHamburgerMenu.(UIElement.IsEnabled)" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
+
+            <controls:HamburgerMenu.PrimaryButtons>
+                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:MainPage">
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Width="48" Height="48" Symbol="Home" />
+                        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Главная" />
+                    </StackPanel>
+                </controls:HamburgerButtonInfo>
+            </controls:HamburgerMenu.PrimaryButtons>
+
+        </controls:HamburgerMenu>
+
+        <Grid x:Name="BusyScreen" Background="{StaticResource ModalBackground}" Visibility="Collapsed" x:DeferLoadStrategy="Lazy">
+            <Viewbox Height="32">
+                <StackPanel Orientation="Horizontal">
+                    <ProgressRing x:Name="BusyRing" Width="24"
+                                  Height="24" Margin="12,0"
+                                  Foreground="White" IsActive="False" />
+                    <TextBlock x:Name="BusyText" VerticalAlignment="Center" Foreground="White" />
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+
+    </Grid>
+</Page>
