@@ -115,6 +115,10 @@
     <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModelsHelper.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModel.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListGroupingViewModel.cs" />
+    <Compile Include="ViewModels\IOperationProgressViewModel.cs" />
+    <Compile Include="ViewModels\IOperationViewModel.cs" />
+    <Compile Include="ViewModels\OperationProgressFinishedEventArgs.cs" />
+    <Compile Include="ViewModels\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
