@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Engines\Makaba\" />
   </ItemGroup>
   <ItemGroup>
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
@@ -76,8 +77,6 @@
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Configuration\AppDataConfigBase.cs" />
     <Compile Include="Configuration\CaptchaConfig.cs" />
-    <Compile Include="Configuration\Makaba\MakabaEngineConfig.cs" />
-    <Compile Include="Configuration\Makaba\MakabaPostConfig.cs" />
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="Engines\ILastModifiedCheckResult.cs" />
     <Compile Include="Engines\IMediaResult.cs" />
     <Compile Include="Engines\INetworkEngine.cs" />
+    <Compile Include="Engines\INetworkEngineInstaller.cs" />
     <Compile Include="Engines\INetworkEngines.cs" />
     <Compile Include="Engines\INoCaptchaCheckResult.cs" />
     <Compile Include="Engines\IPostCorrectionService.cs" />
@@ -107,44 +107,6 @@
     <Compile Include="Engines\IThreadResult.cs" />
     <Compile Include="Engines\IThreadStatusResult.cs" />
     <Compile Include="Engines\IYoutubeUriService.cs" />
-    <Compile Include="Engines\Makaba\BoardInfo\IMakabaBoardInfoParser.cs" />
-    <Compile Include="Engines\Makaba\BoardInfo\MakabaBoardInfoParser.cs" />
-    <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
-    <Compile Include="Engines\Makaba\Html\IMakabaJsonResponseParseService.cs" />
-    <Compile Include="Engines\Makaba\Html\MakabaHtmlPostParseService.cs" />
-    <Compile Include="Engines\Makaba\Html\MakabaJsonResponseParseService.cs" />
-    <Compile Include="Engines\Makaba\IMakabaEngineConfig.cs" />
-    <Compile Include="Engines\Makaba\IMakabaPostConfig.cs" />
-    <Compile Include="Engines\Makaba\IMakabaSmileConfig.cs" />
-    <Compile Include="Engines\Makaba\IMakabaUriService.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardEntity2.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardEntityNewsReference.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardIcon2.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardPost.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardPost2.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardPostFile2.cs" />
-    <Compile Include="Engines\Makaba\Json\BoardThread2.cs" />
-    <Compile Include="Engines\Makaba\Json\CheckUpdatesData.cs" />
-    <Compile Include="Engines\Makaba\Json\MakabaMediaTypes.cs" />
-    <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />
-    <Compile Include="Engines\Makaba\Json\MobileBoardInfo.cs" />
-    <Compile Include="Engines\Makaba\Json\PostingJsonResult.cs" />
-    <Compile Include="Engines\Makaba\Json\ThreadPartialError.cs" />
-    <Compile Include="Engines\Makaba\Json\ThreadPartialResponse.cs" />
-    <Compile Include="Engines\Makaba\MakabaEngine.cs" />
-    <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
-    <Compile Include="Engines\Makaba\MakabaUriService.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaCheckNoCaptchaAbilityOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaHeadersHelper.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaLastModifiedOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaPostOperation.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaThreadStatusOperation.cs" />
     <Compile Include="Engines\MediaFilePostingData.cs" />
     <Compile Include="Engines\NetworkEngines.cs" />
     <Compile Include="Engines\NoCaptchaPostingData.cs" />
@@ -324,14 +286,17 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Nito.AsyncEx">
-      <HintPath>..\packages\Nito.AsyncEx.3.0.0\lib\portable-net45+netcore45+wpa81+MonoTouch+MonoAndroid\Nito.AsyncEx.dll</HintPath>
+    <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wpa81\Nito.AsyncEx.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Nito.AsyncEx.Concurrent">
-      <HintPath>..\packages\Nito.AsyncEx.3.0.0\lib\portable-net45+netcore45+wpa81+MonoTouch+MonoAndroid\Nito.AsyncEx.Concurrent.dll</HintPath>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wpa81\Nito.AsyncEx.Concurrent.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

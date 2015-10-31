@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DvachBrowser3.Engines.Makaba;
 
 namespace DvachBrowser3.Engines
 {
     /// <summary>
     /// Информация о движках.
     /// </summary>
-    public sealed class NetworkEngines : ServiceBase, INetworkEngines
+    public sealed class NetworkEngines : ServiceBase, INetworkEngines, INetworkEngineInstaller
     {
         /// <summary>
         /// Конструктор.
@@ -16,10 +15,7 @@ namespace DvachBrowser3.Engines
         /// <param name="services">Сервисы.</param>
         public NetworkEngines(IServiceProvider services) : base(services)
         {
-            engines = new Dictionary<string, INetworkEngine>(StringComparer.OrdinalIgnoreCase)
-            {
-                { CoreConstants.Engine.Makaba, new MakabaEngine(Services) }
-            };
+            engines = new Dictionary<string, INetworkEngine>(StringComparer.OrdinalIgnoreCase);
         }
 
         private readonly Dictionary<string, INetworkEngine> engines;
@@ -30,7 +26,10 @@ namespace DvachBrowser3.Engines
         /// <returns>Движки.</returns>
         public IReadOnlyCollection<string> ListEngines()
         {
-            return engines.Keys.ToArray();
+            lock (engines)
+            {
+                return engines.Keys.ToArray();
+            }
         }
 
         /// <summary>
@@ -40,11 +39,27 @@ namespace DvachBrowser3.Engines
         /// <returns>Идентификатор.</returns>
         public INetworkEngine GetEngineById(string engine)
         {
-            if (engines.ContainsKey(engine))
+            lock (engines)
             {
-                return engines[engine];
+                if (engines.ContainsKey(engine))
+                {
+                    return engines[engine];
+                }
             }
             throw new InvalidOperationException(string.Format("Движок c идентификатором \"{0}\" не найден", engine));
+        }
+
+        /// <summary>
+        /// Установить сетевой движок.
+        /// </summary>
+        /// <param name="engine">Сетевой движок.</param>
+        public void Install(INetworkEngine engine)
+        {
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            lock (engines)
+            {
+                engines[engine.EngineId] = engine;
+            }
         }
     }
 }

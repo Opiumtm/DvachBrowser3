@@ -2,9 +2,6 @@
 using DvachBrowser3.Captcha;
 using DvachBrowser3.Common;
 using DvachBrowser3.Engines;
-using DvachBrowser3.Engines.Makaba;
-using DvachBrowser3.Engines.Makaba.BoardInfo;
-using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
 using DvachBrowser3.SystemInformation;
@@ -25,13 +22,8 @@ namespace DvachBrowser3
         {
             container.RegisterService<IRegexCacheService>(new RegexCacheService(container));
             container.RegisterService<IYoutubeIdService>(new YoutubeIdService(container));
-            container.RegisterService<IMakabaUriService>(new MakabaUriService(container));
-            container.RegisterService<IMakabaHtmlPostParseService>(new MakabaHtmlPostParseService(container));
             container.RegisterService<IDateService>(new DateService(container));
-            container.RegisterService<IMakabaJsonResponseParseService>(new MakabaJsonResponseParseService(container));
             container.RegisterService<ICaptchaService>(new CaptchaService(container));
-            container.RegisterService<IMakabaBoardInfoParser>(new MakabaBoardInfoParser(container));
-            container.RegisterService<INetworkEngines>(new NetworkEngines(container));
             container.RegisterService<ILinkHashService>(new LinkHashService(container));
             container.RegisterService<ISerializerCacheService>(new SerializerCacheService(container));
             container.RegisterService<IStorageService>(new StorageService(container));
@@ -43,6 +35,10 @@ namespace DvachBrowser3
             container.RegisterService<IJsonService>(new JsonService(container));
             container.RegisterService<IYoutubeUriService>(new YoutubeUriService(container));
             container.RegisterService<IApiKeyService>(new ApiKeyService(container));
+
+            var engines = new NetworkEngines(container);
+            container.RegisterService<INetworkEngines>(engines);
+            container.RegisterService<INetworkEngineInstaller>(engines);
         }
     }
 }

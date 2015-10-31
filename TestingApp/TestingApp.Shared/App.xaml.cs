@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3;
+using DvachBrowser3.Services;
 using DvachBrowser3.SystemInformation;
 using TestingApp.Common;
 
@@ -42,10 +43,12 @@ namespace TestingApp
             this.Suspending += this.OnSuspending;
             var services = new ServiceContainer();
 #if WINDOWS_PHONE_APP
-            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.WindowsPhone });
+            var platform = new SystemInfoParam() { Platform = AppPlatform.WindowsPhone };
 #else
-            CoreServicesInitializer.InitializeServices(services, new SystemInfoParam() { Platform = AppPlatform.Windows, AppIcon = "ms-appx:///Assets/Logo.png", SmallAppIcon = "ms-appx:///Assets/SmallLogo.png" });
+            var platform =  new SystemInfoParam() { Platform = AppPlatform.Windows, AppIcon = "ms-appx:///Assets/Logo.png", SmallAppIcon = "ms-appx:///Assets/SmallLogo.png" };
 #endif
+            CoreServicesInitializer.InitializeServices(services, platform);
+            MakabaEngineServicesInitializer.InitializeServices(services, platform);
             ServiceLocator.Current = services;
         }
 

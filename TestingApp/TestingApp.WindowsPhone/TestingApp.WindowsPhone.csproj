@@ -85,6 +85,10 @@
       <Project>{b605da58-f366-4ca7-af30-041a2a311a25}</Project>
       <Name>DvachBrowser3.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DvachBrowser3.Engines.Makaba\DvachBrowser3.Engines.Makaba.csproj">
+      <Project>{3fe647ff-6685-4e24-9e2e-afa1ca580690}</Project>
+      <Name>DvachBrowser3.Engines.Makaba</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HubPage.xaml.cs">
