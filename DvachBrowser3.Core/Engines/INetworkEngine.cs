@@ -24,6 +24,11 @@ namespace DvachBrowser3.Engines
         string DisplayName { get; }
 
         /// <summary>
+        /// Имя ресурса.
+        /// </summary>
+        string ResourceName { get; }
+
+        /// <summary>
         /// Возможности движка.
         /// </summary>
         EngineCapability Capability { get; }

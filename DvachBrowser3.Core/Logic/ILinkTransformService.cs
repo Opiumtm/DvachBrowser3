@@ -79,5 +79,12 @@ namespace DvachBrowser3.Logic
         /// <param name="threadLink">Ссылка на тред.</param>
         /// <returns>Ссылка на пост (null, если это невозможно).</returns>
         BoardLinkBase GetRootPostLink(BoardLinkBase threadLink);
+
+        /// <summary>
+        /// Короткое имя борды.
+        /// </summary>
+        /// <param name="boardLink">Ссылка на борду.</param>
+        /// <returns>Короткое имя.</returns>
+        string GetBoardShortName(BoardLinkBase boardLink);
     }
 }

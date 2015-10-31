@@ -159,9 +159,11 @@
     <Compile Include="Models\Board\BoardReferences.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
+    <Compile Include="Models\Links\BoardLinkCollection.cs" />
     <Compile Include="Models\Links\BoardLinkKind.cs" />
     <Compile Include="Models\Links\BoardPageLink.cs" />
     <Compile Include="Models\Links\BoardMediaLink.cs" />
+    <Compile Include="Models\Links\FavoriteBoardInfo.cs" />
     <Compile Include="Models\Links\FavoriteThreadInfo.cs" />
     <Compile Include="Models\Links\LinkCollection.cs" />
     <Compile Include="Models\Links\MediaLink.cs" />

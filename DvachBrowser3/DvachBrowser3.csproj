@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -107,6 +108,13 @@
     <Compile Include="PageServices\PageServices.cs" />
     <Compile Include="PageServices\ShellAppBarPageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BoardList\IBoardListBoardGroupingViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\IBoardListBoardViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\IBoardListViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardDataViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModelsHelper.cs" />
+    <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\Implementation\BoardListGroupingViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -168,10 +176,7 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

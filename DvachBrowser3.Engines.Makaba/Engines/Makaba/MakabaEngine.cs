@@ -26,18 +26,17 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Идентификатор движка.
         /// </summary>
-        public string EngineId
-        {
-            get { return CoreConstants.Engine.Makaba; }
-        }
+        public string EngineId => CoreConstants.Engine.Makaba;
 
         /// <summary>
         /// Отображаемое имя.
         /// </summary>
-        public string DisplayName
-        {
-            get { return "2ch.hk (Makaba)"; }
-        }
+        public string DisplayName => "Makaba";
+
+        /// <summary>
+        /// Имя ресурса.
+        /// </summary>
+        public string ResourceName => "Два.ч";
 
         /// <summary>
         /// Возможности движка.
@@ -62,50 +61,29 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Конфигурация.
         /// </summary>
-        public IConfiguration Configuration
-        {
-            get { return configuration; }
-        }
+        public IConfiguration Configuration => configuration;
 
         /// <summary>
         /// URI движка.
         /// </summary>
-        public IEngineUriService EngineUriService
-        {
-            get { return Services.GetServiceOrThrow<IMakabaUriService>(); }
-        }
+        public IEngineUriService EngineUriService => Services.GetServiceOrThrow<IMakabaUriService>();
 
         /// <summary>
         /// Типы капчи.
         /// </summary>
-        public CaptchaTypes CaptchaTypes
-        {
-            get
-            {
-                return CaptchaTypes.GoogleRecaptcha2СhV1 | CaptchaTypes.GoogleRecaptcha2СhV2;
-            }
-        }
+        public CaptchaTypes CaptchaTypes => CaptchaTypes.GoogleRecaptcha2СhV1 | CaptchaTypes.GoogleRecaptcha2СhV2;
 
         private readonly IPostCorrectionService postCorrection;
 
         /// <summary>
         /// Сервис коррекции постов.
         /// </summary>
-        public IPostCorrectionService PostCorrection
-        {
-            get { return postCorrection; }
-        }
+        public IPostCorrectionService PostCorrection => postCorrection;
 
         /// <summary>
         /// Корневая ссылка.
         /// </summary>
-        public BoardLinkBase RootLink
-        {
-            get
-            {
-                return new RootLink() { Engine = CoreConstants.Engine.Makaba };
-            }
-        }
+        public BoardLinkBase RootLink => new RootLink() { Engine = CoreConstants.Engine.Makaba };
 
         /// <summary>
         /// Получить страницу борды.

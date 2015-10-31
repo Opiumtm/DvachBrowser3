@@ -320,6 +320,31 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Короткое имя борды.
+        /// </summary>
+        /// <param name="boardLink">Ссылка на борду.</param>
+        /// <returns>Короткое имя.</returns>
+        public string GetBoardShortName(BoardLinkBase boardLink)
+        {
+            var blink = boardLink as BoardLink;
+            if (blink != null)
+            {
+                return blink.Board;
+            }
+            var tlink = boardLink as ThreadLink;
+            if (tlink != null)
+            {
+                return tlink.Board;
+            }
+            var plink = boardLink as PostLink;
+            if (plink != null)
+            {
+                return plink.Board;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Средство сравнения ссылок.
         /// </summary>
         private sealed class LinkComparer : IComparer<BoardLinkBase>
