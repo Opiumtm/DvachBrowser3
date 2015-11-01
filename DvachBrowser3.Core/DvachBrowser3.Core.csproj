@@ -135,6 +135,8 @@
     <Compile Include="Logic\LiveTileService.cs" />
     <Compile Include="Logic\LoadMediaFileMode.cs" />
     <Compile Include="Logic\NetworkLogic.cs" />
+    <Compile Include="Logic\NetworkLogic\BoardReferenceOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\BoardReferencesParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckFavoritesOperation.cs" />
     <Compile Include="Logic\NetworkLogic\CheckFavoritesParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />

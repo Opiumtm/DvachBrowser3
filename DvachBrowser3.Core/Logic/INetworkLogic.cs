@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.Storage;
+using DvachBrowser3.Board;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Posting;
@@ -72,5 +73,13 @@ namespace DvachBrowser3.Logic
         /// <param name="mode">Режим проверки.</param>
         /// <returns>Данные избранных тредов (null - нет данных).</returns>
         IEngineOperationsWithProgress<LinkCollection, EngineProgress> CheckFavoriteThreadsForUpdates(CheckFavoriteThreadsMode mode = CheckFavoriteThreadsMode.Default);
+
+        /// <summary>
+        /// Загрузить список борд.
+        /// </summary>
+        /// <param name="rootLink">Корневая ссылка.</param>
+        /// <param name="forceUpdate">Форсировать обновление.</param>
+        /// <returns>Список борд (null - нет данных).</returns>
+        IEngineOperationsWithProgress<BoardReferences, EngineProgress> GetBoardReferences(BoardLinkBase rootLink, bool forceUpdate = false);
     }
 }

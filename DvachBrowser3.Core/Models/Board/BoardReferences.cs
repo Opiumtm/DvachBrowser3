@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using DvachBrowser3.Links;
 
@@ -21,5 +22,11 @@ namespace DvachBrowser3.Board
         /// </summary>
         [DataMember]
         public List<BoardReference> References { get; set; }
+
+        /// <summary>
+        /// Время последней проверки.
+        /// </summary>
+        [DataMember]
+        public DateTime CheckTime { get; set; }
     }
 }
