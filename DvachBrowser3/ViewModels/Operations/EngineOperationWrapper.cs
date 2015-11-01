@@ -17,7 +17,7 @@ namespace DvachBrowser3.ViewModels
         /// Конструктор.
         /// </summary>
         /// <param name="operationFactory">Фабрика операций.</param>
-        protected EngineOperationWrapper(Func<IEngineOperationsWithProgress<TResult, TProgress>> operationFactory)
+        protected EngineOperationWrapper(Func<object, IEngineOperationsWithProgress<TResult, TProgress>> operationFactory)
         {
             if (operationFactory == null) throw new ArgumentNullException(nameof(operationFactory));
             OperationFactory = operationFactory;
@@ -49,7 +49,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Фабрика операций.
         /// </summary>
-        protected Func<IEngineOperationsWithProgress<TResult, TProgress>> OperationFactory { get; private set; }
+        protected Func<object, IEngineOperationsWithProgress<TResult, TProgress>> OperationFactory { get; private set; }
 
         private bool canStart;
 
@@ -69,13 +69,14 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Начать.
         /// </summary>
-        public async void Start()
+        /// <param name="arg">Аргумент.</param>
+        public async void Start(object arg)
         {
             if (!CanStart)
             {
                 return;
             }
-            var operation = OperationFactory();
+            var operation = OperationFactory(arg);
             if (operation == null)
             {
                 return;
@@ -130,6 +131,11 @@ namespace DvachBrowser3.ViewModels
                 IsActive = false;
                 CanStart = true;
             }
+        }
+
+        public void Start()
+        {
+            Start(null);
         }
 
         private void OperationOnProgress(object sender, TProgress p)

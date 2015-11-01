@@ -37,5 +37,10 @@ namespace DvachBrowser3.ViewModels
         /// Применить фильтр.
         /// </summary>
         void ApplyFilter();
+
+        /// <summary>
+        /// Обновить список борд.
+        /// </summary>
+        IOperationViewModel Refresh { get; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using DvachBrowser3.Engines.Makaba.Html;
 
 namespace DvachBrowser3.ViewModels.Filters
 {
@@ -57,7 +56,7 @@ namespace DvachBrowser3.ViewModels.Filters
                 return false;
             }
             var f = Filter.Trim();
-            var text = MakabaJsonResponseParseService.ToPlainText(post.Data);
+            var text = post.Data.ToPlainText();
             return text.Any(l => (l ?? "").IndexOf(f, StringComparison.CurrentCultureIgnoreCase) >= 0) || ((post.Subject ?? "").IndexOf(f, StringComparison.CurrentCultureIgnoreCase) >= 0);
         }
     }

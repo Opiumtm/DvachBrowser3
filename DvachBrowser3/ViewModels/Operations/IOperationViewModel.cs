@@ -16,6 +16,12 @@
         void Start();
 
         /// <summary>
+        /// Начать.
+        /// </summary>
+        /// <param name="arg">Аргумент.</param>
+        void Start(object arg);
+
+        /// <summary>
         /// Отменить.
         /// </summary>
         void Cancel();

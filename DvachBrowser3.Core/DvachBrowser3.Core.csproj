@@ -157,6 +157,7 @@
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />
     <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />
     <Compile Include="Models\Board\BoardReferences.cs" />
+    <Compile Include="Models\DvachModelsHelper.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
     <Compile Include="Models\Links\BoardLinkCollection.cs" />

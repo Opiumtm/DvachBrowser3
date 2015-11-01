@@ -13,7 +13,7 @@ namespace DvachBrowser3.ViewModels
         /// Конструктор.
         /// </summary>
         /// <param name="operationFactory">Фабрика операций.</param>
-        public StdEngineOperationWrapper(Func<IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory) : base(operationFactory)
+        public StdEngineOperationWrapper(Func<object, IEngineOperationsWithProgress<TResult, EngineProgress>> operationFactory) : base(operationFactory)
         {
         }
 
