@@ -30,5 +30,15 @@
         /// Прогресс.
         /// </summary>
         IOperationProgressViewModel Progress { get; }
+
+        /// <summary>
+        /// Запретить.
+        /// </summary>
+        void Disable();
+
+        /// <summary>
+        /// Разрешить.
+        /// </summary>
+        void Enable();
     }
 }

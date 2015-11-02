@@ -33,10 +33,20 @@ namespace DvachBrowser3.ViewModels
         string Resource { get; }
 
         /// <summary>
+        /// Категория.
+        /// </summary>
+        string Category { get; }
+
+        /// <summary>
         /// Фильтровать.
         /// </summary>
         /// <param name="filterString">Строка фильтра.</param>
         /// <returns>true, если нужно отобразить.</returns>
         bool Filter(string filterString);
+
+        /// <summary>
+        /// Избранное.
+        /// </summary>
+        bool IsFavorite { get; }
     }
 }

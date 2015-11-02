@@ -16,8 +16,10 @@ namespace DvachBrowser3.ViewModels
         /// Конструктор.
         /// </summary>
         /// <param name="name">Имя группы.</param>
-        public BoardListGroupingViewModel(string name)
+        /// <param name="isFavorite">Избранное.</param>
+        public BoardListGroupingViewModel(string name, bool isFavorite)
         {
+            IsFavorite = isFavorite;
             Name = name;
         }
 
@@ -35,6 +37,11 @@ namespace DvachBrowser3.ViewModels
         /// До фильтрации.
         /// </summary>
         public IList<IBoardListBoardViewModel> OriginalItems { get; } = new ObservableCollection<IBoardListBoardViewModel>();
+
+        /// <summary>
+        /// Избранные.
+        /// </summary>
+        public bool IsFavorite { get; private set; }
 
         /// <summary>
         /// Есть элементы.

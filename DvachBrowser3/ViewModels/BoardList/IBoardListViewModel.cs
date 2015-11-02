@@ -5,7 +5,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления списка борд.
     /// </summary>
-    public interface IBoardListViewModel
+    public interface IBoardListViewModel : IStartableViewModel
     {
         /// <summary>
         /// Группы.

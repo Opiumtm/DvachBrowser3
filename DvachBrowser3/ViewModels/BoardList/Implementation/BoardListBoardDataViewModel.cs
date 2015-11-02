@@ -22,11 +22,15 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <param name="link">Ссылка.</param>
         /// <param name="displayName">Отображаемое имя.</param>
-        public BoardListBoardDataViewModel(BoardLinkBase link, string displayName)
+        /// <param name="category">Категория.</param>
+        /// <param name="isFavorite">Избранное.</param>
+        public BoardListBoardDataViewModel(BoardLinkBase link, string displayName, string category, bool isFavorite)
         {
             if (link == null) throw new ArgumentNullException(nameof(link));
             Link = link;
             DisplayName = displayName ?? "";
+            Category = category ?? "";
+            IsFavorite = isFavorite;
         }
 
         /// <summary>
@@ -59,6 +63,12 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public string Resource => BoardListBoardViewModelsHelper.GetResourceName(Link?.Engine);
 
+
+        /// <summary>
+        /// Категория.
+        /// </summary>
+        public string Category { get; private set; }
+
         /// <summary>
         /// Фильтровать.
         /// </summary>
@@ -68,5 +78,10 @@ namespace DvachBrowser3.ViewModels
         {
             return BoardListBoardViewModelsHelper.Filter(this, filterString);
         }
+
+        /// <summary>
+        /// Избранное.
+        /// </summary>
+        public bool IsFavorite { get; private set; }
     }
 }

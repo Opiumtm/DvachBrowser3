@@ -1,0 +1,19 @@
+﻿<ContentDialog
+    x:Class="DvachBrowser3.Views.ErrorInfoDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Информация об ошибке"
+    PrimaryButtonText="Ок"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"    
+    >
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock IsTextSelectionEnabled="True" x:Name="ErrorText" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>

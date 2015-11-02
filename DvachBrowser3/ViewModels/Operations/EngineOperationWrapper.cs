@@ -21,7 +21,6 @@ namespace DvachBrowser3.ViewModels
         {
             if (operationFactory == null) throw new ArgumentNullException(nameof(operationFactory));
             OperationFactory = operationFactory;
-            CanStart = true;
             Progress = 0;
             IsIndeterminate = true;
             IsError = false;
@@ -29,6 +28,7 @@ namespace DvachBrowser3.ViewModels
             Error = null;
             Message = null;
             IsActive = false;
+            UpdateCanStart();
         }
 
         private TResult result;
@@ -66,6 +66,13 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private bool isDisabled;
+
+        private void UpdateCanStart()
+        {
+            CanStart = !IsActive && !isDisabled;
+        }
+
         /// <summary>
         /// Начать.
         /// </summary>
@@ -82,7 +89,7 @@ namespace DvachBrowser3.ViewModels
                 return;
             }
             IsActive = true;
-            CanStart = false;
+            UpdateCanStart();
             IsError = false;
             Error = null;
             Progress = 0;
@@ -129,7 +136,7 @@ namespace DvachBrowser3.ViewModels
             {
                 operation.Progress -= OperationOnProgress;
                 IsActive = false;
-                CanStart = true;
+                UpdateCanStart();
             }
         }
 
@@ -185,6 +192,24 @@ namespace DvachBrowser3.ViewModels
         /// Прогресс.
         /// </summary>
         IOperationProgressViewModel IOperationViewModel.Progress => this;
+
+        /// <summary>
+        /// Запретить.
+        /// </summary>
+        public void Disable()
+        {
+            isDisabled = true;
+            UpdateCanStart();
+        }
+
+        /// <summary>
+        /// Разрешить.
+        /// </summary>
+        public void Enable()
+        {
+            isDisabled = false;
+            UpdateCanStart();
+        }
 
         private double progress;
 

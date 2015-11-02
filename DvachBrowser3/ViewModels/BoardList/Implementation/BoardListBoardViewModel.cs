@@ -47,6 +47,11 @@ namespace DvachBrowser3.ViewModels
         public string Resource => BoardListBoardViewModelsHelper.GetResourceName(Link?.Engine);
 
         /// <summary>
+        /// Категория.
+        /// </summary>
+        public string Category => boardRef.Category ?? "Без категории";
+
+        /// <summary>
         /// Фильтровать.
         /// </summary>
         /// <param name="filterString">Строка фильтра.</param>
@@ -55,5 +60,10 @@ namespace DvachBrowser3.ViewModels
         {
             return BoardListBoardViewModelsHelper.Filter(this, filterString);
         }
+
+        /// <summary>
+        /// Избранное.
+        /// </summary>
+        public bool IsFavorite => false;
     }
 }

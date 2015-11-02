@@ -23,6 +23,11 @@ namespace DvachBrowser3.ViewModels
         IList<IBoardListBoardViewModel> OriginalItems { get; }
 
         /// <summary>
+        /// Избранные.
+        /// </summary>
+        bool IsFavorite { get; }
+
+        /// <summary>
         /// Есть элементы.
         /// </summary>
         bool HasItems { get; }

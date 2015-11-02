@@ -38,8 +38,8 @@
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Makaba\Makaba\MakabaEngineConfig.cs" />
-    <Compile Include="Configuration\Makaba\Makaba\MakabaPostConfig.cs" />
+    <Compile Include="Configuration\Makaba\MakabaEngineConfig.cs" />
+    <Compile Include="Configuration\Makaba\MakabaPostConfig.cs" />
     <Compile Include="Engines\Makaba\BoardInfo\IMakabaBoardInfoParser.cs" />
     <Compile Include="Engines\Makaba\BoardInfo\MakabaBoardInfoParser.cs" />
     <Compile Include="Engines\Makaba\Html\IMakabaHtmlPostParseService.cs" />
