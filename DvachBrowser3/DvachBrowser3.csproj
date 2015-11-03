@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
+    <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />

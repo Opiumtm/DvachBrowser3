@@ -1,9 +1,11 @@
-﻿namespace DvachBrowser3.ViewModels
+﻿using System.ComponentModel;
+
+namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Операция.
     /// </summary>
-    public interface IOperationViewModel
+    public interface IOperationViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Можно начинать.
@@ -19,7 +21,7 @@
         /// Начать.
         /// </summary>
         /// <param name="arg">Аргумент.</param>
-        void Start(object arg);
+        void Start2(object arg);
 
         /// <summary>
         /// Отменить.

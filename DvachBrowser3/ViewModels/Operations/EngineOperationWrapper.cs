@@ -78,7 +78,7 @@ namespace DvachBrowser3.ViewModels
         /// Начать.
         /// </summary>
         /// <param name="arg">Аргумент.</param>
-        public async void Start(object arg)
+        public async void Start2(object arg)
         {
             if (!CanStart)
             {
@@ -143,7 +143,7 @@ namespace DvachBrowser3.ViewModels
 
         public void Start()
         {
-            Start(null);
+            Start2(null);
         }
 
         private void OperationOnProgress(object sender, TProgress p)

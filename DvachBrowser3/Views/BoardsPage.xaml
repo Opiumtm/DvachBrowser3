@@ -14,7 +14,7 @@
     <Page.DataContext>
         <vm:BoardListViewModel />
     </Page.DataContext>
-    
+
     <Page.Resources>
         <CollectionViewSource x:Name="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
     </Page.Resources>
@@ -43,15 +43,25 @@
 
         <!--  header  -->
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
-                             Content="Доски" VisualStateNarrowMinWidth="-1">
+                             Content="Доски">
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </Interactivity:Interaction.Behaviors>
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Label="Обновить" Icon="Sync" IsEnabled="{x:Bind ViewModel.Refresh.CanStart, Mode=OneWay}" Click="{x:Bind ViewModel.Refresh.Start}"/>
+            </controls:PageHeader.PrimaryCommands>
 
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="0,4,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <SemanticZoom>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <ProgressBar Grid.Row="0" Margin="4" IsIndeterminate="True" Visibility="{x:Bind ViewModel.Refresh.Progress.IsActive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+
+            </ProgressBar>
+            <SemanticZoom Grid.Row="1">
                 <SemanticZoom.ZoomedInView>
                     <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}">
                         <GridView.ItemTemplate>

@@ -172,7 +172,7 @@ namespace DvachBrowser3.ViewModels
                 }
                 else
                 {
-                    refreshCommand.Start(false);
+                    refreshCommand.Start2(false);
                 }
             }
             catch (Exception ex)
@@ -211,7 +211,7 @@ namespace DvachBrowser3.ViewModels
         {
             await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() =>
             {
-                refreshCommand.Start(false);
+                refreshCommand.Start2(false);
             });
         }
 

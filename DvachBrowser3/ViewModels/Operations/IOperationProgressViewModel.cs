@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Модель прогресса операции.
     /// </summary>
-    public interface IOperationProgressViewModel
+    public interface IOperationProgressViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Прогресс.
