@@ -1,26 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Группировка списка борд.
     /// </summary>
-    public interface IBoardListBoardGroupingViewModel
+    public interface IBoardListBoardGroupingViewModel : IList<IBoardListBoardViewModel>
     {
         /// <summary>
         /// Имя.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        /// Элементы.
-        /// </summary>
-        IList<IBoardListBoardViewModel> Items { get; }
-
-        /// <summary>
-        /// До фильтрации.
-        /// </summary>
-        IList<IBoardListBoardViewModel> OriginalItems { get; }
 
         /// <summary>
         /// Избранные.
@@ -31,11 +23,5 @@ namespace DvachBrowser3.ViewModels
         /// Есть элементы.
         /// </summary>
         bool HasItems { get; }
-
-        /// <summary>
-        /// Применить фильтр.
-        /// </summary>
-        /// <param name="filter">Фильтр.</param>
-        void ApplyFilter(string filter);
     }
 }

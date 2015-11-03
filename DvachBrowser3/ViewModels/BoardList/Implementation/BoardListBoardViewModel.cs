@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 using DvachBrowser3.Board;
-using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using Template10.Mvvm;
 
@@ -52,6 +52,16 @@ namespace DvachBrowser3.ViewModels
         public string Category => boardRef.Category ?? "Без категории";
 
         /// <summary>
+        /// Цвет плитки.
+        /// </summary>
+        public Color TileBackgroundColor => BoardListBoardViewModelsHelper.GetResourceColor(Link?.Engine);
+
+        /// <summary>
+        /// Логотип.
+        /// </summary>
+        public ImageSource ResourceLogo => BoardListBoardViewModelsHelper.GetLogo(Link?.Engine);
+
+        /// <summary>
         /// Фильтровать.
         /// </summary>
         /// <param name="filterString">Строка фильтра.</param>
@@ -65,5 +75,10 @@ namespace DvachBrowser3.ViewModels
         /// Избранное.
         /// </summary>
         public bool IsFavorite => false;
+
+        /// <summary>
+        /// Для взрослых.
+        /// </summary>
+        public bool IsAdult => boardRef.IsAdult;
     }
 }

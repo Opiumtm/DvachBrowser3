@@ -93,6 +93,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\MakabaLogo.png" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +103,12 @@
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
+    <Compile Include="Core\IWeakEventCallback.cs" />
+    <Compile Include="Core\IWeakEventChannel.cs" />
+    <Compile Include="Core\WeakEventArgs.cs" />
+    <Compile Include="Core\WeakEventCallback.cs" />
+    <Compile Include="Core\WeakEventChannel.cs" />
+    <Compile Include="Core\WeakEventHandler.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -120,6 +127,7 @@
     <Compile Include="ViewModels\BoardList\Implementation\BoardListGroupingViewModel.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListViewModel.cs" />
     <Compile Include="Logic\SyncBoardsOperation.cs" />
+    <Compile Include="ViewModels\Events\ViewModelEvents.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />
@@ -127,12 +135,19 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventArgs.cs" />
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
+    <Compile Include="Views\BoardsPage.xaml.cs">
+      <DependentUpon>BoardsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorInfoDialog.xaml.cs">
       <DependentUpon>ErrorInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\BoardTile.xaml.cs">
+      <DependentUpon>BoardTile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\BoardTileShortNameConverter.cs" />
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -163,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\BoardsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ErrorInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,6 +189,10 @@
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Partial\BoardTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Shell.xaml">
       <SubType>Designer</SubType>

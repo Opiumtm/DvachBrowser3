@@ -1,0 +1,86 @@
+﻿<Page x:Class="DvachBrowser3.Views.BoardsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:vm="using:DvachBrowser3.ViewModels"
+      xmlns:pa="using:DvachBrowser3.Views.Partial"
+      xmlns:behaviors="using:Template10.Behaviors"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:BoardListViewModel />
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <CollectionViewSource x:Name="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!--  header  -->
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
+                             Content="Доски" VisualStateNarrowMinWidth="-1">
+            <Interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </Interactivity:Interaction.Behaviors>
+
+        </controls:PageHeader>
+
+        <Grid Grid.Row="1" Padding="0,4,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <SemanticZoom>
+                <SemanticZoom.ZoomedInView>
+                    <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <pa:BoardTile ViewModel="{Binding}" Height="75" Width="175" Margin="5" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                        <GridView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="24" FontWeight="SemiBold" Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </GridView.GroupStyle>
+                    </GridView>
+                </SemanticZoom.ZoomedInView>
+                <SemanticZoom.ZoomedOutView>
+                    <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource BoardSource}, Path=CollectionGroups}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="10" FontSize="24" FontWeight="SemiBold" Text="{Binding Group.Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </SemanticZoom.ZoomedOutView>
+            </SemanticZoom>
+        </Grid>
+    </Grid>
+</Page>
+

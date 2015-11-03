@@ -92,7 +92,7 @@ namespace DvachBrowser3
             this.compareFunc = compareFunc;
             this.newData = newData;
             this.originalData = originalData;
-            this.updateAction = updateAction;
+            this.updateAction = updateAction ?? new Action<T, TSrc>((o, s) => {});
         }
 
         /// <summary>

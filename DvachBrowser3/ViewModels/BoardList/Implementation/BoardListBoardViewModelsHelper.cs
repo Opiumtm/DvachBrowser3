@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using DvachBrowser3.Engines;
 
 namespace DvachBrowser3.ViewModels
@@ -19,6 +22,22 @@ namespace DvachBrowser3.ViewModels
         /// Имена движков.
         /// </summary>
         private static readonly Dictionary<string, string> ResourceNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Имена движков.
+        /// </summary>
+        private static readonly Dictionary<string, Color> EngineColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Логотипы движков.
+        /// </summary>
+        private static readonly Dictionary<string, ImageSource> EngineLogos = new Dictionary<string, ImageSource>(StringComparer.OrdinalIgnoreCase);
+
+        static BoardListBoardViewModelsHelper()
+        {
+            var makabaUri = new Uri("ms-appx:///Resources/MakabaLogo.png", UriKind.Absolute);
+            EngineLogos[CoreConstants.Engine.Makaba] = new BitmapImage(makabaUri);
+        }
 
         /// <summary>
         /// Фильтровать.
@@ -58,6 +77,27 @@ namespace DvachBrowser3.ViewModels
             return ResourceNames[engine ?? ""];
         }
 
+        /// <summary>
+        /// Получить цвет ресурса.
+        /// </summary>
+        /// <param name="engine">Движок.</param>
+        /// <returns>Цвет ресурса.</returns>
+        public static Color GetResourceColor(string engine)
+        {
+            EnsureEngine(engine ?? "");
+            return EngineColors[engine ?? ""];
+        }
+
+        /// <summary>
+        /// ПОлучить логотип.
+        /// </summary>
+        /// <param name="engine">Движок.</param>
+        /// <returns>Логотип.</returns>
+        public static ImageSource GetLogo(string engine)
+        {
+            return EngineLogos.ContainsKey(engine) ? EngineLogos[engine] : null;
+        }
+
         private static void EnsureEngine(string engine)
         {
             if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -69,11 +109,13 @@ namespace DvachBrowser3.ViewModels
                     var engineObj = engines.GetEngineById(engine);
                     EngineNames[engine] = engineObj.DisplayName;
                     ResourceNames[engine] = engineObj.ResourceName;
+                    EngineColors[engine] = engineObj.TileBackgroundColor;
                 }
                 else
                 {
                     EngineNames[engine] = "Неизвестный движок";
                     ResourceNames[engine] = "Неизвестный ресурс";
+                    EngineColors[engine] = Colors.DarkGray;
                 }
             }
         }

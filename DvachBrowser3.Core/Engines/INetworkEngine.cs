@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI;
 using DvachBrowser3.Board;
 using DvachBrowser3.Links;
 using DvachBrowser3.Posting;
@@ -27,6 +28,11 @@ namespace DvachBrowser3.Engines
         /// Имя ресурса.
         /// </summary>
         string ResourceName { get; }
+
+        /// <summary>
+        /// Цвет плитки для UI.
+        /// </summary>
+        Color TileBackgroundColor { get; }
 
         /// <summary>
         /// Возможности движка.

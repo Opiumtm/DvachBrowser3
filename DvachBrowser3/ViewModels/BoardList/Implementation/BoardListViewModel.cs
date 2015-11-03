@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Data;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -23,23 +26,26 @@ namespace DvachBrowser3.ViewModels
 
         private Dictionary<BoardLinkBase, IBoardListBoardViewModel> references;
 
+        private ICollection<IBoardListBoardViewModel> cachedResult;
+
+        private BoardLinkCollection cachedFavorites;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
         public BoardListViewModel()
         {
-            Filter = "";
             refreshCommand.ResultGot += RefreshCommandOnResultGot;
             linkEqualityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
             linkComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
             references = new Dictionary<BoardLinkBase, IBoardListBoardViewModel>(linkEqualityComparer);
         }
 
-        private async void RefreshCommandOnResultGot(object sender, EventArgs eventArgs)
+        private void RefreshCommandOnResultGot(object sender, EventArgs eventArgs)
         {
             try
             {
-                await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdateList());
+                BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdateList(refreshCommand.Result, cachedFavorites));
             }
             catch (Exception ex)
             {
@@ -47,29 +53,22 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private async Task<ICollection<IBoardListBoardViewModel>> GetFavorites()
+        private async Task<ICollection<IBoardListBoardViewModel>> GetFavorites(BoardLinkCollection linkCollection = null)
         {
             try
             {
-                var result = await ServiceLocator.Current.GetServiceOrThrow<IStorageService>().ThreadData.FavoriteBoards.LoadLinkCollection();
+                var result = linkCollection ?? (await ServiceLocator.Current.GetServiceOrThrow<IStorageService>().ThreadData.FavoriteBoards.LoadLinkCollection()) as BoardLinkCollection;
+                cachedFavorites = result;
                 var resultList = new List<IBoardListBoardViewModel>();
                 var linkHashService = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
-                Dictionary<string, FavoriteBoardInfo> favInfo;
-                if (result is BoardLinkCollection)
-                {
-                    favInfo = ((BoardLinkCollection) result).BoardInfo;
-                }
-                else
-                {
-                    favInfo = new Dictionary<string, FavoriteBoardInfo>();
-                }
                 if (result?.Links != null)
                 {
+                    var favInfo = result.BoardInfo;
                     foreach (var l in result.Links)
                     {
                         string desc = null;
                         var hash = linkHashService.GetLinkHash(l);
-                        if (favInfo.ContainsKey(hash))
+                        if (favInfo?.ContainsKey(hash) == true)
                         {
                             desc = favInfo[hash].DisplayName;
                         }
@@ -84,7 +83,7 @@ namespace DvachBrowser3.ViewModels
                         {
                             desc = "";
                         }
-                        resultList.Add(new BoardListBoardDataViewModel(l, desc, "Избранные", true));
+                        resultList.Add(new BoardListBoardDataViewModel(l, desc, "Избранные", true, false));
                     }
                 }
                 return resultList;
@@ -96,83 +95,96 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private async void UpdateList()
+        private async void UpdateList(ICollection<IBoardListBoardViewModel> rresult, BoardLinkCollection favorites)
         {
-            OriginalGroups.Clear();
-            Groups.Clear();
-            var result = (refreshCommand.Result ?? new List<IBoardListBoardViewModel>()).Where(i => i.Link != null).ToArray();
+            var newGroups = new List<IBoardListBoardGroupingViewModel>();
+            var result = (rresult ?? new List<IBoardListBoardViewModel>()).Where(i => i.Link != null).ToArray();
+            cachedResult = result;
             references = result.Deduplicate(i => i.Link, linkEqualityComparer).ToDictionary(i => i.Link, linkEqualityComparer);
-            var favs = await GetFavorites();
-            var toResult = result.Concat(favs);
+            var favs = await GetFavorites(favorites);
+            var toResult = result.Where(r => !r.IsAdult).Concat(favs);
             var byCat = toResult.GroupBy(i => new BoardCategoryKey(i), BoardCategoryKey.EqualityComparer);
-            foreach (var gc in byCat.OrderBy(gc => gc.Key, BoardCategoryKey.Comparer))
+            foreach (var gc in byCat.OrderBy(gc => gc.Key, BoardCategoryKey.Comparer).ToArray())
             {
                 var g = new BoardListGroupingViewModel(gc.Key.Name, gc.Key.IsFavorite);
-                foreach (var v in gc.OrderBy(v => v.Link, linkComparer))
+                foreach (var v in gc.OrderBy(v => v.Link, linkComparer).ToArray())
                 {
-                    g.OriginalItems.Add(v);
-                    g.Items.Add(v);
+                    g.Add(v);
                 }
-                OriginalGroups.Add(g);
-                Groups.Add(g);
+                newGroups.Add(g);
             }
 
-            ApplyFilter();
+            Groups = newGroups;
+
+            ViewModelEvents.BoardListRefresh.RaiseEvent(this, null);
         }
+
+        private IList<IBoardListBoardGroupingViewModel> groups;
 
         /// <summary>
         /// Группы.
         /// </summary>
-        public IList<IBoardListBoardGroupingViewModel> Groups { get; } = new ObservableCollection<IBoardListBoardGroupingViewModel>();
-
-        /// <summary>
-        /// Группы до фильтрации.
-        /// </summary>
-        public IList<IBoardListBoardGroupingViewModel> OriginalGroups { get; } = new ObservableCollection<IBoardListBoardGroupingViewModel>();
+        public IList<IBoardListBoardGroupingViewModel> Groups
+        {
+            get { return groups; }
+            private set
+            {
+                groups = value;
+                RaisePropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Добавить борду.
         /// </summary>
         /// <param name="board">Борда.</param>
-        public void Add(IBoardListViewModel board)
+        public async void Add(IBoardListBoardViewModel board)
         {
+            if (board?.Link == null)
+            {
+                return;
+            }
+            try
+            {
+                var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                var oldData = await store.ThreadData.FavoriteBoards.LoadLinkCollection() as BoardLinkCollection ??
+                              new BoardLinkCollection()
+                              {
+                                  Links = new List<BoardLinkBase>(),
+                                  BoardInfo = new Dictionary<string, FavoriteBoardInfo>()
+                              };
+                var hashService = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                var linkSet = new HashSet<string>(oldData.Links.Where(l => l != null).Select(l => hashService.GetLinkHash(l)));
+                var linkHash = hashService.GetLinkHash(board.Link);
+                if (!linkSet.Contains(linkHash))
+                {
+                    oldData.Links.Add(board.Link);
+                }
+                oldData.BoardInfo[linkHash] = new FavoriteBoardInfo()
+                {
+                    DisplayName = board.DisplayName
+                };
+                oldData.Links.Sort(linkComparer);
+                await store.ThreadData.FavoriteBoards.SaveLinkCollectionSync(oldData);
+                if (cachedResult != null)
+                {
+                    UpdateList(cachedResult, oldData);
+                }
+                else
+                {
+                    refreshCommand.Start(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
         }
 
         /// <summary>
         /// Есть группы.
         /// </summary>
         public bool HasGroups => Groups.Count > 0;
-
-        /// <summary>
-        /// Фильтр.
-        /// </summary>
-        public string Filter { get; set; }
-
-        /// <summary>
-        /// Применить фильтр.
-        /// </summary>
-        public void ApplyFilter()
-        {
-            foreach (var g in OriginalGroups)
-            {
-                g.ApplyFilter(Filter);
-            }
-            var newGroups = OriginalGroups.Where(g => g.HasItems).OrderBy(g => new BoardCategoryKey(g), BoardCategoryKey.Comparer).ToArray();
-            var updateHelper = new SortedCollectionUpdateHelper<IBoardListBoardGroupingViewModel, IBoardListBoardGroupingViewModel, BoardCategoryKey>(
-                BoardCategoryKey.EqualityComparer,
-                BoardCategoryKey.Comparer,
-                a => new BoardCategoryKey(a), 
-                a => new BoardCategoryKey(a),
-                a => a,
-                (a, b) => true,
-                (a, b) => { },
-                newGroups,
-                Groups
-                );
-            var update = updateHelper.GetUpdate();
-            update.Update();
-            RaisePropertyChanged(nameof(HasGroups));
-        }
 
         private readonly StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>> refreshCommand = new StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>>(RefreshOperationFactory);
 

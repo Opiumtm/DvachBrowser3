@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
+using DvachBrowser3.Services;
+using DvachBrowser3.SystemInformation;
 using DvachBrowser3.Views;
 
 namespace DvachBrowser3
@@ -16,6 +18,10 @@ namespace DvachBrowser3
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             InitializeComponent();
+            var container = new ServiceContainer();
+            ServiceLocator.Current = container;
+            CoreServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
+            MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
         }
 
         private bool isInitialized;

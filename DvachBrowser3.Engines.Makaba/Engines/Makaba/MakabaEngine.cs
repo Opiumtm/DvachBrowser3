@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI;
 using DvachBrowser3.Board;
 using DvachBrowser3.Configuration.Makaba;
 using DvachBrowser3.Engines.Makaba.BoardInfo;
@@ -37,6 +38,11 @@ namespace DvachBrowser3.Engines.Makaba
         /// Имя ресурса.
         /// </summary>
         public string ResourceName => "Два.ч";
+
+        /// <summary>
+        /// Цвет плитки для UI.
+        /// </summary>
+        public Color TileBackgroundColor => Colors.DarkOrange;
 
         /// <summary>
         /// Возможности движка.

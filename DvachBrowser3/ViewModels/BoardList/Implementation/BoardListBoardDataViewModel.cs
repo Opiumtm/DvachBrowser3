@@ -1,4 +1,6 @@
 ﻿using System;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using Template10.Mvvm;
@@ -24,13 +26,15 @@ namespace DvachBrowser3.ViewModels
         /// <param name="displayName">Отображаемое имя.</param>
         /// <param name="category">Категория.</param>
         /// <param name="isFavorite">Избранное.</param>
-        public BoardListBoardDataViewModel(BoardLinkBase link, string displayName, string category, bool isFavorite)
+        /// <param name="isAdult">Для взрослых.</param>
+        public BoardListBoardDataViewModel(BoardLinkBase link, string displayName, string category, bool isFavorite, bool isAdult)
         {
             if (link == null) throw new ArgumentNullException(nameof(link));
             Link = link;
             DisplayName = displayName ?? "";
             Category = category ?? "";
             IsFavorite = isFavorite;
+            IsAdult = isAdult;
         }
 
         /// <summary>
@@ -51,7 +55,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Отображаемое имя.
         /// </summary>
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
         /// <summary>
         /// Движок.
@@ -70,6 +74,16 @@ namespace DvachBrowser3.ViewModels
         public string Category { get; private set; }
 
         /// <summary>
+        /// Цвет плитки.
+        /// </summary>
+        public Color TileBackgroundColor => BoardListBoardViewModelsHelper.GetResourceColor(Link?.Engine);
+
+        /// <summary>
+        /// Логотип.
+        /// </summary>
+        public ImageSource ResourceLogo => BoardListBoardViewModelsHelper.GetLogo(Link?.Engine);
+
+        /// <summary>
         /// Фильтровать.
         /// </summary>
         /// <param name="filterString">Строка фильтра.</param>
@@ -82,6 +96,8 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Избранное.
         /// </summary>
-        public bool IsFavorite { get; private set; }
+        public bool IsFavorite { get; }
+
+        public bool IsAdult { get; }
     }
 }

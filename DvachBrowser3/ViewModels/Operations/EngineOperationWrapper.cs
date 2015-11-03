@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
+using Template10.Common;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -147,7 +148,7 @@ namespace DvachBrowser3.ViewModels
 
         private void OperationOnProgress(object sender, TProgress p)
         {
-            Dispatcher.Dispatch(() =>
+            BootStrapper.Current.NavigationService.Dispatcher.Dispatch(() =>
             {
                 var progressValue = GetProgress(p);
                 var messageValue = GetMessage(p);

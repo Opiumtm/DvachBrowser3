@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using Windows.UI.Xaml.Data;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Модель представления списка борд.
     /// </summary>
-    public interface IBoardListViewModel : IStartableViewModel
+    public interface IBoardListViewModel : IStartableViewModel, INotifyPropertyChanged
     {
         /// <summary>
         /// Группы.
@@ -13,30 +16,15 @@ namespace DvachBrowser3.ViewModels
         IList<IBoardListBoardGroupingViewModel> Groups { get; }
 
         /// <summary>
-        /// Группы до фильтрации.
-        /// </summary>
-        IList<IBoardListBoardGroupingViewModel> OriginalGroups { get; }
-
-        /// <summary>
         /// Добавить борду.
         /// </summary>
         /// <param name="board">Борда.</param>
-        void Add(IBoardListViewModel board);
+        void Add(IBoardListBoardViewModel board);
 
         /// <summary>
         /// Есть группы.
         /// </summary>
         bool HasGroups { get; }
-
-        /// <summary>
-        /// Фильтр.
-        /// </summary>
-        string Filter { get; set; }
-
-        /// <summary>
-        /// Применить фильтр.
-        /// </summary>
-        void ApplyFilter();
 
         /// <summary>
         /// Обновить список борд.

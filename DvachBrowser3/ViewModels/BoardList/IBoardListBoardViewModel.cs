@@ -1,11 +1,14 @@
-﻿using DvachBrowser3.Links;
+﻿using System.ComponentModel;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Модель представления борды.
     /// </summary>
-    public interface IBoardListBoardViewModel
+    public interface IBoardListBoardViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Ссылка.
@@ -38,6 +41,16 @@ namespace DvachBrowser3.ViewModels
         string Category { get; }
 
         /// <summary>
+        /// Цвет плитки.
+        /// </summary>
+        Color TileBackgroundColor { get; }
+
+        /// <summary>
+        /// Логотип.
+        /// </summary>
+        ImageSource ResourceLogo { get; }
+
+        /// <summary>
         /// Фильтровать.
         /// </summary>
         /// <param name="filterString">Строка фильтра.</param>
@@ -48,5 +61,10 @@ namespace DvachBrowser3.ViewModels
         /// Избранное.
         /// </summary>
         bool IsFavorite { get; }
+
+        /// <summary>
+        /// Для взрослых.
+        /// </summary>
+        bool IsAdult { get; }
     }
 }

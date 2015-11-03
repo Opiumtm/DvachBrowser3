@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.ViewModels;
+
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+
+namespace DvachBrowser3.Views
+{
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class BoardsPage : Page
+    {
+        public BoardsPage()
+        {
+            this.InitializeComponent();
+            ViewModel.PropertyChanged += (sender, e) =>
+            {
+                if ("Groups".Equals(e.PropertyName))
+                {
+                    BoardSource.Source = ViewModel.Groups;
+                }
+            };
+            BoardSource.Source = ViewModel.Groups;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await ViewModel.Start();
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            await ViewModel.Stop();
+        }
+
+        public IBoardListViewModel ViewModel => DataContext as IBoardListViewModel;
+    }
+}
