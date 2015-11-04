@@ -8,6 +8,6 @@
         /// <summary>
         /// Обновление списка борд.
         /// </summary>
-        public static IWeakEventChannel BoardListRefresh = new WeakEventChannel();         
+        public static IWeakEventChannel BoardListRefresh = new WeakEventChannel();
     }
 }

@@ -34,7 +34,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }
             var storage = GetStorage();
             var oldData = await storage.ThreadData.LoadBoardReferences(Parameter.RootLink);
-            var notNeedRefresh = !Parameter.ForceUpdate && oldData != null && oldData.CheckTime.Date < DateTime.Now.Date;
+            var notNeedRefresh = !Parameter.ForceUpdate && oldData != null && oldData.CheckTime.Date == DateTime.Now.Date;
             if (notNeedRefresh)
             {
                 return oldData;

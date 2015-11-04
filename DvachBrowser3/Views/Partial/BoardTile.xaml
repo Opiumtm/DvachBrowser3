@@ -5,22 +5,25 @@
     xmlns:local="using:DvachBrowser3.Views.Partial"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:inter="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     d:DesignHeight="75"
     d:DesignWidth="175">
+    
     <UserControl.Resources>
         <local:BoardTileShortNameConverter x:Key="ShortNameConverter" />
     </UserControl.Resources>
-
+          
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Border.Background>
-            <SolidColorBrush Color="{x:Bind ViewModel.TileBackgroundColor, FallbackValue=DarkGray, Mode=OneWay}" />
+            <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Border.Background>
         <RelativePanel Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="18" Text="{x:Bind ViewModel.ShortName, Converter={StaticResource ShortNameConverter}, Mode=OneWay}" />
             <Image x:Name="Logo" Width="16" Height="16" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
             <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="14" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" />
-            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="Wrap" FontSize="12.5" Margin="8, 0, 8, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"/>
+            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="Wrap" FontSize="12.5" Margin="8, 0, 8, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
         </RelativePanel>
     </Border>
 </UserControl>

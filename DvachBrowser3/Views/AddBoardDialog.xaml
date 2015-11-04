@@ -1,0 +1,35 @@
+﻿<ContentDialog
+    x:Class="DvachBrowser3.Views.AddBoardDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:DvachBrowser3.ViewModels"
+    xmlns:inter="using:Microsoft.Xaml.Interactivity"
+    xmlns:interCore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:beh="using:DvachBrowser3.Behaviors"
+    mc:Ignorable="d"
+    Title="Добавить доску"
+    PrimaryButtonText="Добавить"
+    SecondaryButtonText="Отмена"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    <ContentDialog.Resources>
+        <local:AddBoardSelectedEngineConverter x:Key="SeConverter" />
+    </ContentDialog.Resources>
+    
+    <StackPanel>
+        <ComboBox HorizontalAlignment="Stretch" Header="Ресурс" ItemsSource="{x:Bind ViewModel.Engines, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedEngine, Mode=TwoWay, Converter={StaticResource SeConverter}}"
+                  DisplayMemberPath="ResourceName" x:Name="EngineBox"/>
+        <TextBox x:Name="ShortNameBox" Text="{x:Bind ViewModel.ShortName, Mode=OneWay}" Header="Доска">
+            <inter:Interaction.Behaviors>
+                <beh:TextBoxChangeDelayBehavior>
+                    <interCore:CallMethodAction TargetObject="{x:Bind This}" MethodName="ApplyShortName" />
+                </beh:TextBoxChangeDelayBehavior>
+            </inter:Interaction.Behaviors>
+        </TextBox>
+        <TextBox x:Name="DescBox" Text="{x:Bind ViewModel.Description, Mode=TwoWay}" Header="Описание">
+        </TextBox>
+    </StackPanel>
+</ContentDialog>

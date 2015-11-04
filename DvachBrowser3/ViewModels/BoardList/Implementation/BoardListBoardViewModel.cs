@@ -15,6 +15,11 @@ namespace DvachBrowser3.ViewModels
         private readonly BoardReference boardRef;
 
         /// <summary>
+        /// Этот элемент.
+        /// </summary>
+        public IBoardListBoardViewModel This => this;
+
+        /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="boardRef">Ссылка на борду.</param>

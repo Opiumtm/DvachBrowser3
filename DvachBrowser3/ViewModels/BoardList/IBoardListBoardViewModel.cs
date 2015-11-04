@@ -11,6 +11,11 @@ namespace DvachBrowser3.ViewModels
     public interface IBoardListBoardViewModel : INotifyPropertyChanged
     {
         /// <summary>
+        /// Этот элемент.
+        /// </summary>
+        IBoardListBoardViewModel This { get; }
+
+        /// <summary>
         /// Ссылка.
         /// </summary>
         BoardLinkBase Link { get; }

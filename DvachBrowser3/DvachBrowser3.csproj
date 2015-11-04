@@ -100,6 +100,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\TextBoxChangeDelayBehavior.cs" />
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
@@ -119,9 +120,11 @@
     <Compile Include="PageServices\ShellAppBarPageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BoardList\BoardCategoryKey.cs" />
+    <Compile Include="ViewModels\BoardList\IAddBoardViewModel.cs" />
     <Compile Include="ViewModels\BoardList\IBoardListBoardGroupingViewModel.cs" />
     <Compile Include="ViewModels\BoardList\IBoardListBoardViewModel.cs" />
     <Compile Include="ViewModels\BoardList\IBoardListViewModel.cs" />
+    <Compile Include="ViewModels\BoardList\Implementation\AddBoardViewModel.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardDataViewModel.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModelsHelper.cs" />
     <Compile Include="ViewModels\BoardList\Implementation\BoardListBoardViewModel.cs" />
@@ -136,6 +139,9 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventArgs.cs" />
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
+    <Compile Include="Views\AddBoardDialog.xaml.cs">
+      <DependentUpon>AddBoardDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +184,10 @@
     <Page Include="Styles\Custom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddBoardDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardsPage.xaml">
       <SubType>Designer</SubType>

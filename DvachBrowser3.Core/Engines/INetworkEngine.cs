@@ -134,5 +134,12 @@ namespace DvachBrowser3.Engines
         /// <param name="postLink">Ссылка для постинга (корневая ссылка - для проверки возможности в целом).</param>
         /// <returns>Результат.</returns>
         IEngineOperationsWithProgress<INoCaptchaCheckResult, EngineProgress> CheckNoCaptchaAbility(BoardLinkBase postLink);
+
+        /// <summary>
+        /// Получить ссылку на борду.
+        /// </summary>
+        /// <param name="shortName">Короткое имя борды.</param>
+        /// <returns>Ссылка на борду.</returns>
+        BoardLinkBase CreateBoardLink(string shortName);
     }
 }

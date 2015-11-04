@@ -28,7 +28,7 @@ namespace DvachBrowser3.Engines
         {
             lock (engines)
             {
-                return engines.Keys.ToArray();
+                return engines.Keys.OrderBy(k => k, StringComparer.OrdinalIgnoreCase).ToArray();
             }
         }
 

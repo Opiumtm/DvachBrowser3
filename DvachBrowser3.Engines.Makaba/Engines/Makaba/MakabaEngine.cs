@@ -195,5 +195,19 @@ namespace DvachBrowser3.Engines.Makaba
         {
             return new MakabaCheckNoCaptchaAbilityOperation(postLink, Services);
         }
+
+        /// <summary>
+        /// Получить ссылку на борду.
+        /// </summary>
+        /// <param name="shortName">Короткое имя борды.</param>
+        /// <returns>Ссылка на борду.</returns>
+        public BoardLinkBase CreateBoardLink(string shortName)
+        {
+            return new BoardLink()
+            {
+                Engine = CoreConstants.Engine.Makaba,
+                Board = (shortName ?? "").Trim().ToLower()
+            };
+        }
     }
 }

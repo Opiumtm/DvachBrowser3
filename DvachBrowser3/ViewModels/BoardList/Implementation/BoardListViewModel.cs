@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml.Data;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
@@ -39,6 +40,8 @@ namespace DvachBrowser3.ViewModels
             linkEqualityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
             linkComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
             references = new Dictionary<BoardLinkBase, IBoardListBoardViewModel>(linkEqualityComparer);
+            AddToFavorites = new DelegateCommand<IBoardListBoardViewModel>(Add);
+            RemoveFromFavorites = new DelegateCommand<IBoardListBoardViewModel>(Remove);
         }
 
         private void RefreshCommandOnResultGot(object sender, EventArgs eventArgs)
@@ -102,7 +105,7 @@ namespace DvachBrowser3.ViewModels
             cachedResult = result;
             references = result.Deduplicate(i => i.Link, linkEqualityComparer).ToDictionary(i => i.Link, linkEqualityComparer);
             var favs = await GetFavorites(favorites);
-            var toResult = result.Where(r => !r.IsAdult).Concat(favs);
+            var toResult = result.Where(r => !r.IsAdult).Concat(favs).Where(DoFilter);
             var byCat = toResult.GroupBy(i => new BoardCategoryKey(i), BoardCategoryKey.EqualityComparer);
             foreach (var gc in byCat.OrderBy(gc => gc.Key, BoardCategoryKey.Comparer).ToArray())
             {
@@ -117,6 +120,15 @@ namespace DvachBrowser3.ViewModels
             Groups = newGroups;
 
             ViewModelEvents.BoardListRefresh.RaiseEvent(this, null);
+        }
+
+        private bool DoFilter(IBoardListBoardViewModel obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            return obj.Filter(Filter);
         }
 
         private IList<IBoardListBoardGroupingViewModel> groups;
@@ -182,6 +194,49 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Добавить борду.
+        /// </summary>
+        /// <param name="board">Борда.</param>
+        public async void Remove(IBoardListBoardViewModel board)
+        {
+            if (board?.Link == null)
+            {
+                return;
+            }
+            try
+            {
+                var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                var oldData = await store.ThreadData.FavoriteBoards.LoadLinkCollection() as BoardLinkCollection ??
+                              new BoardLinkCollection()
+                              {
+                                  Links = new List<BoardLinkBase>(),
+                                  BoardInfo = new Dictionary<string, FavoriteBoardInfo>()
+                              };
+                var hashService = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                var linkHash = hashService.GetLinkHash(board.Link);
+                oldData.Links = oldData.Links.Where(l => !linkEqualityComparer.Equals(l, board.Link)).ToList();
+                if (oldData.BoardInfo.ContainsKey(linkHash))
+                {
+                    oldData.BoardInfo.Remove(linkHash);
+                }
+                oldData.Links.Sort(linkComparer);
+                await store.ThreadData.FavoriteBoards.SaveLinkCollectionSync(oldData);
+                if (cachedResult != null)
+                {
+                    UpdateList(cachedResult, oldData);
+                }
+                else
+                {
+                    refreshCommand.Start2(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        /// <summary>
         /// Есть группы.
         /// </summary>
         public bool HasGroups => Groups.Count > 0;
@@ -192,6 +247,46 @@ namespace DvachBrowser3.ViewModels
         /// Обновить список борд.
         /// </summary>
         public IOperationViewModel Refresh => refreshCommand;
+
+        private string filter;
+
+        /// <summary>
+        /// Фильтр.
+        /// </summary>
+        public string Filter
+        {
+            get { return filter; }
+            set
+            {
+                filter = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Применить фильтр.
+        /// </summary>
+        public void ApplyFilter()
+        {
+            if (cachedResult != null)
+            {
+                UpdateList(cachedResult, cachedFavorites);
+            }
+            else
+            {
+                refreshCommand.Start2(false);
+            }
+        }
+
+        /// <summary>
+        /// Добавить в избранное.
+        /// </summary>
+        public ICommand AddToFavorites { get; }
+
+        /// <summary>
+        /// Убрать из избранного.
+        /// </summary>
+        public ICommand RemoveFromFavorites { get; }
 
         private static IEngineOperationsWithProgress<ICollection<IBoardListBoardViewModel>, EngineProgress> RefreshOperationFactory(object o)
         {

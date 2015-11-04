@@ -13,6 +13,11 @@ namespace DvachBrowser3.ViewModels
     public sealed class BoardListBoardDataViewModel : ViewModelBase, IBoardListBoardViewModel
     {
         /// <summary>
+        /// Этот элемент.
+        /// </summary>
+        public IBoardListBoardViewModel This => this;
+
+        /// <summary>
         /// Ссылка.
         /// </summary>
         public BoardLinkBase Link { get; private set; }

@@ -9,7 +9,9 @@
       xmlns:vm="using:DvachBrowser3.ViewModels"
       xmlns:pa="using:DvachBrowser3.Views.Partial"
       xmlns:behaviors="using:Template10.Behaviors"
-      mc:Ignorable="d">
+      xmlns:ps="using:DvachBrowser3.PageServices"
+      xmlns:localBehaviors="using:DvachBrowser3.Behaviors"
+      mc:Ignorable="d" x:Name="ThisPage">
 
     <Page.DataContext>
         <vm:BoardListViewModel />
@@ -18,7 +20,13 @@
     <Page.Resources>
         <CollectionViewSource x:Name="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
     </Page.Resources>
-
+    
+    <ps:PageServices.Services>
+        <ps:PageServiceCollection>
+            <ps:ShellAppBarPageService />
+        </ps:PageServiceCollection>
+    </ps:PageServices.Services>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <VisualStateManager.VisualStateGroups>
@@ -27,11 +35,17 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ThisPage.TileWidth" Value="110" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ThisPage.TileWidth" Value="160" />
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
@@ -47,26 +61,41 @@
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </Interactivity:Interaction.Behaviors>
-            <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Label="Обновить" Icon="Sync" IsEnabled="{x:Bind ViewModel.Refresh.CanStart, Mode=OneWay}" Click="{x:Bind ViewModel.Refresh.Start}"/>
-            </controls:PageHeader.PrimaryCommands>
 
         </controls:PageHeader>
 
-        <Grid Grid.Row="1" Padding="0,4,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Grid.Row="1" Padding="4,4,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*" />
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0" Margin="4" IsIndeterminate="True" Visibility="{x:Bind ViewModel.Refresh.Progress.IsActive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
-
-            </ProgressBar>
-            <SemanticZoom Grid.Row="1">
+            <ProgressBar Grid.Row="0" Margin="4" IsIndeterminate="True" Visibility="{x:Bind ViewModel.Refresh.Progress.IsActive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
+            <TextBox x:Name="SearchBox" Grid.Row="1" PlaceholderText="Поиск доски" Margin="8, 2, 8, 2" Text="{x:Bind ViewModel.Filter, Mode=OneWay}">
+                <Interactivity:Interaction.Behaviors>
+                    <localBehaviors:TextBoxChangeDelayBehavior>
+                        <Core:CallMethodAction TargetObject="{x:Bind}" MethodName="ApplyFilter" />
+                    </localBehaviors:TextBoxChangeDelayBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </TextBox>
+            <SemanticZoom Grid.Row="2">
                 <SemanticZoom.ZoomedInView>
                     <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}">
                         <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <pa:BoardTile ViewModel="{Binding}" Height="75" Width="175" Margin="5" />
+                            <DataTemplate x:DataType="vm:IBoardListBoardViewModel">
+                                <pa:BoardTile ViewModel="{x:Bind This}" Height="80" Width="{Binding ElementName=ThisPage, Path=TileWidth, Mode=OneWay}" Margin="4">
+                                    <Interactivity:Interaction.Behaviors>
+                                        <Core:EventTriggerBehavior EventName="RightTapped">
+                                            <behaviors:OpenFlyoutAction />
+                                        </Core:EventTriggerBehavior>
+                                    </Interactivity:Interaction.Behaviors>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="В избранное" Click="AddToFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                                            <MenuFlyoutItem Text="Удалить" Click="RemoveFromFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
+                                        </MenuFlyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </pa:BoardTile>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                         <GridView.GroupStyle>

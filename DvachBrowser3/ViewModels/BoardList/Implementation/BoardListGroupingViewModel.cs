@@ -17,6 +17,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="parent">Родительская модель.</param>
         /// <param name="name">Имя группы.</param>
         /// <param name="isFavorite">Избранное.</param>
         public BoardListGroupingViewModel(string name, bool isFavorite)

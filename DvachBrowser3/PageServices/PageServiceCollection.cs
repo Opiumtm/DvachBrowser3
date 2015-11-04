@@ -5,12 +5,14 @@ using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 
 namespace DvachBrowser3.PageServices
 {
     /// <summary>
     /// Коллекция сервисов.
     /// </summary>
+    [ContentProperty(Name = "Services")]
     public sealed class PageServiceCollection : DependencyObject, IPageService
     {
         /// <summary>

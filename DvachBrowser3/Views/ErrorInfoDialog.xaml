@@ -8,12 +8,10 @@
     mc:Ignorable="d"
     Title="Информация об ошибке"
     PrimaryButtonText="Ок"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"    
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     >
-
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock IsTextSelectionEnabled="True" x:Name="ErrorText" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
-        </ScrollViewer>
-    </Grid>
+    
+    <ScrollViewer VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible" HorizontalScrollMode="Disabled" Height="500">
+        <TextBlock IsTextSelectionEnabled="True" x:Name="ErrorText" TextWrapping="Wrap" HorizontalAlignment="Stretch"></TextBlock>
+    </ScrollViewer>
 </ContentDialog>
