@@ -155,6 +155,8 @@
       <DependentUpon>BoardTile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\BoardTileShortNameConverter.cs" />
+    <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
+    <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -184,6 +186,11 @@
     <Page Include="Styles\Custom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\PostRender.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\AddBoardDialog.xaml">
       <SubType>Designer</SubType>

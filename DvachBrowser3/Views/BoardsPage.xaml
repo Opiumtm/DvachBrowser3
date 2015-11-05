@@ -13,10 +13,6 @@
       xmlns:localBehaviors="using:DvachBrowser3.Behaviors"
       mc:Ignorable="d" x:Name="ThisPage">
 
-    <Page.DataContext>
-        <vm:BoardListViewModel />
-    </Page.DataContext>
-
     <Page.Resources>
         <CollectionViewSource x:Name="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
     </Page.Resources>

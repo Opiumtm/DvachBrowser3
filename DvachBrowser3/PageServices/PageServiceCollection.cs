@@ -12,7 +12,7 @@ namespace DvachBrowser3.PageServices
     /// <summary>
     /// Коллекция сервисов.
     /// </summary>
-    [ContentProperty(Name = "Services")]
+    [ContentProperty(Name = nameof(Services))]
     public sealed class PageServiceCollection : DependencyObject, IPageService
     {
         /// <summary>

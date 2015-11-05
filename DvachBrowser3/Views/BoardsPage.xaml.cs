@@ -27,6 +27,7 @@ namespace DvachBrowser3.Views
         public BoardsPage()
         {
             this.InitializeComponent();
+            DataContext = new BoardListViewModel();
             ViewModel.PropertyChanged += (sender, e) =>
             {
                 if ("Groups".Equals(e.PropertyName))
