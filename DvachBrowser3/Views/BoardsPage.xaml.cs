@@ -22,7 +22,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoardsPage : Page, IPageLifetimeCallback, IShellAppBarProvider
+    public sealed partial class BoardsPage : Page, IPageLifetimeCallback, IShellAppBarProvider, IPageViewModelSource
     {
         public BoardsPage()
         {
@@ -38,17 +38,15 @@ namespace DvachBrowser3.Views
             BoardSource.Source = ViewModel.Groups;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await ViewModel.Start();
             NavigatedTo?.Invoke(this, e);
         }
 
-        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            await ViewModel.Stop();
             NavigatedFrom?.Invoke(this, e);
         }
 
@@ -141,6 +139,15 @@ namespace DvachBrowser3.Views
             var mf = sender as FrameworkElement;
             var tag = mf?.Tag as IBoardListBoardViewModel;
             ViewModel?.Remove(tag);
+        }
+
+        /// <summary>
+        /// Получить модель представления.
+        /// </summary>
+        /// <returns>Модель представления.</returns>
+        public object GetViewModel()
+        {
+            return ViewModel;
         }
     }
 }

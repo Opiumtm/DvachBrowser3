@@ -3,9 +3,18 @@
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
-    /// Модель поста.
+    /// Модель представления поста.
     /// </summary>
     public interface IPostViewModel : INotifyPropertyChanged
-    {         
+    {
+        /// <summary>
+        /// Родительская модель представления.
+        /// </summary>
+        IPostCollectionViewModel Parent { get; }
+
+        /// <summary>
+        /// Текст поста.
+        /// </summary>
+        IPostTextViewModel Text { get; }         
     }
 }

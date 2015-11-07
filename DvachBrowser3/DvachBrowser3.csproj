@@ -114,10 +114,12 @@
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
+    <Compile Include="PageServices\IPageViewModelSource.cs" />
     <Compile Include="PageServices\PageLifetimeServiceBase.cs" />
     <Compile Include="PageServices\PageServiceCollection.cs" />
     <Compile Include="PageServices\PageServices.cs" />
     <Compile Include="PageServices\ShellAppBarPageService.cs" />
+    <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BoardList\BoardCategoryKey.cs" />
     <Compile Include="ViewModels\BoardList\IAddBoardViewModel.cs" />
@@ -142,6 +144,9 @@
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostPartViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostTextViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\IPostCollectionViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostPartViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostTextViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostViewModel.cs" />

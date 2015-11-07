@@ -20,6 +20,7 @@
     <ps:PageServices.Services>
         <ps:PageServiceCollection>
             <ps:ShellAppBarPageService />
+            <ps:ViewModelLifetimePageService />
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
     
