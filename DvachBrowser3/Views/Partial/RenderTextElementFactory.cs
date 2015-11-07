@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.TextRender;
+using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
@@ -13,6 +14,17 @@ namespace DvachBrowser3.Views.Partial
     /// </summary>
     public sealed class RenderTextElementFactory : ICanvasElementFactory
     {
+        private readonly ILinkClickCallback linkClickCallback;
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="linkClickCallback">Обратный вызов клика на ссылку.</param>
+        public RenderTextElementFactory(ILinkClickCallback linkClickCallback)
+        {
+            this.linkClickCallback = linkClickCallback;
+        }
+
         /// <summary>
         /// Создать элемент.
         /// </summary>
@@ -75,11 +87,15 @@ namespace DvachBrowser3.Views.Partial
             {
                 r.Foreground = Application.Current.Resources["PostQuoteTextBrush"] as Brush;
             }
+            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
+            {
+                r.Foreground = Application.Current.Resources["PostLinkTextBrush"] as Brush;
+            }
 
             b.BorderBrush = r.Foreground;
             b.BorderThickness = new Thickness(0);
 
-            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Undeline))
+            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Undeline) || command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
             {
                 needBorder = true;
                 b.BorderThickness = new Thickness(b.BorderThickness.Left, b.BorderThickness.Top, b.BorderThickness.Right, 1.2);
@@ -141,8 +157,21 @@ namespace DvachBrowser3.Views.Partial
                 result = g2;
             }
 
-
             result.Measure(new Size(0, 0));
+
+            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
+            {
+                var linkAttribute = command.Attributes.Attributes[CommonTextRenderAttributes.Link] as ITextRenderLinkAttribute;
+                if (linkAttribute != null)
+                {
+                    result.Tapped += (sender, e) =>
+                    {
+                        e.Handled = true;
+                        linkClickCallback?.OnLinkClick(linkAttribute);
+                    };
+                }
+            }
+
             return result;
         }
     }

@@ -139,6 +139,14 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventArgs.cs" />
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
+    <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostPartViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostTextViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostPartViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostTextViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostViewModel.cs" />
+    <Compile Include="ViewModels\Post\LinkClickEventArgs.cs" />
+    <Compile Include="ViewModels\Post\LinkClickEventHandler.cs" />
     <Compile Include="Views\AddBoardDialog.xaml.cs">
       <DependentUpon>AddBoardDialog.xaml</DependentUpon>
     </Compile>

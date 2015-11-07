@@ -9,5 +9,10 @@
         /// Ссылка.
         /// </summary>
         string Uri { get; } 
+
+        /// <summary>
+        /// Дополнительные данные.
+        /// </summary>
+        object CustomData { get; }
     }
 }

@@ -9,9 +9,11 @@
         /// Конструктор.
         /// </summary>
         /// <param name="uri">Ссылка.</param>
-        public LinkTextRenderAttribute(string uri)
+        /// <param name="data">Данные.</param>
+        public LinkTextRenderAttribute(string uri, object data = null)
         {
             Uri = uri;
+            CustomData = data;
         }
 
         /// <summary>
@@ -26,5 +28,10 @@
         /// Ссылка.
         /// </summary>
         public string Uri { get; private set; }
+
+        /// <summary>
+        /// Дополнительные данные.
+        /// </summary>
+        public object CustomData { get; private set; }
     }
 }
