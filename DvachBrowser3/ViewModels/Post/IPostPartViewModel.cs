@@ -10,6 +10,6 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Родительская модель.
         /// </summary>
-        IPostViewModel Parent { get; }         
+        IPostViewModel Parent { get; }
     }
 }

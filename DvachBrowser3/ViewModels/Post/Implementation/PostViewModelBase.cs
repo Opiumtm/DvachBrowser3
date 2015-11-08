@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Posts;
+﻿using DvachBrowser3.Links;
+using DvachBrowser3.Posts;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -28,6 +29,16 @@ namespace DvachBrowser3.ViewModels
         /// Родительская модель представления.
         /// </summary>
         public IPostCollectionViewModel Parent { get; }
+
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        public BoardLinkBase Link => PostData?.Link;
+
+        /// <summary>
+        /// Родительская ссылка.
+        /// </summary>
+        public BoardLinkBase ParentLink => PostData?.ParentLink;
 
         private IPostTextViewModel text;
 

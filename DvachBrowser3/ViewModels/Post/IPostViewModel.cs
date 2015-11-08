@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -11,6 +12,16 @@ namespace DvachBrowser3.ViewModels
         /// Родительская модель представления.
         /// </summary>
         IPostCollectionViewModel Parent { get; }
+
+        /// <summary>
+        /// Ссылка.
+        /// </summary>
+        BoardLinkBase Link { get; }
+
+        /// <summary>
+        /// Родительская ссылка.
+        /// </summary>
+        BoardLinkBase ParentLink { get; }
 
         /// <summary>
         /// Текст поста.

@@ -153,6 +153,8 @@
     <Compile Include="ViewModels\Post\Implementation\PostViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostViewModelBase.cs" />
     <Compile Include="ViewModels\Post\IPostCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostMediaFileViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostMediaViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostPartViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostTextViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostViewModel.cs" />
