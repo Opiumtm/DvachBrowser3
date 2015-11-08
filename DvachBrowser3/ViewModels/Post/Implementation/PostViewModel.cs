@@ -25,5 +25,14 @@ namespace DvachBrowser3.ViewModels
         {
             return new PostTextViewModel(this, PostData);
         }
+
+        /// <summary>
+        /// Создать модель медиафайлов.
+        /// </summary>
+        /// <returns>Модель.</returns>
+        protected override IPostMediaViewModel CreateMedia()
+        {
+            return new PostMediaViewModel(this, PostData);
+        }
     }
 }

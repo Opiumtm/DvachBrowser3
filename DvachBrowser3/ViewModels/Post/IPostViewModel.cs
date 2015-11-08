@@ -24,13 +24,18 @@ namespace DvachBrowser3.ViewModels
         BoardLinkBase ParentLink { get; }
 
         /// <summary>
+        /// Заголовок.
+        /// </summary>
+        string Subject { get; }
+
+        /// <summary>
         /// Текст поста.
         /// </summary>
         IPostTextViewModel Text { get; }
 
         /// <summary>
-        /// Заголовок.
+        /// Медиафайлы.
         /// </summary>
-        string Subject { get; }
+        IPostMediaViewModel Media { get; }
     }
 }

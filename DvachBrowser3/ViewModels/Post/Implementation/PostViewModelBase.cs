@@ -47,6 +47,13 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IPostTextViewModel Text => text ?? (text = CreateText());
 
+        private IPostMediaViewModel media;
+
+        /// <summary>
+        /// Медиафайлы.
+        /// </summary>
+        public IPostMediaViewModel Media => media ?? (media = CreateMedia());
+
         /// <summary>
         /// Заголовок.
         /// </summary>
@@ -55,7 +62,13 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Создать модель текста.
         /// </summary>
-        /// <returns>Модель текста.</returns>
+        /// <returns>Модель.</returns>
         protected abstract IPostTextViewModel CreateText();
+
+        /// <summary>
+        /// Создать модель медиафайлов.
+        /// </summary>
+        /// <returns>Модель.</returns>
+        protected abstract IPostMediaViewModel CreateMedia();
     }
 }

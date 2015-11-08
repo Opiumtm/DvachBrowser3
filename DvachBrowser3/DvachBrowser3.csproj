@@ -111,6 +111,7 @@
     <Compile Include="Core\WeakEventCallback.cs" />
     <Compile Include="Core\WeakEventChannel.cs" />
     <Compile Include="Core\WeakEventHandler.cs" />
+    <Compile Include="Core\WebLinkHelper.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="ViewModels\Images\IImageSourceViewModelWithSize.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModelBase.cs" />
     <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />
+    <Compile Include="ViewModels\Images\Implementation\YoutubeThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />
@@ -148,10 +150,16 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileWithThumbnailViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Media\PostMediaFileViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostMediaViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostPartViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostTextViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Media\YoutubeMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostCollectionViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostMediaViewModel.cs" />
