@@ -120,7 +120,7 @@ namespace DvachBrowser3.Storage.Files
             var folder = await GetBoardReferencesFolder();
             var fileName = string.Format("{0}.dat", Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(data.RootLink));
             var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-            await WriteXmlObject(file, folder, data, false);
+            await WriteXmlObject(file, folder, data, true);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace DvachBrowser3.Storage.Files
                 var folder = await GetBoardReferencesFolder();
                 var fileName = string.Format("{0}.dat", Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(rootLink));
                 var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                return await ReadXmlObject<BoardReferences>(file, false);
+                return await ReadXmlObject<BoardReferences>(file, true);
             }
             catch (Exception ex)
             {
