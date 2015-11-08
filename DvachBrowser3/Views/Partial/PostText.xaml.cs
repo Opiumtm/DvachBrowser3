@@ -25,10 +25,12 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             MainCanvas.SizeChanged += MainCanvasOnSizeChanged;
+            RefreshView();
         }
 
         private void MainCanvasOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            RefreshView();
         }
 
         private void RefreshView()
