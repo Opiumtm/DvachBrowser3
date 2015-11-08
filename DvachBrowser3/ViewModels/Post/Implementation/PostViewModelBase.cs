@@ -3,6 +3,9 @@ using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
 {
+    /// <summary>
+    /// Базовый класс модели представления поста.
+    /// </summary>
     public abstract class PostViewModelBase : ViewModelBase, IPostViewModel
     {
         /// <summary>
@@ -31,17 +34,12 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Текст поста.
         /// </summary>
-        public IPostTextViewModel Text
-        {
-            get
-            {
-                if (text == null)
-                {
-                    text = CreateText();
-                }
-                return text;
-            }
-        }
+        public IPostTextViewModel Text => text ?? (text = CreateText());
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        public string Subject => PostData?.Subject ?? "";
 
         /// <summary>
         /// Создать модель текста.

@@ -27,6 +27,11 @@ namespace DvachBrowser3.Views
         public BoardsPage()
         {
             this.InitializeComponent();
+            InitViewModel();
+        }
+
+        private void InitViewModel()
+        {
             DataContext = new BoardListViewModel();
             ViewModel.PropertyChanged += (sender, e) =>
             {

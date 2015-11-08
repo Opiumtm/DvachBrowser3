@@ -5,7 +5,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Операция.
     /// </summary>
-    public interface IOperationViewModel : INotifyPropertyChanged
+    public interface IOperationViewModel : INotifyPropertyChanged, ICancellableViewModel
     {
         /// <summary>
         /// Можно начинать.
@@ -22,11 +22,6 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <param name="arg">Аргумент.</param>
         void Start2(object arg);
-
-        /// <summary>
-        /// Отменить.
-        /// </summary>
-        void Cancel();
 
         /// <summary>
         /// Прогресс.

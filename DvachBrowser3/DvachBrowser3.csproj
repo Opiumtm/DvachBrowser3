@@ -134,6 +134,11 @@
     <Compile Include="ViewModels\BoardList\Implementation\BoardListViewModel.cs" />
     <Compile Include="Logic\SyncBoardsOperation.cs" />
     <Compile Include="ViewModels\Events\ViewModelEvents.cs" />
+    <Compile Include="ViewModels\ICancellableViewModel.cs" />
+    <Compile Include="ViewModels\Images\IImageSourceViewModel.cs" />
+    <Compile Include="ViewModels\Images\IImageSourceViewModelWithSize.cs" />
+    <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModelBase.cs" />
+    <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />
@@ -141,6 +146,7 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventArgs.cs" />
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
+    <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostPartViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostTextViewModel.cs" />

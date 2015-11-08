@@ -15,6 +15,11 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Текст поста.
         /// </summary>
-        IPostTextViewModel Text { get; }         
+        IPostTextViewModel Text { get; }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        string Subject { get; }
     }
 }
