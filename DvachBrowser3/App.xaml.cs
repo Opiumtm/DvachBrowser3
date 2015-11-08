@@ -23,8 +23,6 @@ namespace DvachBrowser3
             ServiceLocator.Current = container;
             CoreServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
-
-            container.RegisterService<INavigationKeyService>(new NavigationKeyService(container));
         }
 
         private bool isInitialized;

@@ -3,6 +3,7 @@ using DvachBrowser3.Captcha;
 using DvachBrowser3.Common;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.Storage;
 using DvachBrowser3.SystemInformation;
 
@@ -35,6 +36,7 @@ namespace DvachBrowser3
             container.RegisterService<IJsonService>(new JsonService(container));
             container.RegisterService<IYoutubeUriService>(new YoutubeUriService(container));
             container.RegisterService<IApiKeyService>(new ApiKeyService(container));
+            container.RegisterService<INavigationKeyService>(new NavigationKeyService(container));
 
             var engines = new NetworkEngines(container);
             container.RegisterService<INetworkEngines>(engines);
