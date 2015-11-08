@@ -33,7 +33,7 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ThisPage.TileWidth" Value="110" />
+                        <Setter Target="ThisPage.TileWidth" Value="90" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">

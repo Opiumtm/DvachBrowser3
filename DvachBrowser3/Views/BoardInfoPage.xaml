@@ -28,6 +28,7 @@
         <local2:ListBulletConverter x:Key="ListBulletConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
         <local2:NullableIntStringConverter x:Key="NullableIntStringConverter" />
+        <x:Double x:Key="InfoFontSize">13.5</x:Double>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -64,6 +65,11 @@
                             <TextBlock FontSize="{ThemeResource GridViewHeaderItemThemeFontSize}" FontWeight="SemiBold" Margin="0, 0, 0, 8">Общая информация</TextBlock>
                         </Border>
                         <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="{StaticResource InfoFontSize}"></Setter>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="33*" />
                                 <ColumnDefinition Width="66*" />
@@ -93,6 +99,11 @@
                             <TextBlock FontSize="{ThemeResource GridViewHeaderItemThemeFontSize}" FontWeight="SemiBold" Margin="0, 0, 0, 8">Сетевой движок</TextBlock>
                         </Border>
                         <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="{StaticResource InfoFontSize}"></Setter>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="33*" />
                                 <ColumnDefinition Width="66*" />
@@ -107,7 +118,7 @@
                             <ItemsControl Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" ItemsSource="{x:Bind ViewModel.BoardInfo.EngineCapabilities, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IBoadInfoString">
-                                        <TextBlock TextWrapping="Wrap" Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
+                                        <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -119,6 +130,11 @@
                             <TextBlock FontSize="{ThemeResource GridViewHeaderItemThemeFontSize}" FontWeight="SemiBold" Margin="0, 0, 0, 8">Информация Makaba</TextBlock>
                         </Border>
                         <Grid Visibility="{x:Bind ViewModel.BoardInfo.MakabaInfo, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="{StaticResource InfoFontSize}"></Setter>
+                                </Style>
+                            </Grid.Resources>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="33*" />
                                 <ColumnDefinition Width="66*" />
@@ -150,8 +166,10 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IBoardInfoIcon">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{x:Bind Icon.Image, Mode=OneWay}" Width="16" Height="16" VerticalAlignment="Center" Margin="0, 0, 8, 0" />
-                                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
+                                            <Border Margin="0, 0, 8, 0" Padding="2" Background="DarkGray">
+                                                <Image Source="{x:Bind Icon.Image, Mode=OneWay}" Width="16" Height="16" VerticalAlignment="Center" />
+                                            </Border>
+                                            <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -168,6 +186,11 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:IBoardInfoPostingCapability">
                                     <Grid>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="{StaticResource InfoFontSize}"></Setter>
+                                            </Style>
+                                        </Grid.Resources>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="33*" />
                                             <ColumnDefinition Width="66*" />
@@ -195,7 +218,7 @@
                                                 <ItemsControl ItemsSource="{x:Bind CaptchaTypes, Mode=OneWay}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate x:DataType="vm:IBoadInfoString">
-                                                            <TextBlock Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
+                                                            <TextBlock FontSize="{StaticResource InfoFontSize}" Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>

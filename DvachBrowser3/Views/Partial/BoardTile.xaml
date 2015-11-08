@@ -23,7 +23,7 @@
             <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="18" Text="{x:Bind ViewModel.ShortName, Converter={StaticResource ShortNameConverter}, Mode=OneWay}" />
             <Image x:Name="Logo" Width="16" Height="16" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
             <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="14" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" />
-            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="Wrap" FontSize="12.5" Margin="8, 0, 8, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
+            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="WrapWholeWords" FontSize="12" Margin="8, 0, 8, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
         </RelativePanel>
     </Border>
 </UserControl>
