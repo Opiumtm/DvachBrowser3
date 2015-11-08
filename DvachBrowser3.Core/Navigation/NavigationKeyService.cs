@@ -58,5 +58,21 @@ namespace DvachBrowser3.Navigation
             }
             throw new ArgumentException(string.Format("Тип ключа навигации не поддерживается {0}", typeName));
         }
+
+        /// <summary>
+        /// Фабрика ключей навигации.
+        /// </summary>
+        /// <param name="factory">Фабрика.</param>
+        public void AddNavigationKeyFactory(INavigationKeyFactory factory)
+        {
+            if (factory == null)
+            {
+                return;
+            }
+            foreach (var k in factory.TypeNames)
+            {
+                factoryByType[k] = factory;
+            }
+        }
     }
 }

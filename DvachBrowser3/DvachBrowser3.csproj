@@ -107,6 +107,7 @@
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
+    <Compile Include="Core\NavigationHelper.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
     <Compile Include="Core\WeakEventCallback.cs" />
     <Compile Include="Core\WeakEventChannel.cs" />

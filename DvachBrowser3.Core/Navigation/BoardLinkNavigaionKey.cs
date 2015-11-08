@@ -31,5 +31,10 @@ namespace DvachBrowser3.Navigation
         /// </summary>
         /// <returns>Строка.</returns>
         public abstract string Serialize();
+
+        /// <summary>
+        /// Данные.
+        /// </summary>
+        public object LinkData => Link;
     }
 }

@@ -37,6 +37,7 @@ namespace DvachBrowser3
             container.RegisterService<IYoutubeUriService>(new YoutubeUriService(container));
             container.RegisterService<IApiKeyService>(new ApiKeyService(container));
             container.RegisterService<INavigationKeyService>(new NavigationKeyService(container));
+            container.RegisterService<IBoardLinkKeyService>(new BoardLinkKeyService(container));
 
             var engines = new NetworkEngines(container);
             container.RegisterService<INetworkEngines>(engines);

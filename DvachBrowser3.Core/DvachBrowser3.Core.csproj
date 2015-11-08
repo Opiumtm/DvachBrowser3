@@ -237,11 +237,13 @@
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />
     <Compile Include="Models\Posts\ThreadTreePartial.cs" />
+    <Compile Include="Navigation\BoardLinkKeyService.cs" />
     <Compile Include="Navigation\BoardLinkNavigaionKey.cs" />
     <Compile Include="Navigation\BoardLinkNavigationFactory.cs" />
     <Compile Include="Navigation\BoardMediaNavigationKey.cs" />
     <Compile Include="Navigation\BoardNavigationKey.cs" />
     <Compile Include="Navigation\BoardPageNavigationKey.cs" />
+    <Compile Include="Navigation\IBoardLinkKeyService.cs" />
     <Compile Include="Navigation\INavigationKey.cs" />
     <Compile Include="Navigation\INavigationKeyFactory.cs" />
     <Compile Include="Navigation\INavigationKeyService.cs" />

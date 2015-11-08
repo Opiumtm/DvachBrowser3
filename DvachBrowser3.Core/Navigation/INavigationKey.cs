@@ -15,5 +15,10 @@
         /// </summary>
         /// <returns>Строка.</returns>
         string Serialize();
+
+        /// <summary>
+        /// Данные.
+        /// </summary>
+        object LinkData { get; }
     }
 }

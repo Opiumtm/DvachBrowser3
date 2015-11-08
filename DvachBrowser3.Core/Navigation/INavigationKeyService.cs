@@ -18,5 +18,11 @@
         /// <param name="data">Строка.</param>
         /// <returns>Ключ.</returns>
         INavigationKey Deserialize(string data);
+
+        /// <summary>
+        /// Фабрика ключей навигации.
+        /// </summary>
+        /// <param name="factory">Фабрика.</param>
+        void AddNavigationKeyFactory(INavigationKeyFactory factory);
     }
 }
