@@ -123,6 +123,20 @@
     <Compile Include="PageServices\ShellAppBarPageService.cs" />
     <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\IBoadInfoString.cs" />
+    <Compile Include="ViewModels\BoardInfo\IBoardInfoIcon.cs" />
+    <Compile Include="ViewModels\BoardInfo\IBoardInfoPostingCapability.cs" />
+    <Compile Include="ViewModels\BoardInfo\IBoardInfoViewModel.cs" />
+    <Compile Include="ViewModels\BoardInfo\IMakabaBoardInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\BoardInfoPostingCapability.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\BoardInfoViewModel.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\MakabaBoardInfoIcon.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\BoardInfoString.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\MakabaBoardInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\PostingBoardInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\Implementation\SummaryBoardInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\IPostingBoardInfo.cs" />
+    <Compile Include="ViewModels\BoardInfo\ISummaryBoardInfo.cs" />
     <Compile Include="ViewModels\BoardList\BoardCategoryKey.cs" />
     <Compile Include="ViewModels\BoardList\IAddBoardViewModel.cs" />
     <Compile Include="ViewModels\BoardList\IBoardListBoardGroupingViewModel.cs" />
@@ -139,6 +153,7 @@
     <Compile Include="ViewModels\ICancellableViewModel.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModelWithSize.cs" />
+    <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModelBase.cs" />
     <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\YoutubeThumbnailImageSourceViewModel.cs" />
@@ -171,6 +186,9 @@
     <Compile Include="ViewModels\Post\LinkClickEventHandler.cs" />
     <Compile Include="Views\AddBoardDialog.xaml.cs">
       <DependentUpon>AddBoardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BoardInfoPage.xaml.cs">
+      <DependentUpon>BoardInfoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
@@ -226,6 +244,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\AddBoardDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BoardInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

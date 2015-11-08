@@ -23,6 +23,11 @@
         /// <summary>
         /// Реализация рекапчи v2 двача.
         /// </summary>
-        GoogleRecaptcha2СhV2 = 0x0004,
+        GoogleRecaptcha2СhV2 = 0x0008,
+
+        /// <summary>
+        /// Двач-капча.
+        /// </summary>
+        DvachCaptcha = 0x0010,
     }
 }

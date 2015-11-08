@@ -27,5 +27,10 @@ namespace DvachBrowser3.Posting
         /// Реализация рекапчи v2 двача.
         /// </summary>
         GoogleRecaptcha2СhV2 = CaptchaType.GoogleRecaptcha2СhV2,
+
+        /// <summary>
+        /// Двач капча.
+        /// </summary>
+        DvachCaptcha = CaptchaType.DvachCaptcha
     }
 }
