@@ -184,6 +184,9 @@
       <DependentUpon>BoardTile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\BoardTileShortNameConverter.cs" />
+    <Compile Include="Views\Partial\PostText.xaml.cs">
+      <DependentUpon>PostText.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
     <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
     <Compile Include="Views\Shell.xaml.cs">
@@ -238,6 +241,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Partial\BoardTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\PostText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

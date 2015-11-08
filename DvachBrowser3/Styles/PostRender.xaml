@@ -10,6 +10,7 @@
             <SolidColorBrush x:Key="PostLinkTextBrush" Color="{ThemeResource SystemAccentColor}" />
             <SolidColorBrush x:Key="PostSpoilerBackgroundBrush" Color="DarkGray" />
             <SolidColorBrush x:Key="PostSpoilerTextBrush" Color="Black" />
+            <SolidColorBrush x:Key="PostBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
         
         <ResourceDictionary x:Key="Light">
@@ -18,6 +19,7 @@
             <SolidColorBrush x:Key="PostLinkTextBrush" Color="{ThemeResource SystemAccentColor}" />
             <SolidColorBrush x:Key="PostSpoilerBackgroundBrush" Color="DarkGray" />
             <SolidColorBrush x:Key="PostSpoilerTextBrush" Color="Black" />
+            <SolidColorBrush x:Key="PostBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
         
         <ResourceDictionary x:Key="HighContrast">
@@ -26,6 +28,7 @@
             <SolidColorBrush x:Key="PostLinkTextBrush" Color="{ThemeResource SystemAccentColor}" />
             <SolidColorBrush x:Key="PostSpoilerBackgroundBrush" Color="White" />
             <SolidColorBrush x:Key="PostSpoilerTextBrush" Color="Black" />
+            <SolidColorBrush x:Key="PostBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
         
     </ResourceDictionary.ThemeDictionaries>
