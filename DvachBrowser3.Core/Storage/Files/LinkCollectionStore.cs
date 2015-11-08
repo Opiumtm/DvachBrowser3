@@ -21,10 +21,12 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Директория.</param>
         /// <param name="fileName">Файл базы ссылок.</param>
-        public LinkCollectionStore(IServiceProvider services, string folderName, string fileName) : base(services, folderName)
+        /// <param name="compressData">Сжимать данные.</param>
+        public LinkCollectionStore(IServiceProvider services, string folderName, string fileName, bool compressData = false) : base(services, folderName)
         {
             FileName = fileName;
-            CachedFile = new CachedFile<LinkCollection>(services, this, GetCollectionFile, GetDataFolder, false);
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor
+            CachedFile = new CachedFile<LinkCollection>(services, this, GetCollectionFile, GetDataFolder, compressData);
         }
 
         /// <summary>

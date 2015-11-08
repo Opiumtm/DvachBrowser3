@@ -15,8 +15,9 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Директория.</param>
         /// <param name="fileName">Файл базы ссылок.</param>
-        public FavoriteCollectionStore(IServiceProvider services, string folderName, string fileName)
-            : base(services, folderName, fileName)
+        /// <param name="compressData">Сжимать данные.</param>
+        public FavoriteCollectionStore(IServiceProvider services, string folderName, string fileName, bool compressData = false)
+            : base(services, folderName, fileName, compressData)
         {
         }
 

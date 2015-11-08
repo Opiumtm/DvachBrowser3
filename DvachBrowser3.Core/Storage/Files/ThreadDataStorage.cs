@@ -27,9 +27,9 @@ namespace DvachBrowser3.Storage.Files
         public ThreadDataStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
             : base(services, folderName, maxCacheSize, normalCacheSize, cacheDescription)
         {
-            FavoriteThreads = new FavoriteCollectionStore(services, folderName, "favorite-threads.dat");
-            VisitedThreads = new FavoriteCollectionStore(services, folderName, "visited-threads.dat");
-            FavoriteBoards = new FavoriteCollectionStore(services, folderName, "favorite-boards.dat");
+            FavoriteThreads = new FavoriteCollectionStore(services, folderName, "favorite-threads.dat", true);
+            VisitedThreads = new FavoriteCollectionStore(services, folderName, "visited-threads.dat", true);
+            FavoriteBoards = new FavoriteCollectionStore(services, folderName, "favorite-boards.dat", true);
         }
 
         /// <summary>
