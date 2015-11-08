@@ -12,8 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
+using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -153,6 +155,24 @@ namespace DvachBrowser3.Views
         public object GetViewModel()
         {
             return ViewModel;
+        }
+
+        private void BoardInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            var mf = sender as FrameworkElement;
+            var tag = mf?.Tag as IBoardListBoardViewModel;
+            if (tag != null)
+            {
+                var nkey1 = tag.Link?.GetNavigationKey();
+                if (nkey1 != null)
+                {
+                    var nkey = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Serialize(nkey1);
+                    if (nkey != null)
+                    {
+                        Shell.HamburgerMenu.NavigationService.Navigate(typeof(BoardInfoPage), nkey);
+                    }
+                }
+            }
         }
     }
 }

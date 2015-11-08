@@ -77,7 +77,7 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Типы капчи.
         /// </summary>
-        public CaptchaTypes CaptchaTypes => CaptchaTypes.GoogleRecaptcha2СhV1 | CaptchaTypes.GoogleRecaptcha2СhV2;
+        public CaptchaTypes CaptchaTypes => CaptchaTypes.DvachCaptcha;
 
         private readonly IPostCorrectionService postCorrection;
 

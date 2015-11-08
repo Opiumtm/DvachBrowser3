@@ -22,7 +22,7 @@ namespace DvachBrowser3.ViewModels
         /// <param name="link">Ссылка.</param>
         public BoardInfoViewModel(BoardLinkBase link)
         {
-            this.Link = link;
+            Link = link;
         }
 
         private bool isLoading;
@@ -37,6 +37,8 @@ namespace DvachBrowser3.ViewModels
             {
                 isLoading = value;
                 RaisePropertyChanged();
+                // ReSharper disable once ExplicitCallerInfoArgument
+                RaisePropertyChanged(nameof(InfoAvailable));
             }
         }
 
@@ -52,8 +54,15 @@ namespace DvachBrowser3.ViewModels
             {
                 noInfoAvailable = value;
                 RaisePropertyChanged();
+                // ReSharper disable once ExplicitCallerInfoArgument
+                RaisePropertyChanged(nameof(InfoAvailable));
             }
         }
+
+        /// <summary>
+        /// Информация доступна.
+        /// </summary>
+        public bool InfoAvailable => !IsLoading && BoardInfo != null && !NoInfoAvailable;
 
         /// <summary>
         /// Ссылка.
@@ -87,6 +96,8 @@ namespace DvachBrowser3.ViewModels
             {
                 boardInfo = value;
                 RaisePropertyChanged();
+                // ReSharper disable once ExplicitCallerInfoArgument
+                RaisePropertyChanged(nameof(InfoAvailable));
             }
         }
 
@@ -101,7 +112,7 @@ namespace DvachBrowser3.ViewModels
             var isCancelled = false;
             try
             {
-                if (Link == null || Link.Engine == null)
+                if (Link?.Engine == null)
                 {
                     NoInfoAvailable = true;
                     return;
@@ -129,7 +140,7 @@ namespace DvachBrowser3.ViewModels
                     BoardReference reference = null;
                     if ((engine.Capability & EngineCapability.BoardsListRequest) != 0)
                     {
-                        var refsOperation = logic.GetBoardReferences(engine.RootLink, false);
+                        var refsOperation = logic.GetBoardReferences(engine.RootLink);
                         using (var tokenSource = new CancellationTokenSource())
                         {
                             cancelAction = () =>

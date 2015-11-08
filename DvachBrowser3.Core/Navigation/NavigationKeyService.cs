@@ -50,8 +50,8 @@ namespace DvachBrowser3.Navigation
         public INavigationKey Deserialize(string data)
         {
             var idx = data.IndexOf('|');
-            var typeName = data.Substring(0, idx - 1);
-            var keyData = data.Remove(0, idx);
+            var typeName = data.Substring(0, idx);
+            var keyData = data.Remove(0, idx+1);
             if (factoryByType.ContainsKey(typeName))
             {
                 return factoryByType[typeName].Deserialize(typeName, keyData);

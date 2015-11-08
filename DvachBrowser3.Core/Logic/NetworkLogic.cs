@@ -88,7 +88,7 @@ namespace DvachBrowser3.Logic
         /// <returns>Результат.</returns>
         public IEngineOperationsWithProgress<StorageFile, EngineProgress> LoadMediaFile(BoardLinkBase link, LoadMediaFileMode mode)
         {
-            if ((link.LinkKind & BoardLinkKind.Media) == 0 || (link.LinkKind & BoardLinkKind.Youtube) == 0)
+            if ((link.LinkKind & BoardLinkKind.Media) == 0 && (link.LinkKind & BoardLinkKind.Youtube) == 0)
             {
                 throw new ArgumentException("Неправильный тип ссылки");
             }
@@ -104,7 +104,7 @@ namespace DvachBrowser3.Logic
         /// <returns>Ссылка-результат (null, если нет такой ссылки).</returns>
         public IEngineOperationsWithProgress<BoardLinkBase, EngineProgress> Post(PostingData data, CaptchaPostingData captcha, PostingMode mode = PostingMode.Default)
         {
-            if ((data.Link.LinkKind & BoardLinkKind.Thread) == 0 || (data.Link.LinkKind & BoardLinkKind.BoardPage) == 0)
+            if ((data.Link.LinkKind & BoardLinkKind.Thread) == 0 && (data.Link.LinkKind & BoardLinkKind.BoardPage) == 0)
             {
                 throw new ArgumentException("Неправильный тип ссылки");
             }

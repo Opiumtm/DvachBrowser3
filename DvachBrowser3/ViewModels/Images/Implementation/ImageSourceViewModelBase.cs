@@ -43,6 +43,7 @@ namespace DvachBrowser3.ViewModels
                 {
                     await imgSource.SetSourceAsync(f);
                 }
+                Image = imgSource;
             }
             catch (Exception ex)
             {

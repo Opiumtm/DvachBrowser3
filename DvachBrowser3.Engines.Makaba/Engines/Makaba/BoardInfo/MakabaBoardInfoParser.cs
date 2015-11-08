@@ -89,7 +89,8 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                     case PostingFieldSemanticRole.Captcha:
                         postingExtension.Capabilities.Add(new PostingCaptchaCapability()
                         {
-                            CaptchaTypes = CaptchaTypes.Recaptcha | CaptchaTypes.Yandex
+                            Role = PostingFieldSemanticRole.Captcha,
+                            CaptchaTypes = CaptchaTypes.DvachCaptcha
                         });
                         break;
                     case PostingFieldSemanticRole.Icon:
@@ -102,7 +103,7 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                                     Name = i.Name,
                                     Number = i.Number
                                 }).ToList(),
-                                Role = PostingFieldSemanticRole.MediaFile
+                                Role = PostingFieldSemanticRole.Icon
                             });
                         }
                         break;

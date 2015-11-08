@@ -22,6 +22,20 @@ namespace DvachBrowser3
         }
     }
 
+    public class BoolToYesNoConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var v = (bool)value;
+            return v ? "Да" : "Нет";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class BoolNotConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -65,6 +79,37 @@ namespace DvachBrowser3
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             return (bool?)value ?? false;
+        }
+    }
+
+    public class ListBulletConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return "• " + value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class NullableIntStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var ni = value as int?;
+            if (ni == null)
+            {
+                return "Нет";
+            }
+            return ni.Value.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

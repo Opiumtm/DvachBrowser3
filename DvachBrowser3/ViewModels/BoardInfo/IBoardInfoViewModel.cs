@@ -21,6 +21,11 @@ namespace DvachBrowser3.ViewModels
         bool NoInfoAvailable { get; }
 
         /// <summary>
+        /// Информация доступна.
+        /// </summary>
+        bool InfoAvailable { get; }
+
+        /// <summary>
         /// Ссылка.
         /// </summary>
         BoardLinkBase Link { get; }

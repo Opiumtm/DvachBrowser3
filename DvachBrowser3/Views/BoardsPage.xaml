@@ -90,6 +90,7 @@
                                         <MenuFlyout>
                                             <MenuFlyoutItem Text="В избранное" Click="AddToFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
                                             <MenuFlyoutItem Text="Удалить" Click="RemoveFromFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
+                                            <MenuFlyoutItem Text="Информация" Click="BoardInfo_OnClick" Tag="{x:Bind This}"/>
                                         </MenuFlyout>
                                     </FlyoutBase.AttachedFlyout>
                                 </pa:BoardTile>
