@@ -31,6 +31,28 @@ namespace DvachBrowser3.Logic
         BoardLinkBase BoardPageLinkFromBoardLink(BoardLinkBase link);
 
         /// <summary>
+        /// Установить страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="page">Страница борды.</param>
+        /// <returns>Ссылка на страницу борды.</returns>
+        BoardLinkBase SetBoardPage(BoardLinkBase link, int page);
+
+        /// <summary>
+        /// Получить ссылку на борду из ссылки на страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Ссылка на борду.</returns>
+        BoardLinkBase BoardLinkFromBoardPageLink(BoardLinkBase link);
+
+        /// <summary>
+        /// Получить страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Страница борды.</returns>
+        int GetBoardPage(BoardLinkBase link);
+
+        /// <summary>
         /// Получить средство сравнения ссылок.
         /// </summary>
         /// <returns>Средство сравнения ссылок.</returns>

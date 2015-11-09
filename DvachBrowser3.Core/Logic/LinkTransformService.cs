@@ -104,6 +104,80 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Установить страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="page">Страница борды.</param>
+        /// <returns>Ссылка на страницу борды.</returns>
+        public BoardLinkBase SetBoardPage(BoardLinkBase link, int page)
+        {
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                return new BoardPageLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                    Page = page
+                };
+            }
+            if (link is BoardLink)
+            {
+                var l = link as BoardLink;
+                return new BoardPageLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                    Page = page
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Получить ссылку на борду из ссылки на страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Ссылка на борду.</returns>
+        public BoardLinkBase BoardLinkFromBoardPageLink(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            if (link is BoardLink)
+            {
+                var l = link as BoardLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Получить страницу борды.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Страница борды.</returns>
+        public int GetBoardPage(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                return l.Page;
+            }
+            return 0;
+        }
+
+        /// <summary>
         /// Получить средство сравнения ссылок.
         /// </summary>
         /// <returns>Средство сравнения ссылок.</returns>

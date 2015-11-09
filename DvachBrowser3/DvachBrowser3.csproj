@@ -165,6 +165,8 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
+    <Compile Include="ViewModels\Post\IBoardPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />

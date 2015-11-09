@@ -6,6 +6,11 @@
     public interface IThreadPreviewViewModel : IPostCollectionViewModel
     {
         /// <summary>
+        /// Родительская модель.
+        /// </summary>
+        IBoardPageViewModel Parent { get; }
+
+        /// <summary>
         /// Количство изображений.
         /// </summary>
         int ImageCount { get; }
@@ -29,5 +34,15 @@
         /// Не просмотренных постов.
         /// </summary>
         int NotViewedPosts { get; }
+
+        /// <summary>
+        /// Тред скрыт.
+        /// </summary>
+        bool IsHidden { get; }
+
+        /// <summary>
+        /// Скрыть тред.
+        /// </summary>
+        void Hide();
     }
 }
