@@ -14,6 +14,11 @@ namespace DvachBrowser3.ViewModels
         IList<IPostViewModel> Posts { get; }
 
         /// <summary>
+        /// ОП-пост.
+        /// </summary>
+        IPostViewModel OpPost { get; }
+
+        /// <summary>
         /// Клик на ссылку.
         /// </summary>
         event LinkClickEventHandler LinkClick;

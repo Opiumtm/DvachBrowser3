@@ -185,6 +185,16 @@ namespace DvachBrowser3
         }
 
         /// <summary>
+        /// Обновлено.
+        /// </summary>
+        public event Action<T> Added;
+
+        /// <summary>
+        /// Удалено.
+        /// </summary>
+        public event Action<T> Removed;
+
+        /// <summary>
         /// Обновить.
         /// </summary>
         public void Update()
@@ -201,14 +211,19 @@ namespace DvachBrowser3
                     case SortedCollectionDiffState.Change:
                         if (counter < original.Count)
                         {
+                            var ai = original[counter];
                             original[counter] = d.Value;
+                            Removed?.Invoke(ai);
+                            Added?.Invoke(d.Value);
                         }
                         counter++;
                         break;
                     case SortedCollectionDiffState.Delete:
                         if (counter < original.Count)
                         {
+                            var ai = original[counter];
                             original.RemoveAt(counter);
+                            Removed?.Invoke(ai);
                         }
                         break;
                     case SortedCollectionDiffState.Add:
@@ -220,6 +235,7 @@ namespace DvachBrowser3
                         {
                             original.Add(d.Value);
                         }
+                        Added?.Invoke(d.Value);
                         counter++;
                         break;
                 }

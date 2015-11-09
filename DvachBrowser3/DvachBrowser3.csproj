@@ -166,10 +166,14 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Post\IThreadPreviewViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileWithThumbnailViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\PostMediaFileViewModelBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\PostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostMediaViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostPartViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostTextViewModel.cs" />
