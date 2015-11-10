@@ -32,9 +32,9 @@ namespace DvachBrowser3.Logic
             comparer = new LinkComparer(this);
         }
 
-        private readonly Dictionary<string, Guid> hashIdCache = new Dictionary<string, Guid>();
+        private readonly Dictionary<string, string> hashIdCache = new Dictionary<string, string>();
 
-        private Guid GetHashId(string id)
+        private string GetHashId(string id)
         {
             lock (hashIdCache)
             {
@@ -45,7 +45,7 @@ namespace DvachBrowser3.Logic
                 var id1 = (id ?? "").ToLowerInvariant();
                 if (!hashIdCache.ContainsKey(id1))
                 {
-                    hashIdCache[id1] = UniqueIdHelper.CreateId(id1);
+                    hashIdCache[id1] = UniqueIdHelper.CreateIdString(id1);
                 }
                 return hashIdCache[id1];
             }
