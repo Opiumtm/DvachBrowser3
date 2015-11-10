@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Links;
 
@@ -23,5 +24,12 @@ namespace DvachBrowser3.Storage
         /// <param name="link">Ссылка.</param>
         /// <returns>Файл (null, если не найден).</returns>
         Task<StorageFile> GetFromMediaStorage(BoardLinkBase link);
+
+        /// <summary>
+        /// Получить URI ссылку на хранимый медиа файл.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>URI ссылка на медиа файл.</returns>
+        Uri GetStoredImageUri(BoardLinkBase link);
     }
 }

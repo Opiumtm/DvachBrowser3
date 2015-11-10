@@ -75,6 +75,6 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Баннер.
         /// </summary>
-        IBoardPageBannerViewModel Banner { get; }
+        IPageBannerViewModel Banner { get; }
     }
 }

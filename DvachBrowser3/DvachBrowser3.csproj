@@ -123,6 +123,12 @@
     <Compile Include="PageServices\ShellAppBarPageService.cs" />
     <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Banners\BannerLoadedEventArgs.cs" />
+    <Compile Include="ViewModels\Banners\BannerLoadedEventHandler.cs" />
+    <Compile Include="ViewModels\Banners\Implementation\MakabaPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Banners\Implementation\PageBannerViewModelBase.cs" />
+    <Compile Include="ViewModels\Banners\PageBannerBehavior.cs" />
+    <Compile Include="ViewModels\Banners\PageBannerMediaType.cs" />
     <Compile Include="ViewModels\BoardInfo\IBoadInfoString.cs" />
     <Compile Include="ViewModels\BoardInfo\IBoardInfoIcon.cs" />
     <Compile Include="ViewModels\BoardInfo\IBoardInfoPostingCapability.cs" />
@@ -165,7 +171,7 @@
     <Compile Include="ViewModels\Operations\OperationProgressFinishedEventHandler.cs" />
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
-    <Compile Include="ViewModels\Post\IBoardPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
@@ -302,7 +308,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\" />
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

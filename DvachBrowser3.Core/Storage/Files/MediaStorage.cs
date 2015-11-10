@@ -65,6 +65,17 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Получить URI ссылку на хранимый медиа файл.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>URI ссылка на медиа файл.</returns>
+        public Uri GetStoredImageUri(BoardLinkBase link)
+        {
+            var fileName = GetMediaFileName(link);
+            return new Uri($"ms-appdata:///local/data/{FolderName}/cache/{fileName}", UriKind.Absolute);
+        }
+
+        /// <summary>
         /// Получить имя медиа файла.
         /// </summary>
         /// <param name="link">Ссылка.</param>

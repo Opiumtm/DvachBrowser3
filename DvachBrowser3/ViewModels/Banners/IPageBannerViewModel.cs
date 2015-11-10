@@ -11,12 +11,12 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Баннер.
     /// </summary>
-    public interface IBoardPageBannerViewModel : INotifyPropertyChanged
+    public interface IPageBannerViewModel : INotifyPropertyChanged, ICancellableViewModel
     {
         /// <summary>
         /// Поведение.
         /// </summary>
-        BoardPageBannerBehavior Behavior { get; }
+        PageBannerBehavior Behavior { get; }
 
         /// <summary>
         /// Ссылка.
@@ -27,6 +27,11 @@ namespace DvachBrowser3.ViewModels
         /// Ссылка на изображение.
         /// </summary>
         BoardLinkBase BannerImageLink { get; }
+
+        /// <summary>
+        /// Тип медиа.
+        /// </summary>
+        PageBannerMediaType MediaType { get; }
 
         /// <summary>
         /// URI загруженного баннера.
@@ -66,58 +71,11 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Баннер загружен.
         /// </summary>
-        event EventHandler BannerLoaded;
+        event BannerLoadedEventHandler BannerLoaded;
 
         /// <summary>
         /// Ошибка загрузки баннера.
         /// </summary>
         event EventHandler BannerLoadError;
-    }
-
-    /// <summary>
-    /// Что делать с баннером.
-    /// </summary>
-    public enum BoardPageBannerBehavior
-    {
-        /// <summary>
-        /// Запрещено к показу.
-        /// </summary>
-        Disabled,
-
-        /// <summary>
-        /// Показывать.
-        /// </summary>
-        Show,
-
-        /// <summary>
-        /// Скрывать.
-        /// </summary>
-        Hide,
-    }
-
-    /// <summary>
-    /// Тип медиа файла баннера.
-    /// </summary>
-    public enum BoardPageBannerMediaType
-    {
-        /// <summary>
-        /// JPEG.
-        /// </summary>
-        Jpeg,
-
-        /// <summary>
-        /// PNG.
-        /// </summary>
-        Png,
-
-        /// <summary>
-        /// GIF.
-        /// </summary>
-        Gif,
-
-        /// <summary>
-        /// Другой тип баннера.
-        /// </summary>
-        Other
     }
 }
