@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace DvachBrowser3
 {
     /// <summary>
     /// Конфигурация.
     /// </summary>
-    public interface IConfiguration
+    public interface IConfiguration : INotifyPropertyChanged
     {
         /// <summary>
         /// Сохранить конфигурацию.

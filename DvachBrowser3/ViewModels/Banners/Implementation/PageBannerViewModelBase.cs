@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
@@ -173,7 +174,7 @@ namespace DvachBrowser3.ViewModels
 
         private bool GetShowBannersFromNetworkBehavior()
         {
-            return true;
+            return ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().CurrentProfile.ShowBanner;
         }
     }
 }

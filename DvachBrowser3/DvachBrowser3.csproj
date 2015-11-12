@@ -101,6 +101,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\TextBoxChangeDelayBehavior.cs" />
+    <Compile Include="Configuration\INetworkProfile.cs" />
+    <Compile Include="Configuration\INetworkProfileService.cs" />
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
@@ -308,9 +310,7 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
