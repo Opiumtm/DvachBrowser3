@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
@@ -7,7 +8,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления страницы борды.
     /// </summary>
-    public interface IBoardPageViewModel : INotifyPropertyChanged, IStartableViewModel
+    public interface IBoardPageViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Ссылка на борду.
@@ -76,5 +77,16 @@ namespace DvachBrowser3.ViewModels
         /// Баннер.
         /// </summary>
         IPageBannerViewModel Banner { get; }
+
+        /// <summary>
+        /// Клик на ссылку.
+        /// </summary>
+        event LinkClickEventHandler LinkClick;
+
+        /// <summary>
+        /// Провести асинхронную инициализацию.
+        /// </summary>
+        /// <returns>Задача.</returns>
+        Task Initialize();
     }
 }

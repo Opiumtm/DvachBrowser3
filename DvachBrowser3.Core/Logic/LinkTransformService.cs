@@ -403,17 +403,17 @@ namespace DvachBrowser3.Logic
             var blink = boardLink as BoardLink;
             if (blink != null)
             {
-                return blink.Board;
+                return blink.Board?.ToLowerInvariant();
             }
             var tlink = boardLink as ThreadLink;
             if (tlink != null)
             {
-                return tlink.Board;
+                return tlink.Board?.ToLowerInvariant();
             }
             var plink = boardLink as PostLink;
             if (plink != null)
             {
-                return plink.Board;
+                return plink.Board?.ToLowerInvariant();
             }
             return null;
         }
