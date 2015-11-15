@@ -42,6 +42,7 @@ namespace DvachBrowser3.ViewModels
                         {
                             var viewModel = new BoardPageViewModel(result.Data);
                             await viewModel.Initialize();
+                            Page?.Banner?.Cancel();
                             Page = viewModel;
                         }
                         if (result.IsUpdated)
@@ -110,6 +111,7 @@ namespace DvachBrowser3.ViewModels
         public Task Stop()
         {
             Update.Cancel();
+            Page?.Banner?.Cancel();
             return Task.FromResult(true);
         }
 

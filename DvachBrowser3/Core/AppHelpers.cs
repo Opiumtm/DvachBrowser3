@@ -62,5 +62,10 @@ namespace DvachBrowser3
             }
             return engines.GetEngineById(id);
         }
+
+        /// <summary>
+        /// Диспетчер.
+        /// </summary>
+        public static IDispatcherWrapper Dispatcher => BootStrapper.Current.NavigationService.Dispatcher;
     }
 }

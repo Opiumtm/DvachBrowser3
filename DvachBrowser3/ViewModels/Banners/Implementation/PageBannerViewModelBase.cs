@@ -58,6 +58,8 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public abstract int Width { get; }
 
+        private int isCancelled = 0;
+
         /// <summary>
         /// Попробовать загрузить баннер.
         /// </summary>
@@ -70,12 +72,17 @@ namespace DvachBrowser3.ViewModels
                 return;
             }
             IsLoading = true;
+            Interlocked.Exchange(ref isCancelled, 0);
             try
             {
                 using (var tokenSource = new CancellationTokenSource())
                 {
                     // ReSharper disable once AccessToDisposedClosure
-                    cancelAction = () => { tokenSource.Cancel(); };
+                    cancelAction = () =>
+                    {
+                        tokenSource.Cancel();
+                        Interlocked.Exchange(ref isCancelled, 1);
+                    };
                     try
                     {
                         var operation = ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>().LoadMediaFile(BannerImageLink, LoadMediaFileMode.DefaultFullSize);
@@ -91,8 +98,11 @@ namespace DvachBrowser3.ViewModels
             }
             catch
             {
-                IsError = true;
-                BannerLoadError?.Invoke(this, EventArgs.Empty);
+                if (Interlocked.CompareExchange(ref isCancelled, 0, 0) == 0)
+                {
+                    IsError = true;
+                    BannerLoadError?.Invoke(this, EventArgs.Empty);
+                }
             }
             finally
             {
