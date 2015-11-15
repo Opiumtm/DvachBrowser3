@@ -213,6 +213,29 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private bool isObsolete;
+
+        /// <summary>
+        /// Страница устарела.
+        /// </summary>
+        public bool IsObsolete
+        {
+            get { return isObsolete; }
+            set
+            {
+                isObsolete = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Пометить как устаревшую.
+        /// </summary>
+        public void TriggerObsolete()
+        {
+            IsObsolete = true;
+        }
+
         private void TvOnLinkClick(object sender, LinkClickEventArgs e)
         {
             LinkClick?.Invoke(sender, e);

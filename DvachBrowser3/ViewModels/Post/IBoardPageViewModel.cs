@@ -88,5 +88,15 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Задача.</returns>
         Task Initialize();
+
+        /// <summary>
+        /// Страница устарела.
+        /// </summary>
+        bool IsObsolete { get; }
+
+        /// <summary>
+        /// Пометить как устаревшую.
+        /// </summary>
+        void TriggerObsolete();
     }
 }

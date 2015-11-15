@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using DvachBrowser3.Engines;
 using DvachBrowser3.Views;
 using Template10.Common;
 
@@ -39,6 +41,26 @@ namespace DvachBrowser3
             var dialog = new ErrorInfoDialog();
             dialog.Error = ex?.ToString() ?? "";
             await dialog.ShowAsync();
+        }
+
+        /// <summary>
+        /// Найти сетевой движок.
+        /// </summary>
+        /// <param name="engines">Движки.</param>
+        /// <param name="id">Идентификатор движка.</param>
+        /// <returns>Результат.</returns>
+        public static INetworkEngine FindEngine(this INetworkEngines engines, string id)
+        {
+            if (engines == null) throw new ArgumentNullException(nameof(engines));
+            if (id == null)
+            {
+                return null;
+            }
+            if (!engines.ListEngines().Any(e => StringComparer.OrdinalIgnoreCase.Equals(e, id)))
+            {
+                return null;
+            }
+            return engines.GetEngineById(id);
         }
     }
 }

@@ -124,6 +124,9 @@
     <Compile Include="Core\WeakEventChannel.cs" />
     <Compile Include="Core\WeakEventHandler.cs" />
     <Compile Include="Core\WebLinkHelper.cs" />
+    <Compile Include="Logic\BoardPageLoaderArgument.cs" />
+    <Compile Include="Logic\BoardPageLoaderOperation.cs" />
+    <Compile Include="Logic\IBoardPageLoaderResult.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -183,8 +186,11 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Post\IBoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
+    <Compile Include="Logic\BoardPageLoaderUpdateMode.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />
