@@ -101,6 +101,15 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\TextBoxChangeDelayBehavior.cs" />
+    <Compile Include="Configuration\Implementation\AppDataNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\Bad3GNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\BuiltInNetworkProfiles.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\DefaultDesktopNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\DefaultMobileNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\Good3GNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\MinimalNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\BuiltIn\WifiNetworkProfile.cs" />
+    <Compile Include="Configuration\Implementation\NetworkProfileService.cs" />
     <Compile Include="Configuration\INetworkProfile.cs" />
     <Compile Include="Configuration\INetworkProfileService.cs" />
     <Compile Include="Core\AppConstants.cs" />

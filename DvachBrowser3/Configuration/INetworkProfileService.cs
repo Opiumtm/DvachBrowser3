@@ -19,6 +19,11 @@ namespace DvachBrowser3.Configuration
         string CurrentProfileId { get; set; }
 
         /// <summary>
+        /// Идентификатор профиля по умолчанию.
+        /// </summary>
+        string DefaultProfileId { get; }
+
+        /// <summary>
         /// Получить профиль по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
@@ -43,12 +48,18 @@ namespace DvachBrowser3.Configuration
         /// Перечислить профили.
         /// </summary>
         /// <returns>Идентификаторы профилей.</returns>
-        IList<string> ListProfiles();
+        Task<IList<string>> ListProfiles();
 
         /// <summary>
         /// Инициализировать.
         /// </summary>
         /// <returns>Задача.</returns>
         Task Initialize();
+
+        /// <summary>
+        /// Получить новый ID для профиля.
+        /// </summary>
+        /// <returns>Новый ID.</returns>
+        string NewProfileId();
     }
 }

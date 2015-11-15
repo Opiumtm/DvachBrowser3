@@ -1,68 +1,68 @@
 ﻿namespace DvachBrowser3.Configuration
 {
     /// <summary>
-    /// Профиль сети.
+    /// Профиль по умолчанию для десктопа.
     /// </summary>
-    public interface INetworkProfile
+    public sealed class DefaultDesktopNetworkProfile : INetworkProfile
     {
         /// <summary>
         /// Стандартный.
         /// </summary>
-        bool IsStandard { get; }
+        public bool IsStandard => true;
 
         /// <summary>
         /// Идентификатор.
         /// </summary>
-        string Id { get; }
+        public string Id => "Builtin.Default.Desktop";
 
         /// <summary>
         /// Имя.
         /// </summary>
-        string Name { get; }
+        public string Name => "По умолчанию";
 
         /// <summary>
         /// Обновлять страницу борды при входе.
         /// </summary>
-        bool UpdateBoardPageOnEntry { get; }
+        public bool UpdateBoardPageOnEntry => true;
 
         /// <summary>
         /// Показывать баннер.
         /// </summary>
-        bool ShowBanner { get; }
+        public bool ShowBanner => true;
 
         /// <summary>
         /// Проверять избранное на изменения.
         /// </summary>
-        bool CheckFavoritesForUpdates { get; }
+        public bool CheckFavoritesForUpdates => true;
 
         /// <summary>
         /// Авоматически обновлять после поста.
         /// </summary>
-        bool AutoUpdateThreadAfterPost { get; }
+        public bool AutoUpdateThreadAfterPost => true;
 
         /// <summary>
         /// Обновлять страницу треда при входе.
         /// </summary>
-        bool UpdateThreadPageOnEntry { get; }
+        public bool UpdateThreadPageOnEntry => true;
 
         /// <summary>
         /// Автоматически загружать предварительный просмотр изображений.
         /// </summary>
-        bool AutoLoadImageThumbnails { get; }
+        public bool AutoLoadImageThumbnails => true;
 
         /// <summary>
         /// Проверять тред на апдейты (интервал проверки в секундах, null - не проверять).
         /// </summary>
-        double? CheckThreadForUpdatesSec { get; }
+        public double? CheckThreadForUpdatesSec => 15;
 
         /// <summary>
         /// Проверять на обновления вместо загрузки.
         /// </summary>
-        bool CheckForUpdatesInsteadOfLoad { get; }
+        public bool CheckForUpdatesInsteadOfLoad => false;
 
         /// <summary>
         /// Предпочитать частичную загрузку.
         /// </summary>
-        bool PreferPartialLoad { get; }
+        public bool PreferPartialLoad => true;
     }
 }

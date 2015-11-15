@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
+using DvachBrowser3.Configuration;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Services;
 using DvachBrowser3.SystemInformation;
@@ -23,11 +24,12 @@ namespace DvachBrowser3
             ServiceLocator.Current = container;
             CoreServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
+            container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
         }
 
         private bool isInitialized;
 
-        private void TryInitialize()
+        private async Task TryInitialize()
         {
             if (!isInitialized)
             {
@@ -36,19 +38,21 @@ namespace DvachBrowser3
                 var shell = new Views.Shell(nav);
                 Window.Current.Content = shell;
                 NavigationService.Navigate(typeof(Views.MainPage));
+
+                await ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().Initialize();
             }
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            TryInitialize();
+            await TryInitialize();
             await base.OnInitializeAsync(args);
         }
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
             await Task.Delay(50);
-            TryInitialize();
+            await TryInitialize();
         }
     }
 }
