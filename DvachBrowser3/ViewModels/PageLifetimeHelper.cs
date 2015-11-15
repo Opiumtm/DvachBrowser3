@@ -1,4 +1,6 @@
-﻿using DvachBrowser3.PageServices;
+﻿using System;
+using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.PageServices;
 using DvachBrowser3.Views;
 
 namespace DvachBrowser3.ViewModels
@@ -23,7 +25,13 @@ namespace DvachBrowser3.ViewModels
             {
                 return;
             }
-            page.NavigatedFrom += (sender, e) => viewModel.Cancel();
+            EventHandler<NavigationEventArgs> callback = null;
+            callback = (sender, e) =>
+            {
+                viewModel.Cancel();
+                if (callback != null) page.NavigatedFrom -= callback;
+            };
+            page.NavigatedFrom += callback;
         }
     }
 }
