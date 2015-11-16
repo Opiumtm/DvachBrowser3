@@ -44,6 +44,7 @@ namespace DvachBrowser3.ViewModels
                             await viewModel.Initialize();
                             Page?.Banner?.Cancel();
                             Page = viewModel;
+                            PageLoaded?.Invoke(this, EventArgs.Empty);
                         }
                         if (result.IsUpdated)
                         {
@@ -163,5 +164,10 @@ namespace DvachBrowser3.ViewModels
                 Update.Start2(BoardPageLoaderUpdateMode.CheckForUpdates);
             }
         }
+
+        /// <summary>
+        /// Страница загружена.
+        /// </summary>
+        public event EventHandler PageLoaded;
     }
 }

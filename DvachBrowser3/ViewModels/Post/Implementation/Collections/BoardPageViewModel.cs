@@ -126,7 +126,7 @@ namespace DvachBrowser3.ViewModels
                 {
                     pages = makabaData.Pages.Distinct().OrderBy(p => p).ToArray();
                 }
-                BoardSpeed = !string.IsNullOrWhiteSpace(makabaData.BoardSpeed) ? BoardSpeed.Trim() : null;
+                BoardSpeed = !string.IsNullOrWhiteSpace(makabaData.BoardSpeed) ? makabaData.BoardSpeed.Trim() : null;
                 if (makabaData.BoardBannerImage != null && makabaData.BoardBannerLink != null && PageLink?.Engine != null)
                 {
                     Banner = new MakabaPageBannerViewModel(makabaData, PageLink.Engine);

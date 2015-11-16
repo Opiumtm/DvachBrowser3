@@ -26,7 +26,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>URI запроса.</returns>
         protected override Uri GetRequestUri()
         {
-            var uri = Services.GetService<IMakabaUriService>().GetHtmlLink(Parameter);
+            var uri = Services.GetService<IMakabaUriService>().GetJsonLink(Parameter);
             if (uri != null)
             {
                 return uri;

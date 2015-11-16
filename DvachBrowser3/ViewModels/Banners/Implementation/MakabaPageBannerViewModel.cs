@@ -57,7 +57,7 @@ namespace DvachBrowser3.ViewModels
         {
             get
             {
-                var afterDot = data.BoardBannerLink?.Split('.').LastOrDefault();
+                var afterDot = data.BoardBannerImage?.Split('.').LastOrDefault();
                 if (afterDot == null)
                 {
                     return PageBannerMediaType.Other;

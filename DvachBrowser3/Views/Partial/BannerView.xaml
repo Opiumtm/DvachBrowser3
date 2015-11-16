@@ -20,8 +20,8 @@
                    Stretch="UniformToFill"/>
                 <Image x:Name="GifBannerImage" Visibility="Collapsed" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}"
                    Stretch="UniformToFill"/>
-                <ProgressRing IsActive="{x:Bind ViewModel.IsLoading}" Height="32" Width="32" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"></ProgressRing>
-                <SymbolIcon Symbol="Clear" Foreground="Red" Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Height="48" Width="48"/>
+                <ProgressRing IsActive="True" Height="32" Width="32" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}"></ProgressRing>
+                <SymbolIcon x:Name="ErrorSymbol" Symbol="Clear" Foreground="Red" Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}" Height="48" Width="48" Tapped="ErrorSymbol_OnTapped" />
             </Grid>
         </Border>
     </Grid>

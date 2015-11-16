@@ -72,6 +72,7 @@ namespace DvachBrowser3.ViewModels
                 return;
             }
             IsLoading = true;
+            BannerLoadStarted?.Invoke(this, EventArgs.Empty);
             Interlocked.Exchange(ref isCancelled, 0);
             try
             {
@@ -96,10 +97,11 @@ namespace DvachBrowser3.ViewModels
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 if (Interlocked.CompareExchange(ref isCancelled, 0, 0) == 0)
                 {
+                    Error = ex;
                     IsError = true;
                     BannerLoadError?.Invoke(this, EventArgs.Empty);
                 }
@@ -140,6 +142,21 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private Exception error;
+
+        /// <summary>
+        /// Ошибка.
+        /// </summary>
+        public Exception Error
+        {
+            get { return error; }
+            private set
+            {
+                error = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private bool isLoaded;
 
         /// <summary>
@@ -164,6 +181,11 @@ namespace DvachBrowser3.ViewModels
         /// Ошибка загрузки баннера.
         /// </summary>
         public event EventHandler BannerLoadError;
+
+        /// <summary>
+        /// Начата загрузка.
+        /// </summary>
+        public event EventHandler BannerLoadStarted;
 
         private Action cancelAction;
 

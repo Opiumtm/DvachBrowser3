@@ -64,6 +64,11 @@ namespace DvachBrowser3.ViewModels
         bool IsError { get; }
 
         /// <summary>
+        /// Ошибка.
+        /// </summary>
+        Exception Error { get; }
+
+        /// <summary>
         /// Баннер загружен.
         /// </summary>
         bool IsLoaded { get; }
@@ -77,5 +82,10 @@ namespace DvachBrowser3.ViewModels
         /// Ошибка загрузки баннера.
         /// </summary>
         event EventHandler BannerLoadError;
+
+        /// <summary>
+        /// Начата загрузка.
+        /// </summary>
+        event EventHandler BannerLoadStarted;
     }
 }

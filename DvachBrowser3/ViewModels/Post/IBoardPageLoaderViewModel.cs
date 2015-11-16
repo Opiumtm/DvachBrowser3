@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
@@ -32,5 +33,10 @@ namespace DvachBrowser3.ViewModels
         /// Проверить на обновления.
         /// </summary>
         void CheckForUpdates();
+
+        /// <summary>
+        /// Страница загружена.
+        /// </summary>
+        event EventHandler PageLoaded;
     }
 }

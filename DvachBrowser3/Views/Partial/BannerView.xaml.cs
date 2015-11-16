@@ -36,11 +36,19 @@ namespace DvachBrowser3.Views.Partial
             if (oldValue != null)
             {
                 oldValue.BannerLoaded -= OnBannerLoaded;
+                oldValue.BannerLoadStarted -= OnBannerLoadStarted;
             }
             if (newValue != null)
             {
                 newValue.BannerLoaded += OnBannerLoaded;
+                newValue.BannerLoadStarted += OnBannerLoadStarted;
             }
+        }
+
+        private void OnBannerLoadStarted(object sender, EventArgs eventArgs)
+        {
+            GifBannerImage.Visibility = Visibility.Collapsed;
+            BannerImage.Visibility = Visibility.Collapsed;
         }
 
         private async void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
@@ -53,8 +61,9 @@ namespace DvachBrowser3.Views.Partial
                     {
                         if (ViewModel.MediaType == PageBannerMediaType.Gif)
                         {
-                            AnimationBehavior.SetSourceUri(GifBannerImage, ViewModel.LoadedBannerUri);
                             AnimationBehavior.SetRepeatBehavior(GifBannerImage, RepeatBehavior.Forever);
+                            AnimationBehavior.SetAutoStart(GifBannerImage, true);
+                            AnimationBehavior.SetSourceUri(GifBannerImage, ViewModel.LoadedBannerUri);
                             GifBannerImage.Visibility = Visibility.Visible;
                             BannerImage.Visibility = Visibility.Collapsed;
                         }
@@ -93,6 +102,15 @@ namespace DvachBrowser3.Views.Partial
         {
             var o = d as BannerView;
             o?.ViewModelChanged(e);
+        }
+
+        private async void ErrorSymbol_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var ex = ViewModel?.Error;
+            if (ex != null)
+            {
+                await AppHelpers.ShowError(ex);
+            }
         }
     }
 }
