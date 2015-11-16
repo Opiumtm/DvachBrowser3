@@ -12,7 +12,7 @@ namespace DvachBrowser3.Storage
         public StorageService(IServiceProvider services) : base(services)
         {
             SmallImages = new MediaStorage(services, "images", 11 * 1024 * 1024, 10 * 1024 * 1024, "Маленькие изображения");
-            FullSizeMediaFiles = new MediaStorage(services, "media", 11 * 1024 * 1024, 10 * 1024 * 1024, "Полноразмерные медиафайлы");
+            FullSizeMediaFiles = new MediaStorage(services, "media", 22 * 1024 * 1024, 20 * 1024 * 1024, "Полноразмерные медиафайлы");
             ThreadData = new ThreadDataStorage(services, "threads", 11 * 1024 * 1024, 10 * 1024 * 1024, "Данные тредов");
             PostData = new PostDataStorage(services, "posting", 6 * 1024 * 1024, 5 * 1024 * 1024, "Данные постинга", 
                 new PostingMediaStore(services, "posting-img", 11 * 1024 * 1024, 10 * 1024 * 1024, "Изображения постинга"));
