@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Dynamic;
 using DvachBrowser3.Engines;
+using Microsoft.CSharp.RuntimeBinder;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -35,6 +37,23 @@ namespace DvachBrowser3.ViewModels
         protected override string GetMessage(EngineProgress progress)
         {
             return progress.Message;
+        }
+
+        /// <summary>
+        /// Получить статус ожидания.
+        /// </summary>
+        /// <param name="progress">Прогресс.</param>
+        /// <returns>Статус ожидания.</returns>
+        protected override bool GetIsWaiting(EngineProgress progress)
+        {
+            try
+            {
+                return progress.OtherData.Kind == "WAIT";
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

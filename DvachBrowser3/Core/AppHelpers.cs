@@ -67,5 +67,13 @@ namespace DvachBrowser3
         /// Диспетчер.
         /// </summary>
         public static IDispatcherWrapper Dispatcher => BootStrapper.Current.NavigationService.Dispatcher;
+
+        // ReSharper disable once InconsistentNaming
+        private static readonly Lazy<bool> isMobile = new Lazy<bool>(() => Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile");
+
+        /// <summary>
+        /// Мобильное приложение.
+        /// </summary>
+        public static bool IsMobile => isMobile.Value;
     }
 }

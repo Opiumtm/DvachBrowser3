@@ -38,12 +38,20 @@ namespace DvachBrowser3.ViewModels
                     Image = null;
                     return;
                 }
-                var imgSource = new BitmapImage();
-                using (var f = await result.OpenReadAsync())
+                var cacheUri = GetImageCacheUri();
+                if (cacheUri == null)
                 {
-                    await imgSource.SetSourceAsync(f);
+                    var imgSource = new BitmapImage();
+                    using (var f = await result.OpenReadAsync())
+                    {
+                        await imgSource.SetSourceAsync(f);
+                    }
+                    Image = imgSource;
                 }
-                Image = imgSource;
+                else
+                {
+                    Image = new BitmapImage(cacheUri);
+                }
             }
             catch (Exception ex)
             {
@@ -57,6 +65,15 @@ namespace DvachBrowser3.ViewModels
         /// <param name="arg">Параметр.</param>
         /// <returns>Операция.</returns>
         protected abstract IEngineOperationsWithProgress<StorageFile, EngineProgress> OperationFactory(object arg);
+
+        /// <summary>
+        /// Получить URL кэша изображения.
+        /// </summary>
+        /// <returns>URL кэша.</returns>
+        protected virtual Uri GetImageCacheUri()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Изображение.

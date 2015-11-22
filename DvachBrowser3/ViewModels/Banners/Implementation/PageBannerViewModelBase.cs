@@ -197,11 +197,9 @@ namespace DvachBrowser3.ViewModels
             cancelAction?.Invoke();
         }
 
-        // todo: Внеси в конфигурации настройки
-
         private bool GetShowBannersFromConfig()
         {
-            return true;
+            return ServiceLocator.Current.GetServiceOrThrow<IUiConfigurationService>().UiPages.ShowBanners;
         }
 
         private bool GetShowBannersFromNetworkBehavior()

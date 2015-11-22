@@ -34,6 +34,11 @@ namespace DvachBrowser3.ViewModels
         string Error { get; }
 
         /// <summary>
+        /// Полная ошибка.
+        /// </summary>
+        Exception Exception { get; }
+
+        /// <summary>
         /// Ошибка.
         /// </summary>
         bool IsError { get; }
@@ -42,6 +47,11 @@ namespace DvachBrowser3.ViewModels
         /// Отменено.
         /// </summary>
         bool IsCancelled { get; }
+
+        /// <summary>
+        /// Ожидается.
+        /// </summary>
+        bool IsWaiting { get; }
 
         /// <summary>
         /// Запущено.

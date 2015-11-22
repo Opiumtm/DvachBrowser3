@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Posting;
 
@@ -115,6 +116,43 @@ namespace DvachBrowser3.Configuration.Makaba
                 SetValue("BrowserUserAgent", value ?? "");
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Установить агент.
+        /// </summary>
+        /// <returns>Агент.</returns>
+        public async Task SetDefaultBrowserAgent()
+        {
+            var tcs = new TaskCompletionSource<string>(TaskCreationOptions.None);
+            var ww = new WebView();
+            ww.NavigateToString(@"<html>
+    <head>
+        <script type='text/javascript'>
+            function getUserAgent() 
+            { 
+                return navigator.userAgent; 
+            }
+        </script>
+    </head>
+    <body>
+    </body>
+</html>");
+            ww.NavigationCompleted += async (sender1, e1) =>
+            {
+                try
+                {
+                    var ua = await ww.InvokeScriptAsync("getUserAgent", new string[0]);
+                    tcs.TrySetResult(ua);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            };
+            var task = tcs.Task;
+            var tua = await task;
+            BrowserUserAgent = tua;
         }
     }
 }

@@ -3,6 +3,7 @@ using Windows.Storage;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Storage;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -29,6 +30,15 @@ namespace DvachBrowser3.ViewModels
         protected override IEngineOperationsWithProgress<StorageFile, EngineProgress> OperationFactory(object arg)
         {
             return ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>().LoadMediaFile(link, LoadMediaFileMode.DefaultSmallSize);
+        }
+
+        /// <summary>
+        /// Получить URL кэша изображения.
+        /// </summary>
+        /// <returns>URL кэша.</returns>
+        protected override Uri GetImageCacheUri()
+        {
+            return ServiceLocator.Current.GetServiceOrThrow<IStorageService>().SmallImages.GetStoredImageUri(link);
         }
     }
 }

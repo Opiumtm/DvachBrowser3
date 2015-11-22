@@ -38,5 +38,11 @@ namespace DvachBrowser3.Engines.Makaba
         /// Агент браузера.
         /// </summary>
         string BrowserUserAgent { get; set; }
+
+        /// <summary>
+        /// Установить агент.
+        /// </summary>
+        /// <returns>Агент.</returns>
+        Task SetDefaultBrowserAgent();
     }
 }

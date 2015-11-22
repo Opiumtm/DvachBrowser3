@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
@@ -63,8 +64,9 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// </summary>
         /// <param name="client">Клиент.</param>
         /// <returns>Хидеры.</returns>
-        protected override async Task SetHeaders(HttpClient client)
+        protected override async Task SetHeaders(HttpClient client, IHttpFilter filter)
         {
+            await base.SetHeaders(client, filter);
             var p = Parameter as MediaLink;
             if (p != null)
             {
@@ -73,8 +75,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                     return;
                 }
             }
-            await base.SetHeaders(client);
-            await MakabaHeadersHelper.SetClientHeaders(Services, client);
+            await MakabaHeadersHelper.SetClientHeaders(Services, client, filter);
         }
 
         private class OperationResult : IMediaResult

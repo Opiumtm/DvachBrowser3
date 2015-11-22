@@ -1,7 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using DvachBrowser3.Configuration;
+using DvachBrowser3.Engines;
+using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Services;
 using DvachBrowser3.SystemInformation;
@@ -25,6 +28,7 @@ namespace DvachBrowser3
             CoreServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
+            container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
         }
 
         private bool isInitialized;
@@ -40,6 +44,23 @@ namespace DvachBrowser3
                 NavigationService.Navigate(typeof(Views.MainPage));
 
                 await ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().Initialize();
+
+#pragma warning disable 4014
+                AppHelpers.Dispatcher.DispatchAsync(async () =>
+#pragma warning restore 4014
+                {
+                    try
+                    {
+                        var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
+                        var makaba = engines.GetEngineById(CoreConstants.Engine.Makaba);
+                        var config = (IMakabaEngineConfig)makaba.Configuration;
+                        await config.SetDefaultBrowserAgent();
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
+                });
             }
         }
 

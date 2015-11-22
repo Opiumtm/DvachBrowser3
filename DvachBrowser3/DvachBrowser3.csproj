@@ -110,8 +110,12 @@
     <Compile Include="Configuration\Implementation\BuiltIn\MinimalNetworkProfile.cs" />
     <Compile Include="Configuration\Implementation\BuiltIn\WifiNetworkProfile.cs" />
     <Compile Include="Configuration\Implementation\NetworkProfileService.cs" />
+    <Compile Include="Configuration\Implementation\UiConfigurationService.cs" />
+    <Compile Include="Configuration\Implementation\UiPagesConfiguration.cs" />
     <Compile Include="Configuration\INetworkProfile.cs" />
     <Compile Include="Configuration\INetworkProfileService.cs" />
+    <Compile Include="Configuration\IUiConfigurationService.cs" />
+    <Compile Include="Configuration\IUiPagesConfiguration.cs" />
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
     <Compile Include="Core\NavigationHelper.cs" />
+    <Compile Include="Core\SizeHelper.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
     <Compile Include="Core\WeakEventCallback.cs" />
     <Compile Include="Core\WeakEventChannel.cs" />
@@ -239,6 +244,9 @@
     <Compile Include="Views\Partial\PostText.xaml.cs">
       <DependentUpon>PostText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\PreviewImage.xaml.cs">
+      <DependentUpon>PreviewImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
     <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
     <Compile Include="Views\Shell.xaml.cs">
@@ -308,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\PostText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\PreviewImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

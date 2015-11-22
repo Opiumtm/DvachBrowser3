@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
@@ -93,11 +94,12 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// Установить хидеры.
         /// </summary>
         /// <param name="client">Клиент.</param>
+        /// <param name="filter">Фильтр.</param>
         /// <returns>Хидеры.</returns>
-        protected override async Task SetHeaders(HttpClient client)
+        protected override async Task SetHeaders(HttpClient client, IHttpFilter filter)
         {
-            await base.SetHeaders(client);
-            await MakabaHeadersHelper.SetClientHeaders(Services, client);
+            await base.SetHeaders(client, filter);
+            await MakabaHeadersHelper.SetClientHeaders(Services, client, filter);
         }
 
         /// <summary>

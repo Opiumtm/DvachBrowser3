@@ -92,6 +92,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 try
                 {
                     token.ThrowIfCancellationRequested();
+                    SignalProcessing("Загрузка...", "NOWAIT");
                     return await request.Complete(token);
                 }
                 finally

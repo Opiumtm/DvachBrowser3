@@ -93,10 +93,12 @@ namespace DvachBrowser3.ViewModels
             UpdateCanStart();
             IsError = false;
             Error = null;
+            Exception = null;
             Progress = 0;
             IsIndeterminate = true;
             Message = null;
             IsCancelled = false;
+            IsWaiting = true;
             operation.Progress += OperationOnProgress;
             try
             {
@@ -118,6 +120,7 @@ namespace DvachBrowser3.ViewModels
                             {
                                 IsError = true;
                                 Error = ex.Message;
+                                Exception = ex;
                                 Finished?.Invoke(this, new OperationProgressFinishedEventArgs(ex));
                             }
                         }
@@ -137,6 +140,7 @@ namespace DvachBrowser3.ViewModels
             {
                 operation.Progress -= OperationOnProgress;
                 IsActive = false;
+                IsWaiting = false;
                 UpdateCanStart();
             }
         }
@@ -162,6 +166,7 @@ namespace DvachBrowser3.ViewModels
                     Progress = progressValue.Value;
                 }
                 Message = messageValue;
+                IsWaiting = GetIsWaiting(p);
             });
         }
 
@@ -178,6 +183,13 @@ namespace DvachBrowser3.ViewModels
         /// <param name="progress">Объект прогресса.</param>
         /// <returns>Сообщение.</returns>
         protected abstract string GetMessage(TProgress progress);
+
+        /// <summary>
+        /// Получить статус ожидания.
+        /// </summary>
+        /// <param name="progress">Прогресс.</param>
+        /// <returns>Статус ожидания.</returns>
+        protected abstract bool GetIsWaiting(TProgress progress);
 
         private Action cancelAction;
 
@@ -287,6 +299,21 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private Exception exception;
+
+        /// <summary>
+        /// Полная ошибка.
+        /// </summary>
+        public Exception Exception
+        {
+            get { return exception; }
+            private set
+            {
+                exception = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private bool isError;
 
         /// <summary>
@@ -313,6 +340,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 isCancelled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool isWaiting;
+
+        /// <summary>
+        /// Ожидается.
+        /// </summary>
+        public bool IsWaiting
+        {
+            get { return isWaiting; }
+            private set
+            {
+                isWaiting = value;
                 RaisePropertyChanged();
             }
         }

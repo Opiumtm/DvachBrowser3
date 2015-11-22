@@ -93,8 +93,9 @@ namespace DvachBrowser3.Engines
         /// <returns>HTTP-клиент.</returns>
         protected virtual async Task<HttpClient> CreateClient()
         {
-            var result = new HttpClient(GetHttpFilter());
-            await SetHeaders(result);
+            var filter = GetHttpFilter();
+            var result = new HttpClient(filter);
+            await SetHeaders(result, filter);
             return result;
         }
 
@@ -116,8 +117,9 @@ namespace DvachBrowser3.Engines
         /// Установить хидеры.
         /// </summary>
         /// <param name="client">Клиент.</param>
+        /// <param name="filter">Фильтр.</param>
         /// <returns>Хидеры.</returns>
-        protected virtual async Task SetHeaders(HttpClient client)
+        protected virtual async Task SetHeaders(HttpClient client, IHttpFilter filter)
         {
         }
 

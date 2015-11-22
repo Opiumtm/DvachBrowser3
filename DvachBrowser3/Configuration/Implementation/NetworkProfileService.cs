@@ -68,19 +68,7 @@ namespace DvachBrowser3.Configuration
             CurrentProfile = new AppDataNetworkProfile(roamingContainer, curId);
         }
 
-        private bool? isMobile;
-
-        private bool IsMobile
-        {
-            get
-            {
-                if (isMobile == null)
-                {
-                    isMobile = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-                }
-                return isMobile.Value;
-            }
-        }
+        private bool IsMobile => AppHelpers.IsMobile;
 
         /// <summary>
         /// Идентификатор профиля по умолчанию.
