@@ -8,20 +8,22 @@
     xmlns:local2="using:DvachBrowser3"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
-    
+    d:DesignWidth="400"
+    >
+
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <local2:GridLengthConverter x:Key="GridLengthConverter"/>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="104" />
+            <ColumnDefinition Width="{x:Bind ImageWidthWithBorder, Mode=OneWay, Converter={StaticResource GridLengthConverter}}" />
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
@@ -29,16 +31,21 @@
             <Border.BorderBrush>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
             </Border.BorderBrush>
-            <local:PreviewImage Height="100" Width="100" 
+            <local:PreviewImage Height="100" Width="{x:Bind ImageWidth, Mode=OneWay}" 
                             ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" />
         </Border>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Top">
-            <TextBlock FontSize="13.5">
+            <TextBlock FontSize="13.5" Visibility="{x:Bind HorizontalHeaderVisibility, Mode=OneWay}">
                 <Run Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
                 <Run Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
                 <Run Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
             </TextBlock>
             <TextBlock FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top"/>
+            <StackPanel Visibility="{x:Bind VerticalHeaderVisibility, Mode=OneWay}">
+                <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
+                <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
+                <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
+            </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Top">
             <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">

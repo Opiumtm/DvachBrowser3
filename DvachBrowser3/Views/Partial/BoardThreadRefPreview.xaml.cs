@@ -25,7 +25,33 @@ namespace DvachBrowser3.Views.Partial
         public BoardThreadRefPreview()
         {
             this.InitializeComponent();
-            PostText.MaxLines = 5;
+            this.SizeChanged += OnSizeChanged;
+            SizeStateChanged();
+        }
+
+        private void SizeStateChanged()
+        {
+            if (this.ActualWidth <= 500)
+            {
+                VerticalHeaderVisibility = Visibility.Visible;
+                HorizontalHeaderVisibility = Visibility.Collapsed;
+                PostText.MaxLines = 7;
+                ImageWidth = 100;
+                ImageWidthWithBorder = 104;
+            }
+            else
+            {
+                VerticalHeaderVisibility = Visibility.Collapsed;
+                HorizontalHeaderVisibility = Visibility.Visible;
+                PostText.MaxLines = 5;
+                ImageWidth = 150;
+                ImageWidthWithBorder = 154;
+            }
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            SizeStateChanged();
         }
 
         /// <summary>
@@ -63,5 +89,65 @@ namespace DvachBrowser3.Views.Partial
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// Показ вертикального хидера.
+        /// </summary>
+        public Visibility VerticalHeaderVisibility
+        {
+            get { return (Visibility) GetValue(VerticalHeaderVisibilityProperty); }
+            set { SetValue(VerticalHeaderVisibilityProperty, value); }
+        }
+
+        /// <summary>
+        /// Показ вертикального хидера.
+        /// </summary>
+        public static readonly DependencyProperty VerticalHeaderVisibilityProperty = DependencyProperty.Register("VerticalHeaderVisibility", typeof (Visibility), typeof (BoardThreadRefPreview),
+            new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// Показ горизонтального хидера.
+        /// </summary>
+        public Visibility HorizontalHeaderVisibility
+        {
+            get { return (Visibility) GetValue(HorizontalHeaderVisibilityProperty); }
+            set { SetValue(HorizontalHeaderVisibilityProperty, value); }
+        }
+
+        /// <summary>
+        /// Показ горизонтального хидера.
+        /// </summary>
+        public static readonly DependencyProperty HorizontalHeaderVisibilityProperty = DependencyProperty.Register("HorizontalHeaderVisibility", typeof (Visibility), typeof (BoardThreadRefPreview),
+            new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// Ширина изображения.
+        /// </summary>
+        public double ImageWidth
+        {
+            get { return (double) GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Ширина изображения.
+        /// </summary>
+        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof (double), typeof (BoardThreadRefPreview),
+            new PropertyMetadata(100.0));
+
+        /// <summary>
+        /// Ширина изображения с бордюром.
+        /// </summary>
+        public double ImageWidthWithBorder
+        {
+            get { return (double) GetValue(ImageWidthWithBorderProperty); }
+            set { SetValue(ImageWidthWithBorderProperty, value); }
+        }
+
+        /// <summary>
+        /// Ширина изображения с бордюром.
+        /// </summary>
+        public static readonly DependencyProperty ImageWidthWithBorderProperty = DependencyProperty.Register("ImageWidthWithBorder", typeof (double), typeof (BoardThreadRefPreview),
+            new PropertyMetadata(104.0));
     }
 }

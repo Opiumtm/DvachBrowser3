@@ -112,4 +112,17 @@ namespace DvachBrowser3
             throw new NotImplementedException();
         }
     }
+
+    public class GridLengthConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return new GridLength((double)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
