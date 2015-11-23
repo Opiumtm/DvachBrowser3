@@ -32,7 +32,7 @@ namespace DvachBrowser3.ViewModels
         public string Name
         {
             get { return name; }
-            set
+            private set
             {
                 name = value;
                 RaisePropertyChanged();
@@ -47,9 +47,54 @@ namespace DvachBrowser3.ViewModels
         public string TripCode
         {
             get { return tripcode; }
-            set
+            private set
             {
                 tripcode = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private IImageSourceViewModel icon;
+
+        /// <summary>
+        /// Иконка.
+        /// </summary>
+        public IImageSourceViewModel Icon
+        {
+            get { return icon; }
+            private set
+            {
+                icon = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string iconName;
+
+        /// <summary>
+        /// Имя иконки.
+        /// </summary>
+        public string IconName
+        {
+            get { return iconName ?? ""; }
+            private set
+            {
+                iconName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private IImageSourceViewModel flag;
+
+        /// <summary>
+        /// Флаг.
+        /// </summary>
+        public IImageSourceViewModel Flag
+        {
+            get { return flag; }
+            set
+            {
+                flag = value;
                 RaisePropertyChanged();
             }
         }
@@ -100,6 +145,22 @@ namespace DvachBrowser3.ViewModels
                     newName = "Аноним";
                 }
                 Name = newName;
+                if (postData?.Extensions != null)
+                {
+                    var flagExtension = postData.Extensions.OfType<PostTreeCountryExtension>().FirstOrDefault();
+                    if (flagExtension != null)
+                    {
+                        Flag = new ImageSourceViewModel(new MediaLink() { Engine = postData?.Link?.Engine ?? "", IsAbsolute = false, RelativeUri = flagExtension.Uri });
+                        Flag.Load.Start();
+                    }
+                    var iconExtension = postData.Extensions.OfType<PostTreeIconExtension>().FirstOrDefault();
+                    if (iconExtension != null)
+                    {
+                        Icon = new ImageSourceViewModel(new MediaLink() { Engine = postData?.Link?.Engine ?? "", IsAbsolute = false, RelativeUri = iconExtension.Uri });
+                        Icon.Load.Start();
+                        IconName = iconExtension.Description ?? "";
+                    }
+                }
             }
             catch (Exception ex)
             {

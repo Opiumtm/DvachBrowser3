@@ -73,13 +73,26 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 flags |= PostFlags.IsEdited;
             }
-            if ("!!%adm%!!".Equals(data.Tripcode))
+            string admName = null;
+            if (data.Tripcode != null)
             {
-                flags |= PostFlags.AdminTrip;
+                if (data.Tripcode.StartsWith("!!%") && data.Tripcode.EndsWith("%!!"))
+                {
+                    if ("!!%mod%!!".Equals(data.Tripcode))
+                    {
+                        admName = "## Mod ##";
+                    }
+                    else if ("!!%adm%!!".Equals(data.Tripcode))
+                    {
+                        admName = "## Abu ##";
+                    }
+                    else admName = data.Tripcode.Replace("!!%", "## ").Replace("%!!", " ##");
+                    flags |= PostFlags.AdminTrip;
+                }
             }
             var number = data.Number.TryParseWithDefault();
             var postNodes = Services.GetServiceOrThrow<IMakabaHtmlPostParseService>().GetPostNodes(data.Comment ?? "");
-            var name = WebUtility.HtmlDecode(data.Name ?? string.Empty).Replace("&nbsp;", " ");
+            var name = admName != null && string.IsNullOrWhiteSpace(data.Name) ? admName : WebUtility.HtmlDecode(data.Name ?? string.Empty).Replace("&nbsp;", " ");
             var result = new PostTree()
             {
                 Link = new PostLink()
@@ -167,7 +180,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 result.Extensions.Add(new PostTreePosterExtension()
                 {
-                    Name = name,
+                    Name = Windows.Data.Html.HtmlUtilities.ConvertToText(name ?? ""),
                     Tripcode = data.Tripcode,
                     NameColorStr = nameColor,
                     NameColor = color

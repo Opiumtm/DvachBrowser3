@@ -200,7 +200,7 @@ namespace DvachBrowser3.ViewModels
             CanGoPrevPage = pages.Any(p => p == PageNumber - 1);
             NextPageLink = linkTransform.SetBoardPage(PageLink, PageNumber + 1);
             PrevPageLink = linkTransform.SetBoardPage(PageLink, PageNumber - 1);
-            var title = (!string.IsNullOrEmpty(fav.DisplayName) ? fav.DisplayName : bref?.DisplayName) ?? "";
+            var title = (!string.IsNullOrEmpty(fav?.DisplayName) ? fav?.DisplayName : bref?.DisplayName) ?? "";
             Title = $"/{linkTransform.GetBoardShortName(PageLink)}/ {title}";
             Threads.Clear();
             if (data.Threads != null)

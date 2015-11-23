@@ -34,7 +34,7 @@ namespace DvachBrowser3.Views
             {
                 Engine = CoreConstants.Engine.Makaba,
                 Page = 0,
-                Board = "po"
+                Board = "ukr"
             });
             boardLoader.PageLoaded += BoardLoaderOnPageLoaded;
             this.InitializeComponent();

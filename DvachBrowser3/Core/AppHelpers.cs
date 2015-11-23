@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define LOG_ERROR_DEBUG
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,9 +25,10 @@ namespace DvachBrowser3
         /// <returns>Результат.</returns>
         public static async Task ShowError(Exception ex)
         {
+#if DEBUG
+#if LOG_ERROR_DEBUG
             try
             {
-#if DEBUG
                 if (ex != null)
                 {
                     var fld = await ApplicationData.Current.LocalFolder.CreateFolderAsync("error_log", CreationCollisionOption.OpenIfExists);
@@ -43,6 +46,7 @@ namespace DvachBrowser3
             catch
             {
             }
+#endif
 #endif
             var dialog = new MessageDialog(ex?.Message ?? "", AppConstants.ErrorTitle);
             dialog.Commands.Add(new UICommand(AppConstants.OkButtonLabel, command => { }));

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Windows.UI;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -22,5 +23,20 @@ namespace DvachBrowser3.ViewModels
         /// Трипкод.
         /// </summary>
         string TripCode { get; }
+
+        /// <summary>
+        /// Иконка.
+        /// </summary>
+        IImageSourceViewModel Icon { get; }
+
+        /// <summary>
+        /// Имя иконки.
+        /// </summary>
+        string IconName { get; }
+
+        /// <summary>
+        /// Флаг.
+        /// </summary>
+        IImageSourceViewModel Flag { get; }
     }
 }
