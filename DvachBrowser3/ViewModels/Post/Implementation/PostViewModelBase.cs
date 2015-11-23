@@ -1,4 +1,7 @@
-﻿using DvachBrowser3.Links;
+﻿using System;
+using DvachBrowser3.Configuration;
+using DvachBrowser3.Links;
+using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
 using Template10.Mvvm;
 
@@ -54,6 +57,38 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IPostMediaViewModel Media => media ?? (media = CreateMedia());
 
+        private IPostFlagsViewModel flags;
+
+        /// <summary>
+        /// Флаги.
+        /// </summary>
+        public IPostFlagsViewModel Flags => flags ?? (flags = CreateFlags());
+
+        private IPostNameViewModel name;
+
+        /// <summary>
+        /// Имя.
+        /// </summary>
+        public IPostNameViewModel Name => name ?? (name = CreateName());
+
+        /// <summary>
+        /// Дата.
+        /// </summary>
+        public string Date
+            => ServiceLocator.Current.GetServiceOrThrow<IUiConfigurationService>().UiPages.BoardSpecificDate
+                ? PostData?.BoardSpecificDate
+                : ServiceLocator.Current.GetServiceOrThrow<IDateService>().ToUserString(PostData?.Date ?? DateTime.MinValue);
+
+        /// <summary>
+        /// Номер поста.
+        /// </summary>
+        public int? PostNum => ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNum(PostData?.Link);
+
+        /// <summary>
+        /// Номер поста.
+        /// </summary>
+        public string PostNumStr => "№" + ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNumberDisplayString(PostData?.Link);
+
         /// <summary>
         /// Заголовок.
         /// </summary>
@@ -70,5 +105,17 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Модель.</returns>
         protected abstract IPostMediaViewModel CreateMedia();
+
+        /// <summary>
+        /// Создать модель флагов.
+        /// </summary>
+        /// <returns>Модель флагов.</returns>
+        protected abstract IPostFlagsViewModel CreateFlags();
+
+        /// <summary>
+        /// Создать модель постера.
+        /// </summary>
+        /// <returns>Модель постера.</returns>
+        protected abstract IPostNameViewModel CreateName();
     }
 }

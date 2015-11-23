@@ -52,6 +52,44 @@ namespace DvachBrowser3.Storage.Files
         {
             return await (await GetRootDataFolder()).CreateFolderAsync(FolderName, CreationCollisionOption.OpenIfExists);
         }
+
+        /// <summary>
+        /// Сохранить строку.
+        /// </summary>
+        /// <param name="file">Файл.</param>
+        /// <param name="tempFolder">Временная директория.</param>
+        /// <param name="obj">Объект.</param>
+        /// <param name="compress">Сжимать файл.</param>
+        /// <returns>Таск.</returns>
+        public async Task WriteString(StorageFile file, StorageFolder tempFolder, string obj, bool compress)
+        {
+            await file.ReplaceContent(tempFolder, async str =>
+            {
+                if (obj == null)
+                {
+                    return;
+                }
+                if (compress)
+                {
+                    using (var comp = new Compressor(str, CompressAlgorithm.Mszip, 0))
+                    {
+                        using (var wr = new StreamWriter(comp.AsStreamForWrite(), Encoding.UTF8))
+                        {
+                            await wr.FlushAsync();
+                        }
+                    }
+                }
+                else
+                {
+                    using (var wr = new StreamWriter(str.AsStream(), Encoding.UTF8))
+                    {
+                        await wr.WriteAsync(obj);
+                        await wr.FlushAsync();
+                    }
+                }
+            });
+        }
+
         /// <summary>
         /// Сохранить объект в файл.
         /// </summary>
@@ -96,6 +134,38 @@ namespace DvachBrowser3.Storage.Files
                     }
                 }
             });
+        }
+
+        /// <summary>
+        /// Читать строку из файла.
+        /// </summary>
+        /// <param name="file">Файл.</param>
+        /// <param name="compress">Сжимать файл.</param>
+        /// <returns>Объект.</returns>
+        public async Task<string> ReadString(StorageFile file, bool compress)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+            return await file.PoliteRead(async str =>
+            {
+                if (str.Size == 0) return null;
+                if (compress)
+                {
+                    using (var comp = new Decompressor(str))
+                    {
+                        using (var rd = new StreamReader(comp.AsStreamForRead(), Encoding.UTF8))
+                        {
+                            return await rd.ReadToEndAsync();
+                        }
+                    }
+                }
+                using (var rd = new StreamReader(str.AsStream(), Encoding.UTF8))
+                {
+                    return await rd.ReadToEndAsync();
+                }
+            }, TimeSpan.FromSeconds(2));
         }
 
         /// <summary>

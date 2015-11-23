@@ -41,5 +41,18 @@ namespace DvachBrowser3.Configuration
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Дата, специфичная для борды.
+        /// </summary>
+        public bool BoardSpecificDate
+        {
+            get { return GetValue("BoardSpecificDate", false); }
+            set
+            {
+                SetValue("BoardSpecificDate", value);
+                OnPropertyChanged();
+            }
+        }
     }
 }

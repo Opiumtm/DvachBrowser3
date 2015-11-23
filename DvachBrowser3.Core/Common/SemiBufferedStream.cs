@@ -109,10 +109,6 @@ namespace DvachBrowser3
         {
             if (disposing)
             {
-                if (rtStream != null)
-                {
-                    rtStream.Dispose();
-                }
                 currentStream.Dispose();
                 if (tempFile != null)
                 {

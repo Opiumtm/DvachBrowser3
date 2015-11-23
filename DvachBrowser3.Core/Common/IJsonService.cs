@@ -23,6 +23,7 @@ namespace DvachBrowser3.Common
         /// <typeparam name="T">Тип объекта.</typeparam>
         /// <param name="str">Входной поток.</param>
         /// <param name="encoding">Кодировка.</param>
+        /// <param name="leaveOpen">Оставить открытым.</param>
         /// <returns>Объект.</returns>
         T Deserialize<T>(Stream str, Encoding encoding);
     }

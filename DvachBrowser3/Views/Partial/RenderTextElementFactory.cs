@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -45,12 +46,12 @@ namespace DvachBrowser3.Views.Partial
             var r = new TextBlock()
             {
                 Foreground = Application.Current.Resources["PostNormalTextBrush"] as Brush,
-                Text = text,
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.None,
                 FontSize = 14.5,
                 TextLineBounds = TextLineBounds.Full,
-                IsTextSelectionEnabled = false
+                IsTextSelectionEnabled = false,
+                TextAlignment = TextAlignment.Left
             };
 
             FrameworkElement result = r;
@@ -141,23 +142,45 @@ namespace DvachBrowser3.Views.Partial
                 }
             }
 
+            r.Text = "o";
+            r.Measure(new Size(0, 0));
+            var spaceWidth = r.ActualWidth;
+
+            int endSpaces = 0;
+            var s2 = text;
+            while (s2.EndsWith(" "))
+            {
+                endSpaces++;
+                s2 = s2.Substring(0, s2.Length - 1);
+            }
+
+            r.Text = s2;
+
+            r.Measure(new Size(0, 0));
+            r.Height = r.ActualHeight;
+            r.Width = r.ActualWidth + endSpaces * spaceWidth;
+
             if (needGrid)
             {
+                g.Height = result.Height;
+                g.Width = result.Width;
                 g.Children.Add(result);
                 result = g;
             }
             if (needBorder)
             {
+                b.Height = result.Height;
+                b.Width = result.Width;
                 b.Child = result;
                 result = b;
             }
             if (needOuterGrid)
             {
+                g2.Height = result.Height + g2.Padding.Bottom + g2.Padding.Top;
+                g2.Width = result.Width;
                 g2.Children.Add(result);
                 result = g2;
             }
-
-            result.Measure(new Size(0, 0));
 
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
             {

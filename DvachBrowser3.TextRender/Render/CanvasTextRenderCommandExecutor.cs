@@ -141,7 +141,7 @@ namespace DvachBrowser3.TextRender
                 else
                 {
                     var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
-                    if ((el.ActualWidth + LineWidth) > TextCanvas.ActualWidth)
+                    if ((el.Width + LineWidth) > TextCanvas.ActualWidth)
                     {
                         exceeded = true;
                     }
@@ -159,10 +159,10 @@ namespace DvachBrowser3.TextRender
             el.SetValue(Canvas.LeftProperty, LineWidth);
             el.SetValue(Canvas.TopProperty, Top);
             TextCanvas.Children.Add(el);
-            LineWidth += el.ActualWidth;
-            if (LineHeight < el.ActualHeight)
+            LineWidth += el.Width;
+            if (LineHeight < el.Height)
             {
-                LineHeight = el.ActualHeight;
+                LineHeight = el.Height;
                 SynCanvasHeight();
             }
             FirstInLine = false;
@@ -205,9 +205,9 @@ namespace DvachBrowser3.TextRender
         protected virtual void SetDefaultLineHeight(ITextRenderAttributeState attributes)
         {
             var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent("A")));
-            if (LineHeight < el.ActualHeight)
+            if (LineHeight < el.Height)
             {
-                LineHeight = el.ActualHeight;
+                LineHeight = el.Height;
             }
         }
 

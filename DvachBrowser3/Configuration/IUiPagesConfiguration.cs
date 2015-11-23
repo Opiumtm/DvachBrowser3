@@ -9,5 +9,10 @@
         /// Показывать баннеры.
         /// </summary>
         bool ShowBanners { get; set; }
+
+        /// <summary>
+        /// Дата, специфичная для борды.
+        /// </summary>
+        bool BoardSpecificDate { get; set; }
     }
 }

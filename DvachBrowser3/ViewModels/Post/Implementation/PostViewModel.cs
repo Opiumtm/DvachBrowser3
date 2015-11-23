@@ -34,5 +34,23 @@ namespace DvachBrowser3.ViewModels
         {
             return new PostMediaViewModel(this, PostData);
         }
+
+        /// <summary>
+        /// Создать модель флагов.
+        /// </summary>
+        /// <returns>Модель флагов.</returns>
+        protected override IPostFlagsViewModel CreateFlags()
+        {
+            return new PostFlagsViewModel(PostData, this);
+        }
+
+        /// <summary>
+        /// Создать модель постера.
+        /// </summary>
+        /// <returns>Модель постера.</returns>
+        protected override IPostNameViewModel CreateName()
+        {
+            return new PostNameViewModel(PostData, this);
+        }
     }
 }

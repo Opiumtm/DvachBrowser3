@@ -163,6 +163,61 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Получить ссылку на борду из любой ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка на борду или страницу борды.</param>
+        /// <returns>Ссылка на борду.</returns>
+        public BoardLinkBase BoardLinkFromAnyLink(BoardLinkBase link)
+        {
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            if (link is BoardLink)
+            {
+                var l = link as BoardLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            if (link is ThreadLink)
+            {
+                var l = link as ThreadLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            if (link is PostLink)
+            {
+                var l = link as PostLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            if (link is BoardMediaLink)
+            {
+                var l = link as BoardMediaLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Получить страницу борды.
         /// </summary>
         /// <param name="link">Ссылка на борду или страницу борды.</param>
@@ -175,6 +230,26 @@ namespace DvachBrowser3.Logic
                 return l.Page;
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Получить номер поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Номер треда.</returns>
+        public int? GetPostNum(BoardLinkBase link)
+        {
+            if (link is ThreadLink)
+            {
+                var l = link as ThreadLink;
+                return l.Thread;
+            }
+            if (link is PostLink)
+            {
+                var l = link as PostLink;
+                return l.Post;
+            }
+            return null;
         }
 
         /// <summary>

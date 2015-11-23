@@ -50,13 +50,9 @@ namespace DvachBrowser3.Common
             try
             {
                 var serializer = new JsonSerializer();
-                using (var rd = new StreamReader(str, encoding))
-                {
-                    using (var json = new JsonTextReader(rd))
-                    {
-                        return serializer.Deserialize<T>(json);
-                    }
-                }
+                var rd = new StreamReader(str, encoding);
+                var json = new JsonTextReader(rd);
+                return serializer.Deserialize<T>(json);
             }
             catch (JsonException)
             {

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Popups;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Views;
@@ -20,6 +23,27 @@ namespace DvachBrowser3
         /// <returns>Результат.</returns>
         public static async Task ShowError(Exception ex)
         {
+            try
+            {
+#if DEBUG
+                if (ex != null)
+                {
+                    var fld = await ApplicationData.Current.LocalFolder.CreateFolderAsync("error_log", CreationCollisionOption.OpenIfExists);
+                    var f = await fld.CreateFileAsync(Guid.NewGuid() + ".error");
+                    using (var str = await f.OpenStreamForWriteAsync())
+                    {
+                        using (var wr = new StreamWriter(str, Encoding.UTF8))
+                        {
+                            await wr.WriteAsync(ex.ToString());
+                            await wr.FlushAsync();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+#endif
             var dialog = new MessageDialog(ex?.Message ?? "", AppConstants.ErrorTitle);
             dialog.Commands.Add(new UICommand(AppConstants.OkButtonLabel, command => { }));
             dialog.Commands.Add(new UICommand(AppConstants.MoreInfoButtonLabel, async command =>

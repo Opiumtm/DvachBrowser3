@@ -34,12 +34,12 @@ namespace DvachBrowser3.Views
             {
                 Engine = CoreConstants.Engine.Makaba,
                 Page = 0,
-                Board = "b"
+                Board = "po"
             });
             boardLoader.PageLoaded += BoardLoaderOnPageLoaded;
             this.InitializeComponent();
             BannerView.Visibility = Visibility.Collapsed;
-            SampleImage.Visibility = Visibility.Collapsed;
+            RefPreview.Visibility = Visibility.Collapsed;
         }
 
         private void BoardLoaderOnPageLoaded(object sender, EventArgs eventArgs)
@@ -47,12 +47,9 @@ namespace DvachBrowser3.Views
             BannerView.ViewModel = boardLoader.Page?.Banner;
             BannerView.Visibility = Visibility.Visible;
             boardLoader.Page?.Banner?.TryLoadBanner();
-            SampleImage.ViewModel =
-                boardLoader?.Page?.Threads?.FirstOrDefault()?
-                    .Posts?.FirstOrDefault()?
-                    .Media?.Files?.FirstOrDefault()?
-                    .ThumbnailImage;
-            SampleImage.Visibility = Visibility.Visible;
+            RefPreview.ViewModel =
+                boardLoader?.Page?.Threads?.FirstOrDefault();
+            RefPreview.Visibility = Visibility.Visible;
         }
 
         public IBoardPageLoaderViewModel BoardLoader => boardLoader;
@@ -61,7 +58,6 @@ namespace DvachBrowser3.Views
         {
             base.OnNavigatedTo(e);
             await boardLoader.Start();
-            DvachView.Settings.IsJavaScriptEnabled = true;
         }
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
@@ -80,20 +76,6 @@ namespace DvachBrowser3.Views
             {
                 await AppHelpers.ShowError(ex);
             }
-        }
-
-        private void ReloadCookies_OnClick(object sender, RoutedEventArgs e)
-        {
-            DvachView.Navigate(new Uri("https://2ch.hk/"));
-        }
-
-        private async void SetCookies_OnClick(object sender, RoutedEventArgs e)
-        {
-            var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
-            var makaba = engines.GetEngineById(CoreConstants.Engine.Makaba);
-            var config = (IMakabaEngineConfig)makaba.Configuration;
-            await config.SetDefaultBrowserAgent();
-            await config.Save();
         }
     }
 }

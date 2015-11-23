@@ -341,6 +341,20 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
+        /// Сохранить объект в файл (с обновлением статистики в кэше размеров файлов).
+        /// </summary>
+        /// <param name="file">Файл.</param>
+        /// <param name="tempFolder">Временная директория.</param>
+        /// <param name="obj">Объект.</param>
+        /// <param name="compress">Сжимать файл.</param>
+        /// <returns>Таск.</returns>
+        public async Task WriteCacheString(StorageFile file, StorageFolder tempFolder, string obj, bool compress)
+        {
+            await WriteString(file, tempFolder, obj, compress);
+            BackgroundSyncCacheFileSize(file);
+        }
+
+        /// <summary>
         /// Сохранить медиа файл в кэше.
         /// </summary>
         /// <param name="file">Файл.</param>

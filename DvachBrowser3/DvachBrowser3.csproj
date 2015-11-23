@@ -199,6 +199,10 @@
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostFlagsViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\PostNameViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostFlagsViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\IThreadPreviewViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModelBase.cs" />
@@ -236,6 +240,9 @@
     </Compile>
     <Compile Include="Views\Partial\BannerView.xaml.cs">
       <DependentUpon>BannerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\BoardThreadRefPreview.xaml.cs">
+      <DependentUpon>BoardThreadRefPreview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\BoardTile.xaml.cs">
       <DependentUpon>BoardTile.xaml</DependentUpon>
@@ -308,6 +315,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Partial\BannerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\BoardThreadRefPreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

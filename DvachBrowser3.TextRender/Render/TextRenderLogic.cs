@@ -60,7 +60,7 @@ namespace DvachBrowser3.TextRender
             {
                 if (MaxLines != null)
                 {
-                    if (Executor.Lines > MaxLines.Value)
+                    if (Executor.Lines >= MaxLines.Value)
                     {
                         return true;
                     }

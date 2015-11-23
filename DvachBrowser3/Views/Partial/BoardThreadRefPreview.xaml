@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="DvachBrowser3.Views.Partial.BoardThreadRefPreview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views.Partial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local2="using:DvachBrowser3"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="104" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Visibility="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" Padding="2" BorderThickness="1">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
+            </Border.BorderBrush>
+            <local:PreviewImage Height="100" Width="100" 
+                            ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" />
+        </Border>
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Top">
+            <TextBlock FontSize="13.5">
+                <Run Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
+                <Run Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
+                <Run Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Top">
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1FD;" />
+            </Viewbox>
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE840;" />
+            </Viewbox>
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72E;" />
+            </Viewbox>
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
+            </Viewbox>
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe UI Symbol" Glyph="✞" Height="32" Width="32" Margin="-7" />
+            </Viewbox>
+            <Viewbox Height="24" Width="24" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2">
+                <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
+            </Viewbox>
+        </StackPanel>
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0" VerticalAlignment="Top">
+            <local:PostText x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" />
+        </Border>
+    </Grid>
+</UserControl>

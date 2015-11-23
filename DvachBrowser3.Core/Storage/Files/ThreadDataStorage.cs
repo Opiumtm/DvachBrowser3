@@ -224,7 +224,7 @@ namespace DvachBrowser3.Storage.Files
             var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Stamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
             var file = await GetCacheFile(fileName);
             var folder = await GetCacheFolder();
-            await WriteCacheXmlObject(file, folder, new StringWrapper() { Value = stamp }, false);
+            await WriteCacheString(file, folder, stamp, false);
         }
 
         /// <summary>
@@ -239,8 +239,8 @@ namespace DvachBrowser3.Storage.Files
                 if (link == null) return null;
                 var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Stamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
                 var file = await GetCacheFileOrNull(fileName);
-                var result = await ReadXmlObject<StringWrapper>(file, false);
-                return result != null ? result.Value : null;
+                var result = await ReadString(file, false);
+                return result;
             }
             catch (Exception ex)
             {

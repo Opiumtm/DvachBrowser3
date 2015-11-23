@@ -28,13 +28,8 @@
         <Grid Grid.Row="1" Padding="4,4,4,0">
             <StackPanel>
                 <partial:BannerView x:Name="BannerView" HorizontalAlignment="Center" Margin="10" />
-                <partial:PreviewImage x:Name="SampleImage" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Height="75" Width="100" />
+                <partial:BoardThreadRefPreview x:Name="RefPreview" Margin="10" />
                 <Button x:Name="LoadBoardDataButton" HorizontalAlignment="Center" Click="LoadBoardDataButton_OnClick">Загрузить</Button>
-                <WebView x:Name="DvachView" Height="300" Margin="10"></WebView>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="ReloadCookies" Margin="3" Click="ReloadCookies_OnClick">Перезагрузить</Button>
-                    <Button x:Name="SetCookies" Margin="3" Click="SetCookies_OnClick">Сохранить куки</Button>
-                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

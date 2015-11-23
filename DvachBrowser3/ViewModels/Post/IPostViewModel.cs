@@ -37,5 +37,30 @@ namespace DvachBrowser3.ViewModels
         /// Медиафайлы.
         /// </summary>
         IPostMediaViewModel Media { get; }
+
+        /// <summary>
+        /// Флаги.
+        /// </summary>
+        IPostFlagsViewModel Flags { get; }
+
+        /// <summary>
+        /// Имя.
+        /// </summary>
+        IPostNameViewModel Name { get; }
+
+        /// <summary>
+        /// Дата.
+        /// </summary>
+        string Date { get; }
+
+        /// <summary>
+        /// Номер поста.
+        /// </summary>
+        int? PostNum { get; }
+
+        /// <summary>
+        /// Номер поста.
+        /// </summary>
+        string PostNumStr { get; }
     }
 }
