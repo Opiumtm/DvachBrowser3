@@ -19,6 +19,7 @@
     <ps:PageServices.Services>
         <ps:PageServiceCollection>
             <ps:ViewModelLifetimePageService />
+            <ps:NoStatusBarProgressPageService />
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
     

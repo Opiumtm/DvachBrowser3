@@ -30,16 +30,17 @@ namespace DvachBrowser3.Views
 
         public TestingPage()
         {
+            this.InitializeComponent();
             boardLoader = new BoardPageLoaderViewModel(new BoardPageLink()
             {
                 Engine = CoreConstants.Engine.Makaba,
                 Page = 0,
-                Board = "ukr"
+                Board = "po"
             });
             boardLoader.PageLoaded += BoardLoaderOnPageLoaded;
-            this.InitializeComponent();
             BannerView.Visibility = Visibility.Collapsed;
             RefPreview.Visibility = Visibility.Collapsed;
+            ProgressControl.ViewModel = boardLoader.Update.Progress;
         }
 
         private void BoardLoaderOnPageLoaded(object sender, EventArgs eventArgs)

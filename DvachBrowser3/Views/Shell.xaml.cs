@@ -27,6 +27,7 @@ namespace DvachBrowser3.Views
     public sealed partial class Shell : Page
     {
         public static Shell Instance { get; set; }
+
         public static HamburgerMenu HamburgerMenu => Instance.MyHamburgerMenu;
 
         public Shell(NavigationService navigationService)

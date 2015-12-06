@@ -27,6 +27,7 @@
 
         <Grid Grid.Row="1" Padding="4,4,4,0">
             <StackPanel>
+                <partial:ProgressIndicatorControl x:Name="ProgressControl" ShowMessage="True" />
                 <partial:BannerView x:Name="BannerView" HorizontalAlignment="Center" Margin="10" />
                 <partial:BoardThreadRefPreview x:Name="RefPreview" Margin="10" />
                 <Button x:Name="LoadBoardDataButton" HorizontalAlignment="Center" Click="LoadBoardDataButton_OnClick">Загрузить</Button>

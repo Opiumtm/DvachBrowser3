@@ -124,6 +124,7 @@
     <Compile Include="Core\IWeakEventChannel.cs" />
     <Compile Include="Core\NavigationHelper.cs" />
     <Compile Include="Core\SizeHelper.cs" />
+    <Compile Include="Core\StatusBarHelper.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
     <Compile Include="Core\WeakEventCallback.cs" />
     <Compile Include="Core\WeakEventChannel.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
     <Compile Include="PageServices\IPageViewModelSource.cs" />
+    <Compile Include="PageServices\NoStatusBarProgressPageService.cs" />
     <Compile Include="PageServices\PageLifetimeServiceBase.cs" />
     <Compile Include="PageServices\PageServiceCollection.cs" />
     <Compile Include="PageServices\PageServices.cs" />
@@ -254,6 +256,9 @@
     <Compile Include="Views\Partial\PreviewImage.xaml.cs">
       <DependentUpon>PreviewImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\ProgressIndicatorControl.xaml.cs">
+      <DependentUpon>ProgressIndicatorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
     <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
     <Compile Include="Views\Shell.xaml.cs">
@@ -334,6 +339,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Partial\ProgressIndicatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -346,6 +355,12 @@
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
