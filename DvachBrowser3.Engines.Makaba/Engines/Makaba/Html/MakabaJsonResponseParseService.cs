@@ -285,7 +285,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
                             posts.Sum(p => (p.Files ?? new BoardPostFile2[0]).Length),
                         Omit = t.PostsCount.TryParseWithDefault(),
                         OmitImages = t.ImagesCount.TryParseWithDefault(),
-                        ReplyCount = Math.Max(t.PostsCount.TryParseWithDefault() + posts.Count() - 1, 0),
+                        ReplyCount = Math.Max(t.PostsCount.TryParseWithDefault() + posts.Count(), 0),
                         Posts = posts.Select(p => Parse(p, tlink, true)).ToList(),
                     };
                     for (var i = 0; i < thread.Posts.Count; i++)

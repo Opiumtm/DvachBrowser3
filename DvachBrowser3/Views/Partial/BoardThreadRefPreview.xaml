@@ -97,13 +97,7 @@
                 <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
             </Viewbox>
         </StackPanel>
-        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" VerticalAlignment="Top" BorderThickness="1">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
-            </Border.BorderBrush>
-            <Border.Background>
-                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.1" />
-            </Border.Background>
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" VerticalAlignment="Top" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0">
             <local:PostText x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" />
         </Border>
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="13.5" Margin="2, 5, 2, 2">
