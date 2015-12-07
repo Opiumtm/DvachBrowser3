@@ -314,7 +314,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 BoardBannerImage = data.BoardBannerImage,
                 BoardBannerLink = data.BoardBannerLink,
                 BoardName = data.BoardName,
-                BoardSpeed = data.BoardSpeed,
+                BoardSpeed = string.IsNullOrWhiteSpace(data.BoardSpeed) ? "" : $"{data.BoardSpeed} п./час",
                 CurrentPage = data.CurrentPage.TryParseWithDefault(),
                 CurrentThread = data.CurrentThread.TryParseWithDefault(),
                 Icons = data.Icons != null

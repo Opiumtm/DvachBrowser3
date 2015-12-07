@@ -36,22 +36,31 @@ namespace DvachBrowser3.Views.Partial
             if (oldValue != null)
             {
                 oldValue.BannerLoaded -= OnBannerLoaded;
-                oldValue.BannerLoadStarted -= OnBannerLoadStarted;
             }
             if (newValue != null)
             {
                 newValue.BannerLoaded += OnBannerLoaded;
-                newValue.BannerLoadStarted += OnBannerLoadStarted;
+            }
+            if (ViewModel != null && ViewModel.Behavior == PageBannerBehavior.Enabled && !ViewModel.IsLoaded)
+            {
+                if (ViewModel.Behavior == PageBannerBehavior.Enabled && !ViewModel.IsLoaded)
+                {
+                    GifBannerImage.Visibility = Visibility.Collapsed;
+                    BannerImage.Visibility = Visibility.Collapsed;
+                    AppHelpers.DispatchAction(ViewModel.TryLoadBanner);
+                }
+            } else if (ViewModel?.IsLoaded == true)
+            {
+                ShowBanner();
+            }
+            else
+            {
+                GifBannerImage.Visibility = Visibility.Collapsed;
+                BannerImage.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void OnBannerLoadStarted(object sender, EventArgs eventArgs)
-        {
-            GifBannerImage.Visibility = Visibility.Collapsed;
-            BannerImage.Visibility = Visibility.Collapsed;
-        }
-
-        private async void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
+        private async void ShowBanner()
         {
             await AppHelpers.Dispatcher.DispatchAsync(() =>
             {
@@ -80,6 +89,11 @@ namespace DvachBrowser3.Views.Partial
                     DebugHelper.BreakOnError(ex);
                 }
             });
+        }
+
+        private void OnBannerLoaded(object sender, BannerLoadedEventArgs e)
+        {
+            ShowBanner();
         }
 
 

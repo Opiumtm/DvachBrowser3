@@ -40,7 +40,6 @@ namespace DvachBrowser3.Views
                 Board = "po"
             });
             boardLoader.PageLoaded += BoardLoaderOnPageLoaded;
-            BannerView.Visibility = Visibility.Collapsed;
             ProgressControl.ViewModel = boardLoader.Update.Progress;
             BoardThreadList.SetBinding(BoardThreadRefList.ViewModelProperty, new Binding()
             {
@@ -52,9 +51,6 @@ namespace DvachBrowser3.Views
 
         private void BoardLoaderOnPageLoaded(object sender, EventArgs eventArgs)
         {
-            BannerView.ViewModel = boardLoader.Page?.Banner;
-            BannerView.Visibility = Visibility.Visible;
-            boardLoader.Page?.Banner?.TryLoadBanner();
         }
 
         public IBoardPageLoaderViewModel BoardLoader => boardLoader;
