@@ -29,6 +29,7 @@ namespace DvachBrowser3
             MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
             container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
+            container.RegisterService<IPageNavigationService>(new PageNavigationService(container));
         }
 
         private bool isInitialized;

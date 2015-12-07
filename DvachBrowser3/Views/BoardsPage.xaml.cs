@@ -163,15 +163,7 @@ namespace DvachBrowser3.Views
             var tag = mf?.Tag as IBoardListBoardViewModel;
             if (tag != null)
             {
-                var nkey1 = tag.Link?.GetNavigationKey();
-                if (nkey1 != null)
-                {
-                    var nkey = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Serialize(nkey1);
-                    if (nkey != null)
-                    {
-                        Shell.HamburgerMenu.NavigationService.Navigate(typeof(BoardInfoPage), nkey);
-                    }
-                }
+                ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardInfoNavigationTarget(tag.Link));
             }
         }
 

@@ -135,8 +135,12 @@
     <Compile Include="Logic\BoardPageLoaderOperation.cs" />
     <Compile Include="Logic\IBoardPageLoaderResult.cs" />
     <Compile Include="Navigation\IBoardLinkPage.cs" />
+    <Compile Include="Navigation\Implementation\PageNavigationService.cs" />
     <Compile Include="Navigation\INavigationRolePage.cs" />
+    <Compile Include="Navigation\IPageNavigationService.cs" />
     <Compile Include="Navigation\NavigationRole.cs" />
+    <Compile Include="Navigation\PageNavigationTargetBase.cs" />
+    <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
