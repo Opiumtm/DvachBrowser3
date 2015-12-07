@@ -9,5 +9,10 @@
         /// Обновление списка борд.
         /// </summary>
         public static IWeakEventChannel BoardListRefresh = new WeakEventChannel();
+
+        /// <summary>
+        /// Попадение по ссылке.
+        /// </summary>
+        public static IWeakEventChannel LinkClick = new WeakEventChannel();
     }
 }

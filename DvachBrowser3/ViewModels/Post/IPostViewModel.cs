@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Windows.UI;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
@@ -62,5 +63,10 @@ namespace DvachBrowser3.ViewModels
         /// Номер поста.
         /// </summary>
         string PostNumStr { get; }
+
+        /// <summary>
+        /// Цвет подложки изображения.
+        /// </summary>
+        Color ImageBackgroundColor { get; }
     }
 }

@@ -35,7 +35,12 @@ namespace DvachBrowser3
         /// <param name="e">Параметр события.</param>
         public async void ReceiveWeakEvent(object sender, object e)
         {
-            await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() =>
+            var disp = AppHelpers.Dispatcher;
+            if (disp == null)
+            {
+                return;
+            }
+            await disp.DispatchAsync(() =>
             {
                 try
                 {

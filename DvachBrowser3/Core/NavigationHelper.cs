@@ -1,6 +1,8 @@
 ﻿using System;
+using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
+using DvachBrowser3.TextRender;
 
 namespace DvachBrowser3
 {

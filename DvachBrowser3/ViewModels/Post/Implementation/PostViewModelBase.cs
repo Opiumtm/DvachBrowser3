@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -87,7 +88,12 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Номер поста.
         /// </summary>
-        public string PostNumStr => "№" + ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNumberDisplayString(PostData?.Link);
+        public string PostNumStr => "№" + ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNumberDisplayString(PostData?.Link);        
+
+        /// <summary>
+        /// Цвет подложки изображения.
+        /// </summary>
+        public Color ImageBackgroundColor => BoardListBoardViewModelsHelper.GetDefaultBackgroundColor(PostData?.Link?.Engine);
 
         /// <summary>
         /// Заголовок.

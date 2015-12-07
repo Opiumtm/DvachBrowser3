@@ -94,7 +94,7 @@ namespace DvachBrowser3
         /// <summary>
         /// Диспетчер.
         /// </summary>
-        public static IDispatcherWrapper Dispatcher => BootStrapper.Current.NavigationService.Dispatcher;
+        public static IDispatcherWrapper Dispatcher => BootStrapper.Current?.NavigationService?.Dispatcher;
 
         // ReSharper disable once InconsistentNaming
         private static readonly Lazy<bool> isMobile = new Lazy<bool>(() => Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile");
@@ -103,5 +103,37 @@ namespace DvachBrowser3
         /// Мобильное приложение.
         /// </summary>
         public static bool IsMobile => isMobile.Value;
+
+        /// <summary>
+        /// Выполнить дейсвтие на диспетчере.
+        /// </summary>
+        /// <param name="a">Действие.</param>
+        /// <param name="reportError">Показать ошибку.</param>
+        public static void DispatchAction(Action a, bool reportError = false)
+        {
+            if (a == null)
+            {
+                return;
+            }
+            var disp = Dispatcher;
+            disp?.DispatchAsync(async () =>
+            {
+                try
+                {
+                    a();
+                }
+                catch (Exception ex)
+                {
+                    if (reportError)
+                    {
+                        await ShowError(ex);
+                    }
+                    else
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
+                }
+            });
+        }
     }
 }

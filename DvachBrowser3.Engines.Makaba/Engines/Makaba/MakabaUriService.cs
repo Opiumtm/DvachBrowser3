@@ -306,18 +306,12 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Регурялное выражение для определения ссылок.
         /// </summary>
-        public Regex PostLinkRegex
-        {
-            get { return Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegexText); }
-        }
+        public Regex PostLinkRegex => Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegexText);
 
         /// <summary>
         /// Второе регурялное выражение для определения ссылок.
         /// </summary>
-        public Regex PostLinkRegex2
-        {
-            get { return Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegex2Text); }
-        }
+        public Regex PostLinkRegex2 => Services.GetServiceOrThrow<IRegexCacheService>().CreateRegex(PostLinkRegex2Text);
 
         /// <summary>
         /// Получить URI для постинга без капчи.

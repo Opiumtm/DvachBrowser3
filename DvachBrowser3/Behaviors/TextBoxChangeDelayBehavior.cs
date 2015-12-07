@@ -48,9 +48,7 @@ namespace DvachBrowser3.Behaviors
             {
                 return;
             }
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => DelayAction());
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            AppHelpers.DispatchAction(DelayAction);
         }
 
         private async void DelayAction()

@@ -29,7 +29,8 @@
             <ColumnDefinition Width="100*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Visibility="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" Padding="2" BorderThickness="1">
+        <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Visibility="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" Padding="2" BorderThickness="1"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Border.BorderBrush>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
             </Border.BorderBrush>

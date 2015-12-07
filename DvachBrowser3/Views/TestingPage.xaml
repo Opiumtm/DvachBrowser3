@@ -26,12 +26,16 @@
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="4,4,4,0">
-            <StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
                 <partial:ProgressIndicatorControl x:Name="ProgressControl" ShowMessage="True" />
                 <partial:BannerView x:Name="BannerView" HorizontalAlignment="Center" Margin="10" />
-                <partial:BoardThreadRefPreview x:Name="RefPreview" Margin="10" />
                 <Button x:Name="LoadBoardDataButton" HorizontalAlignment="Center" Click="LoadBoardDataButton_OnClick">Загрузить</Button>
             </StackPanel>
+            <partial:BoardThreadRefList Grid.Row="1" x:Name="BoardThreadList" />
         </Grid>
     </Grid>
 </Page>

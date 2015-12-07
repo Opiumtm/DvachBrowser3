@@ -13,24 +13,14 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public static class BoardListBoardViewModelsHelper
     {
-        /// <summary>
-        /// Имена движков.
-        /// </summary>
         private static readonly Dictionary<string, string> EngineNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        /// <summary>
-        /// Имена движков.
-        /// </summary>
         private static readonly Dictionary<string, string> ResourceNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        /// <summary>
-        /// Имена движков.
-        /// </summary>
         private static readonly Dictionary<string, Color> EngineColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
 
-        /// <summary>
-        /// Логотипы движков.
-        /// </summary>
+        private static readonly Dictionary<string, Color> DefaultBackgroundColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+
         private static readonly Dictionary<string, ImageSource> EngineLogos = new Dictionary<string, ImageSource>(StringComparer.OrdinalIgnoreCase);
 
         static BoardListBoardViewModelsHelper()
@@ -89,6 +79,17 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Получить цвет подложки по умолчанию.
+        /// </summary>
+        /// <param name="engine">Движок.</param>
+        /// <returns>Цвет подложки.</returns>
+        public static Color GetDefaultBackgroundColor(string engine)
+        {
+            EnsureEngine(engine ?? "");
+            return DefaultBackgroundColors[engine ?? ""];
+        }
+
+        /// <summary>
         /// ПОлучить логотип.
         /// </summary>
         /// <param name="engine">Движок.</param>
@@ -110,11 +111,13 @@ namespace DvachBrowser3.ViewModels
                     EngineNames[engine] = engineObj.DisplayName;
                     ResourceNames[engine] = engineObj.ResourceName;
                     EngineColors[engine] = engineObj.TileBackgroundColor;
+                    DefaultBackgroundColors[engine] = engineObj.DefaultBackgroundColor;
                 }
                 else
                 {
                     EngineNames[engine] = "Неизвестный движок";
                     ResourceNames[engine] = "Неизвестный ресурс";
+                    EngineColors[engine] = Colors.DarkGray;
                     EngineColors[engine] = Colors.DarkGray;
                 }
             }

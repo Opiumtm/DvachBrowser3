@@ -123,6 +123,7 @@
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
     <Compile Include="Core\NavigationHelper.cs" />
+    <Compile Include="Core\SizeChangeDelayHelper.cs" />
     <Compile Include="Core\SizeHelper.cs" />
     <Compile Include="Core\StatusBarHelper.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
@@ -133,6 +134,9 @@
     <Compile Include="Logic\BoardPageLoaderArgument.cs" />
     <Compile Include="Logic\BoardPageLoaderOperation.cs" />
     <Compile Include="Logic\IBoardPageLoaderResult.cs" />
+    <Compile Include="Navigation\IBoardLinkPage.cs" />
+    <Compile Include="Navigation\INavigationRolePage.cs" />
+    <Compile Include="Navigation\NavigationRole.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="Logic\BoardPageLoaderUpdateMode.cs" />
+    <Compile Include="ViewModels\Post\Implementation\BoardTitleHelper.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
@@ -242,6 +247,10 @@
     </Compile>
     <Compile Include="Views\Partial\BannerView.xaml.cs">
       <DependentUpon>BannerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\BannerVisibilityConverter.cs" />
+    <Compile Include="Views\Partial\BoardThreadRefList.xaml.cs">
+      <DependentUpon>BoardThreadRefList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\BoardThreadRefPreview.xaml.cs">
       <DependentUpon>BoardThreadRefPreview.xaml</DependentUpon>
@@ -320,6 +329,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Partial\BannerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\BoardThreadRefList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

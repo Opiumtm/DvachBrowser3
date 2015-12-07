@@ -45,6 +45,11 @@ namespace DvachBrowser3.Engines.Makaba
         public Color TileBackgroundColor => Colors.DarkOrange;
 
         /// <summary>
+        /// Цвет по умолчанию.
+        /// </summary>
+        public Color DefaultBackgroundColor => Color.FromArgb(0xFF, 221, 221, 221);
+
+        /// <summary>
         /// Возможности движка.
         /// </summary>
         public EngineCapability Capability

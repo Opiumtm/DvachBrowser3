@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -14,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Links;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
 
@@ -24,7 +27,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoardInfoPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource
+    public sealed partial class BoardInfoPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, INavigationRolePage, IBoardLinkPage
     {
         public BoardInfoPage()
         {
@@ -78,6 +81,21 @@ namespace DvachBrowser3.Views
         public object GetViewModel()
         {
             return ViewModel;
+        }
+
+        /// <summary>
+        /// Получить роль навигации.
+        /// </summary>
+        public NavigationRole? NavigationRole => Navigation.NavigationRole.BoardInfo;
+
+        /// <summary>
+        /// Получить ссылку на страницу.
+        /// </summary>
+        /// <returns>Ссылка на страницу.</returns>
+        public Task<BoardLinkBase> GetPageLink()
+        {
+            var link = ViewModel?.Link;
+            return Task.FromResult<BoardLinkBase>(link);
         }
     }
 }

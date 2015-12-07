@@ -60,7 +60,7 @@ namespace DvachBrowser3.ViewModels
         {
             try
             {
-                var result = linkCollection ?? (await ServiceLocator.Current.GetServiceOrThrow<IStorageService>().ThreadData.FavoriteBoards.LoadLinkCollection()) as BoardLinkCollection;
+                var result = linkCollection ?? (await ServiceLocator.Current.GetServiceOrThrow<IStorageService>().ThreadData.FavoriteBoards.LoadLinkCollectionForReadOnly()) as BoardLinkCollection;
                 cachedFavorites = result;
                 var resultList = new List<IBoardListBoardViewModel>();
                 var linkHashService = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();

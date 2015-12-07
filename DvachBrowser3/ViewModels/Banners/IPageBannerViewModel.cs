@@ -24,6 +24,11 @@ namespace DvachBrowser3.ViewModels
         BoardLinkBase BannerLink { get; }
 
         /// <summary>
+        /// Заголовок ссылки.
+        /// </summary>
+        string BannerLinkTitle { get; }
+
+        /// <summary>
         /// Ссылка на изображение.
         /// </summary>
         BoardLinkBase BannerImageLink { get; }

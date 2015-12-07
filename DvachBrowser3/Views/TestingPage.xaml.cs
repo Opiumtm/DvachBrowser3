@@ -15,7 +15,9 @@ using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Links;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.ViewModels;
+using DvachBrowser3.Views.Partial;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -24,7 +26,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TestingPage : Page
+    public sealed partial class TestingPage : Page, INavigationRolePage
     {
         private readonly IBoardPageLoaderViewModel boardLoader;
 
@@ -39,8 +41,13 @@ namespace DvachBrowser3.Views
             });
             boardLoader.PageLoaded += BoardLoaderOnPageLoaded;
             BannerView.Visibility = Visibility.Collapsed;
-            RefPreview.Visibility = Visibility.Collapsed;
             ProgressControl.ViewModel = boardLoader.Update.Progress;
+            BoardThreadList.SetBinding(BoardThreadRefList.ViewModelProperty, new Binding()
+            {
+                Source = boardLoader,
+                Path = new PropertyPath("Page"),
+                Mode = BindingMode.OneWay
+            });
         }
 
         private void BoardLoaderOnPageLoaded(object sender, EventArgs eventArgs)
@@ -48,9 +55,6 @@ namespace DvachBrowser3.Views
             BannerView.ViewModel = boardLoader.Page?.Banner;
             BannerView.Visibility = Visibility.Visible;
             boardLoader.Page?.Banner?.TryLoadBanner();
-            RefPreview.ViewModel =
-                boardLoader?.Page?.Threads?.FirstOrDefault();
-            RefPreview.Visibility = Visibility.Visible;
         }
 
         public IBoardPageLoaderViewModel BoardLoader => boardLoader;
@@ -78,5 +82,10 @@ namespace DvachBrowser3.Views
                 await AppHelpers.ShowError(ex);
             }
         }
+
+        /// <summary>
+        /// Получить роль навигации.
+        /// </summary>
+        public NavigationRole? NavigationRole => Navigation.NavigationRole.TestPage;
     }
 }

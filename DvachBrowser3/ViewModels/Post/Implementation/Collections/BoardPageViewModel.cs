@@ -150,7 +150,7 @@ namespace DvachBrowser3.ViewModels
                 var rootLink = engine.RootLink;
                 refs = await store.ThreadData.LoadBoardReferences(rootLink);
             }
-            var favs = (await store.ThreadData.FavoriteBoards.LoadLinkCollection()) as BoardLinkCollection;
+            var favs = (await store.ThreadData.FavoriteBoards.LoadLinkCollectionForReadOnly()) as BoardLinkCollection;
             FavoriteBoardInfo fav = null;
             if (favs?.BoardInfo != null)
             {

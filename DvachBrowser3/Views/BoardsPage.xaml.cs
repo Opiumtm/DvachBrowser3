@@ -24,7 +24,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoardsPage : Page, IPageLifetimeCallback, IShellAppBarProvider, IPageViewModelSource
+    public sealed partial class BoardsPage : Page, IPageLifetimeCallback, IShellAppBarProvider, IPageViewModelSource, INavigationRolePage
     {
         public BoardsPage()
         {
@@ -174,5 +174,10 @@ namespace DvachBrowser3.Views
                 }
             }
         }
+
+        /// <summary>
+        /// Получить роль навигации.
+        /// </summary>
+        public NavigationRole? NavigationRole => Navigation.NavigationRole.BoardList;
     }
 }

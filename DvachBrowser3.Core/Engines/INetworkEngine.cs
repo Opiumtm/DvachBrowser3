@@ -35,6 +35,11 @@ namespace DvachBrowser3.Engines
         Color TileBackgroundColor { get; }
 
         /// <summary>
+        /// Цвет по умолчанию.
+        /// </summary>
+        Color DefaultBackgroundColor { get; }
+
+        /// <summary>
         /// Возможности движка.
         /// </summary>
         EngineCapability Capability { get; }

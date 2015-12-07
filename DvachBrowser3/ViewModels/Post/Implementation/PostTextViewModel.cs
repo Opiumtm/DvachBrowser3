@@ -201,7 +201,9 @@ namespace DvachBrowser3.ViewModels
         {
             if (link != null)
             {
-                LinkClick?.Invoke(this, new LinkClickEventArgs(link));
+                var e = new LinkClickEventArgs(link);
+                LinkClick?.Invoke(this, e);
+                ViewModelEvents.LinkClick.RaiseEvent(this, e);
             }
         }
     }

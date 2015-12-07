@@ -38,5 +38,20 @@ namespace DvachBrowser3.ViewModels
         /// Страница загружена.
         /// </summary>
         event EventHandler PageLoaded;
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        string Title { get; }
+
+        /// <summary>
+        /// Номер страницы.
+        /// </summary>
+        int PageNum { get; }
+
+        /// <summary>
+        /// Заголовок со страницей.
+        /// </summary>
+        string TitleWithPage { get; }
     }
 }

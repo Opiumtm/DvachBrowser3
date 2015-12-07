@@ -21,14 +21,17 @@ namespace DvachBrowser3.Views.Partial
 {
     public sealed partial class PostText : UserControl
     {
+        private readonly SizeChangeDelayHelper sizeChangeDelay = new SizeChangeDelayHelper(TimeSpan.FromSeconds(0.25));
+
         public PostText()
         {
             this.InitializeComponent();
-            MainCanvas.SizeChanged += MainCanvasOnSizeChanged;
+            MainCanvas.SizeChanged += sizeChangeDelay.OnSizeChanged;
+            sizeChangeDelay.SizeUpdated += SizeChangeDelayOnSizeUpdated;
             RefreshView();
         }
 
-        private void MainCanvasOnSizeChanged(object sender, SizeChangedEventArgs e)
+        private void SizeChangeDelayOnSizeUpdated(object sender, EventArgs e)
         {
             RefreshView();
         }

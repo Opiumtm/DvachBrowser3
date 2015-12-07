@@ -38,6 +38,20 @@ namespace DvachBrowser3.ViewModels
                     Board = data.BoardBannerLink
                 };
             }
+            AppHelpers.DispatchAction(LoadBannerName);
+        }
+
+        private async void LoadBannerName()
+        {
+            try
+            {
+                BannerLinkTitle = await BoardTitleHelper.GetBoardTitle(BannerLink);                
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+                BannerLinkTitle = "";
+            }
         }
 
         /// <summary>

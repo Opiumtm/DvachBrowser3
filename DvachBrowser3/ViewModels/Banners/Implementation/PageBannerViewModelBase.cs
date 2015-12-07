@@ -33,6 +33,21 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public abstract BoardLinkBase BannerLink { get; }
 
+        private string bannerLinkTitle = "";
+
+        /// <summary>
+        /// Заголовок ссылки.
+        /// </summary>
+        public string BannerLinkTitle
+        {
+            get { return bannerLinkTitle; }
+            protected set
+            {
+                bannerLinkTitle = value ?? "";
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Ссылка на изображение.
         /// </summary>

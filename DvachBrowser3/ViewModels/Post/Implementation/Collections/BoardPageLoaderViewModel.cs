@@ -25,6 +25,13 @@ namespace DvachBrowser3.ViewModels
             update = new StdEngineOperationWrapper<IBoardPageLoaderResult>(OperationFactory);
             update.Finished += UpdateOnFinished;
             update.ResultGot += UpdateOnResultGot;
+            PageNum = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetBoardPage(pageLink);
+            AppHelpers.DispatchAction(async () =>
+            {
+                var t = await BoardTitleHelper.GetBoardTitle(pageLink) ?? "";
+                Title = t;
+                TitleWithPage = $"[{PageNum}] {t}";
+            });
         }
 
         private void UpdateOnResultGot(object sender, EventArgs e)
@@ -169,5 +176,40 @@ namespace DvachBrowser3.ViewModels
         /// Страница загружена.
         /// </summary>
         public event EventHandler PageLoaded;
+
+        private string title;
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        public string Title
+        {
+            get { return title; }
+            private set
+            {
+                title = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Номер страницы.
+        /// </summary>
+        public int PageNum { get; }
+
+        private string titleWithPage;
+
+        /// <summary>
+        /// Заголовок со страницей.
+        /// </summary>
+        public string TitleWithPage
+        {
+            get { return titleWithPage; }
+            private set
+            {
+                titleWithPage = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }
