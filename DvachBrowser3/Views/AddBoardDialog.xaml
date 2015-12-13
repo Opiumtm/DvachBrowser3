@@ -10,7 +10,7 @@
     xmlns:interCore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:beh="using:DvachBrowser3.Behaviors"
     mc:Ignorable="d"
-    Title="Добавить доску"
+    Title="ДОБАВИТЬ ДОСКУ"
     PrimaryButtonText="Добавить"
     SecondaryButtonText="Отмена"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"

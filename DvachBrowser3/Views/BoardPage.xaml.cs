@@ -127,6 +127,7 @@ namespace DvachBrowser3.Views
         public AppBar GetBottomAppBar()
         {
             var appBar = new CommandBar();
+
             var syncButton = new AppBarButton()
             {
                 Icon = new SymbolIcon(Symbol.Sync),
@@ -134,7 +135,74 @@ namespace DvachBrowser3.Views
             };
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
             syncButton.Click += (sender, r) => ViewModel?.Update?.Start2(BoardPageLoaderUpdateMode.Load);
+
+            var nextButton = new AppBarButton()
+            {
+                Icon = new SymbolIcon(Symbol.Forward),
+                Label = "След.стр."
+            };
+            nextButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Page.CanGoNextPage"), FallbackValue = false });
+            nextButton.Click += (sender, r) =>
+            {
+                var p = ViewModel?.Page?.NextPageLink;
+                if (p != null)
+                {
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(p));
+                }
+            };
+
+            var prevButton = new AppBarButton()
+            {
+                Icon = new SymbolIcon(Symbol.Back),
+                Label = "Пред.стр."
+            };
+            prevButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Page.CanGoPrevPage"), FallbackValue = false });
+            prevButton.Click += (sender, r) =>
+            {
+                var p = ViewModel?.Page?.PrevPageLink;
+                if (p != null)
+                {
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(p));
+                }
+            };
+
+            var gotoPage = new AppBarButton()
+            {
+                Label = "Перейти к странице"
+            };
+
+            gotoPage.Click += async (sender, r) =>
+            {
+                try
+                {
+                    var pl = ViewModel?.Page?.GetPages() ?? new int[] { 0 };
+                    var dialog = new SelectPageDialog()
+                    {
+                        MinPage = pl.DefaultIfEmpty(0).Min(),
+                        MaxPage = pl.DefaultIfEmpty(0).Max(),
+                    };
+                    var dr = await dialog.ShowAsync();
+                    if (dr == ContentDialogResult.Primary && dialog.SelectedPage != null && ViewModel?.PageLink != null)
+                    {
+                        var l = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().SetBoardPage(ViewModel?.PageLink, dialog.SelectedPage ?? 0);
+                        if (l != null)
+                        {
+                            ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(l));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await AppHelpers.ShowError(ex);
+                }
+            };
+
+            appBar.PrimaryCommands.Add(prevButton);
+            appBar.PrimaryCommands.Add(nextButton);
             appBar.PrimaryCommands.Add(syncButton);
+
+            appBar.SecondaryCommands.Add(gotoPage);
+
             return appBar;
         }
 

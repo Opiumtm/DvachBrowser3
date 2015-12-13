@@ -282,6 +282,9 @@
     </Compile>
     <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
     <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
+    <Compile Include="Views\SelectPageDialog.xaml.cs">
+      <DependentUpon>SelectPageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -369,6 +372,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\ProgressIndicatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectPageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

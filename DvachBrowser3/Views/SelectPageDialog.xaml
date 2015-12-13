@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="DvachBrowser3.Views.SelectPageDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="ПЕРЕЙТИ К СТРАНИЦЕ"
+    PrimaryButtonText="Перейти"
+    SecondaryButtonText="Отмена"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <StackPanel>
+        <TextBlock TextWrapping="Wrap">
+            <Run>Введите номер страницы (</Run>
+            <Run Text="{x:Bind MinPage}" />
+            <Run> - </Run>
+            <Run Text="{x:Bind MaxPage}" />
+            <Run>)</Run>
+        </TextBlock>
+        <TextBox x:Name="PageBox" TextChanged="PageBox_OnTextChanged">
+            <TextBox.InputScope>
+                <InputScope>
+                    <InputScope.Names>
+                        <InputScopeName NameValue="Number"/>
+                    </InputScope.Names>
+                </InputScope>
+            </TextBox.InputScope>
+        </TextBox>
+    </StackPanel>
+</ContentDialog>
