@@ -21,7 +21,8 @@
                 <StackPanel>
                     <local:BannerView ViewModel="{x:Bind ViewModel.Banner, Mode=OneWay}" x:Name="Banner" HorizontalAlignment="Center" Margin="5" 
                                       Visibility="{x:Bind ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ToolTipService.ToolTip="{x:Bind ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"/>
+                                      ToolTipService.ToolTip="{x:Bind ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"
+                                      BannerTapped="Banner_OnBannerTapped"/>
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemContainerStyle>

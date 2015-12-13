@@ -101,7 +101,7 @@ namespace DvachBrowser3.ViewModels
         public Task Start()
         {
             var profile = ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().CurrentProfile;
-            if (profile.UpdateBoardPageOnEntry)
+            if (profile.UpdateBoardPageOnEntry && !IsBackNavigatedToViewModel)
             {
                 Update.Start2(BoardPageLoaderUpdateMode.Load);
             }
@@ -208,6 +208,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 titleWithPage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool isBackNavigatedToViewModel;
+
+        /// <summary>
+        /// Была навигация назад.
+        /// </summary>
+        public bool IsBackNavigatedToViewModel
+        {
+            get { return isBackNavigatedToViewModel; }
+            set
+            {
+                isBackNavigatedToViewModel = value;
                 RaisePropertyChanged();
             }
         }

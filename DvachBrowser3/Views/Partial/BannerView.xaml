@@ -13,7 +13,7 @@
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     
-    <Grid>
+    <Grid Tapped="BannerElement_OnTapped">
         <Border Margin="0" Padding="0" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}">
             <Grid>
                 <Image x:Name="BannerImage" Visibility="Collapsed" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}"

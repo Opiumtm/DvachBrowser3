@@ -14,7 +14,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.ViewModels;
+using Template10.Services.NavigationService;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -60,5 +62,10 @@ namespace DvachBrowser3.Views.Partial
         /// Показывать баннер.
         /// </summary>
         public bool ShowBanner => ViewModel?.Banner?.Behavior == PageBannerBehavior.Enabled;
+
+        private void Banner_OnBannerTapped(object sender, BannerTappedEventArgs e)
+        {
+            ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(e.Link));
+        }
     }
 }

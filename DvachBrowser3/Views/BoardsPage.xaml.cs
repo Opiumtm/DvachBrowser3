@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
+using DvachBrowser3.Views.Partial;
 using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -83,7 +84,7 @@ namespace DvachBrowser3.Views
                 Label = "Обновить"
             };
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Refresh.CanStart") });
-            syncButton.Click += (sender, r) => ViewModel?.Refresh.Start2(true);
+            syncButton.Click += (sender, r) => ViewModel?.Refresh?.Start2(true);
             appBar.PrimaryCommands.Add(syncButton);
 
             var addButton = new AppBarButton()
@@ -171,5 +172,15 @@ namespace DvachBrowser3.Views
         /// Получить роль навигации.
         /// </summary>
         public NavigationRole? NavigationRole => Navigation.NavigationRole.BoardList;
+
+        private void BoardTile_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var mf = sender as BoardTile;
+            var tag = mf?.ViewModel;
+            if (tag != null)
+            {
+                ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(tag.Link));
+            }
+        }
     }
 }

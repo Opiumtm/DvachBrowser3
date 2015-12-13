@@ -53,5 +53,10 @@ namespace DvachBrowser3.ViewModels
         /// Заголовок со страницей.
         /// </summary>
         string TitleWithPage { get; }
+
+        /// <summary>
+        /// Была навигация назад.
+        /// </summary>
+        bool IsBackNavigatedToViewModel { get; set; }
     }
 }

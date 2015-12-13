@@ -77,10 +77,10 @@
             </TextBox>
             <SemanticZoom Grid.Row="2">
                 <SemanticZoom.ZoomedInView>
-                    <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}">
+                    <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="vm:IBoardListBoardViewModel">
-                                <pa:BoardTile ViewModel="{x:Bind This}" Height="80" Width="{Binding ElementName=ThisPage, Path=TileWidth, Mode=OneWay}" Margin="4">
+                                <pa:BoardTile ViewModel="{x:Bind This}" Height="80" Width="{Binding ElementName=ThisPage, Path=TileWidth, Mode=OneWay}" Margin="4" Tapped="BoardTile_OnTapped">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="RightTapped">
                                             <behaviors:OpenFlyoutAction />

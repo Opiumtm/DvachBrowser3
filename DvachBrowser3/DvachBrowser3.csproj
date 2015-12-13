@@ -141,6 +141,7 @@
     <Compile Include="Navigation\NavigationRole.cs" />
     <Compile Include="Navigation\PageNavigationTargetBase.cs" />
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
+    <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -240,6 +241,9 @@
     <Compile Include="Views\BoardInfoPage.xaml.cs">
       <DependentUpon>BoardInfoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BoardPage.xaml.cs">
+      <DependentUpon>BoardPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
@@ -317,6 +321,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BoardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
