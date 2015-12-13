@@ -29,6 +29,7 @@ namespace DvachBrowser3.Views
     {
         public BoardsPage()
         {
+            NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
             InitViewModel();
         }

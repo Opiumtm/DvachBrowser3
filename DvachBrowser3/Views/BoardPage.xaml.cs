@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
@@ -27,10 +29,11 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoardPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged
+    public sealed partial class BoardPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage
     {
         public BoardPage()
         {
+            NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
         }
 
@@ -49,27 +52,57 @@ namespace DvachBrowser3.Views
         /// </summary>
         public event EventHandler<NavigationEventArgs> NavigatedFrom;
 
+        private BoardLinkBase navigatedLink;
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             var link = NavigationHelper.GetLinkFromParameter(e.Parameter);
-            var boardLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().BoardPageLinkFromBoardLink(link);
-            if (boardLink == null)
+            navigatedLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().BoardPageLinkFromBoardLink(link);
+            if (navigatedLink == null)
             {
                 await AppHelpers.ShowError(new InvalidOperationException("Неправильный тип параметра навигации"));
                 BootStrapper.Current.NavigationService.GoBack();
             }
-            var vm = new BoardPageLoaderViewModel(boardLink);
-            vm.IsBackNavigatedToViewModel = e.NavigationMode == NavigationMode.Back;
+            var vm = new BoardPageLoaderViewModel(navigatedLink);
+            isBackNavigated = e.NavigationMode == NavigationMode.Back;
+            vm.IsBackNavigatedToViewModel = isBackNavigated;
             vm.PageLoaded += BoardOnPageLoaded;
+            vm.PageLoadStarted += BoardOnPageLoadStarted;
             DataContext = vm;
             // ReSharper disable once ExplicitCallerInfoArgument
             OnPropertyChanged(nameof(ViewModel));
             NavigatedTo?.Invoke(this, e);
         }
 
+        private void BoardOnPageLoadStarted(object sender, EventArgs eventArgs)
+        {
+        }
+
         private void BoardOnPageLoaded(object sender, EventArgs eventArgs)
         {
+            if (savedTopThreadHash != null)
+            {
+                var savedHash = savedTopThreadHash;
+                savedTopThreadHash = null;
+                AppHelpers.DispatchAction(() =>
+                {
+                    var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                    var el = ViewModel?.Page?.Threads?.FirstOrDefault(t =>
+                    {
+                        var o = t?.OpPost?.Link;
+                        if (o == null)
+                        {
+                            return false;
+                        }
+                        return linkHash.GetLinkHash(o) == savedHash;
+                    });
+                    if (el != null)
+                    {
+                        MainList.ScrollIntoView(el);
+                    }
+                });
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -115,6 +148,61 @@ namespace DvachBrowser3.Views
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Получить данные навигации.
+        /// </summary>
+        /// <returns>Данные навигации.</returns>
+        public Task<Dictionary<string, object>> GetNavigationData()
+        {
+            var element = MainList.GetTopViewIndex();
+            var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+            if (element?.OpPost?.Link != null)
+            {
+                var hash = linkHash.GetLinkHash(element.OpPost.Link);
+                return Task.FromResult(new Dictionary<string, object>()
+                {
+                    { "TopVisibleThread", hash }
+                });
+            }
+            return Task.FromResult(new Dictionary<string, object>()
+            {
+            });
+        }
+
+        private string savedTopThreadHash;
+
+        private bool isBackNavigated;
+
+        /// <summary>
+        /// Восстановить данные навигации.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Результат.</returns>
+        public Task RestoreNavigationData(Dictionary<string, object> data)
+        {
+            if (!isBackNavigated)
+            {
+                return Task.FromResult(true);
+            }
+            if (data != null && data.ContainsKey("TopVisibleThread"))
+            {
+                savedTopThreadHash = data["TopVisibleThread"] as string;
+            }
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Ключ навигации.
+        /// </summary>
+        public string NavigationDataKey
+        {
+            get
+            {
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                return $"{this.GetType().FullName}::{linkHash.GetLinkHash(navigatedLink)}";
+            }
         }
     }
 }

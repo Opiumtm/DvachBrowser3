@@ -18,6 +18,7 @@
         <ps:PageServiceCollection>
             <ps:ShellAppBarPageService />
             <ps:ViewModelLifetimePageService />
+            <ps:StoreNavigationDataPageService MinutesToStore="60" Version="1.0.0"/>
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
 
@@ -37,7 +38,7 @@
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <pa:BoardThreadRefList Grid.Row="2" ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}">
+        <pa:BoardThreadRefList x:Name="MainList" Grid.Row="2" ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}">
         </pa:BoardThreadRefList>
     </Grid>
 </Page>

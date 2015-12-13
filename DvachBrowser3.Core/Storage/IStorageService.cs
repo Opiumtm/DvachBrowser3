@@ -47,5 +47,10 @@ namespace DvachBrowser3.Storage
         /// Хранилище текущих постов.
         /// </summary>
         ICurrentPostStore CurrentPostStore { get; }
+
+        /// <summary>
+        /// Любые данные.
+        /// </summary>
+        ICustomDataStore CustomData { get; }
     }
 }

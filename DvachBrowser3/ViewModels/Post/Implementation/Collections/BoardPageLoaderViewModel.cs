@@ -25,6 +25,7 @@ namespace DvachBrowser3.ViewModels
             update = new StdEngineOperationWrapper<IBoardPageLoaderResult>(OperationFactory);
             update.Finished += UpdateOnFinished;
             update.ResultGot += UpdateOnResultGot;
+            update.Started += UpdateOnStarted;
             PageNum = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetBoardPage(pageLink);
             AppHelpers.DispatchAction(async () =>
             {
@@ -32,6 +33,11 @@ namespace DvachBrowser3.ViewModels
                 Title = t;
                 TitleWithPage = $"[{PageNum}] {t}";
             });
+        }
+
+        private void UpdateOnStarted(object sender, EventArgs eventArgs)
+        {
+            PageLoadStarted?.Invoke(this, EventArgs.Empty);
         }
 
         private void UpdateOnResultGot(object sender, EventArgs e)
@@ -176,6 +182,11 @@ namespace DvachBrowser3.ViewModels
         /// Страница загружена.
         /// </summary>
         public event EventHandler PageLoaded;
+
+        /// <summary>
+        /// Загрузка начата.
+        /// </summary>
+        public event EventHandler PageLoadStarted;
 
         private string title;
 

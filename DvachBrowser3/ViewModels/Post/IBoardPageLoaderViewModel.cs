@@ -40,6 +40,11 @@ namespace DvachBrowser3.ViewModels
         event EventHandler PageLoaded;
 
         /// <summary>
+        /// Загрузка начата.
+        /// </summary>
+        event EventHandler PageLoadStarted;
+
+        /// <summary>
         /// Заголовок.
         /// </summary>
         string Title { get; }

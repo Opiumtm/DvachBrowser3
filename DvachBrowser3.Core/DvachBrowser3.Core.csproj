@@ -55,6 +55,7 @@
     <Compile Include="Common\CharHelper.cs" />
     <Compile Include="Common\CollectionSlice.cs" />
     <Compile Include="Common\CoreConstants.cs" />
+    <Compile Include="Common\CustomDictionaryData.cs" />
     <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Storage\Files\CachedStorageBase.cs" />
     <Compile Include="Storage\Files\CurrentPostStore.cs" />
     <Compile Include="Storage\Files\CurrentPostStoreData.cs" />
+    <Compile Include="Storage\Files\CustomDataStore.cs" />
     <Compile Include="Storage\Files\DraftCollection.cs" />
     <Compile Include="Storage\Files\DraftDataStorage.cs" />
     <Compile Include="Storage\Files\DraftMediaStore.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Storage\IArchiveStore.cs" />
     <Compile Include="Storage\ICacheFolderInfo.cs" />
     <Compile Include="Storage\ICurrentPostStore.cs" />
+    <Compile Include="Storage\ICustomDataStore.cs" />
     <Compile Include="Storage\IDraftDataStorage.cs" />
     <Compile Include="Storage\ILinkCollectionStore.cs" />
     <Compile Include="Storage\IMediaStorage.cs" />

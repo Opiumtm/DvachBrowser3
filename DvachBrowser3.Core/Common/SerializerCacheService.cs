@@ -31,9 +31,35 @@ namespace DvachBrowser3
                 var t = typeof (T);
                 if (!serializers.ContainsKey(t))
                 {
-                    serializers[t] = new DataContractSerializer(t);
+                    if (t == typeof (CustomDictionaryData))
+                    {
+                        serializers[t] = new DataContractSerializer(t, customDataTypes);
+                    }
+                    else
+                    {
+                        serializers[t] = new DataContractSerializer(t);
+                    }
                 }
                 return serializers[t];
+            }
+        }
+
+        /// <summary>
+        /// Любые типы данных.
+        /// </summary>
+        private readonly HashSet<Type> customDataTypes = new HashSet<Type>();
+
+        /// <summary>
+        /// Зарегистрировать тип.
+        /// </summary>
+        /// <param name="type">Тип.</param>
+        public void RegisterCustomDataType(Type type)
+        {
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            lock (serializers)
+            {
+                customDataTypes.Add(type);
+                serializers.Remove(typeof (CustomDictionaryData));
             }
         }
     }

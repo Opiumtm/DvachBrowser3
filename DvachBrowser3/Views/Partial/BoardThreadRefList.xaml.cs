@@ -67,5 +67,43 @@ namespace DvachBrowser3.Views.Partial
         {
             ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardPageNavigationTarget(e.Link));
         }
+
+        /// <summary>
+        /// Получить индекс видимого элемента.
+        /// </summary>
+        /// <returns>Индекс.</returns>
+        public IThreadPreviewViewModel GetTopViewIndex()
+        {
+            try
+            {
+                var r = MainList.GetVisibleToWindowElements<IThreadPreviewViewModel>().OrderBy(o => o.Item1).FirstOrDefault();
+                return r?.Item2;
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+                return null;
+            }            
+        }
+
+        /// <summary>
+        /// Показать тред.
+        /// </summary>
+        /// <param name="thread">Тред.</param>
+        public void ScrollIntoView(IThreadPreviewViewModel thread)
+        {
+            if (thread == null)
+            {
+                return;
+            }
+            try
+            {
+                MainList.ScrollIntoView(thread, ScrollIntoViewAlignment.Leading);
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
     }
 }
