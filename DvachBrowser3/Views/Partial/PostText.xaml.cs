@@ -26,7 +26,7 @@ namespace DvachBrowser3.Views.Partial
         public PostText()
         {
             this.InitializeComponent();
-            MainCanvas.SizeChanged += sizeChangeDelay.OnSizeChanged;
+            MainGrid.SizeChanged += sizeChangeDelay.OnSizeChanged;
             sizeChangeDelay.SizeUpdated += SizeChangeDelayOnSizeUpdated;
             RefreshView();
         }
@@ -38,15 +38,22 @@ namespace DvachBrowser3.Views.Partial
 
         private void RefreshView()
         {
-            MainCanvas.Children.Clear();
             if (ViewModel == null || ActualWidth < 50)
             {
+                MainGrid.Children.Clear();
                 return;
             }
             var renderFactory = new RenderTextElementFactory(ViewModel);
-            var logic = new TextRenderLogic(new TextRenderCommandFormer(), new CanvasTextRenderCommandExecutor(MainCanvas, renderFactory, new WordSplitter()));
+            var canvas = new Canvas();
+            canvas.Width = MainGrid.ActualWidth;
+            canvas.Height = 5;
+            canvas.HorizontalAlignment = HorizontalAlignment.Left;
+            canvas.VerticalAlignment = VerticalAlignment.Top;
+            var logic = new TextRenderLogic(new TextRenderCommandFormer(), new CanvasTextRenderCommandExecutor(canvas, renderFactory, new WordSplitter()));
             logic.MaxLines = MaxLines;
             ViewModel.RenderText(logic);
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(canvas);
         }
 
         /// <summary>
