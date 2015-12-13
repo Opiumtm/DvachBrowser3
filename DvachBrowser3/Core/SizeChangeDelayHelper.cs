@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
@@ -25,6 +26,8 @@ namespace DvachBrowser3
 
         private readonly TimeSpan sizeChangeDelay;
 
+        private int isFirst;
+
         /// <summary>
         /// Событие по изменению.
         /// </summary>
@@ -32,6 +35,11 @@ namespace DvachBrowser3
         /// <param name="e">Событие.</param>
         public void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (Interlocked.Exchange(ref isFirst, 1) == 0)
+            {
+                AppHelpers.DispatchAction(OnSizeUpdated);
+                return;
+            }
             AppHelpers.DispatchAction(DelayAction);
         }
 
