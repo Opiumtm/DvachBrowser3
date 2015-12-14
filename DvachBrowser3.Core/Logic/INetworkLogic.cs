@@ -81,5 +81,13 @@ namespace DvachBrowser3.Logic
         /// <param name="forceUpdate">Форсировать обновление.</param>
         /// <returns>Список борд (null - нет данных).</returns>
         IEngineOperationsWithProgress<BoardReferences, EngineProgress> GetBoardReferences(BoardLinkBase rootLink, bool forceUpdate = false);
+
+        /// <summary>
+        /// Получение каталога.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Каталог.</returns>
+        IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default);
     }
 }

@@ -145,5 +145,16 @@ namespace DvachBrowser3.Logic
         {
             return new BoardReferenceOperation(Services, new BoardReferencesParameter() { RootLink = rootLink, ForceUpdate = forceUpdate });
         }
+
+        /// <summary>
+        /// Получение каталога.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Каталог.</returns>
+        public IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default)
+        {
+            return new CatalogOperation(Services, new CatalogParameter() { Link = link, SortMode = sortMode });
+        }
     }
 }

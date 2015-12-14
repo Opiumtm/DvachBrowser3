@@ -139,6 +139,8 @@
     <Compile Include="Logic\NetworkLogic.cs" />
     <Compile Include="Logic\NetworkLogic\BoardReferenceOperation.cs" />
     <Compile Include="Logic\NetworkLogic\BoardReferencesParameter.cs" />
+    <Compile Include="Logic\NetworkLogic\CatalogOperation.cs" />
+    <Compile Include="Logic\NetworkLogic\CatalogParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckFavoritesOperation.cs" />
     <Compile Include="Logic\NetworkLogic\CheckFavoritesParameter.cs" />
     <Compile Include="Logic\NetworkLogic\CheckObjectOperation.cs" />
