@@ -59,5 +59,10 @@
         /// Капча.
         /// </summary>
         Captcha,
+
+        /// <summary>
+        /// Тэг треда.
+        /// </summary>
+        ThreadTag,
     }
 }

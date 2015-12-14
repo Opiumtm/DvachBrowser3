@@ -68,5 +68,17 @@ namespace DvachBrowser3.Makaba
         /// </summary>
         [DataMember]
         public bool IsBoard { get; set; }
+
+        /// <summary>
+        /// Является индексом.
+        /// </summary>
+        [DataMember]
+        public bool IsIndex { get; set; }
+
+        /// <summary>
+        /// Тэги тредов.
+        /// </summary>
+        [DataMember]
+        public List<string> ThreadTags { get; set; }
     }
 }

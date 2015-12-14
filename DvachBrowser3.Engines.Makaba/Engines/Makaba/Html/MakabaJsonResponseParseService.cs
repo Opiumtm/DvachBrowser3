@@ -333,7 +333,9 @@ namespace DvachBrowser3.Engines.Makaba.Html
                             .OrderBy(i => i)
                             .ToList()
                         : null,
-                IsBoard = data.IsBoard.TryParseWithDefault() != 0
+                IsBoard = data.IsBoard.TryParseWithDefault() != 0,
+                IsIndex = data.IsIndex.TryParseWithDefault() != 0,
+                ThreadTags = data.Tags?.ToList()
             };
             return entity;
         }

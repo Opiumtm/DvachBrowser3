@@ -26,10 +26,22 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string DefaultName { get; set; }
 
         /// <summary>
+        /// Разрешить лайки.
+        /// </summary>
+        [JsonProperty("enable_likes")]
+        public int EnableLikes { get; set; }
+
+        /// <summary>
         /// Разрешён постинг.
         /// </summary>
         [JsonProperty("enable_posting")]
-        public bool EnablePosting { get; set; }
+        public int EnablePosting { get; set; }
+
+        /// <summary>
+        /// Разрешить тэги тредов.
+        /// </summary>
+        [JsonProperty("enable_thread_tags")]
+        public int EnableThreadTags { get; set; }
 
         /// <summary>
         /// Иконки.

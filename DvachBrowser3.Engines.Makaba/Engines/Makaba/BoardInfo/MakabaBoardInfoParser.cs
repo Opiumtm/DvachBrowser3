@@ -34,7 +34,8 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
             PostingFieldSemanticRole.PosterTrip, 
             PostingFieldSemanticRole.SageFlag, 
             PostingFieldSemanticRole.Title, 
-            PostingFieldSemanticRole.WatermarkFlag,            
+            PostingFieldSemanticRole.WatermarkFlag,
+            PostingFieldSemanticRole.ThreadTag,           
         };
 
         /// <summary>
@@ -67,7 +68,9 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                 Pages = b.Pages,
                 MaxComment = null,
                 Sage = b.Sage != 0,
-                Tripcodes = b.Tripcodes != 0
+                Tripcodes = b.Tripcodes != 0,
+                EnableLikes = b.EnableLikes != 0,
+                EnableTags = b.EnableThreadTags != 0,
             };
             board.Extensions.Add(makabaExtension);
             var postingExtension = new BoardReferencePostingExtension()
@@ -123,6 +126,15 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                             });                            
                         }
                         break;
+                    case PostingFieldSemanticRole.ThreadTag:
+                        if (b.EnableThreadTags != 0)
+                        {
+                            postingExtension.Capabilities.Add(new PostingCapability()
+                            {
+                                Role = cr
+                            });
+                        }
+                        break;
                     /*
                     case PostingFieldSemanticRole.SageFlag:
                         if (makabaExtension.Sage)
@@ -152,13 +164,15 @@ namespace DvachBrowser3.Engines.Makaba.BoardInfo
                 BumpLimit = 500,
                 Category = category,
                 DefaultName = "Аноним",
-                EnablePosting = true,
+                EnablePosting = 1,
                 Icons = new BoardIcon2[0],
                 Id = boardId,
                 Name = "/" + boardId + "/",
                 Pages = 5,
                 Sage = 1,
-                Tripcodes = 1
+                Tripcodes = 1,
+                EnableLikes = 0,
+                EnableThreadTags = 0
             });
         }
     }

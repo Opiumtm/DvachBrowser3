@@ -57,6 +57,7 @@
     <Compile Include="Engines\Makaba\Json\BoardPost2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardPostFile2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardThread2.cs" />
+    <Compile Include="Engines\Makaba\Json\CatalogEntity.cs" />
     <Compile Include="Engines\Makaba\Json\CheckUpdatesData.cs" />
     <Compile Include="Engines\Makaba\Json\MakabaMediaTypes.cs" />
     <Compile Include="Engines\Makaba\Json\MakabaPostResponse.cs" />

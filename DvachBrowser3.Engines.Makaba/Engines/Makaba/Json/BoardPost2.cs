@@ -40,8 +40,8 @@ namespace DvachBrowser3.Engines.Makaba.Json
         /// <summary>
         /// Количество изображений.
         /// </summary>
-        [JsonProperty("images_count")]
-        public string ImagesCount { get; set; }
+        [JsonProperty("files_count")]
+        public string FilesCount { get; set; }
 
         /// <summary>
         /// Иконка.

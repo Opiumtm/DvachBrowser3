@@ -3,9 +3,9 @@
 namespace DvachBrowser3.Engines.Makaba.Json
 {
     /// <summary>
-    /// Сущность "борда или тред".
+    /// Сущность каталога.
     /// </summary>
-    public class BoardEntity2
+    public class CatalogEntity
     {
         /// <summary>
         /// Борда.
@@ -44,40 +44,16 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string BoardBannerLink { get; set; }
 
         /// <summary>
-        /// Скорость борды.
-        /// </summary>
-        [JsonProperty("board_speed")]
-        public string BoardSpeed { get; set; }
-
-        /// <summary>
         /// Бамп лимит.
         /// </summary>
         [JsonProperty("bump_limit")]
         public string BumpLimit { get; set; }
 
         /// <summary>
-        /// Текущая страница.
-        /// </summary>
-        [JsonProperty("current_page")]
-        public string CurrentPage { get; set; }
-
-        /// <summary>
-        /// Текущий тред.
-        /// </summary>
-        [JsonProperty("current_thread")]
-        public string CurrentThread { get; set; }
-
-        /// <summary>
         /// Имя по умолчанию.
         /// </summary>
         [JsonProperty("default_name")]
         public string DefaultName { get; set; }
-
-        /// <summary>
-        /// Разрешить аудио.
-        /// </summary>
-        [JsonProperty("enable_audio")]
-        public string EnableAudio { get; set; }
 
         /// <summary>
         /// Разрешить кубики (?)
@@ -88,14 +64,14 @@ namespace DvachBrowser3.Engines.Makaba.Json
         /// <summary>
         /// Разрешить иконки.
         /// </summary>
-        [JsonProperty("enable_icons")]
-        public string EnableIcons { get; set; }
+        [JsonProperty("enable_flags")]
+        public string EnableFlags { get; set; }
 
         /// <summary>
         /// Разрешить иконки.
         /// </summary>
-        [JsonProperty("enable_flags")]
-        public string EnableFlags { get; set; }
+        [JsonProperty("enable_icons")]
+        public string EnableIcons { get; set; }
 
         /// <summary>
         /// Разрешить изображения.
@@ -158,22 +134,10 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string EnableVideo { get; set; }
 
         /// <summary>
-        /// Иконки.
+        /// Фильтр.
         /// </summary>
-        [JsonProperty("icons")]
-        public BoardIcon2[] Icons { get; set; }
-
-        /// <summary>
-        /// Объект является бордой.
-        /// </summary>
-        [JsonProperty("is_board")]
-        public string IsBoard { get; set; }
-
-        /// <summary>
-        /// Объект является индексом.
-        /// </summary>
-        [JsonProperty("is_index")]
-        public string IsIndex { get; set; }
+        [JsonProperty("filter")]
+        public string Filter { get; set; }
 
         /// <summary>
         /// Максимальный комментарий.
@@ -188,27 +152,9 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public BoardEntityNewsReference[] News { get; set; }
 
         /// <summary>
-        /// Страницы.
-        /// </summary>
-        [JsonProperty("pages")]
-        public string[] Pages { get; set; }
-
-        /// <summary>
-        /// Тэги.
-        /// </summary>
-        [JsonProperty("tags")]
-        public string[] Tags { get; set; }
-
-        /// <summary>
         /// Треды.
         /// </summary>
         [JsonProperty("threads")]
-        public BoardThread2[] Threads { get; set; }
-
-        /// <summary>
-        /// Заголовок.
-        /// </summary>
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        public BoardPost2[] Threads { get; set; }
     }
 }

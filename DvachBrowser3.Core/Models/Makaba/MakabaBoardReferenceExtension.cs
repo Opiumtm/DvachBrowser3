@@ -51,5 +51,17 @@ namespace DvachBrowser3.Makaba
         /// </summary>
         [DataMember]
         public int? MaxComment { get; set; }
+
+        /// <summary>
+        /// Разрешение тэгов.
+        /// </summary>
+        [DataMember]
+        public bool EnableTags { get; set; }
+
+        /// <summary>
+        /// Разрешение лайков.
+        /// </summary>
+        [DataMember]
+        public bool EnableLikes { get; set; }
     }
 }

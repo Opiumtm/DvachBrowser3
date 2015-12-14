@@ -104,6 +104,8 @@ namespace DvachBrowser3.ViewModels
                     return "Заголовок поста";
                 case PostingFieldSemanticRole.WatermarkFlag:
                     return "Ватермарка";
+                case PostingFieldSemanticRole.ThreadTag:
+                    return "Тэг треда";
                 default:
                     return "Другая роль";
             }
