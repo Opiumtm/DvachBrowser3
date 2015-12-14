@@ -214,6 +214,15 @@ namespace DvachBrowser3.Logic
                     Board = l.Board,
                 };
             }
+            if (link is ThreadTagLink)
+            {
+                var l = link as ThreadTagLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
             return null;
         }
 
@@ -515,6 +524,7 @@ namespace DvachBrowser3.Logic
                     {typeof(MediaLink), CreateGetter<MediaLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.RelativeUri ?? ""})},
                     {typeof(YoutubeLink), CreateGetter<YoutubeLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.YoutubeId ?? ""})},
                     {typeof(RootLink), CreateGetter<RootLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = ""})},
+                    {typeof(ThreadTagLink), CreateGetter<ThreadTagLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.Tag ?? ""})},
                 };
             }
 

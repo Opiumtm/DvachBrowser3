@@ -179,6 +179,7 @@
     <Compile Include="Models\Links\ThreadLinkCollection.cs" />
     <Compile Include="Models\Links\ThreadPartLink.cs" />
     <Compile Include="Models\Links\ThreadPictureInfo.cs" />
+    <Compile Include="Models\Links\ThreadTagLink.cs" />
     <Compile Include="Models\Links\YoutubeLink.cs" />
     <Compile Include="Models\Makaba\MakabaBoardPageExtension.cs" />
     <Compile Include="Models\Makaba\MakabaBoardReferenceExtension.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Navigation\PostNavigationKey.cs" />
     <Compile Include="Navigation\RootNavigationKey.cs" />
     <Compile Include="Navigation\ThreadNavigationKey.cs" />
+    <Compile Include="Navigation\ThreadTagNavigationKey.cs" />
     <Compile Include="Navigation\YoutubeNavigationKey.cs" />
     <Compile Include="Notifications\BadgeContent.cs" />
     <Compile Include="Notifications\Common.cs" />

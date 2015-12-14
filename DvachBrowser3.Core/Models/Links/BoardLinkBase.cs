@@ -18,6 +18,7 @@ namespace DvachBrowser3.Links
     [KnownType(typeof(MediaLink))]
     [KnownType(typeof(YoutubeLink))]
     [KnownType(typeof(RootLink))]
+    [KnownType(typeof(ThreadTagLink))]
 
     [ServiceDependencyInfo(typeof(ILinkHashService))]
     [ServiceDependencyInfo(typeof(ILinkTransformService))]

@@ -335,7 +335,12 @@ namespace DvachBrowser3.Engines.Makaba.Html
                         : null,
                 IsBoard = data.IsBoard.TryParseWithDefault() != 0,
                 IsIndex = data.IsIndex.TryParseWithDefault() != 0,
-                ThreadTags = data.Tags?.ToList()
+                ThreadTags = data.Tags != null ? data.Tags.Select(t => new ThreadTagLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = data.Board,
+                    Tag = t
+                }).Where(t => t.Tag != null).OfType<BoardLinkBase>().ToList() : null
             };
             return entity;
         }

@@ -39,6 +39,11 @@ namespace DvachBrowser3.Links
         PartialThread = 0x0020,
 
         /// <summary>
+        /// Тэг треда.
+        /// </summary>
+        ThreadTag = 0x0040,
+
+        /// <summary>
         /// Прочее.
         /// </summary>
         Other = 0x8000

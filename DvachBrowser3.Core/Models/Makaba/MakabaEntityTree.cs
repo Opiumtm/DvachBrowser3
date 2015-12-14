@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Makaba
 {
@@ -79,6 +80,6 @@ namespace DvachBrowser3.Makaba
         /// Тэги тредов.
         /// </summary>
         [DataMember]
-        public List<string> ThreadTags { get; set; }
+        public List<BoardLinkBase> ThreadTags { get; set; }
     }
 }
