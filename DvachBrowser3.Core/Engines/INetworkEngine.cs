@@ -146,5 +146,13 @@ namespace DvachBrowser3.Engines
         /// <param name="shortName">Короткое имя борды.</param>
         /// <returns>Ссылка на борду.</returns>
         BoardLinkBase CreateBoardLink(string shortName);
+
+        /// <summary>
+        /// Получить каталог.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Каталог.</returns>
+        IEngineOperationsWithProgress<IThreadResult, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default);
     }
 }

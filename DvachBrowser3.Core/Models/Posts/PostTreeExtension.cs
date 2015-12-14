@@ -9,6 +9,7 @@ namespace DvachBrowser3.Posts
     [KnownType(typeof(PostTreePosterExtension))]
     [KnownType(typeof(PostTreeIconExtension))]
     [KnownType(typeof(PostTreeCountryExtension))]
+    [KnownType(typeof(PostTreeTagsExtension))]
     public abstract class PostTreeExtension
     {
     }

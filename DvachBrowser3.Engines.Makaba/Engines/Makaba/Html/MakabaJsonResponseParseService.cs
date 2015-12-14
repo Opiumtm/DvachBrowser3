@@ -86,6 +86,14 @@ namespace DvachBrowser3.Engines.Makaba.Html
                     {
                         admName = "## Abu ##";
                     }
+                    else if ("!!%Inquisitor%!!".Equals(data.Tripcode))
+                    {
+                        admName = "## Applejack ##";
+                    }
+                    else if ("!!%coder%!!".Equals(data.Tripcode))
+                    {
+                        admName = "## Кодер ##";
+                    }
                     else admName = data.Tripcode.Replace("!!%", "## ").Replace("%!!", " ##");
                     flags |= PostFlags.AdminTrip;
                 }
@@ -194,6 +202,14 @@ namespace DvachBrowser3.Engines.Makaba.Html
             if (flagAndIcon.Country != null)
             {
                 result.Extensions.Add(flagAndIcon.Country);
+            }
+            if (!string.IsNullOrWhiteSpace(data.Tags))
+            {
+                result.Extensions.Add(new PostTreeTagsExtension()
+                {
+                    TagString = data.Tags,
+                    Tags = new List<string>() { data.Tags }
+                });
             }
             if (data.Files != null)
             {
@@ -397,6 +413,33 @@ namespace DvachBrowser3.Engines.Makaba.Html
                     Engine = CoreConstants.Engine.Makaba,
                     Board = link.Board,
                 },
+            };
+            return result;
+        }
+
+        /// <summary>
+        /// Парсить данные каталога.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        public CatalogTree ParseCatalogTree(CatalogEntity data, BoardLinkBase link)
+        {
+            var result = new CatalogTree()
+            {
+                Link = link,
+                Posts = (data.Threads ?? new BoardPost2[0]).OrderBy(p => p.Number.TryParseWithDefault()).Select(p => Parse(p, new ThreadLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = data.Board,
+                    Thread = p.Number.TryParseWithDefault()
+                }, true)).ToList(),
+                Extensions = new List<PostTreeCollectionExtension>(),
+                ParentLink = new BoardLink()
+                {
+                    Engine = CoreConstants.Engine.Makaba,
+                    Board = data.Board
+                }
             };
             return result;
         }

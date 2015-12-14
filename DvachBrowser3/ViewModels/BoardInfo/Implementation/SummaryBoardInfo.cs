@@ -63,6 +63,10 @@ namespace DvachBrowser3.ViewModels
                     {
                         EngineCapabilities.Add(new BoardInfoString("Топ тредов на доске"));
                     }
+                    if ((engine.Capability & EngineCapability.Catalog) != 0)
+                    {
+                        EngineCapabilities.Add(new BoardInfoString("Каталог тредов на доске"));
+                    }
                     if ((engine.Capability & EngineCapability.LastModifiedRequest) != 0)
                     {
                         EngineCapabilities.Add(new BoardInfoString("Быстрая проверка изменений в треде"));
@@ -70,6 +74,10 @@ namespace DvachBrowser3.ViewModels
                     if ((engine.Capability & EngineCapability.NoCaptcha) != 0)
                     {
                         EngineCapabilities.Add(new BoardInfoString("Отправка сообщений в тред без ввода капчи"));
+                    }
+                    if ((engine.Capability & EngineCapability.Catalog) != 0)
+                    {
+                        EngineCapabilities.Add(new BoardInfoString("Каталог тредов"));
                     }
                 }
             }

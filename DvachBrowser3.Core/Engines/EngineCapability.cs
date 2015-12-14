@@ -41,6 +41,11 @@ namespace DvachBrowser3.Engines
         /// <summary>
         /// Без ввода капчи.
         /// </summary>
-        NoCaptcha = 0x0040
+        NoCaptcha = 0x0040,
+
+        /// <summary>
+        /// Каталог тредов.
+        /// </summary>
+        Catalog = 0x0080,
     }
 }

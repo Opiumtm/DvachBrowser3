@@ -54,5 +54,11 @@ namespace DvachBrowser3.Engines.Makaba.Json
         /// </summary>
         [JsonProperty("files")]
         public BoardPostFile2[] Files { get; set; }
+
+        /// <summary>
+        /// Тэги.
+        /// </summary>
+        [JsonProperty("tags")]
+        public string Tags { get; set; }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="Configuration\CaptchaConfig.cs" />
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
+    <Compile Include="Engines\CatalogSortMode.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpDownloadEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineHeadJsonEngineOperationBase.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Models\Posting\PostingMediaFiles.cs" />
     <Compile Include="Models\Posts\BoardPageTreeExtension.cs" />
     <Compile Include="Models\Posts\BoardPageTree.cs" />
+    <Compile Include="Models\Posts\CatalogTree.cs" />
     <Compile Include="Models\Posts\IPostTreeListSource.cs" />
     <Compile Include="Models\Posts\KnownMediaType.cs" />
     <Compile Include="Models\Posts\PostColor.cs" />
@@ -236,6 +238,7 @@
     <Compile Include="Models\Posts\PostTreeCountryExtension.cs" />
     <Compile Include="Models\Posts\PostTreeIconExtension.cs" />
     <Compile Include="Models\Posts\PostTreePosterExtension.cs" />
+    <Compile Include="Models\Posts\PostTreeTagsExtension.cs" />
     <Compile Include="Models\Posts\PostYoutubeVideo.cs" />
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />

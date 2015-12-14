@@ -68,10 +68,12 @@
     <Compile Include="Engines\Makaba\MakabaEngine.cs" />
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaCatalogArgument.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaCheckNoCaptchaAbilityOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetCatalogOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadPartOperation.cs" />

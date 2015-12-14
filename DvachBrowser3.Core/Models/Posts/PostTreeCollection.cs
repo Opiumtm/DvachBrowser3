@@ -14,6 +14,7 @@ namespace DvachBrowser3.Posts
     [KnownType(typeof(ThreadPreviewTree))]
     [KnownType(typeof(ThreadTreePartial))]
     [KnownType(typeof(ArchiveThreadTree))]
+    [KnownType(typeof(CatalogTree))]
     public abstract class PostTreeCollection : IPostTreeListSource
     {
         /// <summary>

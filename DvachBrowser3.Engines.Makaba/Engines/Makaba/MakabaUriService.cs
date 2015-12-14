@@ -329,6 +329,43 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить URI каталога.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sort">Режим сортировки.</param>
+        /// <returns>URI каталога.</returns>
+        public Uri GetCatalogUri(BoardLinkBase link, CatalogSortMode sort)
+        {
+            string board = null;
+            if (link is BoardLink)
+            {
+                var l = link as BoardLink;
+                board = l.Board;
+            }
+            if (link is BoardPageLink)
+            {
+                var l = link as BoardPageLink;
+                board = l.Board;
+            }
+            if (link is ThreadTagLink)
+            {
+                var l = link as ThreadTagLink;
+                board = l.Board;
+            }
+            if (board == null)
+            {
+                return null;
+            }
+            switch (sort)
+            {
+                case CatalogSortMode.Created:
+                    return new Uri(BaseUri, $"{board}/catalog_num.json");
+                default:
+                    return new Uri(BaseUri, $"{board}/catalog.json");
+            }
+        }
+
+        /// <summary>
         /// Попробовать распарсить ссылку.
         /// </summary>
         /// <param name="uri">URI.</param>

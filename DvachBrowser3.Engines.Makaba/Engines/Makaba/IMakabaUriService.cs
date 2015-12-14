@@ -112,5 +112,13 @@ namespace DvachBrowser3.Engines.Makaba
         /// <param name="appId">ID приложения.</param>
         /// <returns>Ссылка.</returns>
         Uri GetNocaptchaUri(bool check, string appId);
+
+        /// <summary>
+        /// Получить URI каталога.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sort">Режим сортировки.</param>
+        /// <returns>URI каталога.</returns>
+        Uri GetCatalogUri(BoardLinkBase link, CatalogSortMode sort);
     }
 }

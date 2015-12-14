@@ -32,5 +32,13 @@ namespace DvachBrowser3.Engines.Makaba.Html
         /// <param name="link">Ссылка.</param>
         /// <returns>Результат.</returns>
         ThreadTreePartial ParseThreadPartial(BoardPost2[] data, ThreadPartLink link);
+
+        /// <summary>
+        /// Парсить данные каталога.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Результат.</returns>
+        CatalogTree ParseCatalogTree(CatalogEntity data, BoardLinkBase link);
     }
 }

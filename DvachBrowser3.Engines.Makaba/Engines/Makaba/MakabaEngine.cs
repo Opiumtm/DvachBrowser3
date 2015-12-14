@@ -63,7 +63,8 @@ namespace DvachBrowser3.Engines.Makaba
                     EngineCapability.ThreadStatusRequest | 
                     EngineCapability.SearchRequest |
                     EngineCapability.TopPostsRequest |
-                    EngineCapability.NoCaptcha;
+                    EngineCapability.NoCaptcha |
+                    EngineCapability.Catalog;
             }
         }
 
@@ -213,6 +214,17 @@ namespace DvachBrowser3.Engines.Makaba
                 Engine = CoreConstants.Engine.Makaba,
                 Board = (shortName ?? "").Trim().ToLower()
             };
+        }
+
+        /// <summary>
+        /// Получить каталог.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Каталог.</returns>
+        public IEngineOperationsWithProgress<IThreadResult, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default)
+        {
+            return new MakabaGetCatalogOperation(new MakabaCatalogArgument() {Link = link, Sort = sortMode}, Services);
         }
     }
 }
