@@ -297,6 +297,11 @@ namespace DvachBrowser3.Logic
                 var l = (ThreadPartLink)link;
                 return string.Format("/{0}/{1}", l.Board, l.Thread);
             }
+            if (link.GetType() == typeof(ThreadTagLink))
+            {
+                var l = (ThreadTagLink)link;
+                return string.Format("/{0}/{1}/", l.Board, l.Tag);
+            }
             if (link.GetType() == typeof(PostLink))
             {
                 var l = (PostLink)link;
@@ -358,6 +363,11 @@ namespace DvachBrowser3.Logic
             {
                 var l = (ThreadPartLink)link;
                 return string.Format(">>{0}", l.Thread);
+            }
+            if (link.GetType() == typeof(ThreadTagLink))
+            {
+                var l = (ThreadTagLink)link;
+                return string.Format(">>/{0}/{1}/", l.Board, l.Tag);
             }
             if (link.GetType() == typeof(PostLink))
             {
@@ -498,6 +508,11 @@ namespace DvachBrowser3.Logic
             if (plink != null)
             {
                 return plink.Board?.ToLowerInvariant();
+            }
+            var tglink = boardLink as ThreadTagLink;
+            if (tglink != null)
+            {
+                return tglink.Board?.ToLowerInvariant();
             }
             return null;
         }
