@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DvachBrowser3.Board;
+using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
@@ -110,5 +111,37 @@ namespace DvachBrowser3.Storage
         /// <param name="link">Ссылка.</param>
         /// <returns>Штамп.</returns>
         Task<string> LoadStamp(BoardLinkBase link);
+
+        /// <summary>
+        /// Сохранить каталог.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        /// <returns>Каталог.</returns>
+        Task SaveCatalog(CatalogTree data);
+
+        /// <summary>
+        /// Загрузить каталог.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Каталог.</returns>
+        Task<CatalogTree> LoadCatalog(BoardLinkBase link, CatalogSortMode sortMode);
+
+            /// <summary>
+        /// Сохранить штамп изменений.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <param name="stamp">Штамп.</param>
+        /// <returns>Таск.</returns>
+        Task SaveCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode, string stamp);
+
+        /// <summary>
+        /// Загрузить штамп.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns>Штамп.</returns>
+        Task<string> LoadCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode);
     }
 }

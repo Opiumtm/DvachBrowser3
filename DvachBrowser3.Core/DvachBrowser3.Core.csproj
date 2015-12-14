@@ -158,6 +158,7 @@
     <Compile Include="Logic\PostingMode.cs" />
     <Compile Include="Logic\ThreadTreeProcessService.cs" />
     <Compile Include="Logic\UpdateBoardPageMode.cs" />
+    <Compile Include="Logic\UpdateCatalogMode.cs" />
     <Compile Include="Logic\UpdateThreadMode.cs" />
     <Compile Include="Models\Board\BoardReference.cs" />
     <Compile Include="Models\Board\BoardReferenceExtension.cs" />

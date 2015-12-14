@@ -48,9 +48,11 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         {
             var task = Task<IThreadResult>.Factory.StartNew(() =>
             {
+                var tree = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseCatalogTree(message, Parameter.Link);
+                tree.ETag = etag;
                 var data = new OperationResult()
                 {
-                    CollectionResult = Services.GetServiceOrThrow<IMakabaJsonResponseParseService>().ParseCatalogTree(message, Parameter.Link)
+                    CollectionResult = tree
                 };
                 return data;
             });

@@ -17,5 +17,10 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// Режим сортировки.
         /// </summary>
         public CatalogSortMode SortMode;
+
+        /// <summary>
+        /// Режим обновления.
+        /// </summary>
+        public UpdateCatalogMode UpdateMode;
     }
 }

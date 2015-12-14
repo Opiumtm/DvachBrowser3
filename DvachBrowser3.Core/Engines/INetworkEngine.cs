@@ -154,5 +154,13 @@ namespace DvachBrowser3.Engines
         /// <param name="sortMode">Режим сортировки.</param>
         /// <returns>Каталог.</returns>
         IEngineOperationsWithProgress<IThreadResult, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default);
+
+        /// <summary>
+        /// Получить последнее изменение каталога.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sortMode">Режим сортировки.</param>
+        /// <returns></returns>
+        IEngineOperationsWithProgress<ILastModifiedCheckResult, EngineProgress> GetCatalogLastModified(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default);
     }
 }

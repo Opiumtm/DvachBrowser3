@@ -8,16 +8,16 @@
         /// <summary>
         /// По умолчанию.
         /// </summary>
-        Default = 0,
+        Default = Bump,
 
         /// <summary>
         /// По бампам.
         /// </summary>
-        Bump = 1,
+        Bump = 0,
 
         /// <summary>
         /// По времени создания треда.
         /// </summary>
-        Created = 2,
+        Created = 1,
     }
 }
