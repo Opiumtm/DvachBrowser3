@@ -5,6 +5,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using DvachBrowser3.Engines.Makaba.Html;
 using DvachBrowser3.Engines.Makaba.Json;
+using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
@@ -29,7 +30,11 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>URI запроса.</returns>
         protected override Uri GetRequestUri()
         {
-            var uri = Services.GetServiceOrThrow<IMakabaUriService>().GetCatalogUri(Parameter.Link, Parameter.Sort);
+            Uri uri = null;
+            if (Parameter.Link is BoardCatalogLink)
+            {
+                uri = Services.GetServiceOrThrow<IMakabaUriService>().GetCatalogUri(Parameter.Link as BoardCatalogLink, false);
+            }
             if (uri == null)
             {
                 throw new ArgumentException("Неправильный формат ссылки (get catalog)");

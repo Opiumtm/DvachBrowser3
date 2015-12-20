@@ -80,7 +80,6 @@
     <Compile Include="Configuration\CaptchaConfig.cs" />
     <Compile Include="Engines\CaptchaKeys.cs" />
     <Compile Include="Engines\CaptchaPostingData.cs" />
-    <Compile Include="Engines\CatalogSortMode.cs" />
     <Compile Include="Engines\Common\EngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpDownloadEngineOperationBase.cs" />
     <Compile Include="Engines\Common\HttpEngineHeadJsonEngineOperationBase.cs" />
@@ -165,6 +164,8 @@
     <Compile Include="Models\Board\BoardReferencePostingExtension.cs" />
     <Compile Include="Models\Board\BoardReferences.cs" />
     <Compile Include="Models\DvachModelsHelper.cs" />
+    <Compile Include="Models\Links\BoardCatalogLink.cs" />
+    <Compile Include="Models\Links\BoardCatalogSort.cs" />
     <Compile Include="Models\Links\BoardLink.cs" />
     <Compile Include="Models\Links\BoardLinkBase.cs" />
     <Compile Include="Models\Links\BoardLinkCollection.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Models\Posts\ThreadPreviewTree.cs" />
     <Compile Include="Models\Posts\ThreadTree.cs" />
     <Compile Include="Models\Posts\ThreadTreePartial.cs" />
+    <Compile Include="Navigation\BoardCatalogNavigationKey.cs" />
     <Compile Include="Navigation\BoardLinkKeyService.cs" />
     <Compile Include="Navigation\BoardLinkNavigaionKey.cs" />
     <Compile Include="Navigation\BoardLinkNavigationFactory.cs" />

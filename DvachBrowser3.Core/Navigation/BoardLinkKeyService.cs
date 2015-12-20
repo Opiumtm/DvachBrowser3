@@ -27,6 +27,7 @@ namespace DvachBrowser3.Navigation
                 {typeof(YoutubeLink), l => new YoutubeNavigationKey((YoutubeLink)l)},
                 {typeof(RootLink), l => new RootNavigationKey((RootLink)l)},
                 {typeof(ThreadTagLink), l => new ThreadTagNavigationKey((ThreadTagLink)l)},
+                {typeof(BoardCatalogLink), l => new BoardCatalogNavigationKey((BoardCatalogLink)l)},
             };
         }
 

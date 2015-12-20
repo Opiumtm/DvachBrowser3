@@ -69,7 +69,6 @@
     <Compile Include="Engines\Makaba\MakabaPostCorrectionService.cs" />
     <Compile Include="Engines\Makaba\MakabaUriService.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaCatalogArgument.cs" />
-    <Compile Include="Engines\Makaba\Operations\MakabaCatalogLastModifiedOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaCheckNoCaptchaAbilityOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardPageOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />

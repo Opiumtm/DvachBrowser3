@@ -117,8 +117,8 @@ namespace DvachBrowser3.Engines.Makaba
         /// Получить URI каталога.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sort">Режим сортировки.</param>
+        /// <param name="html">Для браузера.</param>
         /// <returns>URI каталога.</returns>
-        Uri GetCatalogUri(BoardLinkBase link, CatalogSortMode sort);
+        Uri GetCatalogUri(BoardCatalogLink link, bool html);
     }
 }

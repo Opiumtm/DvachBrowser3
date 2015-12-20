@@ -220,22 +220,10 @@ namespace DvachBrowser3.Engines.Makaba
         /// Получить каталог.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
         /// <returns>Каталог.</returns>
-        public IEngineOperationsWithProgress<IThreadResult, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default)
+        public IEngineOperationsWithProgress<IThreadResult, EngineProgress> GetCatalog(BoardLinkBase link)
         {
-            return new MakabaGetCatalogOperation(new MakabaCatalogArgument() {Link = link, Sort = sortMode}, Services);
-        }
-
-        /// <summary>
-        /// Получить последнее изменение каталога.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
-        /// <returns></returns>
-        public IEngineOperationsWithProgress<ILastModifiedCheckResult, EngineProgress> GetCatalogLastModified(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default)
-        {
-            return new MakabaCatalogLastModifiedOperation(new MakabaCatalogArgument() { Link = link, Sort = sortMode }, Services);
+            return new MakabaGetCatalogOperation(new MakabaCatalogArgument() {Link = link }, Services);
         }
     }
 }

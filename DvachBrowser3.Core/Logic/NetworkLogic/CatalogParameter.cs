@@ -11,12 +11,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <summary>
         /// Ссылка.
         /// </summary>
-        public BoardLinkBase Link;
-
-        /// <summary>
-        /// Режим сортировки.
-        /// </summary>
-        public CatalogSortMode SortMode;
+        public BoardCatalogLink Link;
 
         /// <summary>
         /// Режим обновления.

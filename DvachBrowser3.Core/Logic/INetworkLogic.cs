@@ -86,9 +86,8 @@ namespace DvachBrowser3.Logic
         /// Получение каталога.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
         /// <param name="mode">Режим обновления.</param>
         /// <returns>Каталог.</returns>
-        IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default, UpdateCatalogMode mode = UpdateCatalogMode.Default);
+        IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, UpdateCatalogMode mode = UpdateCatalogMode.Default);
     }
 }

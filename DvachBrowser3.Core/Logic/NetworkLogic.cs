@@ -150,17 +150,21 @@ namespace DvachBrowser3.Logic
         /// Получение каталога.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
         /// <param name="mode">Режим обновления.</param>
         /// <returns>Каталог.</returns>
-        public IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, CatalogSortMode sortMode = CatalogSortMode.Default,
-            UpdateCatalogMode mode = UpdateCatalogMode.Default)
+        public IEngineOperationsWithProgress<CatalogTree, EngineProgress> GetCatalog(BoardLinkBase link, UpdateCatalogMode mode = UpdateCatalogMode.Default)
         {
-            if ((link.LinkKind & BoardLinkKind.BoardPage) == 0 && (link.LinkKind & BoardLinkKind.ThreadTag) == 0)
+            var clink = Services.GetServiceOrThrow<ILinkTransformService>().GetCatalogLinkFromAnyLink(link) as BoardCatalogLink;
+            if (clink == null)
+            {
+                throw new ArgumentException("Неправильный тип ссылки");
+
+            }
+            if ((clink.LinkKind & BoardLinkKind.Catalog) == 0)
             {
                 throw new ArgumentException("Неправильный тип ссылки");
             }
-            return new CatalogOperation(Services, new CatalogParameter() { Link = link, SortMode = sortMode, UpdateMode = mode });
+            return new CatalogOperation(Services, new CatalogParameter() { Link = clink, UpdateMode = mode });
         }
     }
 }

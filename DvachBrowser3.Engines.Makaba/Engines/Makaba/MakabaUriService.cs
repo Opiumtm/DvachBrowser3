@@ -112,6 +112,10 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return Services.GetServiceOrThrow<IYoutubeUriService>().GetViewUri((link as YoutubeLink).YoutubeId);
             }
+            if (link is BoardCatalogLink)
+            {
+                return GetCatalogUri(link as BoardCatalogLink, false);
+            }
             return null;
         }
 
@@ -155,6 +159,10 @@ namespace DvachBrowser3.Engines.Makaba
             if (link is YoutubeLink)
             {
                 return Services.GetServiceOrThrow<IYoutubeUriService>().GetViewUri((link as YoutubeLink).YoutubeId);
+            }
+            if (link is BoardCatalogLink)
+            {
+                return GetCatalogUri(link as BoardCatalogLink, true);
             }
             return null;
         }
@@ -293,6 +301,10 @@ namespace DvachBrowser3.Engines.Makaba
             {
                 return GetMediaLink(link as BoardMediaLink);
             }
+            if (link is BoardCatalogLink)
+            {
+                return GetCatalogUri(link as BoardCatalogLink, true);
+            }
             if (link is YoutubeLink)
             {
                 return Services.GetServiceOrThrow<IYoutubeUriService>().GetViewUri((link as YoutubeLink).YoutubeId);
@@ -332,36 +344,22 @@ namespace DvachBrowser3.Engines.Makaba
         /// Получить URI каталога.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sort">Режим сортировки.</param>
+        /// <param name="html">Для браузера.</param>
         /// <returns>URI каталога.</returns>
-        public Uri GetCatalogUri(BoardLinkBase link, CatalogSortMode sort)
+        public Uri GetCatalogUri(BoardCatalogLink link, bool html)
         {
-            string board = null;
-            if (link is BoardLink)
-            {
-                var l = link as BoardLink;
-                board = l.Board;
-            }
-            if (link is BoardPageLink)
-            {
-                var l = link as BoardPageLink;
-                board = l.Board;
-            }
-            if (link is ThreadTagLink)
-            {
-                var l = link as ThreadTagLink;
-                board = l.Board;
-            }
+            string board = link?.Board;
             if (board == null)
             {
                 return null;
             }
-            switch (sort)
+            var ext = html ? "html" : "json";
+            switch (link.Sort)
             {
-                case CatalogSortMode.Created:
-                    return new Uri(BaseUri, $"{board}/catalog_num.json");
+                case BoardCatalogSort.CreateDate:
+                    return new Uri(BaseUri, $"{board}/catalog_num.{ext}");
                 default:
-                    return new Uri(BaseUri, $"{board}/catalog.json");
+                    return new Uri(BaseUri, $"{board}/catalog.{ext}");
             }
         }
 

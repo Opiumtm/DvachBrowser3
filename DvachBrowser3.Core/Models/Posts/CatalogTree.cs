@@ -14,11 +14,5 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public string ETag { get; set; }
-
-        /// <summary>
-        /// Режим сортировки.
-        /// </summary>
-        [DataMember]
-        public CatalogSortMode SortMode { get; set; }
     }
 }

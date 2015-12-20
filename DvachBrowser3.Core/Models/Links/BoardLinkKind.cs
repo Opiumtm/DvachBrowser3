@@ -44,6 +44,11 @@ namespace DvachBrowser3.Links
         ThreadTag = 0x0040,
 
         /// <summary>
+        /// Каталог.
+        /// </summary>
+        Catalog = 0x0080,
+
+        /// <summary>
         /// Прочее.
         /// </summary>
         Other = 0x8000

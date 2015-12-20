@@ -19,6 +19,7 @@ namespace DvachBrowser3.Navigation
             { YoutubeNavigationKey.TypeNameConst, YoutubeNavigationKey.Deserialize },
             { RootNavigationKey.TypeNameConst, RootNavigationKey.Deserialize },
             { ThreadTagNavigationKey.TypeNameConst, ThreadTagNavigationKey.Deserialize },
+            { BoardCatalogNavigationKey.TypeNameConst, BoardCatalogNavigationKey.Deserialize },
         };
 
         /// <summary>

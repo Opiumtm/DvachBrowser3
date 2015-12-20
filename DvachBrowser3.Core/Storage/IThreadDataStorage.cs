@@ -123,25 +123,7 @@ namespace DvachBrowser3.Storage
         /// Загрузить каталог.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
         /// <returns>Каталог.</returns>
-        Task<CatalogTree> LoadCatalog(BoardLinkBase link, CatalogSortMode sortMode);
-
-            /// <summary>
-        /// Сохранить штамп изменений.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
-        /// <param name="stamp">Штамп.</param>
-        /// <returns>Таск.</returns>
-        Task SaveCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode, string stamp);
-
-        /// <summary>
-        /// Загрузить штамп.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
-        /// <returns>Штамп.</returns>
-        Task<string> LoadCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode);
+        Task<CatalogTree> LoadCatalog(BoardLinkBase link);
     }
 }

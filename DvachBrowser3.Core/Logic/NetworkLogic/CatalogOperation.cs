@@ -36,21 +36,15 @@ namespace DvachBrowser3.Logic.NetworkLogic
             var checkEtag = ((Parameter.UpdateMode & UpdateCatalogMode.CheckETag) != 0) && ((engine.Capability & EngineCapability.LastModifiedRequest) != 0);
             var saveToCache = (Parameter.UpdateMode & UpdateCatalogMode.SaveToCache) != 0;
             var storage = Services.GetServiceOrThrow<IStorageService>();
-            var linkTransform = Services.GetServiceOrThrow<ILinkTransformService>();
-            var boardLink = linkTransform.BoardLinkFromAnyLink(Parameter.Link);
-            if (boardLink == null)
-            {
-                throw new ArgumentException("Неправильный тип ссылки");
-            }
-            var oldData = await storage.ThreadData.LoadCatalog(boardLink, Parameter.SortMode);
+            var oldData = await storage.ThreadData.LoadCatalog(Parameter.Link);
             string newEtag = null;
             if (checkEtag && oldData != null)
             {
                 token.ThrowIfCancellationRequested();
-                var etag = await storage.ThreadData.LoadCatalogStamp(boardLink, Parameter.SortMode);
+                var etag = await storage.ThreadData.LoadStamp(Parameter.Link);
                 if (etag != null)
                 {
-                    var etagOperation = engine.GetCatalogLastModified(boardLink, Parameter.SortMode);
+                    var etagOperation = engine.GetResourceLastModified(Parameter.Link);
                     SignalProcessing("Проверка обновлений...", "ETAG");
                     var newEtagObj = await etagOperation.Complete(token);
                     if (newEtagObj.LastModified != null)
@@ -65,7 +59,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }           
             CatalogTree result;
             token.ThrowIfCancellationRequested();
-            var threadOperation = engine.GetCatalog(boardLink, Parameter.SortMode);
+            var threadOperation = engine.GetCatalog(Parameter.Link);
             threadOperation.Progress += (sender, e) => OnProgress(e);
             var page = await threadOperation.Complete(token);
             result = page?.CollectionResult as CatalogTree;
@@ -79,7 +73,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 await storage.ThreadData.SaveCatalog(result);
                 if ((engine.Capability & EngineCapability.LastModifiedRequest) != 0)
                 {
-                    await storage.ThreadData.SaveCatalogStamp(boardLink, Parameter.SortMode, newEtag);
+                    await storage.ThreadData.SaveStamp(Parameter.Link, newEtag);
                 }
             }
             return result;

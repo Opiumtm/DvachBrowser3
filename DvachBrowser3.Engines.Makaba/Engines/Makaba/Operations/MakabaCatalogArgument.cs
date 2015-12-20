@@ -12,9 +12,5 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// </summary>
         public BoardLinkBase Link;
 
-        /// <summary>
-        /// Режим сортировки.
-        /// </summary>
-        public CatalogSortMode Sort;
     }
 }

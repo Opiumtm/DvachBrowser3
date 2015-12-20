@@ -257,7 +257,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Каталог.</returns>
         public async Task SaveCatalog(CatalogTree data)
         {
-            var fileName = string.Format(GetSortModeString(data.SortMode) + CacheConsts.CacheFileTemplates[CacheConsts.Catalog], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(data.Link));
+            var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Catalog], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(data.Link));
             var file = await GetCacheFile(fileName);
             var folder = await GetCacheFolder();
             await WriteCacheXmlObject(file, folder, data, true);
@@ -267,14 +267,13 @@ namespace DvachBrowser3.Storage.Files
         /// Загрузить каталог.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
         /// <returns>Каталог.</returns>
-        public async Task<CatalogTree> LoadCatalog(BoardLinkBase link, CatalogSortMode sortMode)
+        public async Task<CatalogTree> LoadCatalog(BoardLinkBase link)
         {
             try
             {
                 if (link == null) return null;
-                var fileName = string.Format(GetSortModeString(sortMode) + CacheConsts.CacheFileTemplates[CacheConsts.CatalogStamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
+                var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.Catalog], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
                 var file = await GetCacheFileOrNull(fileName);
                 return await ReadXmlObject<CatalogTree>(file, true);
             }
@@ -282,77 +281,6 @@ namespace DvachBrowser3.Storage.Files
             {
                 DebugHelper.BreakOnError(ex);
                 return null;
-            }
-        }
-
-        /// <summary>
-        /// Сохранить штамп изменений.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
-        /// <param name="stamp">Штамп.</param>
-        /// <returns>Таск.</returns>
-        public async Task SaveCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode, string stamp)
-        {
-            var fileName = string.Format(GetSortModeString(sortMode) + CacheConsts.CacheFileTemplates[CacheConsts.CatalogStamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-            var file = await GetCacheFile(fileName);
-            var folder = await GetCacheFolder();
-            await WriteCacheString(file, folder, stamp, false);
-        }
-
-        /// <summary>
-        /// Загрузить штамп.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="sortMode">Режим сортировки.</param>
-        /// <returns>Штамп.</returns>
-        public async Task<string> LoadCatalogStamp(BoardLinkBase link, CatalogSortMode sortMode)
-        {
-            try
-            {
-                if (link == null) return null;
-                var fileName = string.Format(GetSortModeString(sortMode) + CacheConsts.CacheFileTemplates[CacheConsts.CatalogStamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFileOrNull(fileName);
-                var result = await ReadString(file, false);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Загрузить штамп.
-        /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <returns>Штамп.</returns>
-        public async Task<string> LoadCatalogStamp(BoardLinkBase link)
-        {
-            try
-            {
-                if (link == null) return null;
-                var fileName = string.Format(CacheConsts.CacheFileTemplates[CacheConsts.CatalogStamp], Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
-                var file = await GetCacheFileOrNull(fileName);
-                var result = await ReadString(file, false);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-                return null;
-            }
-        }
-
-        private string GetSortModeString(CatalogSortMode sm)
-        {
-            switch (sm)
-            {
-                case CatalogSortMode.Created:
-                    return "c.";
-                default:
-                    return "b.";
             }
         }
 
@@ -425,11 +353,6 @@ namespace DvachBrowser3.Storage.Files
             public const char Catalog = 'g';
 
             /// <summary>
-            /// Штамп каталога.
-            /// </summary>
-            public const char CatalogStamp = 'u';
-
-            /// <summary>
             /// Форматы имён файлов кэша.
             /// </summary>
             public static readonly Dictionary<char, string> CacheFileTemplates = new Dictionary<char, string>()
@@ -440,7 +363,6 @@ namespace DvachBrowser3.Storage.Files
                 {MyPosts, "{0}.mp.cache"},
                 {Stamp, "{0}.stamp"},
                 {Catalog, "{0}.cat.cache"},
-                {CatalogStamp, "{0}.cat.stamp"},
             };
         }
     }

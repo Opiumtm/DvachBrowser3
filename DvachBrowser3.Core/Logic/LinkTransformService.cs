@@ -223,6 +223,15 @@ namespace DvachBrowser3.Logic
                     Board = l.Board,
                 };
             }
+            if (link is BoardCatalogLink)
+            {
+                var l = link as BoardCatalogLink;
+                return new BoardLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                };
+            }
             return null;
         }
 
@@ -282,6 +291,11 @@ namespace DvachBrowser3.Logic
                 var l = (BoardLink) link;
                 return string.Format("/{0}/", l.Board);
             }
+            if (link.GetType() == typeof(BoardCatalogLink))
+            {
+                var l = (BoardCatalogLink)link;
+                return string.Format("/{0}/#cat", l.Board);
+            }
             if (link.GetType() == typeof(BoardPageLink))
             {
                 var l = (BoardPageLink)link;
@@ -300,7 +314,7 @@ namespace DvachBrowser3.Logic
             if (link.GetType() == typeof(ThreadTagLink))
             {
                 var l = (ThreadTagLink)link;
-                return string.Format("/{0}/{1}/", l.Board, l.Tag);
+                return string.Format("/{0}/tags/#{1}", l.Board, l.Tag);
             }
             if (link.GetType() == typeof(PostLink))
             {
@@ -354,6 +368,11 @@ namespace DvachBrowser3.Logic
                 var l = (BoardPageLink)link;
                 return string.Format(">>/{0}/", l.Board);
             }
+            if (link.GetType() == typeof(BoardCatalogLink))
+            {
+                var l = (BoardCatalogLink)link;
+                return string.Format(">>/{0}/#cat", l.Board);
+            }
             if (link.GetType() == typeof(ThreadLink))
             {
                 var l = (ThreadLink)link;
@@ -367,7 +386,7 @@ namespace DvachBrowser3.Logic
             if (link.GetType() == typeof(ThreadTagLink))
             {
                 var l = (ThreadTagLink)link;
-                return string.Format(">>/{0}/{1}/", l.Board, l.Tag);
+                return string.Format(">>/{0}/tags/#{1}", l.Board, l.Tag);
             }
             if (link.GetType() == typeof(PostLink))
             {
@@ -488,6 +507,57 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Получить ссылку на каталог из любой сслыки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка на каталог.</returns>
+        public BoardLinkBase GetCatalogLinkFromAnyLink(BoardLinkBase link)
+        {
+            if (link is BoardCatalogLink)
+            {
+                var l = (BoardCatalogLink) link;
+                return new BoardCatalogLink()
+                {
+                    Engine = l.Engine,
+                    Board = l.Board,
+                    Sort = l.Sort
+                };
+            }
+            var boardLink = BoardLinkFromAnyLink(link) as BoardLink;
+            if (boardLink == null)
+            {
+                return null;
+            }
+            return new BoardCatalogLink()
+            {
+                Engine = boardLink.Engine,
+                Board = boardLink.Board,
+                Sort = BoardCatalogSort.Bump
+            };
+        }
+
+        /// <summary>
+        /// Получить ссылку на тэг из ссылки на борду.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="tag">Тэг.</param>
+        /// <returns>Ссылка на тэг.</returns>
+        public BoardLinkBase GetThreadTagLinkFromBoardLink(BoardLinkBase link, string tag)
+        {
+            var boardLink = BoardLinkFromAnyLink(link) as BoardLink;
+            if (boardLink == null)
+            {
+                return null;
+            }
+            return new ThreadTagLink()
+            {
+                Engine = boardLink.Engine,
+                Board = boardLink.Board,
+                Tag = tag ?? ""
+            };
+        }
+
+        /// <summary>
         /// Короткое имя борды.
         /// </summary>
         /// <param name="boardLink">Ссылка на борду.</param>
@@ -514,6 +584,11 @@ namespace DvachBrowser3.Logic
             {
                 return tglink.Board?.ToLowerInvariant();
             }
+            var clink = boardLink as BoardCatalogLink;
+            if (clink != null)
+            {
+                return clink.Board?.ToLowerInvariant();
+            }
             return null;
         }
 
@@ -539,7 +614,8 @@ namespace DvachBrowser3.Logic
                     {typeof(MediaLink), CreateGetter<MediaLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.RelativeUri ?? ""})},
                     {typeof(YoutubeLink), CreateGetter<YoutubeLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.YoutubeId ?? ""})},
                     {typeof(RootLink), CreateGetter<RootLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = ""})},
-                    {typeof(ThreadTagLink), CreateGetter<ThreadTagLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = "", Page = 0, Thread = 0, Post = 0, Other = l.Tag ?? ""})},
+                    {typeof(ThreadTagLink), CreateGetter<ThreadTagLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = l.Board ?? "", Page = 0, Thread = 0, Post = 0, Other = l.Tag ?? ""})},
+                    {typeof(BoardCatalogLink), CreateGetter<BoardCatalogLink>(l => new CompareValues() { Engine = l.Engine ?? "", Board = l.Board ?? "", Page = 0, Thread = 0, Post = 0, Other = l.Sort.ToString()})},
                 };
             }
 

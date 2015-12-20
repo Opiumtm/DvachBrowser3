@@ -48,6 +48,11 @@
         /// <summary>
         /// Конфигурация.
         /// </summary>
-        Configuration
+        Configuration,
+
+        /// <summary>
+        /// Каталог.
+        /// </summary>
+        Catalog,
     }
 }

@@ -117,6 +117,21 @@ namespace DvachBrowser3.Logic
         BoardLinkBase GetRootPostLink(BoardLinkBase threadLink);
 
         /// <summary>
+        /// Получить ссылку на каталог из любой сслыки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка на каталог.</returns>
+        BoardLinkBase GetCatalogLinkFromAnyLink(BoardLinkBase link);
+
+        /// <summary>
+        /// Получить ссылку на тэг из ссылки на борду.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="tag">Тэг.</param>
+        /// <returns>Ссылка на тэг.</returns>
+        BoardLinkBase GetThreadTagLinkFromBoardLink(BoardLinkBase link, string tag);
+
+        /// <summary>
         /// Короткое имя борды.
         /// </summary>
         /// <param name="boardLink">Ссылка на борду.</param>

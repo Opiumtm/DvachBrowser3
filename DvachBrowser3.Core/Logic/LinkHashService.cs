@@ -29,6 +29,7 @@ namespace DvachBrowser3.Logic
                 { typeof(YoutubeLink), TypeFunc<YoutubeLink>(a => string.Format("youtube-{0}-{1}", a.Engine, a.YoutubeId)) },
                 { typeof(RootLink), TypeFunc<RootLink>(a => string.Format("root-{0}", a.Engine)) },
                 { typeof(ThreadTagLink), TypeFunc<ThreadTagLink>(a => string.Format("tag-{0}-{1}-{2}", a.Engine, a.Board, GetHashId(a.Tag))) },
+                { typeof(BoardCatalogLink), TypeFunc<BoardCatalogLink>(a => string.Format("catalog-{0}-{1}-{2}", a.Engine, a.Board, (int)a.Sort)) },
             };
             comparer = new LinkComparer(this);
         }
