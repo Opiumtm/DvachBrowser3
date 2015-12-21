@@ -104,6 +104,23 @@ namespace DvachBrowser3.ViewModels
                 }
             }
             OpPost = Posts.FirstOrDefault();
+            UpdatePostCounters();
+        }
+
+        /// <summary>
+        /// Обновить счётчик постов.
+        /// </summary>
+        protected virtual void UpdatePostCounters()
+        {
+            for (int i = 0; i < Posts.Count; i++)
+            {
+                var c = Posts[i].Counter;
+                var n = i + 1;
+                if (c != n)
+                {
+                    Posts[i].Counter = n;
+                }
+            }
         }
 
         /// <summary>

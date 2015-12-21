@@ -124,5 +124,19 @@ namespace DvachBrowser3.ViewModels
         /// Сливать и сортировать посты.
         /// </summary>
         protected override bool MergeAndSortPosts => false;
+
+        /// <summary>
+        /// Обновить счётчик постов.
+        /// </summary>
+        protected override void UpdatePostCounters()
+        {
+            foreach (var p in Posts)
+            {
+                if (p.Counter != null)
+                {
+                    p.Counter = null;
+                }
+            }
+        }
     }
 }

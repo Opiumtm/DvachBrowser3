@@ -286,6 +286,9 @@
     <Compile Include="Views\Partial\PostText.xaml.cs">
       <DependentUpon>PostText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\PostView.xaml.cs">
+      <DependentUpon>PostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\PreviewImage.xaml.cs">
       <DependentUpon>PreviewImage.xaml</DependentUpon>
     </Compile>
@@ -383,6 +386,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\PostText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\PostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

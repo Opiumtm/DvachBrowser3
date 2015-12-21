@@ -89,7 +89,30 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Номер поста.
         /// </summary>
-        public string PostNumStr => "№" + ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNumberDisplayString(PostData?.Link);        
+        public string PostNumStr => "№" + ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostNumberDisplayString(PostData?.Link);
+
+        private int? counter;
+
+        /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        public int? Counter
+        {
+            get { return counter; }
+            set
+            {
+                counter = value;
+                // ReSharper disable once ExplicitCallerInfoArgument
+                RaisePropertyChanged(nameof(Counter));
+                // ReSharper disable once ExplicitCallerInfoArgument
+                RaisePropertyChanged(nameof(CounterStr));
+            }
+        }
+
+        /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        public string CounterStr => Counter != null ? Counter.ToString() : "";
 
         /// <summary>
         /// Цвет подложки изображения.

@@ -37,6 +37,10 @@ namespace DvachBrowser3.Logic
                 oldPosts[linkHashService.GetLinkHash(np.Link)] = np;
             }
             src.Posts = oldPosts.Values.ToList();
+            for (int i = 0; i < src.Posts.Count; i++)
+            {
+                src.Posts[i].Counter = i + 1;
+            }
         }
 
         /// <summary>

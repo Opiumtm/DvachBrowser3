@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="DvachBrowser3.Views.Partial.PostView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views.Partial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:local2="using:DvachBrowser3"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <local2:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+        <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <local2:GridLengthConverter x:Key="GridLengthConverter"/>
+        <SolidColorBrush x:Key="LocBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Border Visibility="{x:Bind ViewModel.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
+                        Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Name.IconName, Mode=OneWay}">
+                <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
+            </Border>
+            <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Flag.Image, Mode=OneWay}"
+                       Visibility="{x:Bind ViewModel.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
+                       Margin="2"
+                       />
+            <TextBlock FontSize="13.5" TextWrapping="Wrap">
+                <Run Text="{x:Bind ViewModel.Name.Name, Mode=OneWay}" />
+                <Run Text="{x:Bind ViewModel.Date, Mode=OneWay}" />
+                <Run Text="{x:Bind ViewModel.PostNumStr, Mode=OneWay}" />
+                <Run Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}" Foreground="Green" />
+                <Run Text="{x:Bind ViewModel.Name.TripCode, Mode=OneWay}" />
+            </TextBlock>
+        </StackPanel>
+        <TextBlock Grid.Row="0" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="16" TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

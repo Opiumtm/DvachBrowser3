@@ -66,6 +66,16 @@ namespace DvachBrowser3.ViewModels
         string PostNumStr { get; }
 
         /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        int? Counter { get; set; }
+
+        /// <summary>
+        /// Счётчик постов.
+        /// </summary>
+        string CounterStr { get; }
+
+        /// <summary>
         /// Цвет подложки изображения.
         /// </summary>
         Color ImageBackgroundColor { get; }
