@@ -428,7 +428,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
             var result = new CatalogTree()
             {
                 Link = link,
-                Posts = (data.Threads ?? new BoardPost2[0]).OrderBy(p => p.Number.TryParseWithDefault()).Select(p => Parse(p, new ThreadLink()
+                Posts = (data.Threads ?? new BoardPost2[0]).Select(p => Parse(p, new ThreadLink()
                 {
                     Engine = CoreConstants.Engine.Makaba,
                     Board = data.Board,
@@ -441,6 +441,10 @@ namespace DvachBrowser3.Engines.Makaba.Html
                     Board = data.Board
                 }
             };
+            for (int i = 0; i < result.Posts.Count; i++)
+            {
+                result.Posts[i].Counter = i + 1;
+            }
             return result;
         }
 

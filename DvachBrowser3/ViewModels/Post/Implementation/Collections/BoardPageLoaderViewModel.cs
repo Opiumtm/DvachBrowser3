@@ -33,6 +33,15 @@ namespace DvachBrowser3.ViewModels
                 Title = t;
                 TitleWithPage = $"[{PageNum}] {t}";
             });
+            var engine = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>().FindEngine(pageLink.Engine);
+            if (engine != null)
+            {
+                CanInvokeCatalog = (engine.Capability & EngineCapability.Catalog) != 0;
+            }
+            else
+            {
+                CanInvokeCatalog = false;
+            }
         }
 
         private void UpdateOnStarted(object sender, EventArgs eventArgs)
@@ -237,5 +246,10 @@ namespace DvachBrowser3.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Можно вызывать каталог.
+        /// </summary>
+        public bool CanInvokeCatalog { get; }
     }
 }

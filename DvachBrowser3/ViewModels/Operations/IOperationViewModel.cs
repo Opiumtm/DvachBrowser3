@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -37,5 +38,10 @@ namespace DvachBrowser3.ViewModels
         /// Разрешить.
         /// </summary>
         void Enable();
+
+        /// <summary>
+        /// Нужна диспетчеризация.
+        /// </summary>
+        bool NeedDispatch { get; set; }
     }
 }

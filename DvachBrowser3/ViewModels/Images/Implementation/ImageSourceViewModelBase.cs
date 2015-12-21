@@ -20,7 +20,7 @@ namespace DvachBrowser3.ViewModels
         /// <param name="bindToPageLifetime">Привязать к времени жизни страницы.</param>
         protected ImageSourceViewModelBase(bool bindToPageLifetime = true)
         {
-            LoadImpl = new StdEngineOperationWrapper<StorageFile>(OperationFactory);
+            LoadImpl = new StdEngineOperationWrapper<StorageFile>(OperationFactory) { NeedDispatch = true };
             LoadImpl.ResultGot += LoadImplOnResultGot;
             if (bindToPageLifetime)
             {

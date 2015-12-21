@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Engines;
@@ -63,6 +64,31 @@ namespace DvachBrowser3
                     }
                 });
             }
+            StyleTitleBars();
+        }
+
+        private void StyleTitleBars()
+        {
+            var mobileBar = StatusBarHelper.StatusBar;
+            if (mobileBar != null)
+            {
+                mobileBar.BackgroundColor = (Color) Resources["SystemAccentColor"];
+                mobileBar.BackgroundOpacity = 1;
+                mobileBar.ForegroundColor = Colors.White;
+            }
+            /*
+            var appView = StatusBarHelper.ApplicationView;
+            if (appView != null)
+            {
+                if (appView.TitleBar != null)
+                {
+                    appView.TitleBar.BackgroundColor = (Color) Resources["SystemAccentColor"];
+                    appView.TitleBar.ForegroundColor = Colors.White;
+                    appView.TitleBar.ButtonBackgroundColor = (Color) Resources["SystemAccentColor"];
+                    appView.TitleBar.ButtonForegroundColor = Colors.White;
+                    appView.TitleBar.ButtonHoverBackgroundColor = Colors.White;
+                }
+            }*/
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)

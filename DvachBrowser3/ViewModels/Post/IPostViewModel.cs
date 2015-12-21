@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Windows.UI;
 using DvachBrowser3.Links;
 
@@ -68,5 +69,10 @@ namespace DvachBrowser3.ViewModels
         /// Цвет подложки изображения.
         /// </summary>
         Color ImageBackgroundColor { get; }
+
+        /// <summary>
+        /// Дополнительные данные.
+        /// </summary>
+        IDictionary<string, object> CustomAttachedData { get; }
     }
 }

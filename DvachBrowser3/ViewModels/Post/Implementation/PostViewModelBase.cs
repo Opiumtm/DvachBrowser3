@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Windows.UI;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
@@ -94,6 +95,11 @@ namespace DvachBrowser3.ViewModels
         /// Цвет подложки изображения.
         /// </summary>
         public Color ImageBackgroundColor => BoardListBoardViewModelsHelper.GetDefaultBackgroundColor(PostData?.Link?.Engine);
+
+        /// <summary>
+        /// Дополнительные данные.
+        /// </summary>
+        public IDictionary<string, object> CustomAttachedData { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Заголовок.

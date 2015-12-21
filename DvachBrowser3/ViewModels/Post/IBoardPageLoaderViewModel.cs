@@ -63,5 +63,10 @@ namespace DvachBrowser3.ViewModels
         /// Была навигация назад.
         /// </summary>
         bool IsBackNavigatedToViewModel { get; set; }
+
+        /// <summary>
+        /// Можно вызывать каталог.
+        /// </summary>
+        bool CanInvokeCatalog { get; }
     }
 }

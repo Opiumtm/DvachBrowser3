@@ -57,6 +57,14 @@ namespace DvachBrowser3.ViewModels
         protected abstract IPostViewModel CreatePostViewModel(PostTree post);
 
         /// <summary>
+        /// Сливать и сортировать посты.
+        /// </summary>
+        protected virtual bool MergeAndSortPosts
+        {
+            get { return true; }
+        }
+
+        /// <summary>
         /// Слить коллекцию с новыми постами.
         /// </summary>
         /// <param name="newPosts">Новая коллекция постов.</param>
@@ -67,23 +75,34 @@ namespace DvachBrowser3.ViewModels
                 Posts.Clear();
                 return;
             }
-            var equalityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
-            var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
-            var updateHelper = new SortedCollectionUpdateHelper<IPostViewModel, PostTree, BoardLinkBase>(
-                equalityComparer, 
-                comparer, 
-                a => a.Link, 
-                a => a.Link,
-                CreatePostViewModel,
-                (a, b) => true,
-                (a, b) => { },
-                newPosts,
-                Posts
-                );
-            var update = updateHelper.GetUpdate();
-            update.Added += UpdateOnAdded;
-            update.Removed += UpdateOnRemoved;
-            update.Update();
+            if (MergeAndSortPosts)
+            {
+                var equalityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
+                var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
+                var updateHelper = new SortedCollectionUpdateHelper<IPostViewModel, PostTree, BoardLinkBase>(
+                    equalityComparer,
+                    comparer,
+                    a => a.Link,
+                    a => a.Link,
+                    CreatePostViewModel,
+                    (a, b) => true,
+                    (a, b) => { },
+                    newPosts,
+                    Posts
+                    );
+                var update = updateHelper.GetUpdate();
+                update.Added += UpdateOnAdded;
+                update.Removed += UpdateOnRemoved;
+                update.Update();
+            }
+            else
+            {
+                Posts.Clear();
+                foreach (var p in newPosts)
+                {
+                    Posts.Add(CreatePostViewModel(p));
+                }
+            }
             OpPost = Posts.FirstOrDefault();
         }
 

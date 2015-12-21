@@ -6,7 +6,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Коллекция постов без возможности обновления.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Тип коллекции.</typeparam>
     public abstract class StaticPostCollectionViewModelBase<T> : PostCollectionViewModelBase where T : IPostTreeListSource
     {
         /// <summary>

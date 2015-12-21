@@ -124,6 +124,14 @@ namespace DvachBrowser3.Logic
         BoardLinkBase GetCatalogLinkFromAnyLink(BoardLinkBase link);
 
         /// <summary>
+        /// Получить ссылку на каталог из любой сслыки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sort">Режим сортировки.</param>
+        /// <returns>Ссылка на каталог.</returns>
+        BoardLinkBase GetCatalogLinkFromAnyLink(BoardLinkBase link, BoardCatalogSort sort);
+
+        /// <summary>
         /// Получить ссылку на тэг из ссылки на борду.
         /// </summary>
         /// <param name="link">Ссылка.</param>

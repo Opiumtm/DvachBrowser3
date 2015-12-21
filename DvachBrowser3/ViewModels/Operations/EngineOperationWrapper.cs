@@ -74,21 +74,8 @@ namespace DvachBrowser3.ViewModels
             CanStart = !IsActive && !isDisabled;
         }
 
-        /// <summary>
-        /// Начать.
-        /// </summary>
-        /// <param name="arg">Аргумент.</param>
-        public async void Start2(object arg)
+        private async Task DoOperation(IEngineOperationsWithProgress<TResult, TProgress> operation)
         {
-            if (!CanStart)
-            {
-                return;
-            }
-            var operation = OperationFactory(arg);
-            if (operation == null)
-            {
-                return;
-            }
             IsActive = true;
             UpdateCanStart();
             IsError = false;
@@ -143,6 +130,36 @@ namespace DvachBrowser3.ViewModels
                 IsWaiting = false;
                 UpdateCanStart();
             }
+        }
+
+        /// <summary>
+        /// Начать.
+        /// </summary>
+        /// <param name="arg">Аргумент.</param>
+        public async void Start2(object arg)
+        {
+            if (!CanStart)
+            {
+                return;
+            }
+            var operation = OperationFactory(arg);
+            if (operation == null)
+            {
+                return;
+            }
+            var cancelFlag = new InterlockedFlagContainer();
+            cancelAction = () =>
+            {
+                cancelFlag.Flag = true;
+            };
+            EngineOperationWrapperDispatcher.Dispatcher.Enqueue(async () =>
+            {
+                if (cancelFlag.Flag)
+                {
+                    return;
+                }
+                await DoOperation(operation);
+            });
         }
 
         public void Start()
@@ -223,6 +240,11 @@ namespace DvachBrowser3.ViewModels
             isDisabled = false;
             UpdateCanStart();
         }
+
+        /// <summary>
+        /// Нужна диспетчеризация.
+        /// </summary>
+        public bool NeedDispatch { get; set; }
 
         private double progress;
 
@@ -378,5 +400,16 @@ namespace DvachBrowser3.ViewModels
         /// Получен результат.
         /// </summary>
         public event EventHandler ResultGot;
+    }
+
+    /// <summary>
+    /// Диспетчер асинхронных операций.
+    /// </summary>
+    public static class EngineOperationWrapperDispatcher
+    {
+        /// <summary>
+        /// Диспетчер.
+        /// </summary>
+        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(10);        
     }
 }

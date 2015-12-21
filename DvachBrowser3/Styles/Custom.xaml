@@ -18,7 +18,8 @@
 
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{ThemeResource ContrastColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="{ThemeResource SystemAccentColor}" />
-            <SolidColorBrush x:Key="PageHeadedControlBackground"  Color="{ThemeResource SystemAccentColor}" Opacity="0.5"/>
+            <SolidColorBrush x:Key="PageHeadedControlBackground"  Color="{ThemeResource SystemAccentColor}" />
+            <SolidColorBrush x:Key="WindowTitleColor" Color="{ThemeResource SystemAccentColor}" />
 
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource SystemAccentColor}" />
 
@@ -49,7 +50,8 @@
 
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="{ThemeResource ContrastColor}" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="{ThemeResource SystemAccentColor}" />
-            <SolidColorBrush x:Key="PageHeadedControlBackground"  Color="{ThemeResource SystemAccentColor}" Opacity="0.5"/>
+            <SolidColorBrush x:Key="PageHeadedControlBackground"  Color="{ThemeResource SystemAccentColor}" />
+            <SolidColorBrush x:Key="WindowTitleColor" Color="{ThemeResource SystemAccentColor}" />
 
             <SolidColorBrush x:Key="ModalBackground" Opacity=".5" Color="{ThemeResource SystemAccentColor}" />
 
@@ -80,6 +82,7 @@
 
             <SolidColorBrush x:Key="ExtendedSplashBackground" Color="Black" />
             <SolidColorBrush x:Key="ExtendedSplashForeground" Color="White" />
+            <SolidColorBrush x:Key="WindowTitleColor" Color="Black" />
 
             <SolidColorBrush x:Key="ModalBackground" Color="Black" />
 

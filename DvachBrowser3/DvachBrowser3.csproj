@@ -86,7 +86,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
@@ -118,8 +118,10 @@
     <Compile Include="Configuration\IUiPagesConfiguration.cs" />
     <Compile Include="Core\AppConstants.cs" />
     <Compile Include="Core\AppHelpers.cs" />
+    <Compile Include="Core\AsyncOperationDispatcher.cs" />
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
+    <Compile Include="Core\InterlockedFlagContainer.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
     <Compile Include="Core\ScrollViewHelper.cs" />
@@ -133,6 +135,9 @@
     <Compile Include="Core\WeakEventChannel.cs" />
     <Compile Include="Core\WeakEventHandler.cs" />
     <Compile Include="Core\WebLinkHelper.cs" />
+    <Compile Include="Logic\BoardCatalogLoaderArgument.cs" />
+    <Compile Include="Logic\BoardCatalogLoaderOperation.cs" />
+    <Compile Include="Logic\BoardCatalogUpdateMode.cs" />
     <Compile Include="Logic\BoardPageLoaderArgument.cs" />
     <Compile Include="Logic\BoardPageLoaderOperation.cs" />
     <Compile Include="Logic\IBoardPageLoaderResult.cs" />
@@ -143,6 +148,7 @@
     <Compile Include="Navigation\IPageNavigationService.cs" />
     <Compile Include="Navigation\NavigationRole.cs" />
     <Compile Include="Navigation\PageNavigationTargetBase.cs" />
+    <Compile Include="Navigation\Targets\BoardCatalogNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
@@ -206,15 +212,18 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Post\IBoardCatalogViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\ILinkClickCallback.cs" />
     <Compile Include="Logic\BoardPageLoaderUpdateMode.cs" />
     <Compile Include="ViewModels\Post\Implementation\BoardTitleHelper.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\BoardCatalogViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\UpdateablePostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostFlagsViewModel.cs" />
@@ -251,6 +260,9 @@
     <Compile Include="Views\BoardsPage.xaml.cs">
       <DependentUpon>BoardsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CatalogPage.xaml.cs">
+      <DependentUpon>CatalogPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorInfoDialog.xaml.cs">
       <DependentUpon>ErrorInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -281,6 +293,9 @@
       <DependentUpon>ProgressIndicatorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
+    <Compile Include="Views\Partial\TileImage.xaml.cs">
+      <DependentUpon>TileImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
     <Compile Include="Views\SelectPageDialog.xaml.cs">
       <DependentUpon>SelectPageDialog.xaml</DependentUpon>
@@ -339,6 +354,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CatalogPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ErrorInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -372,6 +391,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\ProgressIndicatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\TileImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

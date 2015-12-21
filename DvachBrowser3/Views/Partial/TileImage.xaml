@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="DvachBrowser3.Views.Partial.TileImage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views.Partial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dvachBrowser3="using:DvachBrowser3"
+    mc:Ignorable="d"
+    d:DesignHeight="75"
+    d:DesignWidth="75">
+    <UserControl.Resources>
+        <dvachBrowser3:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Storyboard x:Key="ImageStoryBoard" TargetName="MainImage" TargetProperty="Opacity">
+            <DoubleAnimation From="0.0" To="1.0" Duration="0:0:0.5" />
+        </Storyboard>
+    </UserControl.Resources>
+    
+
+    <Grid>
+        <Border x:Name="BackgroundBorder" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid>
+                <Image x:Name="MainImage" Source="{x:Bind ImageData, Mode=OneWay}" Stretch="UniformToFill" Visibility="Collapsed" />
+                <SymbolIcon x:Name="ErrorIcon" Symbol="Clear" Foreground="Red" Height="48" Width="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <SymbolIcon x:Name="NoIcon" Symbol="Document" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Height="48" Width="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -537,6 +537,27 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Получить ссылку на каталог из любой сслыки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <param name="sort">Режим сортировки.</param>
+        /// <returns>Ссылка на каталог.</returns>
+        public BoardLinkBase GetCatalogLinkFromAnyLink(BoardLinkBase link, BoardCatalogSort sort)
+        {
+            var boardLink = BoardLinkFromAnyLink(link) as BoardLink;
+            if (boardLink == null)
+            {
+                return null;
+            }
+            return new BoardCatalogLink()
+            {
+                Engine = boardLink.Engine,
+                Board = boardLink.Board,
+                Sort = sort
+            };
+        }
+
+        /// <summary>
         /// Получить ссылку на тэг из ссылки на борду.
         /// </summary>
         /// <param name="link">Ссылка.</param>
