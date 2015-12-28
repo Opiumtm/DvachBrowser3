@@ -241,7 +241,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public bool HasGroups => Groups.Count > 0;
 
-        private readonly StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>> refreshCommand = new StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>>(RefreshOperationFactory);
+        private readonly StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>> refreshCommand = new StdEngineOperationWrapper<ICollection<IBoardListBoardViewModel>>(RefreshOperationFactory) { HighPriority = true };
 
         /// <summary>
         /// Обновить список борд.

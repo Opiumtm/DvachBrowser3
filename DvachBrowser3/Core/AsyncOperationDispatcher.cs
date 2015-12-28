@@ -15,6 +15,8 @@ namespace DvachBrowser3
 
         private readonly Queue<Func<Task>> operations = new Queue<Func<Task>>();
 
+        private readonly Queue<Func<Task>> hpOperations = new Queue<Func<Task>>();
+
         private readonly HashSet<Guid> runOperations = new HashSet<Guid>();
 
         private readonly Task dispatcherTask;
@@ -43,6 +45,12 @@ namespace DvachBrowser3
                 //Debug.WriteLine("Awaken...");
                 lock (taskLock)
                 {
+                    while (hpOperations.Count > 0 && runOperations.Count < maxConcurrentOperations)
+                    {
+                        var operaion = hpOperations.Dequeue();
+                        var id = Guid.NewGuid();
+                        RunOperation(id, operaion);
+                    }
                     while (operations.Count > 0 && runOperations.Count < maxConcurrentOperations)
                     {
                         var operaion = operations.Dequeue();
@@ -103,6 +111,19 @@ namespace DvachBrowser3
             lock (taskLock)
             {
                 operations.Enqueue(action);
+            }
+            taskEvent.Set();
+        }
+
+        /// <summary>
+        /// Занести в список с высоким приоритетом.
+        /// </summary>
+        /// <param name="action">Действие.</param>
+        public void EnqueueHp(Func<Task> action)
+        {
+            lock (taskLock)
+            {
+                hpOperations.Enqueue(action);
             }
             taskEvent.Set();
         }

@@ -28,7 +28,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <RelativePanel Grid.Row="0" Margin="3">
+        <RelativePanel Grid.Row="0" Margin="3" Padding="2">
+            <RelativePanel.Background>
+                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.15" />
+            </RelativePanel.Background>
             <Border Visibility="{x:Bind ViewModel.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                     Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
                     ToolTipService.ToolTip="{x:Bind ViewModel.Name.IconName, Mode=OneWay}"
@@ -73,10 +76,10 @@
             </StackPanel>
         </RelativePanel>
         <RelativePanel Grid.Row="1" Margin="3">
-            <TextBlock Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="16" TextWrapping="Wrap"
-                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="CounterView" VerticalAlignment="Top" MaxLines="2"/>
+            <TextBlock Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
+                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="CounterView" VerticalAlignment="Top" MaxLines="2" />
             <TextBlock Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                       Text="{x:Bind ViewModel.CounterStr}" RelativePanel.AlignRightWithPanel="True" x:Name="CounterView" Margin="5, 0, 0, 0" Foreground="Green" FontWeight="SemiBold" FontSize="16"
+                       Text="{x:Bind ViewModel.CounterStr}" RelativePanel.AlignRightWithPanel="True" x:Name="CounterView" Margin="5, 0, 0, 0" Foreground="Green" FontWeight="SemiBold" FontSize="{x:Bind TitleTextSize, Mode=OneWay}"
                        VerticalAlignment="Top"/>
         </RelativePanel>
         <GridView Grid.Row="2" Margin="3" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=false, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"

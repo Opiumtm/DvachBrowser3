@@ -22,7 +22,7 @@ namespace DvachBrowser3.ViewModels
         {
             if (pageLink == null) throw new ArgumentNullException(nameof(pageLink));
             PageLink = pageLink;
-            update = new StdEngineOperationWrapper<IBoardPageLoaderResult>(OperationFactory);
+            update = new StdEngineOperationWrapper<IBoardPageLoaderResult>(OperationFactory) { HighPriority = true };
             update.Finished += UpdateOnFinished;
             update.ResultGot += UpdateOnResultGot;
             update.Started += UpdateOnStarted;

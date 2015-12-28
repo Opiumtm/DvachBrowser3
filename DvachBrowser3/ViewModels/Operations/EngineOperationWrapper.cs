@@ -133,6 +133,11 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Высокий приоритет.
+        /// </summary>
+        public bool HighPriority { get; set; }
+
+        /// <summary>
         /// Начать.
         /// </summary>
         /// <param name="arg">Аргумент.</param>
@@ -152,14 +157,28 @@ namespace DvachBrowser3.ViewModels
             {
                 cancelFlag.Flag = true;
             };
-            EngineOperationWrapperDispatcher.Dispatcher.Enqueue(async () =>
+            if (!HighPriority)
             {
-                if (cancelFlag.Flag)
+                EngineOperationWrapperDispatcher.Dispatcher.Enqueue(async () =>
                 {
-                    return;
-                }
-                await DoOperation(operation);
-            });
+                    if (cancelFlag.Flag)
+                    {
+                        return;
+                    }
+                    await DoOperation(operation);
+                });
+            }
+            else
+            {
+                EngineOperationWrapperDispatcher.Dispatcher.EnqueueHp(async () =>
+                {
+                    if (cancelFlag.Flag)
+                    {
+                        return;
+                    }
+                    await DoOperation(operation);
+                });
+            }
         }
 
         public void Start()

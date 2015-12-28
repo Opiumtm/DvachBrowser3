@@ -14,7 +14,6 @@
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
-        <local2:GridLengthConverter x:Key="GridLengthConverter"/>
         <SolidColorBrush x:Key="LocBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
     </UserControl.Resources>
 
@@ -54,7 +53,7 @@
                     <Run Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
-            <TextBlock FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top"/>
+            <TextBlock FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top" x:Name="TitleText"/>
             <StackPanel Visibility="{x:Bind VerticalHeaderVisibility, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"

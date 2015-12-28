@@ -26,6 +26,7 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             MainGrid.SizeChanged += MainGridOnSizeChanged;
+            MainGridOnSizeChanged(null, null);
             PostLinesUpdated(MaxLines);
             PostTextView.TextRendered += PostTextViewOnTextRendered;
             PostTextView2.TextRendered += PostTextViewOnTextRendered;
@@ -46,13 +47,15 @@ namespace DvachBrowser3.Views.Partial
 
         private void MainGridOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width <= 500)
+            if (this.ActualWidth <= 500)
             {
                 ImageWidth = 100;
+                TitleTextSize = 16;
             }
             else
             {
                 ImageWidth = 150;
+                TitleTextSize = 18;
             }
         }
 
@@ -152,6 +155,18 @@ namespace DvachBrowser3.Views.Partial
             set
             {
                 exceedLines = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double titleTextSize = 16;
+
+        public double TitleTextSize
+        {
+            get { return titleTextSize; }
+            private set
+            {
+                titleTextSize = value;
                 OnPropertyChanged();
             }
         }

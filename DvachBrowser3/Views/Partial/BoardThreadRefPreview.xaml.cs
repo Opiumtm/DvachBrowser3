@@ -38,6 +38,7 @@ namespace DvachBrowser3.Views.Partial
                 PostText.MaxLines = 7;
                 ImageWidth = 100;
                 ImageWidthWithBorder = 104;
+                TitleText.FontSize = 16;
             }
             else
             {
@@ -46,6 +47,7 @@ namespace DvachBrowser3.Views.Partial
                 PostText.MaxLines = 5;
                 ImageWidth = 150;
                 ImageWidthWithBorder = 154;
+                TitleText.FontSize = 18;
             }
         }
 

@@ -16,7 +16,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         protected UpdateablePostCollectionViewModelBase()
         {
-            UpdateOperation = new StdEngineOperationWrapper<T>(UpdateOperationFactory);
+            UpdateOperation = new StdEngineOperationWrapper<T>(UpdateOperationFactory) { HighPriority = true };
             UpdateOperation.ResultGot += UpdateOperationOnResultGot;
             UpdateOperation.Finished += UpdateOperationOnFinished;
         }
