@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
 using DvachBrowser3.TextRender;
+using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -24,6 +26,25 @@ namespace DvachBrowser3.ViewModels
         public PostTextViewModel(IPostViewModel parent, PostTree post) : base(parent)
         {
             this.post = post;
+            if (post?.Quotes != null)
+            {
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+                var q = post.Quotes
+                    .Distinct(linkHash.GetComparer())
+                    .OrderBy(a => a, linkTransform.GetLinkComparer())
+                    .ToArray();
+                foreach (var a in q)
+                {
+                    HasQuotes = true;
+                    Quotes.Add(new QuoteViewModel()
+                    {
+                        Parent = parent,
+                        Name = linkTransform.GetBackLinkDisplayString(a),
+                        Link = a
+                    });
+                }
+            }
         }
 
         /// <summary>
@@ -45,6 +66,26 @@ namespace DvachBrowser3.ViewModels
         /// Клик на ссылку.
         /// </summary>
         public event LinkClickEventHandler LinkClick;
+
+        /// <summary>
+        /// Квоты.
+        /// </summary>
+        public IList<IPostQuoteViewModel> Quotes => new ObservableCollection<IPostQuoteViewModel>();
+
+        private bool hasQuotes = false;
+
+        /// <summary>
+        /// Есть квоты.
+        /// </summary>
+        public bool HasQuotes
+        {
+            get { return hasQuotes; }
+            private set
+            {
+                hasQuotes = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private void RenderElements(ITextRenderLogic logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)
         {
@@ -205,6 +246,24 @@ namespace DvachBrowser3.ViewModels
                 LinkClick?.Invoke(this, e);
                 ViewModelEvents.LinkClick.RaiseEvent(this, e);
             }
+        }
+
+        private class QuoteViewModel : ViewModelBase, IPostQuoteViewModel
+        {
+            /// <summary>
+            /// Родительская модель.
+            /// </summary>
+            public IPostViewModel Parent { get; set; }
+
+            /// <summary>
+            /// Имя.
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Ссылка.
+            /// </summary>
+            public BoardLinkBase Link { get; set; }
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -19,7 +21,7 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class PostText : UserControl
+    public sealed partial class PostText : UserControl, INotifyPropertyChanged
     {
         private readonly SizeChangeDelayHelper sizeChangeDelay = new SizeChangeDelayHelper(TimeSpan.FromSeconds(0.25));
 
@@ -36,24 +38,35 @@ namespace DvachBrowser3.Views.Partial
             RefreshView();
         }
 
+        private void ClearOldData()
+        {
+            ScrollablePlaceholderGrid.Children.Clear();
+        }
+
         private void RefreshView()
         {
             if (ViewModel == null || ActualWidth < 50)
             {
-                MainGrid.Children.Clear();
+                ClearOldData();
                 return;
             }
+
             var renderFactory = new RenderTextElementFactory(ViewModel);
             var canvas = new Canvas();
-            canvas.Width = MainGrid.ActualWidth;
+
+            ScrollablePlaceholderGrid.Measure(new Size(MainGrid.ActualWidth, MainGrid.ActualHeight));
+            canvas.Width = ScrollablePlaceholderGrid.ActualWidth;
+
             canvas.Height = 5;
             canvas.HorizontalAlignment = HorizontalAlignment.Left;
             canvas.VerticalAlignment = VerticalAlignment.Top;
             var logic = new TextRenderLogic(new TextRenderCommandFormer(), new CanvasTextRenderCommandExecutor(canvas, renderFactory, new WordSplitter()));
-            logic.MaxLines = MaxLines;
+            logic.MaxLines = MaxLines > 0 ? (int?)MaxLines : null;
             ViewModel.RenderText(logic);
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(canvas);
+            ClearOldData();
+            ScrollablePlaceholderGrid.Children.Add(canvas);
+            ExceedLines = logic.ExceedLines && MaxLines > 0;
+            TextRendered?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -74,22 +87,49 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Максимальное количество линий.
         /// </summary>
-        public int? MaxLines
+        public int MaxLines
         {
-            get { return (int?) GetValue(MaxLinesProperty); }
+            get { return (int) GetValue(MaxLinesProperty); }
             set { SetValue(MaxLinesProperty, value); }
         }
 
         /// <summary>
         /// Максимальное количество линий.
         /// </summary>
-        public static readonly DependencyProperty MaxLinesProperty = DependencyProperty.Register("MaxLines", typeof (int?), typeof (PostText),
-            new PropertyMetadata(new int?(), RefreshNeedCallback));
+        public static readonly DependencyProperty MaxLinesProperty = DependencyProperty.Register("MaxLines", typeof (int), typeof (PostText),
+            new PropertyMetadata(0, RefreshNeedCallback));
 
         private static void RefreshNeedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = d as PostText;
             obj?.RefreshView();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Закончился лимит.
+        /// </summary>
+        public bool ExceedLines
+        {
+            get { return (bool) GetValue(ExceedLinesProperty); }
+            set { SetValue(ExceedLinesProperty, value); }
+        }
+
+        /// <summary>
+        /// Закончился лимит.
+        /// </summary>
+        public static readonly DependencyProperty ExceedLinesProperty = DependencyProperty.Register("ExceedLines", typeof (bool), typeof (PostText),
+            new PropertyMetadata(false));
+
+        /// <summary>
+        /// Текст отрисован.
+        /// </summary>
+        public event EventHandler TextRendered;
     }
 }

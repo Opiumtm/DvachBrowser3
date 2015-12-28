@@ -410,6 +410,6 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Диспетчер.
         /// </summary>
-        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(10);        
+        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(5);        
     }
 }

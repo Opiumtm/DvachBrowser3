@@ -54,7 +54,10 @@ namespace DvachBrowser3.TextRender
             return true;
         }
 
-        private bool ExceedLines
+        /// <summary>
+        /// Превышено количество линий.
+        /// </summary>
+        public bool ExceedLines
         {
             get
             {

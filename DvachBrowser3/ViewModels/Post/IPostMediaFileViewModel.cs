@@ -46,5 +46,10 @@ namespace DvachBrowser3.ViewModels
         /// Веб-ссылка.
         /// </summary>
         string WebLink { get; }
+
+        /// <summary>
+        /// Строка с информацией.
+        /// </summary>
+        string InfoString { get; }
     }
 }

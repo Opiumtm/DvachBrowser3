@@ -124,6 +124,7 @@
     <Compile Include="Core\InterlockedFlagContainer.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
+    <Compile Include="Core\PropertyChangedEventListener.cs" />
     <Compile Include="Core\ScrollViewHelper.cs" />
     <Compile Include="Core\NavigationHelper.cs" />
     <Compile Include="Core\SizeChangeDelayHelper.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="ViewModels\Post\Implementation\PostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostNameViewModel.cs" />
+    <Compile Include="ViewModels\Post\IPostQuoteViewModel.cs" />
     <Compile Include="ViewModels\Post\IThreadPreviewViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModelBase.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="ViewModels\Post\IPostViewModel.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventArgs.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventHandler.cs" />
+    <Compile Include="ViewModels\ViewModelAdapter.cs" />
     <Compile Include="Views\AddBoardDialog.xaml.cs">
       <DependentUpon>AddBoardDialog.xaml</DependentUpon>
     </Compile>

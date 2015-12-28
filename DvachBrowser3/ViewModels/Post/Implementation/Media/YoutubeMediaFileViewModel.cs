@@ -36,5 +36,10 @@ namespace DvachBrowser3.ViewModels
         /// Имя файла.
         /// </summary>
         public override string Name => "Видео YouTube";
+
+        /// <summary>
+        /// Строка с информацией.
+        /// </summary>
+        public override string InfoString => Name;
     }
 }

@@ -233,7 +233,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
                     {
                         Link = mediaLink,
                         ParentLink = result.Link,
-                        Size = f.Size,
+                        Size = f.Size * 1024,
                         Height = f.Heigth,
                         Width = f.Width,
                         Name = f.Name,

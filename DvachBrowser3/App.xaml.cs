@@ -76,7 +76,7 @@ namespace DvachBrowser3
                 mobileBar.BackgroundOpacity = 1;
                 mobileBar.ForegroundColor = Colors.White;
             }
-            /*
+            
             var appView = StatusBarHelper.ApplicationView;
             if (appView != null)
             {
@@ -87,8 +87,9 @@ namespace DvachBrowser3
                     appView.TitleBar.ButtonBackgroundColor = (Color) Resources["SystemAccentColor"];
                     appView.TitleBar.ButtonForegroundColor = Colors.White;
                     appView.TitleBar.ButtonHoverBackgroundColor = Colors.White;
+                    appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
                 }
-            }*/
+            }
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)

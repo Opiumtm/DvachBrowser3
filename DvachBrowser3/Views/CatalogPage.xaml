@@ -31,6 +31,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ThisPage.TileWidth" Value="90" />
+                        <Setter Target="PostPreviewBorder.Margin" Value="5" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -39,6 +40,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ThisPage.TileWidth" Value="160" />
+                        <Setter Target="PostPreviewBorder.Margin" Value="24, 5, 24, 5" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -47,7 +49,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
 
         <!--  header  -->
@@ -61,16 +63,39 @@
         <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="2">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IPostViewModel">
-                    <Grid Width="{Binding ElementName=ThisPage, Path=TileWidth}" Margin="0, 0, 0, 7.5" ToolTipService.ToolTip="{x:Bind Subject}">
+                    <Grid Width="{Binding ElementName=ThisPage, Path=TileWidth}" Margin="0, 0, 0, 7.5" ToolTipService.ToolTip="{x:Bind Subject}" Tapped="CatalogElement_OnTapped"
+                          Tag="{x:Bind Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" FontSize="11.5" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" Margin="2" Text="{x:Bind Subject}" />
-                        <pa:TileImage Grid.Row="1" ViewModel="{x:Bind Media.PrimaryFile.ThumbnailImage}" Height="90" HorizontalAlignment="Stretch" />
+                        <TextBlock Grid.Row="0" FontSize="11.5" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" Margin="2" Text="{x:Bind Subject, Mode=OneWay}" />
+                        <pa:TileImage Grid.Row="1" ViewModel="{x:Bind Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" Height="90" HorizontalAlignment="Stretch" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <Border x:Name="PostPreview" Grid.Row="2" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource SystemColorWindowColor}" Opacity="0.5" />
+            </Border.Background>
+            <Border BorderThickness="1, 1, 3, 3" Padding="4" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="PostPreviewBorder">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.66" />
+                </Border.BorderBrush>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <pa:PostView Grid.Row="0" x:Name="PostView" MaxLines="0" />
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Button x:Name="CloseButton" Margin="2" Click="CloseButton_OnClick">Закрыть</Button>
+                        <Button x:Name="ViewButton" Margin="2">Перейти в тред</Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </Page>

@@ -80,6 +80,9 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
             var request = engine.GetMediaFile(Parameter.Link);
             request.Progress += (sender, e) => OnProgress(e);
+            token.ThrowIfCancellationRequested();
+            return await request.Complete(token);
+            /*
             if ((Parameter.Mode & LoadMediaFileMode.FullSizeMedia) != 0)
             {
                 token.ThrowIfCancellationRequested();
@@ -99,7 +102,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 {
                     Semaphore.Release();
                 }
-            }
+            }*/
         }
     }
 }

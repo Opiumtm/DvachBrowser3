@@ -36,5 +36,10 @@
         /// Завершить последовательность.
         /// </summary>
         void Flush();
+
+        /// <summary>
+        /// Превышено количество линий.
+        /// </summary>
+        bool ExceedLines { get; }
     }
 }

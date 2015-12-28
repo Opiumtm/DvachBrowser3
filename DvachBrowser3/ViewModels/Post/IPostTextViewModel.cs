@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.TextRender;
+﻿using System.Collections.Generic;
+using DvachBrowser3.TextRender;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -17,5 +18,15 @@ namespace DvachBrowser3.ViewModels
         /// Клик на ссылку.
         /// </summary>
         event LinkClickEventHandler LinkClick;
+
+        /// <summary>
+        /// Квоты.
+        /// </summary>
+        IList<IPostQuoteViewModel> Quotes { get; }
+
+        /// <summary>
+        /// Есть квоты.
+        /// </summary>
+        bool HasQuotes { get; }
     }
 }

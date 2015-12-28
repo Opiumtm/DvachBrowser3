@@ -129,5 +129,31 @@ namespace DvachBrowser3.Views
         /// </summary>
         public static readonly DependencyProperty TileWidthProperty = DependencyProperty.Register("TileWidth", typeof (double), typeof (CatalogPage),
             new PropertyMetadata(100.0));
+
+        private void CatalogElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IPostViewModel;
+            if (t != null)
+            {
+                PostView.ViewModel = t;
+                PostPreview.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            PostPreview.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (PostPreview.Visibility == Visibility.Visible)
+            {
+                e.Cancel = true;
+                PostPreview.Visibility = Visibility.Collapsed;
+                return;
+            }
+            base.OnNavigatingFrom(e);
+        }
     }
 }
