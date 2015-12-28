@@ -77,7 +77,7 @@
         </RelativePanel>
         <RelativePanel Grid.Row="1" Margin="3">
             <TextBlock Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
-                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="CounterView" VerticalAlignment="Top" MaxLines="2" />
+                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="CounterView" VerticalAlignment="Top" MaxLines="3" />
             <TextBlock Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                        Text="{x:Bind ViewModel.CounterStr}" RelativePanel.AlignRightWithPanel="True" x:Name="CounterView" Margin="5, 0, 0, 0" Foreground="Green" FontWeight="SemiBold" FontSize="{x:Bind TitleTextSize, Mode=OneWay}"
                        VerticalAlignment="Top"/>
@@ -90,7 +90,7 @@
                         <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder">
                             <local:PreviewImage Height="100" Width="{Binding ElementName=MainControl, Path=ImageWidth, Mode=OneWay, FallbackValue=150.0}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" />
                         </Border>
-                        <TextBlock TextWrapping="Wrap" MaxLines="2" FontSize="12" Text="{x:Bind InfoString, Mode=OneWay}"
+                        <TextBlock TextWrapping="Wrap" FontSize="12" Text="{x:Bind InfoString, Mode=OneWay}"
                                    HorizontalAlignment="Left"/>
                     </StackPanel>
                 </DataTemplate>
