@@ -441,6 +441,10 @@
       <Project>{3fe647ff-6685-4e24-9e2e-afa1ca580690}</Project>
       <Name>DvachBrowser3.Engines.Makaba</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DvachBrowser3.Esent\DvachBrowser3.Esent.csproj">
+      <Project>{efc6859d-4285-4ebf-9ad6-02fed7ef047c}</Project>
+      <Name>DvachBrowser3.Esent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DvachBrowser3.TextRender\DvachBrowser3.TextRender.csproj">
       <Project>{eaa28772-59f6-490d-b680-c2b8dfae8421}</Project>
       <Name>DvachBrowser3.TextRender</Name>

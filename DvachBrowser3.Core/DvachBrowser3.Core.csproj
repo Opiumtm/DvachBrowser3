@@ -294,6 +294,8 @@
     <Compile Include="Storage\Files\FileSerializationHelper.cs" />
     <Compile Include="Storage\Files\FolderStorage.cs" />
     <Compile Include="Storage\Files\GroupFolderStorage.cs" />
+    <Compile Include="Storage\Files\IStorageSizeCache.cs" />
+    <Compile Include="Storage\Files\IStorageSizeCacheFactory.cs" />
     <Compile Include="Storage\Files\LinkCollectionStore.cs" />
     <Compile Include="Storage\Files\MediaStorage.cs" />
     <Compile Include="Storage\Files\PostDataStorage.cs" />

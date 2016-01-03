@@ -22,10 +22,11 @@ namespace DvachBrowser3.Storage.Files
 
         protected readonly static SerializedAccessManager<object> SizeAccessManager = new SerializedAccessManager<object>();
 
-        private StorageSizeCache sizeCache;
+        //private StorageSizeCache sizeCache;
 
         protected readonly static object EmptyResult = new object();
 
+        /*
         /// <summary>
         /// Получить кэш для изменений.
         /// </summary>
@@ -70,6 +71,23 @@ namespace DvachBrowser3.Storage.Files
         protected void SetSizeCache(StorageSizeCache value)
         {
             Interlocked.Exchange(ref sizeCache, value);
+        }*/
+
+        /// <summary>
+        /// Фабрика сервиса хранения кэша.
+        /// </summary>
+        protected IStorageSizeCacheFactory SizeCacheFactory => Services.GetServiceOrThrow<IStorageSizeCacheFactory>();
+
+        /// <summary>
+        /// Получить кэш размеров.
+        /// </summary>
+        /// <param name="readOnly">Только для чтения.</param>
+        /// <returns>Результат.</returns>
+        protected async Task<IStorageSizeCache> GetSizeCacheImpl(bool readOnly)
+        {
+            await SizeCacheFactory.InitializeCache(FolderName);
+            var result = SizeCacheFactory.Get(FolderName, readOnly);
+            return result;
         }
     }
 }

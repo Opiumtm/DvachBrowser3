@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
 
 namespace DvachBrowser3.Storage.Files
 {
+    /*
+
     /// <summary>
     /// Кэш размеров хранилища.
     /// </summary>
@@ -149,4 +149,6 @@ namespace DvachBrowser3.Storage.Files
             return result;
         }
     }
+
+    */
 }

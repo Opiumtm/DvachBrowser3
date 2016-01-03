@@ -97,8 +97,10 @@ namespace DvachBrowser3.Storage.Files
         {
             return (ulong) await SizeAccessManager.QueueAction(async () =>
             {
-                var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
-                return sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
+                using (var sizes = await GetSizeCacheImpl(true))
+                {
+                    return sizes.GetTotalSize();
+                }
             });
         }
 
@@ -119,27 +121,27 @@ namespace DvachBrowser3.Storage.Files
         {
             await SizeAccessManager.QueueAction(async () =>
             {
-                var dataDir = await GetDataFolder();
-                var cacheDir = await GetCacheFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = new StorageSizeCache();
-                var files = await cacheDir.GetFilesAsync();
-                foreach (var f in files)
+                using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    try
+                    var cacheDir = await GetCacheFolder();
+                    var files = await cacheDir.GetFilesAsync();
+                    sizes.DeleteAllItems();
+                    foreach (var f in files)
                     {
-                        var p = await f.GetBasicPropertiesAsync();
-                        sizes.Sizes[f.Name] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
+                        try
+                        {
+                            var p = await f.GetBasicPropertiesAsync();
+                            sizes.SetFileSize(f.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
+                        }
+                        // ReSharper disable once EmptyGeneralCatchClause
+                        catch
+                        {
+                            // игнорируем
+                        }
                     }
-                    // ReSharper disable once EmptyGeneralCatchClause
-                    catch
-                    {
-                        // игнорируем
-                    }
+                    sizes.Commit();
+                    return EmptyResult;
                 }
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-                return EmptyResult;
             });
         }
 
@@ -151,38 +153,37 @@ namespace DvachBrowser3.Storage.Files
         {
             await SizeAccessManager.QueueAction(async () =>
             {
-                var dataDir = await GetDataFolder();
-                var cacheDir = await GetCacheFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                var files = await cacheDir.GetFilesAsync();
-                var immunitySet = await GetRecycleImmunity();
-                var toDelete = files.ToArray();
-                var visitedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                foreach (var f in toDelete)
+                using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    visitedFiles.Add(f.Name);
-                    if (!immunitySet.Contains(f.Name))
+                    var cacheDir = await GetCacheFolder();
+                    var files = await cacheDir.GetFilesAsync();
+                    var immunitySet = await GetRecycleImmunity();
+                    var toDelete = files.ToArray();
+                    var visitedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                    foreach (var f in toDelete)
                     {
-                        try
+                        visitedFiles.Add(f.Name);
+                        if (!immunitySet.Contains(f.Name))
                         {
-                            await f.DeleteAsync();
-                            sizes.Sizes.Remove(f.Name);
-                        }
+                            try
+                            {
+                                await f.DeleteAsync();
+                                sizes.DeleteItem(f.Name);
+                            }
                             // ReSharper disable once EmptyGeneralCatchClause
-                        catch
-                        {
-                            // ignore
+                            catch
+                            {
+                                // ignore
+                            }
                         }
+                    }                    
+                    foreach (var n in sizes.GetAllFiles().ToArray().Where(n => !visitedFiles.Contains(n)))
+                    {
+                        sizes.DeleteItem(n);
                     }
+                    sizes.Commit();
+                    return EmptyResult;
                 }
-                foreach (var n in sizes.Sizes.Keys.ToArray().Where(n => !visitedFiles.Contains(n)))
-                {
-                    sizes.Sizes.Remove(n);
-                }
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-                return EmptyResult;
             });
         }
 
@@ -196,13 +197,12 @@ namespace DvachBrowser3.Storage.Files
             var p = await file.GetBasicPropertiesAsync();
             await SizeAccessManager.QueueAction(async () =>
             {
-                var dataDir = await GetDataFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                sizes.Sizes[file.Name] = new StorageSizeCacheItem {Size = p.Size, Date = p.DateModified};
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-                return EmptyResult;
+                using (var sizes = await GetSizeCacheImpl(false))
+                {
+                    sizes.SetFileSize(file.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
+                    sizes.Commit();
+                    return EmptyResult;
+                }
             });
             await RecycleCache();
         }
@@ -216,13 +216,12 @@ namespace DvachBrowser3.Storage.Files
         {
             await SizeAccessManager.QueueAction(async () =>
             {
-                var dataDir = await GetDataFolder();
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                sizes.Sizes.Remove(fileName);
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-                return EmptyResult;
+                using (var sizes = await GetSizeCacheImpl(false))
+                {
+                    sizes.DeleteItem(fileName);
+                    sizes.Commit();
+                    return EmptyResult;
+                }
             });
         }
 
@@ -234,39 +233,38 @@ namespace DvachBrowser3.Storage.Files
         {
             await SizeAccessManager.QueueAction(async () =>
             {
-                var sizesFile = await GetSizesCacheFile();
-                var sizes = await GetSizeCacheForChange(sizesFile);
-                var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0,(current, r) => current + r.Size);
-                if (totalSize < MaxCacheSize) return EmptyResult;
-                var dataDir = await GetDataFolder();
-                var cacheDir = await GetCacheFolder();
-                var immunitySet = await GetRecycleImmunity();
-                var toCheck = sizes.Sizes.OrderBy(kv => kv.Value.Date).ToArray();
-                foreach (var f in toCheck)
+                using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    if (totalSize <= NormalCacheSize)
+                    var totalSize = sizes.GetTotalSize();
+                    if (totalSize < MaxCacheSize) return EmptyResult;
+                    var cacheDir = await GetCacheFolder();
+                    var immunitySet = await GetRecycleImmunity();
+                    var toCheck = sizes.GetAllItems().OrderBy(kv => kv.Value.Date).ToArray();
+                    foreach (var f in toCheck)
                     {
-                        break;
-                    }
-                    if (!immunitySet.Contains(f.Key))
-                    {
-                        try
+                        if (totalSize <= NormalCacheSize)
                         {
-                            var file = await cacheDir.GetFileAsync(f.Key);
-                            await file.DeleteAsync();
-                            totalSize -= f.Value.Size;
-                            sizes.Sizes.Remove(f.Key);
+                            break;
                         }
+                        if (!immunitySet.Contains(f.Key))
+                        {
+                            try
+                            {
+                                var file = await cacheDir.GetFileAsync(f.Key);
+                                await file.DeleteAsync();
+                                totalSize -= f.Value.Size;
+                                sizes.DeleteItem(f.Key);
+                            }
                             // ReSharper disable once EmptyGeneralCatchClause
-                        catch
-                        {
-                            // игнорируем
+                            catch
+                            {
+                                // игнорируем
+                            }
                         }
                     }
+                    sizes.Commit();
+                    return EmptyResult;
                 }
-                SetSizeCache(sizes);
-                await sizes.Save(sizesFile, dataDir);
-                return EmptyResult;
             });
         }
 
@@ -281,8 +279,10 @@ namespace DvachBrowser3.Storage.Files
             {
                 return (bool) await SizeAccessManager.QueueAction(async () =>
                 {
-                    var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
-                    return sizes.Sizes.ContainsKey(fileName);
+                    using (var sizes = await GetSizeCacheImpl(true))
+                    {
+                        return sizes.IsItemPresent(fileName);
+                    }
                 });
             }
             catch (Exception ex)

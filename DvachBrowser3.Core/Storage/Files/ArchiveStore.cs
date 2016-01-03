@@ -203,9 +203,11 @@ namespace DvachBrowser3.Storage.Files
         {
             var l = await SizeAccessManager.QueueAction(async () =>
             {
-                var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
-                var fn = string.Format("{0}/", id);
-                return sizes.Sizes.Where(s => s.Key.StartsWith(fn, StringComparison.OrdinalIgnoreCase)).Select(s => s.Value).Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
+                using (var sizes = await GetSizeCacheImpl(true))
+                {
+                    var fn = $"{id}/";
+                    return sizes.GetAllItems().Where(s => s.Key.StartsWith(fn, StringComparison.OrdinalIgnoreCase)).Select(s => s.Value).Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);                
+                }
             });
             return (ulong) l;
         }

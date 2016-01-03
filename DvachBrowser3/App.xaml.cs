@@ -8,6 +8,7 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Services;
+using DvachBrowser3.Storage.Files;
 using DvachBrowser3.SystemInformation;
 using DvachBrowser3.Views;
 
@@ -28,6 +29,7 @@ namespace DvachBrowser3
             ServiceLocator.Current = container;
             CoreServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             MakabaEngineServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
+            EsentServicesInitializer.InitializeServices(container, new SystemInfoParam() { Platform = AppPlatform.Windows10Universal });
             container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
             container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
             container.RegisterService<IPageNavigationService>(new PageNavigationService(container));
@@ -40,6 +42,7 @@ namespace DvachBrowser3
             if (!isInitialized)
             {
                 isInitialized = true;
+                await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
                 var shell = new Views.Shell(nav);
                 Window.Current.Content = shell;
