@@ -157,28 +157,15 @@ namespace DvachBrowser3.ViewModels
             {
                 cancelFlag.Flag = true;
             };
-            if (!HighPriority)
+            Func<Task> action = async () =>
             {
-                EngineOperationWrapperDispatcher.Dispatcher.Enqueue(async () =>
+                if (cancelFlag.Flag)
                 {
-                    if (cancelFlag.Flag)
-                    {
-                        return;
-                    }
-                    await DoOperation(operation);
-                });
-            }
-            else
-            {
-                EngineOperationWrapperDispatcher.Dispatcher.EnqueueHp(async () =>
-                {
-                    if (cancelFlag.Flag)
-                    {
-                        return;
-                    }
-                    await DoOperation(operation);
-                });
-            }
+                    return;
+                }
+                await DoOperation(operation);
+            };
+            await action();
         }
 
         public void Start()
@@ -429,6 +416,6 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Диспетчер.
         /// </summary>
-        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(5);        
+        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(100);
     }
 }

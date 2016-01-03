@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -16,16 +16,15 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Директория.</param>
-        public CachedStorageBase(IServiceProvider services, string folderName) : base(services, folderName)
+        protected CachedStorageBase(IServiceProvider services, string folderName) : base(services, folderName)
         {
         }
 
-        /// <summary>
-        /// Объект синхронизации доступа к кэшу.
-        /// </summary>
-        protected readonly AsyncLock CacheLock = new AsyncLock();
+        protected readonly static SerializedAccessManager<object> SizeAccessManager = new SerializedAccessManager<object>();
 
         private StorageSizeCache sizeCache;
+
+        protected readonly static object EmptyResult = new object();
 
         /// <summary>
         /// Получить кэш для изменений.

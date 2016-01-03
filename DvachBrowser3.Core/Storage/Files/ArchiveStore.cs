@@ -6,7 +6,6 @@ using Windows.Storage;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Other;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -27,14 +26,19 @@ namespace DvachBrowser3.Storage.Files
         }
 
         /// <summary>
-        /// Лок базы.
-        /// </summary>
-        protected AsyncLock DbLock = new AsyncLock();
-
-        /// <summary>
         /// Кэшированный файл.
         /// </summary>
         protected readonly CachedFile<ArchiveCollection> CachedDb;
+
+        /// <summary>
+        /// Сериализованный доступ.
+        /// </summary>
+        protected readonly SerializedAccessManager<object> DbAccessManager = new SerializedAccessManager<object>();
+
+        /// <summary>
+        /// Пустой результат.
+        /// </summary>
+        protected readonly object EmptyResult = new object();
 
         /// <summary>
         /// Удалить старые данные из кэша.
@@ -52,11 +56,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public override async Task ClearCache()
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 await base.ClearCache();
                 await CachedDb.Delete();
-            }            
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -110,12 +115,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Черновик.</returns>
         public async Task SaveArchive(ArchiveThreadTree data)
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new ArchiveCollection() { Archives = new Dictionary<Guid, ArchiveReference>() };
+                    db = new ArchiveCollection() {Archives = new Dictionary<Guid, ArchiveReference>()};
                 }
                 db.Archives[data.Reference.Id] = data.Reference;
                 const string fileName = "archive.cache";
@@ -123,7 +128,8 @@ namespace DvachBrowser3.Storage.Files
                 var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
                 await WriteCacheXmlObject(folder, file, folder, data, true);
                 await CachedDb.SaveSync(db);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -154,20 +160,21 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public async Task DeleteArchive(Guid id)
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new ArchiveCollection() { Archives = new Dictionary<Guid, ArchiveReference>() };
+                    db = new ArchiveCollection() {Archives = new Dictionary<Guid, ArchiveReference>()};
                 }
                 db.Archives.Remove(id);
                 var folder = await GetCacheFolder();
                 var folder2 = await folder.GetFolderAsync(id.ToString());
                 await folder2.DeleteAsync();
-                BackgroundRemoveFolderFromSizeCache(id.ToString());
+                await RemoveFolderFromSizeCache(id.ToString());
                 await CachedDb.SaveSync(db);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -176,15 +183,15 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Архивы.</returns>
         public async Task<ArchiveReference[]> ListArchives()
         {
-            using (await DbLock.LockAsync())
+            return (ArchiveReference[]) await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new ArchiveCollection() { Archives = new Dictionary<Guid, ArchiveReference>() };
+                    db = new ArchiveCollection() {Archives = new Dictionary<Guid, ArchiveReference>()};
                 }
                 return db.Archives.Values.ToArray();
-            }
+            });
         }
 
         /// <summary>
@@ -194,12 +201,13 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Размер.</returns>
         public async Task<ulong> GetArchiveSize(Guid id)
         {
-            using (await CacheLock.LockAsync())
+            var l = await SizeAccessManager.QueueAction(async () =>
             {
                 var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
                 var fn = string.Format("{0}/", id);
                 return sizes.Sizes.Where(s => s.Key.StartsWith(fn, StringComparison.OrdinalIgnoreCase)).Select(s => s.Value).Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
-            }
+            });
+            return (ulong) l;
         }
 
         /// <summary>

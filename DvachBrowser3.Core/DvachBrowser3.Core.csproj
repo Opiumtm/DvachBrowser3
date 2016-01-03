@@ -59,6 +59,7 @@
     <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
+    <Compile Include="Common\IConcurrenctyDispatcher.cs" />
     <Compile Include="Common\IConfiguration.cs" />
     <Compile Include="Common\IDateService.cs" />
     <Compile Include="Common\IJsonService.cs" />
@@ -66,12 +67,15 @@
     <Compile Include="Common\ISerializerCacheService.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
     <Compile Include="Common\JsonService.cs" />
+    <Compile Include="Common\MaxConcurrencyAccessManager.cs" />
     <Compile Include="Common\NetworkProfile.cs" />
     <Compile Include="Common\RegexCacheService.cs" />
     <Compile Include="Common\SemiBufferedStream.cs" />
+    <Compile Include="Common\SerializedAccessManager.cs" />
     <Compile Include="Common\SerializerCacheService.cs" />
     <Compile Include="Common\ServiceDependencyInfoAttribute.cs" />
     <Compile Include="Common\StreamHelpers.cs" />
+    <Compile Include="Common\TimePeriodDataAggregator.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
     <Compile Include="Common\TreeWalkContext.cs" />
     <Compile Include="Common\UniqueIdHelper.cs" />
@@ -321,16 +325,8 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wpa81\Nito.AsyncEx.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Nito.AsyncEx.Concurrent, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wpa81\Nito.AsyncEx.Concurrent.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Posting;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -31,15 +30,21 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         public IPostingMediaStore MediaStorage { get; private set; }
 
-        /// <summary>
-        /// Лок базы.
-        /// </summary>
-        protected AsyncLock DbLock = new AsyncLock();
 
         /// <summary>
         /// Кэшированный файл.
         /// </summary>
         protected readonly CachedFile<DraftCollection> CachedDb;
+
+        /// <summary>
+        /// Сериализованный доступ.
+        /// </summary>
+        protected readonly SerializedAccessManager<object> DbAccessManager = new SerializedAccessManager<object>();
+
+        /// <summary>
+        /// Пустой результат.
+        /// </summary>
+        protected readonly object EmptyResult = new object();
 
         /// <summary>
         /// Сохранить черновик.
@@ -48,12 +53,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Черновик.</returns>
         public async Task SaveDraft(DraftPostingData data)
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new DraftCollection() { Drafts = new Dictionary<Guid, DraftReference>() };
+                    db = new DraftCollection() {Drafts = new Dictionary<Guid, DraftReference>()};
                 }
                 db.Drafts[data.Reference.Id] = data.Reference;
                 var fileName = string.Format("{0}.cache", data.Reference.Id);
@@ -61,7 +66,8 @@ namespace DvachBrowser3.Storage.Files
                 var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
                 await WriteCacheXmlObject(file, folder, data, true);
                 await CachedDb.SaveSync(db);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -92,12 +98,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public async Task DeleteDraft(Guid id)
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new DraftCollection() { Drafts = new Dictionary<Guid, DraftReference>() };
+                    db = new DraftCollection() {Drafts = new Dictionary<Guid, DraftReference>()};
                 }
                 db.Drafts.Remove(id);
                 var folder = await GetCacheFolder();
@@ -105,7 +111,8 @@ namespace DvachBrowser3.Storage.Files
                 var file = await folder.GetFileAsync(fileName);
                 await file.DeleteAsync();
                 await CachedDb.SaveSync(db);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -114,15 +121,15 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Черновики.</returns>
         public async Task<DraftReference[]> ListDrafts()
         {
-            using (await DbLock.LockAsync())
+            return (DraftReference[]) await DbAccessManager.QueueAction(async () =>
             {
                 var db = await CachedDb.Load();
                 if (db == null)
                 {
-                    db = new DraftCollection() { Drafts = new Dictionary<Guid, DraftReference>() };
+                    db = new DraftCollection() {Drafts = new Dictionary<Guid, DraftReference>()};
                 }
                 return db.Drafts.Values.ToArray();
-            }
+            });
         }
 
         /// <summary>
@@ -141,11 +148,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public override async Task ClearCache()
         {
-            using (await DbLock.LockAsync())
+            await DbAccessManager.QueueAction(async () =>
             {
                 await base.ClearCache();
                 await CachedDb.Delete();
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>

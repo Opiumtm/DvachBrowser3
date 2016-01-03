@@ -82,7 +82,7 @@ namespace DvachBrowser3.Storage.Files
                 var cacheDir = await GetCacheFolder();
                 var file = await cacheDir.GetFileAsync(fileName);
                 await file.DeleteAsync();
-                BackgroundRemoveFromSizeCache(fileName);
+                await RemoveFromSizeCache(fileName);
             }
             catch (Exception ex)
             {

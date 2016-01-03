@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Logic.NetworkLogic
 {
@@ -68,7 +67,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <summary>
         /// Семафор для загрузки маленьких изображений.
         /// </summary>
-        protected static readonly AsyncSemaphore Semaphore = new AsyncSemaphore(CoreConstants.MaxParallelSmallImageDownloads);
+        protected static readonly MaxConcurrencyAccessManager<IMediaResult> ImageLoadAccessManager = new MaxConcurrencyAccessManager<IMediaResult>(CoreConstants.MaxParallelSmallImageDownloads);
 
         /// <summary>
         /// Загрузить медиафайл.
@@ -80,9 +79,6 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
             var request = engine.GetMediaFile(Parameter.Link);
             request.Progress += (sender, e) => OnProgress(e);
-            token.ThrowIfCancellationRequested();
-            return await request.Complete(token);
-            /*
             if ((Parameter.Mode & LoadMediaFileMode.FullSizeMedia) != 0)
             {
                 token.ThrowIfCancellationRequested();
@@ -90,19 +86,12 @@ namespace DvachBrowser3.Logic.NetworkLogic
             }
             else
             {
-                SignalProcessing("Ожидание очереди загрузки...", "WAIT");
-                await Semaphore.WaitAsync(token);
-                try
+                return await ImageLoadAccessManager.QueueAction(async () =>
                 {
                     token.ThrowIfCancellationRequested();
-                    SignalProcessing("Загрузка...", "NOWAIT");
                     return await request.Complete(token);
-                }
-                finally
-                {
-                    Semaphore.Release();
-                }
-            }*/
+                });
+            }
         }
     }
 }

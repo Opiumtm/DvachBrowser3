@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -96,11 +95,11 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Размер кэша.</returns>
         public virtual async Task<ulong> GetCacheSize()
         {
-            using (await CacheLock.LockAsync())
+            return (ulong) await SizeAccessManager.QueueAction(async () =>
             {
                 var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
                 return sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
-            }
+            });
         }
 
         /// <summary>
@@ -118,7 +117,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public virtual async Task ResyncCacheSize()
         {
-            using (await CacheLock.LockAsync())
+            await SizeAccessManager.QueueAction(async () =>
             {
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
@@ -130,7 +129,7 @@ namespace DvachBrowser3.Storage.Files
                     try
                     {
                         var p = await f.GetBasicPropertiesAsync();
-                        sizes.Sizes[f.Name] = new StorageSizeCacheItem {Size = p.Size, Date = p.DateModified};
+                        sizes.Sizes[f.Name] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
                     }
                     // ReSharper disable once EmptyGeneralCatchClause
                     catch
@@ -140,7 +139,8 @@ namespace DvachBrowser3.Storage.Files
                 }
                 SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public virtual async Task ClearCache()
         {
-            using (await CacheLock.LockAsync())
+            await SizeAccessManager.QueueAction(async () =>
             {
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
@@ -169,11 +169,11 @@ namespace DvachBrowser3.Storage.Files
                             await f.DeleteAsync();
                             sizes.Sizes.Remove(f.Name);
                         }
-                        // ReSharper disable once EmptyGeneralCatchClause
+                            // ReSharper disable once EmptyGeneralCatchClause
                         catch
                         {
                             // ignore
-                        }                        
+                        }
                     }
                 }
                 foreach (var n in sizes.Sizes.Keys.ToArray().Where(n => !visitedFiles.Contains(n)))
@@ -182,7 +182,8 @@ namespace DvachBrowser3.Storage.Files
                 }
                 SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -192,16 +193,18 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         protected async Task SyncCacheFileSize(StorageFile file)
         {
-            using (await CacheLock.LockAsync())
+            var p = await file.GetBasicPropertiesAsync();
+            await SizeAccessManager.QueueAction(async () =>
             {
                 var dataDir = await GetDataFolder();
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
-                var p = await file.GetBasicPropertiesAsync();
-                sizes.Sizes[file.Name] = new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified };
+                sizes.Sizes[file.Name] = new StorageSizeCacheItem {Size = p.Size, Date = p.DateModified};
                 SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
-            }            
+                return EmptyResult;
+            });
+            await RecycleCache();
         }
 
         /// <summary>
@@ -211,7 +214,7 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         protected async Task RemoveFromSizeCache(string fileName)
         {
-            using (await CacheLock.LockAsync())
+            await SizeAccessManager.QueueAction(async () =>
             {
                 var dataDir = await GetDataFolder();
                 var sizesFile = await GetSizesCacheFile();
@@ -219,45 +222,8 @@ namespace DvachBrowser3.Storage.Files
                 sizes.Sizes.Remove(fileName);
                 SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
-            }
-        }
-
-        /// <summary>
-        /// Синхронизировать размер файла кэша в фоновом режиме.
-        /// </summary>
-        /// <param name="file">Файл.</param>
-        protected void BackgroundSyncCacheFileSize(StorageFile file)
-        {
-            Task.Factory.StartNew(new Action(async () =>
-            {
-                try
-                {
-                    await SyncCacheFileSize(file);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-            }));
-        }
-
-        /// <summary>
-        /// Удалить файл из кэша в фоновом режиме.
-        /// </summary>
-        /// <param name="fileName">Имя файла.</param>
-        protected void BackgroundRemoveFromSizeCache(string fileName)
-        {
-            Task.Factory.StartNew(new Action(async () =>
-            {
-                try
-                {
-                    await RemoveFromSizeCache(fileName);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
-            }));
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -266,12 +232,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public virtual async Task RecycleCache()
         {
-            using (await CacheLock.LockAsync())
+            await SizeAccessManager.QueueAction(async () =>
             {
                 var sizesFile = await GetSizesCacheFile();
                 var sizes = await GetSizeCacheForChange(sizesFile);
-                var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);
-                if (totalSize < MaxCacheSize) return;
+                var totalSize = sizes.Sizes.Values.Aggregate<StorageSizeCacheItem, ulong>(0,(current, r) => current + r.Size);
+                if (totalSize < MaxCacheSize) return EmptyResult;
                 var dataDir = await GetDataFolder();
                 var cacheDir = await GetCacheFolder();
                 var immunitySet = await GetRecycleImmunity();
@@ -291,16 +257,17 @@ namespace DvachBrowser3.Storage.Files
                             totalSize -= f.Value.Size;
                             sizes.Sizes.Remove(f.Key);
                         }
-                        // ReSharper disable once EmptyGeneralCatchClause
+                            // ReSharper disable once EmptyGeneralCatchClause
                         catch
                         {
                             // игнорируем
-                        }                        
+                        }
                     }
                 }
                 SetSizeCache(sizes);
                 await sizes.Save(sizesFile, dataDir);
-            }
+                return EmptyResult;
+            });
         }
 
         /// <summary>
@@ -312,11 +279,11 @@ namespace DvachBrowser3.Storage.Files
         {
             try
             {
-                using (await CacheLock.LockAsync())
+                return (bool) await SizeAccessManager.QueueAction(async () =>
                 {
                     var sizes = await GetSizeCacheForRead(GetSizesCacheFile);
                     return sizes.Sizes.ContainsKey(fileName);
-                }
+                });
             }
             catch (Exception ex)
             {
@@ -337,7 +304,7 @@ namespace DvachBrowser3.Storage.Files
         public async Task WriteCacheXmlObject<T>(StorageFile file, StorageFolder tempFolder, T obj, bool compress) where T : class 
         {
             await WriteXmlObject(file, tempFolder, obj, compress);
-            BackgroundSyncCacheFileSize(file);
+            await SyncCacheFileSize(file);
         }
 
         /// <summary>
@@ -351,7 +318,7 @@ namespace DvachBrowser3.Storage.Files
         public async Task WriteCacheString(StorageFile file, StorageFolder tempFolder, string obj, bool compress)
         {
             await WriteString(file, tempFolder, obj, compress);
-            BackgroundSyncCacheFileSize(file);
+            await SyncCacheFileSize(file);
         }
 
         /// <summary>
@@ -364,7 +331,7 @@ namespace DvachBrowser3.Storage.Files
         public async Task WriteCacheMediaFile(StorageFile file, StorageFile originalFile, bool deleteOriginal)
         {
             await WriteMediaFile(file, originalFile, deleteOriginal);
-            BackgroundSyncCacheFileSize(file);           
+            await SyncCacheFileSize(file);           
         }
     }
 }

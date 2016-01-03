@@ -8,7 +8,6 @@ using DvachBrowser3.Links;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posting;
 using DvachBrowser3.Storage;
-using Nito.AsyncEx;
 
 namespace DvachBrowser3.Logic.NetworkLogic
 {
@@ -26,10 +25,6 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
         }
 
-        /// <summary>
-        /// Лок постинга.
-        /// </summary>
-        protected static readonly AsyncLock PostLock = new AsyncLock();
 
         /// <summary>
         /// Выполнить операцию.
@@ -38,117 +33,113 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <returns>Таск.</returns>
         public override async Task<BoardLinkBase> Complete(CancellationToken token)
         {
-            SignalProcessing("Ожидание очереди постинга...", "WAIT");
-            using (await PostLock.LockAsync())
+            if (Parameter.Data is DraftPostingData)
             {
-                if (Parameter.Data is DraftPostingData)
+                throw new ArgumentException("Прямой постинг черновиков не поддерживается");
+            }
+            if (Parameter.Data.Link == null)
+            {
+                throw new ArgumentException("Не указано, куда отправлять сообщение");
+            }
+            var engine = GetEngine(Parameter.Data.Link);
+            var storage = Services.GetServiceOrThrow<IStorageService>();
+            var linkTransformService = Services.GetServiceOrThrow<ILinkTransformService>();
+            var linkHashService = Services.GetServiceOrThrow<ILinkHashService>();
+            var mediaIds = new PostingMediaFile[0];
+            var deleteData = (Parameter.Mode & PostingMode.DeleteFromStorage) != 0;
+            if (Parameter.Data.FieldData.ContainsKey(PostingFieldSemanticRole.MediaFile))
+            {
+                var d = Parameter.Data.FieldData[PostingFieldSemanticRole.MediaFile] as PostingMediaFiles;
+                if (d != null && d.Files != null)
                 {
-                    throw new ArgumentException("Прямой постинг черновиков не поддерживается");
+                    mediaIds = d.Files.Where(f => f != null).ToArray();                    
                 }
-                if (Parameter.Data.Link == null)
+            }
+            var mediaFiles = new List<MediaFilePostingData>();
+            foreach (var id in mediaIds)
+            {
+                var file = await storage.PostData.MediaStorage.GetMediaFile(id.MediaFileId);
+                if (file != null)
                 {
-                    throw new ArgumentException("Не указано, куда отправлять сообщение");
-                }
-                var engine = GetEngine(Parameter.Data.Link);
-                var storage = Services.GetServiceOrThrow<IStorageService>();
-                var linkTransformService = Services.GetServiceOrThrow<ILinkTransformService>();
-                var linkHashService = Services.GetServiceOrThrow<ILinkHashService>();
-                var mediaIds = new PostingMediaFile[0];
-                var deleteData = (Parameter.Mode & PostingMode.DeleteFromStorage) != 0;
-                if (Parameter.Data.FieldData.ContainsKey(PostingFieldSemanticRole.MediaFile))
-                {
-                    var d = Parameter.Data.FieldData[PostingFieldSemanticRole.MediaFile] as PostingMediaFiles;
-                    if (d != null && d.Files != null)
+                    if (file.Value.File != null)
                     {
-                        mediaIds = d.Files.Where(f => f != null).ToArray();                    
-                    }
-                }
-                var mediaFiles = new List<MediaFilePostingData>();
-                foreach (var id in mediaIds)
-                {
-                    var file = await storage.PostData.MediaStorage.GetMediaFile(id.MediaFileId);
-                    if (file != null)
-                    {
-                        if (file.Value.File != null)
+                        mediaFiles.Add(new MediaFilePostingData()
                         {
-                            mediaFiles.Add(new MediaFilePostingData()
-                            {
-                                FileName = id.OriginalName,
-                                TempFile = file.Value.File
-                            });                            
-                        }
+                            FileName = id.OriginalName,
+                            TempFile = file.Value.File
+                        });                            
                     }
                 }
-                var entryData = new PostEntryData()
+            }
+            var entryData = new PostEntryData()
+            {
+                Link = Parameter.Data.Link,
+                CommonData = new Dictionary<PostingFieldSemanticRole, object>(),
+                Captcha = Parameter.Captcha,
+                MediaFiles = mediaFiles.ToArray()
+            };
+            foreach (var p in Parameter.Data.FieldData)
+            {
+                if (p.Key != PostingFieldSemanticRole.MediaFile)
                 {
-                    Link = Parameter.Data.Link,
-                    CommonData = new Dictionary<PostingFieldSemanticRole, object>(),
-                    Captcha = Parameter.Captcha,
-                    MediaFiles = mediaFiles.ToArray()
-                };
-                foreach (var p in Parameter.Data.FieldData)
-                {
-                    if (p.Key != PostingFieldSemanticRole.MediaFile)
-                    {
-                        entryData.CommonData[p.Key] = p.Value;
-                    }
+                    entryData.CommonData[p.Key] = p.Value;
                 }
-                var postOperation = engine.Post(entryData);
-                postOperation.Progress += (sender, e) => OnProgress(e);
-                var result = await postOperation.Complete(token);
+            }
+            var postOperation = engine.Post(entryData);
+            postOperation.Progress += (sender, e) => OnProgress(e);
+            var result = await postOperation.Complete(token);
 
-                if (deleteData)
+            if (deleteData)
+            {
+                try
+                {
+                    await storage.PostData.DeletePostingData(Parameter.Data.Link);
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+                foreach (var f in mediaIds)
                 {
                     try
                     {
-                        await storage.PostData.DeletePostingData(Parameter.Data.Link);
+                        await storage.PostData.MediaStorage.DeleteMediaFile(f.MediaFileId);
                     }
                     catch (Exception ex)
                     {
                         DebugHelper.BreakOnError(ex);
                     }
-                    foreach (var f in mediaIds)
-                    {
-                        try
-                        {
-                            await storage.PostData.MediaStorage.DeleteMediaFile(f.MediaFileId);
-                        }
-                        catch (Exception ex)
-                        {
-                            DebugHelper.BreakOnError(ex);
-                        }
-                    }                    
-                }
-
-                if (result.PostLink != null)
-                {
-                    if (Parameter.Data.Link.LinkKind == BoardLinkKind.Thread)
-                    {
-                        var threadLink = linkTransformService.ThreadLinkFromThreadPartLink(Parameter.Data.Link);
-                        if (threadLink != null)
-                        {
-                            var myPosts = await storage.ThreadData.LoadMyPostsInfo(threadLink);
-                            if (myPosts == null)
-                            {
-                                myPosts = new MyPostsInfo() { Link = threadLink, MyPosts = new List<BoardLinkBase>() };
-                            }
-                            if (myPosts.MyPosts == null)
-                            {
-                                myPosts.MyPosts = new List<BoardLinkBase>();
-                            }
-                            myPosts.MyPosts.Add(result.PostLink);
-                            myPosts.MyPosts = myPosts.MyPosts.Distinct(linkHashService.GetComparer()).ToList();
-                            await storage.ThreadData.SaveMyPostsInfo(myPosts);
-                        }
-                    }
-                    return result.PostLink;
-                }
-                if (result.RedirectLink != null)
-                {
-                    return result.RedirectLink;
-                }
-                return null;
+                }                    
             }
+
+            if (result.PostLink != null)
+            {
+                if (Parameter.Data.Link.LinkKind == BoardLinkKind.Thread)
+                {
+                    var threadLink = linkTransformService.ThreadLinkFromThreadPartLink(Parameter.Data.Link);
+                    if (threadLink != null)
+                    {
+                        var myPosts = await storage.ThreadData.LoadMyPostsInfo(threadLink);
+                        if (myPosts == null)
+                        {
+                            myPosts = new MyPostsInfo() { Link = threadLink, MyPosts = new List<BoardLinkBase>() };
+                        }
+                        if (myPosts.MyPosts == null)
+                        {
+                            myPosts.MyPosts = new List<BoardLinkBase>();
+                        }
+                        myPosts.MyPosts.Add(result.PostLink);
+                        myPosts.MyPosts = myPosts.MyPosts.Distinct(linkHashService.GetComparer()).ToList();
+                        await storage.ThreadData.SaveMyPostsInfo(myPosts);
+                    }
+                }
+                return result.PostLink;
+            }
+            if (result.RedirectLink != null)
+            {
+                return result.RedirectLink;
+            }
+            return null;
         }
     }
 }

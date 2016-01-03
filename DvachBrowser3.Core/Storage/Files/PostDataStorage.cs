@@ -53,7 +53,7 @@ namespace DvachBrowser3.Storage.Files
             var fileName = string.Format("{0}.cache", Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link));
             var file = await GetCacheFile(fileName);
             await file.DeleteAsync();
-            BackgroundRemoveFromSizeCache(fileName);
+            await RemoveFromSizeCache(fileName);
         }
 
         /// <summary>

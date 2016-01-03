@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -74,22 +76,29 @@ namespace DvachBrowser3.Storage.Files
             var result = new List<KeyValuePair<string, StorageSizeCacheItem>>();
             if (istr.Size > 0)
             {
-                using (var rd = new DataReader(istr) { UnicodeEncoding = UnicodeEncoding.Utf8 })
+                using (var mem = new MemoryStream())
                 {
-                    await rd.LoadAsync((uint)istr.Size);
-                    var sz = rd.ReadUInt32();
-                    for (UInt32 i = 0; i < sz; i++)
+                    using (var istr2 = istr.AsStreamForRead())
                     {
-                        var strSz = rd.ReadUInt32();
-                        var name = rd.ReadString(strSz);
-                        var size = rd.ReadUInt64();
-                        var dticks = rd.ReadInt64();
-                        var oticks = rd.ReadInt64();
-                        result.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem
+                        await istr2.CopyToAsync(mem);
+                        mem.Position = 0;
+                        using (var rd = new BinaryReader(mem, Encoding.UTF8))
                         {
-                            Size = size,
-                            Date = new DateTimeOffset(dticks, new TimeSpan(oticks))
-                        }));
+                            var sz = rd.ReadUInt32();
+                            for (UInt32 i = 0; i < sz; i++)
+                            {
+                                var strSz = rd.ReadUInt32();
+                                var name = strSz > 0 ? new string(rd.ReadChars((int)strSz)) : "";
+                                var size = rd.ReadUInt64();
+                                var dticks = rd.ReadInt64();
+                                var oticks = rd.ReadInt64();
+                                result.Add(new KeyValuePair<string, StorageSizeCacheItem>(name, new StorageSizeCacheItem
+                                {
+                                    Size = size,
+                                    Date = new DateTimeOffset(dticks, new TimeSpan(oticks))
+                                }));
+                            }
+                        }
                     }
                 }
             }
@@ -98,21 +107,31 @@ namespace DvachBrowser3.Storage.Files
 
         private async Task DoSave(IRandomAccessStream istr)
         {
-            using (var wr = new DataWriter(istr) {UnicodeEncoding = UnicodeEncoding.Utf8})
+            using (var mem = new MemoryStream())
             {
-                var arr = Sizes.ToArray();
-                wr.WriteUInt32((uint)arr.Length);
-                foreach (var kv in arr)
+                using (var wr = new BinaryWriter(mem, Encoding.UTF8))
                 {
-                    var strSz = wr.MeasureString(kv.Key);
-                    wr.WriteUInt32(strSz);
-                    wr.WriteString(kv.Key);
-                    wr.WriteUInt64(kv.Value.Size);
-                    wr.WriteInt64(kv.Value.Date.Ticks);
-                    wr.WriteInt64(kv.Value.Date.Offset.Ticks);
-                    await wr.StoreAsync();
+                    var arr = Sizes.ToArray();
+                    wr.Write((uint)arr.Length);
+                    foreach (var kv in arr)
+                    {
+                        var strSz = (uint)kv.Key.Length;
+                        wr.Write(strSz);
+                        if (strSz > 0)
+                        {
+                            wr.Write(kv.Key.ToCharArray());
+                        }
+                        wr.Write(kv.Value.Size);
+                        wr.Write(kv.Value.Date.Ticks);
+                        wr.Write(kv.Value.Date.Offset.Ticks);
+                    }
+                    wr.Flush();
+                    mem.Position = 0;
+                    using (var istr2 = istr.AsStreamForWrite())
+                    {
+                        await mem.CopyToAsync(istr2);
+                    }
                 }
-                await wr.FlushAsync();
             }
         }
 

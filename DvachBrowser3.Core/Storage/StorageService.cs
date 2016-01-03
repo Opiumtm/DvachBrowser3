@@ -11,7 +11,7 @@ namespace DvachBrowser3.Storage
         /// <param name="services">Сервисы.</param>
         public StorageService(IServiceProvider services) : base(services)
         {
-            SmallImages = new MediaStorage(services, "images", 11 * 1024 * 1024, 10 * 1024 * 1024, "Маленькие изображения");
+            SmallImages = new MediaStorage(services, "images", 6 * 1024 * 1024, 5 * 1024 * 1024, "Маленькие изображения");
             FullSizeMediaFiles = new MediaStorage(services, "media", 22 * 1024 * 1024, 20 * 1024 * 1024, "Полноразмерные медиафайлы");
             ThreadData = new ThreadDataStorage(services, "threads", 11 * 1024 * 1024, 10 * 1024 * 1024, "Данные тредов");
             PostData = new PostDataStorage(services, "posting", 6 * 1024 * 1024, 5 * 1024 * 1024, "Данные постинга", 
@@ -19,7 +19,7 @@ namespace DvachBrowser3.Storage
             Drafts = new DraftDataStorage(services, "drafts", "Черновики", new DraftMediaStore(services, "drafts-img", "Изображения черновиков"));
             Archives = new ArchiveStore(services, "archive", "Архив");
             CurrentPostStore = new CurrentPostStore(services, "other", "currentposts.cache");
-            CustomData = new CustomDataStore(services, "custom", 11 * 1024 * 1024, 10 * 1024 * 1024, "Прочие данные");
+            CustomData = new CustomDataStore(services, "custom", 6 * 1024 * 1024, 5 * 1024 * 1024, "Прочие данные");
             CacheFolders = new ICacheFolderInfo[]
             {
                 ThreadData,
