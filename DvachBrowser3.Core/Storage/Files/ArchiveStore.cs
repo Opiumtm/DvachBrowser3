@@ -36,11 +36,6 @@ namespace DvachBrowser3.Storage.Files
         protected readonly SerializedAccessManager<object> DbAccessManager = new SerializedAccessManager<object>();
 
         /// <summary>
-        /// Пустой результат.
-        /// </summary>
-        protected readonly object EmptyResult = new object();
-
-        /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>
         /// <returns>Таск.</returns>
@@ -206,7 +201,7 @@ namespace DvachBrowser3.Storage.Files
                 using (var sizes = await GetSizeCacheImpl(true))
                 {
                     var fn = $"{id}/";
-                    return sizes.GetAllItems().Where(s => s.Key.StartsWith(fn, StringComparison.OrdinalIgnoreCase)).Select(s => s.Value).Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);                
+                    return (await sizes.GetAllItems()).Where(s => s.Key.StartsWith(fn, StringComparison.OrdinalIgnoreCase)).Select(s => s.Value).Aggregate<StorageSizeCacheItem, ulong>(0, (current, r) => current + r.Size);                
                 }
             });
             return (ulong) l;

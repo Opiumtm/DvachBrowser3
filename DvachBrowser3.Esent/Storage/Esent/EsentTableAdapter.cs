@@ -40,22 +40,25 @@ namespace DvachBrowser3.Storage.Esent
         {
             return Task.Factory.StartNew(() =>
             {
-                using (var session = new Session(Instance))
+                using (var instance = InstanceProvider.GetInstance())
                 {
-                    JET_DBID dbid;
-                    Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
-                    Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
-                    using (var transaction = new Transaction(session))
+                    using (var session = new Session(instance.Instance))
                     {
-                        var tables = Api.GetTableNames(session, dbid).ToArray();
-                        if (tables.Any(t => TableName.Equals(t, StringComparison.OrdinalIgnoreCase)))
+                        JET_DBID dbid;
+                        Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
+                        Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
+                        using (var transaction = new Transaction(session))
                         {
-                            return;
+                            var tables = Api.GetTableNames(session, dbid).ToArray();
+                            if (tables.Any(t => TableName.Equals(t, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                return;
+                            }
+                            JET_TABLEID tableid;
+                            Api.JetCreateTable(session, dbid, TableName, 1, 100, out tableid);
+                            DoCreateTable(session, tableid);
+                            transaction.Commit(CommitTransactionGrbit.None);
                         }
-                        JET_TABLEID tableid;
-                        Api.JetCreateTable(session, dbid, TableName, 1, 100, out tableid);
-                        DoCreateTable(session, tableid);
-                        transaction.Commit(CommitTransactionGrbit.None);
                     }
                 }
             });
@@ -66,45 +69,63 @@ namespace DvachBrowser3.Storage.Esent
         /// </summary>
         /// <param name="tableGrbit">Флаги открытия таблицы.</param>
         /// <returns>Транзакция.</returns>
-        public TableTransaction GetTransaction(OpenTableGrbit tableGrbit = OpenTableGrbit.None)
+        public async Task<TableTransaction> GetTransaction(OpenTableGrbit tableGrbit = OpenTableGrbit.None)
         {
-            var session = new Session(Instance);
+            var context = new ThreadExecutionContext();
             try
             {
-                JET_DBID dbid;
-                Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
-                Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
-                var transaction = new Transaction(session);
-                try
+                return await context.Execute((tc) =>
                 {
-                    var table = new Table(session, dbid, TableName, tableGrbit);
-                    return new TableTransaction()
+                    var instance = InstanceProvider.GetInstance();
+                    try
                     {
-                        Table = table,
-                        Session = session,
-                        Transaction = transaction,
-                        Dbid = dbid
-                    };
-                }
-                catch
-                {
-                    transaction.Dispose();                    
-                    throw;
-                }
+                        var session = new Session(instance.Instance);
+                        try
+                        {
+                            JET_DBID dbid;
+                            Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
+                            Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
+                            var transaction = new Transaction(session);
+                            try
+                            {
+                                var table = new Table(session, dbid, TableName, tableGrbit);
+                                return new TableTransaction()
+                                {
+                                    Table = table,
+                                    Session = session,
+                                    Transaction = transaction,
+                                    Dbid = dbid,
+                                    ExecutionContext = tc,
+                                    Instance = instance
+                                };
+                            }
+                            catch
+                            {
+                                transaction.Dispose();
+                                throw;
+                            }
+                        }
+                        catch
+                        {
+                            session.Dispose();
+                            throw;
+                        }
+                    }
+                    catch
+                    {
+                        instance.Dispose();
+                        throw;
+                    }
+                }, context);
             }
             catch
             {
-                session.Dispose();
+                context.Dispose();
                 throw;
             }
         }
 
         protected abstract void DoCreateTable(Session session, JET_TABLEID tableid);
-
-        /// <summary>
-        /// Экземпляр.
-        /// </summary>
-        protected Instance Instance => InstanceProvider?.Instance;
 
         /// <summary>
         /// Путь к базе данных.
@@ -121,19 +142,22 @@ namespace DvachBrowser3.Storage.Esent
         protected T ExecuteInTransaction<T>(Func<Session, Table, T> dataFunc, OpenTableGrbit tableGrbit = OpenTableGrbit.None)
         {
             T results;
-            using (var session = new Session(Instance))
+            using (var instance = InstanceProvider.GetInstance())
             {
-                JET_DBID dbid;
-                Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
-                Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
-                using (var transaction = new Transaction(session))
+                using (var session = new Session(instance.Instance))
                 {
-                    using (var table = new Table(session, dbid, TableName, tableGrbit))
+                    JET_DBID dbid;
+                    Api.JetAttachDatabase(session, DatabasePath, AttachDatabaseGrbit.None);
+                    Api.JetOpenDatabase(session, DatabasePath, String.Empty, out dbid, OpenDatabaseGrbit.None);
+                    using (var transaction = new Transaction(session))
                     {
-                        results = dataFunc(session, table);
-                    }
+                        using (var table = new Table(session, dbid, TableName, tableGrbit))
+                        {
+                            results = dataFunc(session, table);
+                        }
 
-                    transaction.Commit(CommitTransactionGrbit.None);
+                        transaction.Commit(CommitTransactionGrbit.None);
+                    }
                 }
             }
 

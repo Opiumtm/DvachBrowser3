@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using DvachBrowser3.Storage.Files;
 using Microsoft.Isam.Esent.Interop;
+using Microsoft.Isam.Esent.Interop.Vista;
 
 namespace DvachBrowser3.Storage.Esent
 {
@@ -13,12 +15,17 @@ namespace DvachBrowser3.Storage.Esent
     /// </summary>
     internal sealed class EsentInstanceProvider : IEsentInstanceProvider
     {
-        /// <summary>
-        /// Экземпляр.
-        /// </summary>
-        public Instance Instance { get; private set; }
-
         private string databasePath;
+
+        private string fullPath;
+
+        private Timer timer;
+
+        private object sessionLock = new object();
+
+        private int sessionCount;
+
+        private Instance currentInstance;
 
         /// <summary>
         /// Инициализировать.
@@ -26,9 +33,27 @@ namespace DvachBrowser3.Storage.Esent
         public async Task Initialize()
         {
             var databaseDir = await GetDirectory();
-            var fullPath = databaseDir.Path;
+            fullPath = databaseDir.Path;
             databasePath = Path.Combine(fullPath, "database.edb");
-            Instance = new Instance(databasePath)
+            timer = new Timer(TimerCallback, null, TimeSpan.FromMinutes(2), TimeSpan.FromMinutes(2));
+        }
+
+        private void TimerCallback(object state)
+        {
+            lock (sessionLock)
+            {
+                if (sessionCount <= 0 && currentInstance != null)
+                {
+                    sessionCount = 0;
+                    currentInstance.Dispose();
+                    currentInstance = null;
+                }
+            }
+        }
+
+        private Instance CreateInstance()
+        {
+            var instance = new Instance(databasePath)
             {
                 Parameters =
                 {
@@ -38,9 +63,35 @@ namespace DvachBrowser3.Storage.Esent
                     LogFileDirectory = Path.Combine(fullPath, "logs"),
                     Recovery = true,
                     CircularLog = true,
+                    LogFileSize = 1024,
                 },
             };
-            Instance.Init();
+            instance.Init();
+            return instance;
+        }
+
+        /// <summary>
+        /// Получить экземпляр.
+        /// </summary>
+        public IEsentInstance GetInstance()
+        {
+            lock (sessionLock)
+            {
+                if (currentInstance == null)
+                {
+                    currentInstance = CreateInstance();
+                }
+                sessionCount++;
+                return new EsentInstance(OnDispose, currentInstance);
+            }
+        }
+
+        private void OnDispose()
+        {
+            lock (sessionLock)
+            {
+                sessionCount--;
+            }
         }
 
         /// <summary>
@@ -65,25 +116,24 @@ namespace DvachBrowser3.Storage.Esent
         /// <returns>Таск.</returns>
         public Task CreateDatabase()
         {
+            if (File.Exists(databasePath))
+            {
+                return Task.FromResult(true);
+            }
             return Task.Factory.StartNew(() =>
             {
-                using (var session = new Session(Instance))
+                using (var instance = GetInstance())
                 {
-                    JET_DBID database;
+                    using (var session = new Session(instance.Instance))
+                    {
+                        JET_DBID database;
 
-                    Api.JetCreateDatabase(session, databasePath, null, out database, CreateDatabaseGrbit.None);
-                    Api.JetCloseDatabase(session, database, CloseDatabaseGrbit.None);
-                    Api.JetDetachDatabase(session, databasePath);
+                        Api.JetCreateDatabase(session, databasePath, null, out database, CreateDatabaseGrbit.None);
+                        Api.JetCloseDatabase(session, database, CloseDatabaseGrbit.None);
+                        Api.JetDetachDatabase(session, databasePath);
+                    }
                 }
             });
-        }
-
-        /// <summary>
-        /// Выполняет определяемые приложением задачи, связанные с удалением, высвобождением или сбросом неуправляемых ресурсов.
-        /// </summary>
-        public void Dispose()
-        {
-            Instance?.Dispose();
         }
     }
 }

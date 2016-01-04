@@ -13,7 +13,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="id">Идентификатор.</param>
         /// <param name="readOnly">Только для чтения.</param>
         /// <returns>Кэш.</returns>
-        IStorageSizeCache Get(string id, bool readOnly);
+        Task<IStorageSizeCache> Get(string id, bool readOnly);
 
         /// <summary>
         /// Инициализировать глобально.

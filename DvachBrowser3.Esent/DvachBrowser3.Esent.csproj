@@ -110,9 +110,11 @@
     <Compile Include="EsentServicesInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Esent\EsentEmpty.cs" />
+    <Compile Include="Storage\Esent\EsentInstance.cs" />
     <Compile Include="Storage\Esent\EsentStorageSizeCache.cs" />
     <Compile Include="Storage\Esent\EsentStorageSizeCacheFactory.cs" />
     <Compile Include="Storage\Esent\EsentTableAdapter.cs" />
+    <Compile Include="Storage\Esent\IEsentInstance.cs" />
     <Compile Include="Storage\Esent\IEsentInstanceProvider.cs" />
     <Compile Include="Storage\Esent\IEsentTableAdapter.cs" />
     <Compile Include="Storage\Esent\ISizeCacheAdapter.cs" />

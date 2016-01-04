@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Microsoft.Isam.Esent.Interop;
 
 namespace DvachBrowser3.Storage.Esent
 {
     /// <summary>
     /// Провайдер экземпляра.
     /// </summary>
-    internal interface IEsentInstanceProvider : IDisposable
+    internal interface IEsentInstanceProvider
     {
-        /// <summary>
-        /// Экземпляр.
-        /// </summary>
-        Instance Instance { get; }
-
         /// <summary>
         /// Инициализировать.
         /// </summary>
+        /// <returns></returns>
         Task Initialize();
+
+        /// <summary>
+        /// Получить экземпляр.
+        /// </summary>
+        IEsentInstance GetInstance();
 
         /// <summary>
         /// Получить директорию.

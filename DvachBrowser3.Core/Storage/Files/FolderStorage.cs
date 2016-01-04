@@ -99,7 +99,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 using (var sizes = await GetSizeCacheImpl(true))
                 {
-                    return sizes.GetTotalSize();
+                    return await sizes.GetTotalSize();
                 }
             });
         }
@@ -125,13 +125,13 @@ namespace DvachBrowser3.Storage.Files
                 {
                     var cacheDir = await GetCacheFolder();
                     var files = await cacheDir.GetFilesAsync();
-                    sizes.DeleteAllItems();
+                    await sizes.DeleteAllItems();
                     foreach (var f in files)
                     {
                         try
                         {
                             var p = await f.GetBasicPropertiesAsync();
-                            sizes.SetFileSize(f.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
+                            await sizes.SetFileSize(f.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
                         }
                         // ReSharper disable once EmptyGeneralCatchClause
                         catch
@@ -139,7 +139,7 @@ namespace DvachBrowser3.Storage.Files
                             // игнорируем
                         }
                     }
-                    sizes.Commit();
+                    await sizes.Commit();
                     return EmptyResult;
                 }
             });
@@ -168,7 +168,7 @@ namespace DvachBrowser3.Storage.Files
                             try
                             {
                                 await f.DeleteAsync();
-                                sizes.DeleteItem(f.Name);
+                                await sizes.DeleteItem(f.Name);
                             }
                             // ReSharper disable once EmptyGeneralCatchClause
                             catch
@@ -177,11 +177,11 @@ namespace DvachBrowser3.Storage.Files
                             }
                         }
                     }                    
-                    foreach (var n in sizes.GetAllFiles().ToArray().Where(n => !visitedFiles.Contains(n)))
+                    foreach (var n in (await sizes.GetAllFiles()).Where(n => !visitedFiles.Contains(n)))
                     {
-                        sizes.DeleteItem(n);
+                        await sizes.DeleteItem(n);
                     }
-                    sizes.Commit();
+                    await sizes.Commit();
                     return EmptyResult;
                 }
             });
@@ -199,8 +199,8 @@ namespace DvachBrowser3.Storage.Files
             {
                 using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    sizes.SetFileSize(file.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
-                    sizes.Commit();
+                    await sizes.SetFileSize(file.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
+                    await sizes.Commit();
                     return EmptyResult;
                 }
             });
@@ -218,8 +218,8 @@ namespace DvachBrowser3.Storage.Files
             {
                 using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    sizes.DeleteItem(fileName);
-                    sizes.Commit();
+                    await sizes.DeleteItem(fileName);
+                    await sizes.Commit();
                     return EmptyResult;
                 }
             });
@@ -235,11 +235,11 @@ namespace DvachBrowser3.Storage.Files
             {
                 using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    var totalSize = sizes.GetTotalSize();
+                    var totalSize = await sizes.GetTotalSize();
                     if (totalSize < MaxCacheSize) return EmptyResult;
                     var cacheDir = await GetCacheFolder();
                     var immunitySet = await GetRecycleImmunity();
-                    var toCheck = sizes.GetAllItems().OrderBy(kv => kv.Value.Date).ToArray();
+                    var toCheck = (await sizes.GetAllItems()).OrderBy(kv => kv.Value.Date).ToArray();
                     foreach (var f in toCheck)
                     {
                         if (totalSize <= NormalCacheSize)
@@ -253,7 +253,7 @@ namespace DvachBrowser3.Storage.Files
                                 var file = await cacheDir.GetFileAsync(f.Key);
                                 await file.DeleteAsync();
                                 totalSize -= f.Value.Size;
-                                sizes.DeleteItem(f.Key);
+                                await sizes.DeleteItem(f.Key);
                             }
                             // ReSharper disable once EmptyGeneralCatchClause
                             catch
@@ -262,7 +262,7 @@ namespace DvachBrowser3.Storage.Files
                             }
                         }
                     }
-                    sizes.Commit();
+                    await sizes.Commit();
                     return EmptyResult;
                 }
             });
@@ -281,7 +281,8 @@ namespace DvachBrowser3.Storage.Files
                 {
                     using (var sizes = await GetSizeCacheImpl(true))
                     {
-                        return sizes.IsItemPresent(fileName);
+                        var r = await sizes.IsItemPresent(fileName);
+                        return r;
                     }
                 });
             }

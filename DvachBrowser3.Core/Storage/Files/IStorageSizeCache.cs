@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -16,62 +17,62 @@ namespace DvachBrowser3.Storage.Files
         /// <summary>
         /// Сохранить.
         /// </summary>
-        void Commit();
+        Task Commit();
 
         /// <summary>
         /// Установить размер файла.
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
         /// <param name="size">Размер.</param>
-        void SetFileSize(string fileId, StorageSizeCacheItem size);
+        Task SetFileSize(string fileId, StorageSizeCacheItem size);
 
         /// <summary>
         /// Получить общий размер.
         /// </summary>
         /// <returns>Общий размер.</returns>
-        ulong GetTotalSize();
+        Task<ulong> GetTotalSize();
 
         /// <summary>
         /// Получить все элементы.
         /// </summary>
         /// <returns>Все элементы.</returns>
-        IEnumerable<KeyValuePair<string, StorageSizeCacheItem>> GetAllItems();
+        Task<KeyValuePair<string, StorageSizeCacheItem>[]> GetAllItems();
 
         /// <summary>
         /// Получить все файлы.
         /// </summary>
         /// <returns>Список файлов.</returns>
-        IEnumerable<string> GetAllFiles();
+        Task<string[]> GetAllFiles();
 
         /// <summary>
         /// Удалить элемент.
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
-        void DeleteItem(string fileId);
+        Task DeleteItem(string fileId);
 
         /// <summary>
         /// Получить элемент.
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
         /// <returns></returns>
-        StorageSizeCacheItem? GetItem(string fileId);
+        Task<StorageSizeCacheItem?> GetItem(string fileId);
 
         /// <summary>
         /// Удалить все элементы.
         /// </summary>
-        void DeleteAllItems();
+        Task DeleteAllItems();
 
         /// <summary>
         /// Проверка на существование.
         /// </summary>
         /// <param name="fileId">Идентификатор.</param>
         /// <returns>Результат.</returns>
-        bool IsItemPresent(string fileId);
+        Task<bool> IsItemPresent(string fileId);
 
         /// <summary>
         /// Получить количество элементов.
         /// </summary>
         /// <returns>Количество элементов.</returns>
-        int GetCount();
+        Task<int> GetCount();
     }
 }

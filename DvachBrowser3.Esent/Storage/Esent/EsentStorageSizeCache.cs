@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DvachBrowser3.Storage.Files;
 using Microsoft.Isam.Esent.Interop;
 
@@ -45,9 +46,12 @@ namespace DvachBrowser3.Storage.Esent
         /// <summary>
         /// Сохранить.
         /// </summary>
-        public void Commit()
+        public async Task Commit()
         {
-            transaction.Transaction.Commit(CommitTransactionGrbit.None);
+            await transaction.ExecutionContext.Execute(() =>
+            {
+                transaction.Transaction.Commit(CommitTransactionGrbit.None);
+            });
         }
 
         /// <summary>
@@ -55,15 +59,18 @@ namespace DvachBrowser3.Storage.Esent
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
         /// <param name="size">Размер.</param>
-        public void SetFileSize(string fileId, StorageSizeCacheItem size)
+        public async Task SetFileSize(string fileId, StorageSizeCacheItem size)
         {
-            if (fileId == null) return;
-            adapter.SetFileSize(transaction, new SizeCacheEsentItem()
+            await transaction.ExecutionContext.Execute(() =>
             {
-                FileId = fileId.ToLowerInvariant(),
-                Size = size.Size,
-                DTicks = size.Date.Ticks,
-                OTicks = size.Date.Offset.Ticks
+                if (fileId == null) return;
+                adapter.SetFileSize(transaction, new SizeCacheEsentItem()
+                {
+                    FileId = fileId.ToLowerInvariant(),
+                    Size = size.Size,
+                    DTicks = size.Date.Ticks,
+                    OTicks = size.Date.Offset.Ticks
+                });
             });
         }
 
@@ -71,44 +78,50 @@ namespace DvachBrowser3.Storage.Esent
         /// Получить общий размер.
         /// </summary>
         /// <returns>Общий размер.</returns>
-        public ulong GetTotalSize()
+        public async Task<ulong> GetTotalSize()
         {
-            return adapter.GetTotalSize(transaction);
+            return await transaction.ExecutionContext.Execute(() => adapter.GetTotalSize(transaction));
         }
 
         /// <summary>
         /// Получить все элементы.
         /// </summary>
         /// <returns>Все элементы.</returns>
-        public IEnumerable<KeyValuePair<string, StorageSizeCacheItem>> GetAllItems()
+        public async Task<KeyValuePair<string, StorageSizeCacheItem>[]> GetAllItems()
         {
-            return
-                adapter.GetAllItems(transaction)
-                    .Select(
-                        item => new KeyValuePair<string, StorageSizeCacheItem>(item.FileId, new StorageSizeCacheItem()
-                        {
-                            Size = item.Size,
-                            Date = new DateTimeOffset(item.DTicks, new TimeSpan(item.OTicks))
-                        }));
+            return await transaction.ExecutionContext.Execute(() =>
+            {
+                return
+                    adapter.GetAllItems(transaction)
+                        .Select(
+                            item => new KeyValuePair<string, StorageSizeCacheItem>(item.FileId, new StorageSizeCacheItem()
+                            {
+                                Size = item.Size,
+                                Date = new DateTimeOffset(item.DTicks, new TimeSpan(item.OTicks))
+                            })).ToArray();
+            });
         }
 
         /// <summary>
         /// Получить все файлы.
         /// </summary>
         /// <returns>Список файлов.</returns>
-        public IEnumerable<string> GetAllFiles()
+        public async Task<string[]> GetAllFiles()
         {
-            return adapter.GetFileAllIds(transaction);
+            return await transaction.ExecutionContext.Execute(() => adapter.GetFileAllIds(transaction).ToArray());
         }
 
         /// <summary>
         /// Удалить элемент.
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
-        public void DeleteItem(string fileId)
+        public async Task DeleteItem(string fileId)
         {
-            if (fileId == null) return;
-            adapter.DeleteItem(transaction, fileId.ToLowerInvariant());
+            await transaction.ExecutionContext.Execute(() =>
+            {
+                if (fileId == null) return;
+                adapter.DeleteItem(transaction, fileId.ToLowerInvariant());
+            });
         }
 
         /// <summary>
@@ -116,30 +129,36 @@ namespace DvachBrowser3.Storage.Esent
         /// </summary>
         /// <param name="fileId">Идентификатор файла.</param>
         /// <returns></returns>
-        public StorageSizeCacheItem? GetItem(string fileId)
+        public async Task<StorageSizeCacheItem?> GetItem(string fileId)
         {
-            if (fileId == null)
+            return await transaction.ExecutionContext.Execute(() =>
             {
-                return null;
-            }
-            var r = adapter.GetItem(transaction, fileId.ToLowerInvariant());
-            if (r == null)
-            {
-                return null;
-            }
-            return new StorageSizeCacheItem()
-            {
-                Size = r.Value.Size,
-                Date = new DateTimeOffset(r.Value.DTicks, new TimeSpan(r.Value.OTicks))
-            };
+                if (fileId == null)
+                {
+                    return new StorageSizeCacheItem?();
+                }
+                var r = adapter.GetItem(transaction, fileId.ToLowerInvariant());
+                if (r == null)
+                {
+                    return new StorageSizeCacheItem?();
+                }
+                return new StorageSizeCacheItem()
+                {
+                    Size = r.Value.Size,
+                    Date = new DateTimeOffset(r.Value.DTicks, new TimeSpan(r.Value.OTicks))
+                };
+            });
         }
 
         /// <summary>
         /// Удалить все элементы.
         /// </summary>
-        public void DeleteAllItems()
+        public async Task DeleteAllItems()
         {
-            adapter.DeleteAllItems(transaction);
+            await transaction.ExecutionContext.Execute(() =>
+            {
+                adapter.DeleteAllItems(transaction);
+            });
         }
 
         /// <summary>
@@ -147,22 +166,25 @@ namespace DvachBrowser3.Storage.Esent
         /// </summary>
         /// <param name="fileId">Идентификатор.</param>
         /// <returns>Результат.</returns>
-        public bool IsItemPresent(string fileId)
+        public async Task<bool> IsItemPresent(string fileId)
         {
-            if (fileId == null)
+            return await transaction.ExecutionContext.Execute(() =>
             {
-                return false;
-            }
-            return adapter.IsItemPresent(transaction, fileId.ToLowerInvariant());
+                if (fileId == null)
+                {
+                    return false;
+                }
+                return adapter.IsItemPresent(transaction, fileId.ToLowerInvariant());
+            });
         }
 
         /// <summary>
         /// Получить количество элементов.
         /// </summary>
         /// <returns>Количество элементов.</returns>
-        public int GetCount()
+        public async Task<int> GetCount()
         {
-            return adapter.GetCount(transaction);
+            return await transaction.ExecutionContext.Execute(() => adapter.GetCount(transaction));
         }
     }
 }

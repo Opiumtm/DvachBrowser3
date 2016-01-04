@@ -29,6 +29,6 @@ namespace DvachBrowser3.Storage.Esent
         /// </summary>
         /// <param name="tableGrbit">Флаги открытия таблицы.</param>
         /// <returns>Транзакция.</returns>
-        TableTransaction GetTransaction(OpenTableGrbit tableGrbit = OpenTableGrbit.None);
+        Task<TableTransaction> GetTransaction(OpenTableGrbit tableGrbit = OpenTableGrbit.None);
     }
 }

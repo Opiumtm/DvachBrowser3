@@ -27,10 +27,10 @@ namespace DvachBrowser3.Storage.Esent
         /// <param name="id">Идентификатор.</param>
         /// <param name="readOnly">Только для чтения.</param>
         /// <returns>Кэш.</returns>
-        public IStorageSizeCache Get(string id, bool readOnly)
+        public async Task<IStorageSizeCache> Get(string id, bool readOnly)
         {
             var session = new SizeCacheAdapter(instanceProvider, GetTableName(id));
-            return new EsentStorageSizeCache(session.GetTransaction(readOnly ? OpenTableGrbit.ReadOnly : OpenTableGrbit.None), session, id);
+            return new EsentStorageSizeCache(await session.GetTransaction(readOnly ? OpenTableGrbit.ReadOnly : OpenTableGrbit.None), session, id);
         }
 
         /// <summary>

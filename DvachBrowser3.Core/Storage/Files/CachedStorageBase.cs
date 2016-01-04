@@ -86,8 +86,7 @@ namespace DvachBrowser3.Storage.Files
         protected async Task<IStorageSizeCache> GetSizeCacheImpl(bool readOnly)
         {
             await SizeCacheFactory.InitializeCache(FolderName);
-            var result = SizeCacheFactory.Get(FolderName, readOnly);
-            return result;
+            return await SizeCacheFactory.Get(FolderName, readOnly);
         }
     }
 }
