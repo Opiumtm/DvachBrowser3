@@ -29,20 +29,12 @@ namespace DvachBrowser3.Views.Partial
             MainGridOnSizeChanged(null, null);
             PostLinesUpdated(MaxLines);
             PostTextView.TextRendered += PostTextViewOnTextRendered;
-            PostTextView2.TextRendered += PostTextViewOnTextRendered;
             PostTextViewOnTextRendered(PostTextView, EventArgs.Empty);
         }
 
         private void PostTextViewOnTextRendered(object sender, EventArgs eventArgs)
         {
-            if (MaxLines == 0)
-            {
-                ExceedLines = PostTextView2.ExceedLines;
-            }
-            else
-            {
-                ExceedLines = PostTextView.ExceedLines;
-            }
+            ExceedLines = PostTextView.ExceedLines;
         }
 
         private void MainGridOnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -61,16 +53,6 @@ namespace DvachBrowser3.Views.Partial
 
         private void PostLinesUpdated(int ml)
         {
-            if (ml == 0)
-            {
-                PlainText.Visibility = Visibility.Collapsed;
-                ScrollText.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                PlainText.Visibility = Visibility.Visible;
-                ScrollText.Visibility = Visibility.Collapsed;
-            }
         }
 
         /// <summary>

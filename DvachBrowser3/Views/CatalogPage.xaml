@@ -77,9 +77,9 @@
         </GridView>
         <Border x:Name="PostPreview" Grid.Row="2" Visibility="Collapsed">
             <Border.Background>
-                <SolidColorBrush Color="{ThemeResource SystemColorWindowColor}" Opacity="0.5" />
+                <SolidColorBrush Color="Black" Opacity="0.5" />
             </Border.Background>
-            <Border BorderThickness="1, 1, 3, 3" Padding="4" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            <Border BorderThickness="1, 1, 1, 1" Padding="4" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="PostPreviewBorder">
                 <Border.BorderBrush>
                     <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.66" />
@@ -89,7 +89,9 @@
                         <RowDefinition Height="100*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <pa:PostView Grid.Row="0" x:Name="PostView" MaxLines="0" />
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="0" HorizontalAlignment="Stretch">
+                        <pa:PostView x:Name="PostView" MaxLines="0" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button x:Name="CloseButton" Margin="2" Click="CloseButton_OnClick">Закрыть</Button>
                         <Button x:Name="ViewButton" Margin="2">Перейти в тред</Button>

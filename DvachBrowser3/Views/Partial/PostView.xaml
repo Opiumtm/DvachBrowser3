@@ -15,7 +15,6 @@
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
-        <local2:GridLengthConverter x:Key="GridLengthConverter"/>
         <SolidColorBrush x:Key="LocBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
     </UserControl.Resources>
 
@@ -96,14 +95,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <Grid x:Name="PlainText" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
-            <local:PostText ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        </Grid>
-        <ScrollViewer x:Name="ScrollText" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <local:PostText ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView2" Margin="3" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            </Grid>
-        </ScrollViewer>
+        <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <TextBlock Grid.Row="4" FontSize="14.5" Margin="3" Text="[Показана часть поста]" FontWeight="SemiBold" HorizontalAlignment="Center"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
         <Border Grid.Row="5" Margin="3">
