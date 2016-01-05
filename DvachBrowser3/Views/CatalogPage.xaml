@@ -13,6 +13,23 @@
     xmlns:controls="using:Template10.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d" x:Name="ThisPage">
+    
+    <Page.Resources>
+        <Storyboard x:Key="ShowPreviewAnimation">
+            <DoubleAnimation Storyboard.TargetName="PostPreview" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="PostPreviewBodyScale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.12" From="0.95" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="PostPreviewBodyScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.12" From="0.95" To="1.0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PostPreview" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="Visible" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HidePreviewAnimation">
+            <DoubleAnimation Storyboard.TargetName="PostPreview" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PostPreview" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="Collapsed" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
 
     <ps:PageServices.Services>
         <ps:PageServiceCollection>
@@ -31,7 +48,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ThisPage.TileWidth" Value="90" />
-                        <Setter Target="PostPreviewBorder.Margin" Value="5" />
+                        <Setter Target="PostPreviewBody.Margin" Value="5" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -40,7 +57,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ThisPage.TileWidth" Value="160" />
-                        <Setter Target="PostPreviewBorder.Margin" Value="24, 5, 24, 5" />
+                        <Setter Target="PostPreviewBody.Margin" Value="24, 5, 24, 5" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -80,7 +97,10 @@
                 <SolidColorBrush Color="Black" Opacity="0.5" />
             </Border.Background>
             <Border BorderThickness="1, 1, 1, 1" Padding="4" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="PostPreviewBorder">
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="PostPreviewBody" RenderTransformOrigin="0.5, 0.5">
+                <Border.RenderTransform>
+                    <ScaleTransform x:Name="PostPreviewBodyScale" ScaleX="1.0" ScaleY="1.0" />
+                </Border.RenderTransform>
                 <Border.BorderBrush>
                     <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.66" />
                 </Border.BorderBrush>
@@ -89,8 +109,8 @@
                         <RowDefinition Height="100*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="0" HorizontalAlignment="Stretch">
-                        <pa:PostView x:Name="PostView" MaxLines="0" HorizontalAlignment="Stretch" />
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
+                        <pa:PostView x:Name="PostView" MaxLines="0" />
                     </ScrollViewer>
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button x:Name="CloseButton" Margin="2" Click="CloseButton_OnClick">Закрыть</Button>

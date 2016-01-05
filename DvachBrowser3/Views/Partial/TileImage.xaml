@@ -9,13 +9,13 @@
     mc:Ignorable="d"
     d:DesignHeight="75"
     d:DesignWidth="75">
+
     <UserControl.Resources>
         <dvachBrowser3:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Storyboard x:Key="ImageStoryBoard" TargetName="MainImage" TargetProperty="Opacity">
             <DoubleAnimation From="0.0" To="1.0" Duration="0:0:0.5" />
         </Storyboard>
     </UserControl.Resources>
-    
 
     <Grid>
         <Border x:Name="BackgroundBorder" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">

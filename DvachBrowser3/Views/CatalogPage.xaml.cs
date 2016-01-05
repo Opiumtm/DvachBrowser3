@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
@@ -130,27 +131,33 @@ namespace DvachBrowser3.Views
         public static readonly DependencyProperty TileWidthProperty = DependencyProperty.Register("TileWidth", typeof (double), typeof (CatalogPage),
             new PropertyMetadata(100.0));
 
+        private bool isPreviewOpen = false;
+
         private void CatalogElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var t = (sender as FrameworkElement)?.Tag as IPostViewModel;
             if (t != null)
             {
                 PostView.ViewModel = t;
-                PostPreview.Visibility = Visibility.Visible;
+                PostPreviewScroll.ChangeView(null, 0.0, null);
+                ((Storyboard)Resources["ShowPreviewAnimation"]).Begin();
+                isPreviewOpen = true;
             }
         }
 
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {
-            PostPreview.Visibility = Visibility.Collapsed;
+            ((Storyboard)Resources["HidePreviewAnimation"]).Begin();
+            isPreviewOpen = false;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back && PostPreview.Visibility == Visibility.Visible)
+            if (e.NavigationMode == NavigationMode.Back && isPreviewOpen)
             {
                 e.Cancel = true;
-                PostPreview.Visibility = Visibility.Collapsed;
+                ((Storyboard)Resources["HidePreviewAnimation"]).Begin();
+                isPreviewOpen = false;
                 return;
             }
             base.OnNavigatingFrom(e);
