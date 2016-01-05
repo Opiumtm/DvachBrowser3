@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="DvachBrowser3.Views.Partial.ContentPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views.Partial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowContentAnimation">
+            <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.12" From="0.95" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.12" From="0.95" To="1.0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="Visible" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HideContentAnimation">
+            <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="Collapsed" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Border x:Name="MainView" Visibility="Collapsed">
+        <Border.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5" />
+        </Border.Background>
+        <Border BorderThickness="1, 1, 1, 1" Padding="4" Margin="{x:Bind PopupMargin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Body" RenderTransformOrigin="0.5, 0.5">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="BodyScale" ScaleX="1.0" ScaleY="1.0" />
+            </Border.RenderTransform>
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.66" />
+            </Border.BorderBrush>
+            <ContentPresenter Content="{x:Bind ViewContent}" />
+        </Border>
+    </Border>
+</UserControl>

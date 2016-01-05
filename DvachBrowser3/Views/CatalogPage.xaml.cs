@@ -131,8 +131,6 @@ namespace DvachBrowser3.Views
         public static readonly DependencyProperty TileWidthProperty = DependencyProperty.Register("TileWidth", typeof (double), typeof (CatalogPage),
             new PropertyMetadata(100.0));
 
-        private bool isPreviewOpen = false;
-
         private void CatalogElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var t = (sender as FrameworkElement)?.Tag as IPostViewModel;
@@ -140,24 +138,21 @@ namespace DvachBrowser3.Views
             {
                 PostView.ViewModel = t;
                 PostPreviewScroll.ChangeView(null, 0.0, null);
-                ((Storyboard)Resources["ShowPreviewAnimation"]).Begin();
-                isPreviewOpen = true;
+                PostPreview.IsContentVisible = true;
             }
         }
 
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {
-            ((Storyboard)Resources["HidePreviewAnimation"]).Begin();
-            isPreviewOpen = false;
+            PostPreview.IsContentVisible = false;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back && isPreviewOpen)
+            if (e.NavigationMode == NavigationMode.Back && PostPreview.IsContentVisible)
             {
                 e.Cancel = true;
-                ((Storyboard)Resources["HidePreviewAnimation"]).Begin();
-                isPreviewOpen = false;
+                PostPreview.IsContentVisible = false;
                 return;
             }
             base.OnNavigatingFrom(e);

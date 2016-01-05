@@ -286,6 +286,9 @@
       <DependentUpon>BoardTile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\BoardTileShortNameConverter.cs" />
+    <Compile Include="Views\Partial\ContentPopup.xaml.cs">
+      <DependentUpon>ContentPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\PostText.xaml.cs">
       <DependentUpon>PostText.xaml</DependentUpon>
     </Compile>
@@ -385,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\BoardTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\ContentPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
