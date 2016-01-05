@@ -27,6 +27,12 @@ namespace DvachBrowser3.Storage.Files
         Task SetFileSize(string fileId, StorageSizeCacheItem size);
 
         /// <summary>
+        /// Установить размер файла.
+        /// </summary>
+        /// <param name="sizes">Размеры.</param>
+        Task SetFilesSize(KeyValuePair<string, StorageSizeCacheItem>[] sizes);
+
+        /// <summary>
         /// Получить общий размер.
         /// </summary>
         /// <returns>Общий размер.</returns>

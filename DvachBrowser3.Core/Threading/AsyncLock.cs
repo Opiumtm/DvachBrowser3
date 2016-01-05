@@ -11,6 +11,8 @@ namespace DvachBrowser3
     {
         private readonly Queue<TaskCompletionSource<bool>> waiters = new Queue<TaskCompletionSource<bool>>();
 
+        private static readonly Task CompletedTask = Task.FromResult(true);
+
         private bool isWaiting;
 
         /// <summary>
@@ -19,17 +21,20 @@ namespace DvachBrowser3
         /// <returns>Таск.</returns>
         public Task Enter()
         {
+            TaskCompletionSource<bool> tcs = null;
             lock (waiters)
             {
                 if (isWaiting)
                 {
-                    var tcs = new TaskCompletionSource<bool>();
+                    tcs = new TaskCompletionSource<bool>();
                     waiters.Enqueue(tcs);
-                    return tcs.Task;
                 }
-                isWaiting = true;
-                return Task.FromResult(true);
+                else
+                {
+                    isWaiting = true;
+                }
             }
+            return tcs != null ? tcs.Task : CompletedTask;
         }
 
         /// <summary>

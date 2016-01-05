@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,21 +56,49 @@ namespace DvachBrowser3
             {
                 Task.Factory.StartNew(async () =>
                 {
+                    bool isUnlocked = false;
+                    KeyValuePair<TKey, T>[] toSave = null;
                     try
                     {
                         await Task.Delay(aggregateTime);
+                        lock (dataDic)
+                        {
+                            Interlocked.Exchange(ref isSaving, 0);
+                            isUnlocked = true;
+                            toSave = dataDic.ToArray();
+                            dataDic.Clear();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
                     }
                     finally
                     {
-                        Interlocked.Exchange(ref isSaving, 0);
+                        if (!isUnlocked)
+                        {
+                            Interlocked.Exchange(ref isSaving, 0);
+                        }
                     }
-                    KeyValuePair<TKey, T>[] toSave;
-                    lock (dataDic)
+                    CallSaver(toSave);
+                });
+            }
+        }
+
+        private void CallSaver(KeyValuePair<TKey, T>[] toSave)
+        {
+            if (toSave != null && toSave.Length > 0)
+            {
+                Task.Factory.StartNew(async () =>
+                {
+                    try
                     {
-                        toSave = dataDic.ToArray();
-                        dataDic.Clear();
+                        await saveFunc(toSave);
                     }
-                    await saveFunc(toSave);
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
                 });
             }
         }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace DvachBrowser3.Storage.Files
 {
     /// <summary>
     /// Хранилище с кэшем.
     /// </summary>
-    public class CachedStorageBase : StorageBase
+    public abstract class CachedStorageBase : StorageBase
     {
         /// <summary>
         /// Конструктор.
@@ -18,60 +19,12 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="folderName">Директория.</param>
         protected CachedStorageBase(IServiceProvider services, string folderName) : base(services, folderName)
         {
+            syncAggregator = new TimePeriodDataAggregator<string, StorageSizeCacheItem>(TimeSpan.FromSeconds(0.5), SaveSyncData);
         }
 
         protected readonly static SerializedAccessManager<object> SizeAccessManager = new SerializedAccessManager<object>();
 
-        //private StorageSizeCache sizeCache;
-
         protected readonly static object EmptyResult = new object();
-
-        /*
-        /// <summary>
-        /// Получить кэш для изменений.
-        /// </summary>
-        /// <param name="sizesFile">Файл кэша.</param>
-        /// <returns>Кэш для изменений.</returns>
-        protected async Task<StorageSizeCache> GetSizeCacheForChange(StorageFile sizesFile)
-        {
-            var result = Interlocked.CompareExchange(ref sizeCache, null, null);
-            if (result == null)
-            {
-                result = new StorageSizeCache();
-                await result.Load(sizesFile);
-            }
-            else
-            {
-                result = result.Clone();
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Получить кэш для чтения.
-        /// </summary>
-        /// <param name="sizesFile">Файл кэша.</param>
-        /// <returns>Кэш для изменений.</returns>
-        protected async Task<StorageSizeCache> GetSizeCacheForRead(Func<Task<StorageFile>> sizesFile)
-        {
-            var result = Interlocked.CompareExchange(ref sizeCache, null, null);
-            if (result == null)
-            {
-                result = new StorageSizeCache();
-                await result.Load(await sizesFile());
-                Interlocked.Exchange(ref sizeCache, result);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Установить данные кэша.
-        /// </summary>
-        /// <param name="value">Новые данные.</param>
-        protected void SetSizeCache(StorageSizeCache value)
-        {
-            Interlocked.Exchange(ref sizeCache, value);
-        }*/
 
         /// <summary>
         /// Фабрика сервиса хранения кэша.
@@ -87,6 +40,36 @@ namespace DvachBrowser3.Storage.Files
         {
             await SizeCacheFactory.InitializeCache(FolderName);
             return await SizeCacheFactory.Get(FolderName, readOnly);
+        }
+
+        protected abstract Task DoRecycleCache(IStorageSizeCache sizes);
+
+        private readonly TimePeriodDataAggregator<string, StorageSizeCacheItem> syncAggregator;
+
+        /// <summary>
+        /// Синхронизировать кэш файла.
+        /// </summary>
+        /// <param name="fn">Имя файла.</param>
+        /// <param name="fs">Размер файла.</param>
+        /// <returns>Таск.</returns>
+        protected Task DoSyncCacheFileSize(string fn, StorageSizeCacheItem fs)
+        {
+            syncAggregator.Push(fn, fs);
+            return Task.FromResult(true);
+        }
+
+        private async Task SaveSyncData(KeyValuePair<string, StorageSizeCacheItem>[] files)
+        {
+            await SizeAccessManager.QueueAction(async () =>
+            {
+                using (var sizes = await GetSizeCacheImpl(false))
+                {
+                    await sizes.SetFilesSize(files);
+                    await DoRecycleCache(sizes);
+                    await sizes.Commit();
+                    return EmptyResult;
+                }
+            });
         }
     }
 }

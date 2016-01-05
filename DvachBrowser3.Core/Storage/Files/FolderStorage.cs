@@ -195,16 +195,7 @@ namespace DvachBrowser3.Storage.Files
         protected async Task SyncCacheFileSize(StorageFile file)
         {
             var p = await file.GetBasicPropertiesAsync();
-            await SizeAccessManager.QueueAction(async () =>
-            {
-                using (var sizes = await GetSizeCacheImpl(false))
-                {
-                    await sizes.SetFileSize(file.Name, new StorageSizeCacheItem { Size = p.Size, Date = p.DateModified });
-                    await sizes.Commit();
-                    return EmptyResult;
-                }
-            });
-            await RecycleCache();
+            await DoSyncCacheFileSize(file.Name, new StorageSizeCacheItem {Size = p.Size, Date = p.DateModified});
         }
 
         /// <summary>
@@ -225,6 +216,37 @@ namespace DvachBrowser3.Storage.Files
             });
         }
 
+        protected override async Task DoRecycleCache(IStorageSizeCache sizes)
+        {
+            var totalSize = await sizes.GetTotalSize();
+            if (totalSize < MaxCacheSize) return;
+            var cacheDir = await GetCacheFolder();
+            var immunitySet = await GetRecycleImmunity();
+            var toCheck = (await sizes.GetAllItems()).OrderBy(kv => kv.Value.Date).ToArray();
+            foreach (var f in toCheck)
+            {
+                if (totalSize <= NormalCacheSize)
+                {
+                    break;
+                }
+                if (!immunitySet.Contains(f.Key))
+                {
+                    try
+                    {
+                        var file = await cacheDir.GetFileAsync(f.Key);
+                        await file.DeleteAsync();
+                        totalSize -= f.Value.Size;
+                        await sizes.DeleteItem(f.Key);
+                    }
+                    // ReSharper disable once EmptyGeneralCatchClause
+                    catch
+                    {
+                        // игнорируем
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>
@@ -235,33 +257,7 @@ namespace DvachBrowser3.Storage.Files
             {
                 using (var sizes = await GetSizeCacheImpl(false))
                 {
-                    var totalSize = await sizes.GetTotalSize();
-                    if (totalSize < MaxCacheSize) return EmptyResult;
-                    var cacheDir = await GetCacheFolder();
-                    var immunitySet = await GetRecycleImmunity();
-                    var toCheck = (await sizes.GetAllItems()).OrderBy(kv => kv.Value.Date).ToArray();
-                    foreach (var f in toCheck)
-                    {
-                        if (totalSize <= NormalCacheSize)
-                        {
-                            break;
-                        }
-                        if (!immunitySet.Contains(f.Key))
-                        {
-                            try
-                            {
-                                var file = await cacheDir.GetFileAsync(f.Key);
-                                await file.DeleteAsync();
-                                totalSize -= f.Value.Size;
-                                await sizes.DeleteItem(f.Key);
-                            }
-                            // ReSharper disable once EmptyGeneralCatchClause
-                            catch
-                            {
-                                // игнорируем
-                            }
-                        }
-                    }
+                    await DoRecycleCache(sizes);
                     await sizes.Commit();
                     return EmptyResult;
                 }

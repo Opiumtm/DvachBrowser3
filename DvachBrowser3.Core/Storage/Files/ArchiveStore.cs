@@ -35,6 +35,11 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         protected readonly SerializedAccessManager<object> DbAccessManager = new SerializedAccessManager<object>();
 
+        protected override Task DoRecycleCache(IStorageSizeCache sizes)
+        {
+            return Task.FromResult(true);
+        }
+
         /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>

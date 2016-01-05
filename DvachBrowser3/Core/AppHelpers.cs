@@ -118,22 +118,62 @@ namespace DvachBrowser3
             var disp = Dispatcher;
             disp?.DispatchAsync(async () =>
             {
-                try
-                {
-                    a();
-                }
-                catch (Exception ex)
-                {
-                    if (reportError)
-                    {
-                        await ShowError(ex);
-                    }
-                    else
-                    {
-                        DebugHelper.BreakOnError(ex);
-                    }
-                }
+                await RunAction(a, reportError);
             });
+        }
+
+        private static async Task RunAction(Action a, bool reportError = false)
+        {
+            if (a == null)
+            {
+                return;
+            }
+            try
+            {
+                a();
+            }
+            catch (Exception ex)
+            {
+                if (reportError)
+                {
+                    await ShowError(ex);
+                }
+                else
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Выполнить дейсвтие на UI треде.
+        /// </summary>
+        /// <param name="a">Действие.</param>
+        /// <param name="reportError">Показать ошибку.</param>
+        public static async void ActionOnUiThread(Action a, bool reportError = false)
+        {
+            if (a == null)
+            {
+                return;
+            }
+            if (OnUiThread())
+            {
+                await RunAction(a, reportError);
+            }
+            else
+            {
+                DispatchAction(a, reportError);
+            }
+        }
+
+        /// <summary>
+        /// Запущено на UI-потоке.
+        /// </summary>
+        /// <returns>Результат.</returns>
+        public static bool OnUiThread()
+        {
+            var disp = Dispatcher;
+            return disp?.HasThreadAccess() ?? false;
         }
     }
 }

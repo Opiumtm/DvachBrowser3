@@ -12,6 +12,8 @@ namespace DvachBrowser3
     {
         private readonly Queue<TaskCompletionSource<bool>> waiters = new Queue<TaskCompletionSource<bool>>();
 
+        private static readonly Task CompletedTask = Task.FromResult(true);
+
         private int count;
 
         /// <summary>
@@ -29,17 +31,20 @@ namespace DvachBrowser3
         /// <returns>Таск.</returns>
         public Task Enter()
         {
+            TaskCompletionSource<bool> tcs = null;
             lock (waiters)
             {
                 if (count > 0)
                 {
                     count = count - 1;
-                    return Task.FromResult(true);
                 }
-                var tcs = new TaskCompletionSource<bool>();
-                waiters.Enqueue(tcs);
-                return tcs.Task;
+                else
+                {
+                    tcs = new TaskCompletionSource<bool>();
+                    waiters.Enqueue(tcs);
+                }
             }
+            return tcs != null ? tcs.Task : CompletedTask;
         }
 
         /// <summary>

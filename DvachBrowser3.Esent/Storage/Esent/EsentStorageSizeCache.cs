@@ -75,6 +75,34 @@ namespace DvachBrowser3.Storage.Esent
         }
 
         /// <summary>
+        /// Установить размер файла.
+        /// </summary>
+        /// <param name="sizes">Размеры.</param>
+        public async Task SetFilesSize(KeyValuePair<string, StorageSizeCacheItem>[] sizes)
+        {
+            if (sizes == null)
+            {
+                return;
+            }
+            await transaction.ExecutionContext.Execute(() =>
+            {
+                foreach (var kv in sizes)
+                {
+                    var fileId = kv.Key;
+                    var size = kv.Value;
+                    if (fileId == null) continue;
+                    adapter.SetFileSize(transaction, new SizeCacheEsentItem()
+                    {
+                        FileId = fileId.ToLowerInvariant(),
+                        Size = size.Size,
+                        DTicks = size.Date.Ticks,
+                        OTicks = size.Date.Offset.Ticks
+                    });
+                }
+            });
+        }
+
+        /// <summary>
         /// Получить общий размер.
         /// </summary>
         /// <returns>Общий размер.</returns>

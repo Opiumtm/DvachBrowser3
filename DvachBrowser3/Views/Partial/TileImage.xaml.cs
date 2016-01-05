@@ -31,7 +31,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void ViewModelChanged(IImageSourceViewModel oldValue, IImageSourceViewModel newValue)
         {
-            AppHelpers.DispatchAction(() =>
+            AppHelpers.ActionOnUiThread(() =>
             {
                 if (oldValue != null)
                 {
@@ -67,7 +67,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void UpdateState(string property)
         {
-            AppHelpers.DispatchAction(() =>
+            AppHelpers.ActionOnUiThread(() =>
             {
                 if (ViewModel == null)
                 {
@@ -83,13 +83,13 @@ namespace DvachBrowser3.Views.Partial
                     NoIcon.Visibility = Visibility.Collapsed;
                     return;
                 }
-                if (!ViewModel.Load.Progress.IsActive && ViewModel.Load.Progress.IsError)
+                if (ViewModel.Load.Progress.IsError)
                 {
                     MainImage.Visibility = Visibility.Collapsed;
                     ErrorIcon.Visibility = Visibility.Visible;
                     NoIcon.Visibility = Visibility.Collapsed;
                 }
-                else if (ViewModel.ImageLoaded && !ViewModel.Load.Progress.IsActive && !ViewModel.Load.Progress.IsError)
+                else if (ViewModel.ImageLoaded)
                 {
                     MainImage.Visibility = Visibility.Visible;
                     if (!AttachedFlags.GetIsRendered(ViewModel))

@@ -132,6 +132,11 @@ namespace DvachBrowser3.Storage.Files
             });
         }
 
+        protected override Task DoRecycleCache(IStorageSizeCache sizes)
+        {
+            return Task.FromResult(true);
+        }
+
         /// <summary>
         /// Удалить старые данные из кэша.
         /// </summary>

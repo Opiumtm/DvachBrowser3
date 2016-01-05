@@ -27,7 +27,7 @@ namespace DvachBrowser3
         /// <summary>
         /// Максимальное количество параллельных загрузок маленьких изображений.
         /// </summary>
-        public const int MaxParallelSmallImageDownloads = 4;
+        public const int MaxParallelSmallImageDownloads = 5;
 
         /// <summary>
         /// Движок.
