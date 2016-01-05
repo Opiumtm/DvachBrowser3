@@ -30,14 +30,27 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <returns>Таск.</returns>
         public override async Task<StorageFile> Complete(CancellationToken token)
         {
-            var engine = GetEngine(Parameter.Link);
             var mediaStore = GetMediaStorage();
-            var cache = (Parameter.Mode & LoadMediaFileMode.SaveToCache) != 0;
             var oldFile = await mediaStore.GetFromMediaStorage(Parameter.Link);
             if (oldFile != null)
             {
                 return oldFile;
             }
+            if ((Parameter.Mode & LoadMediaFileMode.FullSizeMedia) != 0)
+            {
+                return await CompleteLogic(token);
+            }
+            else
+            {
+                return await ImageLoadAccessManager.QueueAction(async () => await CompleteLogic(token));
+            }
+        }
+
+        private async Task<StorageFile> CompleteLogic(CancellationToken token)
+        {
+            var engine = GetEngine(Parameter.Link);
+            var mediaStore = GetMediaStorage();
+            var cache = (Parameter.Mode & LoadMediaFileMode.SaveToCache) != 0;
             var newFile = await DownloadMediaFile(engine, token);
             if (newFile == null || newFile.TempFile == null)
             {
@@ -67,7 +80,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <summary>
         /// Семафор для загрузки маленьких изображений.
         /// </summary>
-        protected static readonly MaxConcurrencyAccessManager<IMediaResult> ImageLoadAccessManager = new MaxConcurrencyAccessManager<IMediaResult>(CoreConstants.MaxParallelSmallImageDownloads);
+        protected static readonly MaxConcurrencyAccessManager<StorageFile> ImageLoadAccessManager = new MaxConcurrencyAccessManager<StorageFile>(CoreConstants.MaxParallelSmallImageDownloads);
 
         /// <summary>
         /// Загрузить медиафайл.
@@ -79,19 +92,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
         {
             var request = engine.GetMediaFile(Parameter.Link);
             request.Progress += (sender, e) => OnProgress(e);
-            if ((Parameter.Mode & LoadMediaFileMode.FullSizeMedia) != 0)
-            {
-                token.ThrowIfCancellationRequested();
-                return await request.Complete(token);
-            }
-            else
-            {
-                return await ImageLoadAccessManager.QueueAction(async () =>
-                {
-                    token.ThrowIfCancellationRequested();
-                    return await request.Complete(token);
-                });
-            }
+            token.ThrowIfCancellationRequested();
+            return await request.Complete(token);
         }
     }
 }
