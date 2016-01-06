@@ -60,7 +60,9 @@
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
     <Compile Include="Threading\AsyncConcurrencySemaphore.cs" />
+    <Compile Include="Threading\AsyncLazy.cs" />
     <Compile Include="Threading\AsyncLock.cs" />
+    <Compile Include="Threading\IAsyncLazy.cs" />
     <Compile Include="Threading\IAsyncLock.cs" />
     <Compile Include="Threading\IConcurrenctyDispatcher.cs" />
     <Compile Include="Common\IConfiguration.cs" />

@@ -28,11 +28,17 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template" Value="{StaticResource CleanListViewItemPresenterTemplate}" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IThreadPreviewViewModel">
-                    <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 0, 5" />
+                    <Border Tag="{x:Bind}" Tapped="ThreadElement_OnTapped">
+                        <Border.Background>
+                            <SolidColorBrush Opacity="0" />
+                        </Border.Background>
+                        <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 0, 5" />
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>

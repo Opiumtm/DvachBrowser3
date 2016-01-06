@@ -306,9 +306,11 @@ namespace DvachBrowser3.Engines.Makaba.Html
                     };
                     for (var i = 0; i < thread.Posts.Count; i++)
                     {
+                        thread.Posts[i].Flags |= PostFlags.ThreadPreview;
                         if (i == 0)
                         {
                             thread.Posts[i].Counter = 1;
+                            thread.Posts[i].Flags |= PostFlags.ThreadPreviewOpPost;
                         }
                         else
                         {
@@ -511,7 +513,7 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 var html = new HtmlDocument();
                 html.LoadHtml(str);
-                if (html.DocumentNode == null || html.DocumentNode.ChildNodes == null)
+                if (html.DocumentNode?.ChildNodes == null)
                 {
                     return emptyResult;
                 }

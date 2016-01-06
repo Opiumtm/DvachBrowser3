@@ -46,5 +46,15 @@ namespace DvachBrowser3.ViewModels
         /// Трип администратора.
         /// </summary>
         bool AdminTrip { get; }
+
+        /// <summary>
+        /// Превью треда.
+        /// </summary>
+        bool ThreadPreview { get; }
+
+        /// <summary>
+        /// ОП-пост превью треда.
+        /// </summary>
+        bool ThreadPreviewOpPost { get; }
     }
 }

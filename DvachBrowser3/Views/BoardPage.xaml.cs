@@ -20,6 +20,7 @@ using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
+using DvachBrowser3.Views.Partial;
 using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -77,10 +78,12 @@ namespace DvachBrowser3.Views
 
         private void BoardOnPageLoadStarted(object sender, EventArgs eventArgs)
         {
+            ThreadPreviewPopup.IsContentVisible = false;
         }
 
         private void BoardOnPageLoaded(object sender, EventArgs eventArgs)
         {
+            ThreadPreview.ViewModel = null;
             if (savedTopThreadHash != null)
             {
                 var savedHash = savedTopThreadHash;
@@ -288,6 +291,26 @@ namespace DvachBrowser3.Views
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 return $"{this.GetType().FullName}::{linkHash.GetLinkHash(navigatedLink)}";
             }
+        }
+
+        private void MainList_OnThreadTapped(object sender, ThreadPreviewTappedEventArgs e)
+        {
+            if (e?.Thread != null && !ViewModel.Update.Progress.IsActive)
+            {
+                ThreadPreview.ViewModel = e.Thread;
+                ThreadPreviewPopup.IsContentVisible = true;
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back && ThreadPreviewPopup.IsContentVisible)
+            {
+                ThreadPreviewPopup.IsContentVisible = false;
+                e.Cancel = true;
+                return;
+            }
+            base.OnNavigatingFrom(e);
         }
     }
 }

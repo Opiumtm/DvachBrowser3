@@ -30,6 +30,8 @@ namespace DvachBrowser3.ViewModels
                 IsEdited = (data.Flags & PostFlags.IsEdited) != 0;
                 Op = (data.Flags & PostFlags.Op) != 0;
                 AdminTrip = (data.Flags & PostFlags.AdminTrip) != 0;
+                ThreadPreview = (data.Flags & PostFlags.ThreadPreview) != 0;
+                ThreadPreviewOpPost = (data.Flags & PostFlags.ThreadPreviewOpPost) != 0;
             }
         }
 
@@ -67,5 +69,15 @@ namespace DvachBrowser3.ViewModels
         /// Трип администратора.
         /// </summary>
         public bool AdminTrip { get; }
+
+        /// <summary>
+        /// Превью треда.
+        /// </summary>
+        public bool ThreadPreview { get; }
+
+        /// <summary>
+        /// ОП-пост превью треда.
+        /// </summary>
+        public bool ThreadPreviewOpPost { get; }
     }
 }

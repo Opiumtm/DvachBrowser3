@@ -47,5 +47,10 @@ namespace DvachBrowser3.Posts
         /// Трипкод администратора.
         /// </summary>
         AdminTrip = 0x0080,
+
+        /// <summary>
+        /// ОП-пост превью треда.
+        /// </summary>
+        ThreadPreviewOpPost = 0x0100
     }
 }

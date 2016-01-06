@@ -86,6 +86,21 @@ namespace DvachBrowser3.Views.Partial
             new PropertyMetadata(true));
 
         /// <summary>
+        /// Показывать разделитель превью.
+        /// </summary>
+        public bool ShowPreviewSeparator
+        {
+            get { return (bool) GetValue(ShowPreviewSeparatorProperty); }
+            set { SetValue(ShowPreviewSeparatorProperty, value); }
+        }
+
+        /// <summary>
+        /// Показывать разделитель превью.
+        /// </summary>
+        public static readonly DependencyProperty ShowPreviewSeparatorProperty = DependencyProperty.Register("ShowPreviewSeparator", typeof (bool), typeof (PostView),
+            new PropertyMetadata(false));
+
+        /// <summary>
         /// Максимальное количество линий.
         /// </summary>
         public int MaxLines

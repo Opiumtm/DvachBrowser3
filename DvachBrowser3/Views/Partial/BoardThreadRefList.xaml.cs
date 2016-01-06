@@ -105,5 +105,44 @@ namespace DvachBrowser3.Views.Partial
                 DebugHelper.BreakOnError(ex);
             }
         }
+
+        /// <summary>
+        /// Нажат тред.
+        /// </summary>
+        public event ThreadPreviewTappedEventHandler ThreadTapped;
+
+        private void ThreadElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var f = sender as FrameworkElement;
+            var t = f?.Tag as IThreadPreviewViewModel;
+            ThreadTapped?.Invoke(this, new ThreadPreviewTappedEventArgs(t));
+        }
     }
+
+    /// <summary>
+    /// Аргумент события по нажатию на тред.
+    /// </summary>
+    public sealed class ThreadPreviewTappedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="thread">Тред.</param>
+        public ThreadPreviewTappedEventArgs(IThreadPreviewViewModel thread)
+        {
+            Thread = thread;
+        }
+
+        /// <summary>
+        /// Тред.
+        /// </summary>
+        public IThreadPreviewViewModel Thread { get; }
+    }
+
+    /// <summary>
+    /// Обработчик события по нажатию на тред.
+    /// </summary>
+    /// <param name="sender">Источник события.</param>
+    /// <param name="e">Событие.</param>
+    public delegate void ThreadPreviewTappedEventHandler(object sender, ThreadPreviewTappedEventArgs e);
 }

@@ -26,6 +26,7 @@
             <RowDefinition Height="100*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <RelativePanel Grid.Row="0" Margin="3" Padding="2">
             <RelativePanel.Background>
@@ -81,7 +82,7 @@
                        Text="{x:Bind ViewModel.CounterStr}" RelativePanel.AlignRightWithPanel="True" x:Name="CounterView" Margin="5, 0, 0, 0" Foreground="Green" FontWeight="SemiBold" FontSize="{x:Bind TitleTextSize, Mode=OneWay}"
                        VerticalAlignment="Top"/>
         </RelativePanel>
-        <GridView Grid.Row="2" Margin="3" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=false, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+        <GridView Grid.Row="2" Margin="3" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                   ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
@@ -107,6 +108,12 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
+        </Border>
+        <Border Grid.Row="6" Margin="3" Visibility="{x:Bind ShowPreviewSeparator, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+            <StackPanel Visibility="{x:Bind ViewModel.Flags.ThreadPreviewOpPost, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="0, 0, 0, 10">
+                <TextBlock HorizontalAlignment="Center" FontSize="15">Показаны последние посты треда</TextBlock>
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

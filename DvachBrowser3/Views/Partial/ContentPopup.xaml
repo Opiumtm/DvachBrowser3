@@ -12,14 +12,22 @@
     <UserControl.Resources>
         <Storyboard x:Key="ShowContentAnimation">
             <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
-            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.12" From="0.95" To="1.0" />
-            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.12" From="0.95" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="16.0" To="0.0">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="Visible" />
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="HideContentAnimation">
             <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="0.0" To="16.0">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="Collapsed" />
             </ObjectAnimationUsingKeyFrames>
@@ -31,14 +39,14 @@
             <SolidColorBrush Color="Black" Opacity="0.5" />
         </Border.Background>
         <Border BorderThickness="1, 1, 1, 1" Padding="4" Margin="{x:Bind PopupMargin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Body" RenderTransformOrigin="0.5, 0.5">
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Body">
             <Border.RenderTransform>
-                <ScaleTransform x:Name="BodyScale" ScaleX="1.0" ScaleY="1.0" />
+                <TranslateTransform x:Name="BodyScale" X="0" Y="0" />
             </Border.RenderTransform>
             <Border.BorderBrush>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.66" />
             </Border.BorderBrush>
-            <ContentPresenter Content="{x:Bind ViewContent}" />
+            <ContentPresenter Content="{x:Bind ViewContent}" ContentTemplate="{x:Bind ViewContentTemplate, Mode=OneWay}" ContentTemplateSelector="{x:Bind ViewContentTemplateSelector, Mode=OneWay}"/>
         </Border>
     </Border>
 </UserControl>

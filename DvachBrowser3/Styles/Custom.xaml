@@ -10,6 +10,34 @@
     <Color x:Key="ContrastColor">White</Color>
     <SolidColorBrush x:Key="ContrastColorBrush" Color="{StaticResource ContrastColor}" />
 
+    <ControlTemplate x:Key="CleanListViewItemPresenterTemplate" TargetType="ListViewItem">
+        <ListViewItemPresenter
+            ContentTransitions="{TemplateBinding ContentTransitions}"
+            SelectionCheckMarkVisualEnabled="True"
+            CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+            CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+            DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+            DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+            FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+            FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+            PlaceholderBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            PointerOverBackground="Transparent"
+            PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+            SelectedBackground="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+            SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+            SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListAccentMediumBrush}"
+            PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+            SelectedPressedBackground="{ThemeResource SystemControlHighlightListAccentHighBrush}"
+            DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+            DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+            ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+            ContentMargin="{TemplateBinding Padding}"
+            CheckMode="Inline"/>
+    </ControlTemplate>
+
+
     <ResourceDictionary.ThemeDictionaries>
 
         <!--  RequestedTheme=Dark  -->

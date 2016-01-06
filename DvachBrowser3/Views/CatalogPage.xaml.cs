@@ -35,6 +35,16 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
         }
 
+        private void OnDownloadFinished(object sender, OperationProgressFinishedEventArgs operationProgressFinishedEventArgs)
+        {
+            PostView.ViewModel = null;
+        }
+
+        private void OnDownloadStarted(object sender, EventArgs eventArgs)
+        {
+            PostPreview.IsContentVisible = false;
+        }
+
         public IBoardCatalogViewModel ViewModel => DataContext as IBoardCatalogViewModel;
 
         public IPostCollectionViewModel ColViewModel => ViewModel;
@@ -62,6 +72,8 @@ namespace DvachBrowser3.Views
             var vm = new BoardCatalogViewModel(navigatedLink);
             var isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
+            vm.Update.Progress.Started += OnDownloadStarted;
+            vm.Update.Progress.Finished += OnDownloadFinished;
             DataContext = vm;
             OnPropertyChanged(nameof(ViewModel));
             OnPropertyChanged(nameof(ColViewModel));
@@ -134,7 +146,7 @@ namespace DvachBrowser3.Views
         private void CatalogElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var t = (sender as FrameworkElement)?.Tag as IPostViewModel;
-            if (t != null)
+            if (t != null && !ViewModel.Update.Progress.IsActive)
             {
                 PostView.ViewModel = t;
                 PostPreviewScroll.ChangeView(null, 0.0, null);

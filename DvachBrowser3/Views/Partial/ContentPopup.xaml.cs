@@ -89,5 +89,35 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty ViewContentProperty = DependencyProperty.Register("ViewContent", typeof (object), typeof (ContentPopup),
             new PropertyMetadata(null));
+
+        /// <summary>
+        /// Шаблон содержимого.
+        /// </summary>
+        public DataTemplate ViewContentTemplate
+        {
+            get { return (DataTemplate) GetValue(ViewContentTemplateProperty); }
+            set { SetValue(ViewContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Шаблон содержимого.
+        /// </summary>
+        public static readonly DependencyProperty ViewContentTemplateProperty = DependencyProperty.Register("ViewContentTemplate", typeof (DataTemplate), typeof (ContentPopup),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Выбор шаблона содержимого.
+        /// </summary>
+        public DataTemplateSelector ViewContentTemplateSelector
+        {
+            get { return (DataTemplateSelector) GetValue(ViewContentTemplateSelectorProperty); }
+            set { SetValue(ViewContentTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Выбор шаблона содержимого.
+        /// </summary>
+        public static readonly DependencyProperty ViewContentTemplateSelectorProperty = DependencyProperty.Register("ViewContentTemplateSelector", typeof (DataTemplateSelector), typeof (ContentPopup),
+            new PropertyMetadata(null));
     }
 }
