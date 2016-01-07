@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Template10.Controls"
+    
+    x:Name="ThisPage"
 
     mc:Ignorable="d">
 
@@ -18,6 +20,24 @@
                         <Setter Target="BusyRing.(ProgressRing.IsActive)" Value="True" />
                         <Setter Target="BusyScreen.(UIElement.Visibility)" Value="Visible" />
                         <Setter Target="MyHamburgerMenu.(UIElement.IsEnabled)" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="WindowWidthStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ThisPage.IsNarrowView" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ThisPage.IsNarrowView" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

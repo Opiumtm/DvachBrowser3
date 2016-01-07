@@ -70,7 +70,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Квоты.
         /// </summary>
-        public IList<IPostQuoteViewModel> Quotes => new ObservableCollection<IPostQuoteViewModel>();
+        public IList<IPostQuoteViewModel> Quotes { get; } = new ObservableCollection<IPostQuoteViewModel>();
 
         private bool hasQuotes = false;
 

@@ -19,6 +19,7 @@ using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
+using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,6 +34,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            BootStrapper.Current.Resuming += (sender, o) => this.AppResume?.Invoke(this, o);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -59,6 +61,11 @@ namespace DvachBrowser3.Views
         /// Уход со страницы.
         /// </summary>
         public event EventHandler<NavigationEventArgs> NavigatedFrom;
+
+        /// <summary>
+        /// Восстановление приложения.
+        /// </summary>
+        public event EventHandler<object> AppResume;
 
         /// <summary>
         /// Модель представления.

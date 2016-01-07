@@ -117,6 +117,22 @@ namespace DvachBrowser3.Views.Partial
             var t = f?.Tag as IThreadPreviewViewModel;
             ThreadTapped?.Invoke(this, new ThreadPreviewTappedEventArgs(t));
         }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        public string ListTitle
+        {
+            get { return (string) GetValue(ListTitleProperty); }
+            set { SetValue(ListTitleProperty, value); }
+        }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        public static readonly DependencyProperty ListTitleProperty = DependencyProperty.Register("ListTitle", typeof (string), typeof (BoardThreadRefList),
+            new PropertyMetadata(null));
+
     }
 
     /// <summary>

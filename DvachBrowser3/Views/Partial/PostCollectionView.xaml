@@ -16,6 +16,7 @@
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
                     <Setter Property="Template" Value="{StaticResource CleanListViewItemPresenterTemplate}" />
                 </Style>
             </ListView.ItemContainerStyle>
@@ -23,7 +24,9 @@
                 <DataTemplate x:DataType="vm:IPostViewModel">
                     <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
                                     ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
-                                    ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"/>
+                                    ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
+                                    ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
+                                    ShowFullThread="PostView_OnShowFullThread"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

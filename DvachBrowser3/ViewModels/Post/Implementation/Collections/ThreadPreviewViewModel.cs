@@ -55,7 +55,7 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Модель представления поста.</returns>
         protected override IPostViewModel CreatePostViewModel(PostTree post)
         {
-            return new PostViewModel(post, this);
+            return new PostViewModel(post, this, CollectionData?.Omit ?? 0);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
+using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
@@ -10,12 +11,16 @@ namespace DvachBrowser3.Views
     {
         public MainPage()
         {
+            NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
+            BootStrapper.Current.Resuming += (sender, o) => this.AppResume?.Invoke(this, o);
         }
 
         public event EventHandler<NavigationEventArgs> NavigatedTo;
 
         public event EventHandler<NavigationEventArgs> NavigatedFrom;
+
+        public event EventHandler<object> AppResume;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

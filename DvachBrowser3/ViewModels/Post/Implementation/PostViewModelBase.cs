@@ -120,6 +120,11 @@ namespace DvachBrowser3.ViewModels
         public Color ImageBackgroundColor => BoardListBoardViewModelsHelper.GetDefaultBackgroundColor(PostData?.Link?.Engine);
 
         /// <summary>
+        /// Количество пропущенных постов.
+        /// </summary>
+        public virtual string OmitPostCountStr => null;
+
+        /// <summary>
         /// Дополнительные данные.
         /// </summary>
         public IDictionary<string, object> CustomAttachedData { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);

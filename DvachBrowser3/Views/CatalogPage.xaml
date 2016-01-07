@@ -30,8 +30,9 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ThisPage.TileWidth" Value="90" />
+                        <Setter Target="ThisPage.TileWidth" Value="105" />
                         <Setter Target="PostPreview.PopupMargin" Value="5" />
+                        <Setter Target="PostPreviewScroll.Padding" Value="{StaticResource CleanListPaddingNarrow}" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -41,6 +42,7 @@
                     <VisualState.Setters>
                         <Setter Target="ThisPage.TileWidth" Value="160" />
                         <Setter Target="PostPreview.PopupMargin" Value="24, 5, 24, 5" />
+                        <Setter Target="PostPreviewScroll.Padding" Value="{StaticResource CleanListPadding}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -53,14 +55,17 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
-                             Content="{x:Bind ViewModel.Title, Mode=OneWay}">
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+                             Content="КАТАЛОГ">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="2">
+        <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="4, 4, 4, 0">
+            <GridView.Header>
+                <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="18" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
+            </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IPostViewModel">
                     <Grid Width="{Binding ElementName=ThisPage, Path=TileWidth}" Margin="0, 0, 0, 7.5" ToolTipService.ToolTip="{x:Bind Subject}" Tapped="CatalogElement_OnTapped"
@@ -77,19 +82,9 @@
         </GridView>
         <pa:ContentPopup x:Name="PostPreview" Grid.Row="2">
             <pa:ContentPopup.ViewContent>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
-                        <pa:PostView x:Name="PostView" MaxLines="0" />
-                    </ScrollViewer>
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Button x:Name="CloseButton" Margin="2" Click="CloseButton_OnClick">Закрыть</Button>
-                        <Button x:Name="ViewButton" Margin="2">Перейти в тред</Button>
-                    </StackPanel>
-                </Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
+                    <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True"/>
+                </ScrollViewer>
             </pa:ContentPopup.ViewContent>
         </pa:ContentPopup>
     </Grid>

@@ -23,11 +23,13 @@
                                       Visibility="{x:Bind ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                                       ToolTipService.ToolTip="{x:Bind ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"
                                       BannerTapped="Banner_OnBannerTapped"/>
+                    <TextBlock Text="{x:Bind ListTitle, Mode=OneWay}" FontWeight="SemiBold" FontSize="18" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0"/>
                     <Setter Property="Template" Value="{StaticResource CleanListViewItemPresenterTemplate}" />
                 </Style>
             </ListView.ItemContainerStyle>

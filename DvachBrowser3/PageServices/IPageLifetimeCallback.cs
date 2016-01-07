@@ -17,5 +17,10 @@ namespace DvachBrowser3.PageServices
         /// Уход со страницы.
         /// </summary>
         event EventHandler<NavigationEventArgs> NavigatedFrom;
+
+        /// <summary>
+        /// Восстановление приложения.
+        /// </summary>
+        event EventHandler<object> AppResume;
     }
 }

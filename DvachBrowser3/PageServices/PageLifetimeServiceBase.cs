@@ -37,17 +37,37 @@ namespace DvachBrowser3.PageServices
             {
                 LifetimeCallback.NavigatedTo += OnNavigatedToCall;
                 LifetimeCallback.NavigatedFrom += OnNavigatedFromCall;
+                LifetimeCallback.AppResume += OnAppResumeCall;
             }
         }
 
+        private void OnAppResumeCall(object sender, object o)
+        {
+            if (!isNavigated)
+            {
+                isNavigated = true;
+                OnNavigatedTo(sender as Page, null);
+            }
+        }
+
+        private bool isNavigated;
+
         private void OnNavigatedToCall(object sender, NavigationEventArgs e)
         {
-            OnNavigatedTo(sender as Page, e);
+            if (!isNavigated)
+            {
+                isNavigated = true;
+                OnNavigatedTo(sender as Page, e);
+            }
         }
 
         private void OnNavigatedFromCall(object sender, NavigationEventArgs e)
         {
-            OnNavigatedFrom(sender as Page, e);
+            if (isNavigated)
+            {
+                isNavigated = false;
+                OnNavigatedFrom(sender as Page, e);
+            }
         }
 
         /// <summary>

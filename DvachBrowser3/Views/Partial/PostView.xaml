@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <local2:EmptyStringVisibilityConverter x:Key="EmptyStringVisibilityConverter" />
         <SolidColorBrush x:Key="LocBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
     </UserControl.Resources>
 
@@ -24,6 +25,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -43,7 +45,7 @@
                    Visibility="{x:Bind ViewModel.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                    Margin="2" x:Name="FlagView" RelativePanel.RightOf="IconView" VerticalAlignment="Top"/>
             <TextBlock FontSize="13.5" TextWrapping="Wrap" RelativePanel.RightOf="FlagView" RelativePanel.LeftOf="PostFlagsView" VerticalAlignment="Top" MaxLines="4">
-                <Run Text="{x:Bind ViewModel.Name.Name, Mode=OneWay}" />
+                <Run Text="{x:Bind ViewModel.Name.Name, Mode=OneWay}" FontWeight="SemiBold" />
                 <Run Text="{x:Bind ViewModel.Date, Mode=OneWay}" />
                 <Run Text="{x:Bind ViewModel.PostNumStr, Mode=OneWay}" />
                 <Run Text="{x:Bind ViewModel.Name.TripCode, Mode=OneWay}" />
@@ -75,14 +77,12 @@
                 </Viewbox>
             </StackPanel>
         </RelativePanel>
-        <RelativePanel Grid.Row="1" Margin="3">
-            <TextBlock Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
-                       RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="CounterView" VerticalAlignment="Top" MaxLines="3" />
-            <TextBlock Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                       Text="{x:Bind ViewModel.CounterStr}" RelativePanel.AlignRightWithPanel="True" x:Name="CounterView" Margin="5, 0, 0, 0" Foreground="Green" FontWeight="SemiBold" FontSize="{x:Bind TitleTextSize, Mode=OneWay}"
-                       VerticalAlignment="Top"/>
-        </RelativePanel>
-        <GridView Grid.Row="2" Margin="3" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+        <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
+                   MaxLines="3" Visibility="{x:Bind ViewModel.Subject, Mode=OneWay, Converter={StaticResource EmptyStringVisibilityConverter}, ConverterParameter=false}" />
+        <TextBlock Grid.Row="1" Grid.RowSpan="2"  Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                    Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}"  x:Name="CounterView" Margin="3" Foreground="Green" FontWeight="SemiBold" FontSize="24"
+                    VerticalAlignment="Top" HorizontalAlignment="Right" Opacity="0.5"/>
+        <GridView Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                   ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
@@ -91,29 +91,54 @@
                             <local:PreviewImage Height="100" Width="{Binding ElementName=MainControl, Path=ImageWidth, Mode=OneWay, FallbackValue=150.0}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" />
                         </Border>
                         <TextBlock TextWrapping="Wrap" FontSize="12" Text="{x:Bind InfoString, Mode=OneWay}"
-                                   HorizontalAlignment="Left"/>
+                                   MaxLines="2"/>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <TextBlock Grid.Row="4" FontSize="14.5" Margin="3" Text="[Показана часть поста]" FontWeight="SemiBold" HorizontalAlignment="Center"
+        <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <TextBlock Grid.Row="4" FontSize="14.5" Margin="3, 0, 3, 0" Text="[Показана часть поста]" FontWeight="SemiBold" HorizontalAlignment="Center"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
-        <Border Grid.Row="5" Margin="3">
+        <Border Grid.Row="5" Margin="3, 3, 3, 0" Padding="0, 3, 0, 0" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                BorderThickness="0, 1, 0, 0">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.1"/>
+            </Border.BorderBrush>
             <GridView ItemsSource="{x:Bind ViewModel.Text.Quotes, Mode=OneWay}" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                       SelectionMode="None">
+                <GridView.Header>
+                    <TextBlock FontSize="14.5" Margin="3, 0, 5, 0">
+                        <Run>Ответы:</Run>
+                    </TextBlock>
+                </GridView.Header>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="MinHeight" Value="0"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:IPostQuoteViewModel">
-                        <TextBlock Margin="2" FontSize="14.5" Foreground="Green"><Underline><Run Text="{x:Bind Name}"></Run></Underline></TextBlock>
+                        <TextBlock Margin="3, 0, 3, 0" FontSize="14.5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"><Underline><Run Text="{x:Bind Name}"></Run></Underline></TextBlock>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
         </Border>
-        <Border Grid.Row="6" Margin="3" Visibility="{x:Bind ShowPreviewSeparator, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
-            <StackPanel Visibility="{x:Bind ViewModel.Flags.ThreadPreviewOpPost, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="0, 0, 0, 10">
-                <TextBlock HorizontalAlignment="Center" FontSize="15">Показаны последние посты треда</TextBlock>
-                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
-            </StackPanel>
+        <Border Grid.Row="6" Height="10" />
+        <Border Grid.Row="7" Margin="3, 0, 3, 0" Visibility="{x:Bind ShowPreviewSeparator, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+            <Border BorderThickness="0, 1, 0, 1" Padding="0, 3, 0, 3" Visibility="{x:Bind ViewModel.Flags.ThreadPreviewOpPost, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                    Margin="0, 0, 0, 10">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
+                </Border.BorderBrush>
+                <StackPanel Padding="0, 2, 0, 2">
+                    <Button Content="{x:Bind ShowFullThreadText, Mode=OneWay}" HorizontalAlignment="Center" Click="ShowFullThreadButton_OnClick" />
+                    <TextBlock FontSize="15" Visibility="{x:Bind ViewModel.OmitPostCountStr, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center" Margin="0, 3, 0, 0">
+                        <Run>Пропущено постов:</Run>
+                        <Run Text="{x:Bind ViewModel.OmitPostCountStr, Mode=OneWay}" FontWeight="SemiBold" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
         </Border>
     </Grid>
 </UserControl>

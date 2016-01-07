@@ -37,19 +37,18 @@ namespace DvachBrowser3
 
         private bool isInitialized;
 
-        private async Task TryInitialize()
+        private bool isCoreInitialized;
+
+        private async Task TryCoreInitialize()
         {
-            if (!isInitialized)
+            if (!isCoreInitialized)
             {
-                isInitialized = true;
+                isCoreInitialized = true;
                 await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
                 var shell = new Views.Shell(nav);
                 Window.Current.Content = shell;
-                NavigationService.Navigate(typeof(Views.MainPage));
-
                 await ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().Initialize();
-
 #pragma warning disable 4014
                 AppHelpers.Dispatcher.DispatchAsync(async () =>
 #pragma warning restore 4014
@@ -66,8 +65,18 @@ namespace DvachBrowser3
                         DebugHelper.BreakOnError(ex);
                     }
                 });
+                StyleTitleBars();
             }
-            StyleTitleBars();
+        }
+
+        private async Task TryInitialize()
+        {
+            await TryCoreInitialize();
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                NavigationService.Navigate(typeof(Views.MainPage));
+            }
         }
 
         private void StyleTitleBars()

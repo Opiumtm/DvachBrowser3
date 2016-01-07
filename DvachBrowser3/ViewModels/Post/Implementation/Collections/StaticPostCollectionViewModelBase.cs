@@ -21,8 +21,8 @@ namespace DvachBrowser3.ViewModels
         protected StaticPostCollectionViewModelBase(T data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
-            SetInitialData(data);
             CollectionData = data;
+            SetInitialData(data);
         }
 
         private async void SetInitialData(T data)

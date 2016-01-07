@@ -144,5 +144,30 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty FooterTemplateProperty = DependencyProperty.Register("FooterTemplate", typeof (DataTemplate), typeof (PostCollectionView),
             new PropertyMetadata(null));
+
+        /// <summary>
+        /// Текст кнопки показа треда целиком.
+        /// </summary>
+        public string ShowFullThreadText
+        {
+            get { return (string) GetValue(ShowFullThreadTextProperty); }
+            set { SetValue(ShowFullThreadTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Текст кнопки показа треда целиком.
+        /// </summary>
+        public static readonly DependencyProperty ShowFullThreadTextProperty = DependencyProperty.Register("ShowFullThreadText", typeof (string), typeof (PostCollectionView),
+            new PropertyMetadata("Показать целиком"));
+
+        /// <summary>
+        /// Показать тред целиком.
+        /// </summary>
+        public event ShowFullThreadEventHandler ShowFullThread;
+
+        private void PostView_OnShowFullThread(object sender, ShowFullThreadEventArgs e)
+        {
+            ShowFullThread?.Invoke(this, e);
+        }
     }
 }

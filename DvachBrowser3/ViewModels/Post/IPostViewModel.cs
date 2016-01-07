@@ -81,6 +81,11 @@ namespace DvachBrowser3.ViewModels
         Color ImageBackgroundColor { get; }
 
         /// <summary>
+        /// Количество пропущенных постов.
+        /// </summary>
+        string OmitPostCountStr { get; }
+
+        /// <summary>
         /// Дополнительные данные.
         /// </summary>
         IDictionary<string, object> CustomAttachedData { get; }

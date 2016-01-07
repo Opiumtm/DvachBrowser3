@@ -41,7 +41,7 @@ namespace DvachBrowser3.Views.Partial
         {
             if (this.ActualWidth <= 500)
             {
-                ImageWidth = 100;
+                ImageWidth = 140;
                 TitleTextSize = 16;
             }
             else
@@ -167,5 +167,64 @@ namespace DvachBrowser3.Views.Partial
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Текст показа треда целиком.
+        /// </summary>
+        public string ShowFullThreadText
+        {
+            get { return (string) GetValue(ShowFullThreadTextProperty); }
+            set { SetValue(ShowFullThreadTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Текст показа треда целиком.
+        /// </summary>
+        public static readonly DependencyProperty ShowFullThreadTextProperty = DependencyProperty.Register("ShowFullThreadText", typeof (string), typeof (PostView),
+            new PropertyMetadata("Показать целиком"));
+
+        /// <summary>
+        /// Показать тред целиком.
+        /// </summary>
+        public event ShowFullThreadEventHandler ShowFullThread;
+
+        private void ShowFullThreadButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowFullThread?.Invoke(this, new ShowFullThreadEventArgs(ViewModel?.Parent, ViewModel));
+        }
     }
+
+    /// <summary>
+    /// Параметры события показа треда целиком.
+    /// </summary>
+    public sealed class ShowFullThreadEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="postCollection">Коллекция постов.</param>
+        /// <param name="post">Пост, с которого был совершён переход.</param>
+        public ShowFullThreadEventArgs(IPostCollectionViewModel postCollection, IPostViewModel post)
+        {
+            PostCollection = postCollection;
+            Post = post;
+        }
+
+        /// <summary>
+        /// Коллекция постов.
+        /// </summary>
+        public IPostCollectionViewModel PostCollection { get; }
+
+        /// <summary>
+        /// Пост, с которого был совершён переход.
+        /// </summary>
+        public IPostViewModel Post { get; }
+    }
+
+    /// <summary>
+    /// Обработчик события показа треда целиком.
+    /// </summary>
+    /// <param name="sender">Источник события.</param>
+    /// <param name="e">Событие.</param>
+    public delegate void ShowFullThreadEventHandler(object sender, ShowFullThreadEventArgs e);
 }

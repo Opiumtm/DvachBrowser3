@@ -82,6 +82,23 @@ namespace DvachBrowser3
         }
     }
 
+    public class EmptyStringVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var invert = parameter == null || "true".Equals((string)parameter, StringComparison.OrdinalIgnoreCase);
+            var s = value?.ToString();
+            var se = string.IsNullOrWhiteSpace(s);
+            var v = !invert ? !se : se;
+            return v ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class BoolToNullableConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

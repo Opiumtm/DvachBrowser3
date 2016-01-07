@@ -67,5 +67,20 @@ namespace DvachBrowser3.Views
         {
             BottomAppBar = bar;
         }
+
+        /// <summary>
+        /// Сжатый вид.
+        /// </summary>
+        public bool IsNarrowView
+        {
+            get { return (bool) GetValue(IsNarrowViewProperty); }
+            set { SetValue(IsNarrowViewProperty, value); }
+        }
+
+        /// <summary>
+        /// Сжатый вид.
+        /// </summary>
+        public static readonly DependencyProperty IsNarrowViewProperty = DependencyProperty.Register("IsNarrowView", typeof (bool), typeof (Shell),
+            new PropertyMetadata(false));
     }
 }

@@ -119,5 +119,25 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty ViewContentTemplateSelectorProperty = DependencyProperty.Register("ViewContentTemplateSelector", typeof (DataTemplateSelector), typeof (ContentPopup),
             new PropertyMetadata(null));
+
+        /// <summary>
+        /// Есть хардварная кнопка "назад".
+        /// </summary>
+        public bool IsHardwareBackButtonPresent
+        {
+            get
+            {
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            IsContentVisible = false;
+        }
     }
 }

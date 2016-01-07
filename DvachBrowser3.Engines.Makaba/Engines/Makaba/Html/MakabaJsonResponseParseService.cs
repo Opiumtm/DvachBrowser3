@@ -446,6 +446,8 @@ namespace DvachBrowser3.Engines.Makaba.Html
             for (int i = 0; i < result.Posts.Count; i++)
             {
                 result.Posts[i].Counter = i + 1;
+                result.Posts[i].Flags |= PostFlags.ThreadPreview;
+                result.Posts[i].Flags |= PostFlags.ThreadPreviewOpPost;
             }
             return result;
         }
