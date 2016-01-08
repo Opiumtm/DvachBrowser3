@@ -51,7 +51,7 @@ namespace DvachBrowser3.Views.Partial
                 return;
             }
 
-            var renderFactory = new RenderTextElementFactory(ViewModel);
+            var renderFactory = new RenderTextElementFactory(ViewModel, Shell.Instance.IsNarrowView);
             var canvas = new Canvas();
 
             ScrollablePlaceholderGrid.Measure(new Size(MainGrid.ActualWidth, MainGrid.ActualHeight));

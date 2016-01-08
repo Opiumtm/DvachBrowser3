@@ -21,7 +21,8 @@ namespace DvachBrowser3.Views.Partial
         /// Конструктор.
         /// </summary>
         /// <param name="linkClickCallback">Обратный вызов клика на ссылку.</param>
-        public RenderTextElementFactory(ILinkClickCallback linkClickCallback)
+        /// <param name="isNarrow">Узкое представление.</param>
+        public RenderTextElementFactory(ILinkClickCallback linkClickCallback, bool isNarrow)
         {
             this.linkClickCallback = linkClickCallback;
         }
