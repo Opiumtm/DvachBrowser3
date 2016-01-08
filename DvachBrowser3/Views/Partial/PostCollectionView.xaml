@@ -12,7 +12,7 @@
     x:Name="ThisControl">
 
     <Grid>
-        <ListView ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{x:Bind Header, Mode=OneWay}" Footer="{x:Bind Footer, Mode=OneWay}">
+        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{x:Bind Header, Mode=OneWay}" Footer="{x:Bind Footer, Mode=OneWay}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

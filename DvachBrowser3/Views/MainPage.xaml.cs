@@ -7,13 +7,27 @@ using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
-    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage
+    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback
     {
         public MainPage()
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
-            BootStrapper.Current.Resuming += (sender, o) => this.AppResume?.Invoke(this, o);
+            AppEvents.AppResume.AddCallback(this);
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == AppEvents.AppResumeId)
+            {
+                AppResume?.Invoke(this, e);
+            }
         }
 
         public event EventHandler<NavigationEventArgs> NavigatedTo;

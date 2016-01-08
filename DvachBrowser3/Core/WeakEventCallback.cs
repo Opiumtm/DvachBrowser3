@@ -32,8 +32,9 @@ namespace DvachBrowser3
         /// Получить событие.
         /// </summary>
         /// <param name="sender">Отправитель.</param>
+        /// <param name="channel">Канал.</param>
         /// <param name="e">Параметр события.</param>
-        public async void ReceiveWeakEvent(object sender, object e)
+        public async void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
         {
             var disp = AppHelpers.Dispatcher;
             if (disp == null)
@@ -44,7 +45,7 @@ namespace DvachBrowser3
             {
                 try
                 {
-                    WeakEventReceived?.Invoke(sender, new WeakEventArgs(e));
+                    WeakEventReceived?.Invoke(sender, new WeakEventArgs(e, channel));
                 }
                 catch (Exception ex)
                 {

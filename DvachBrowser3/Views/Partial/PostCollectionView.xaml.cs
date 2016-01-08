@@ -169,5 +169,44 @@ namespace DvachBrowser3.Views.Partial
         {
             ShowFullThread?.Invoke(this, e);
         }
+
+        /// <summary>
+        /// Получить индекс видимого элемента.
+        /// </summary>
+        /// <returns>Индекс.</returns>
+        public IPostViewModel GetTopViewIndex()
+        {
+            try
+            {
+                var r = MainList.GetVisibleToWindowElements<IPostViewModel>().OrderBy(o => o.Item1).FirstOrDefault();
+                return r?.Item2;
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Показать тред.
+        /// </summary>
+        /// <param name="post">Пост.</param>
+        public void ScrollIntoView(IPostViewModel post)
+        {
+            if (post == null)
+            {
+                return;
+            }
+            try
+            {
+                MainList.ScrollIntoView(post, ScrollIntoViewAlignment.Leading);
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
     }
 }

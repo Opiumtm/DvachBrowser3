@@ -9,7 +9,7 @@ namespace DvachBrowser3.ViewModels
     /// Коллекция постов c возможностью обновления.
     /// </summary>
     /// <typeparam name="T">Тип коллекции.</typeparam>
-    public abstract class UpdateablePostCollectionViewModelBase<T> : PostCollectionViewModelBase, IStartableViewModel where T : IPostTreeListSource
+    public abstract class UpdateablePostCollectionViewModelBase<T> : PostCollectionViewModelBase, IStartableViewModelWithResume where T : IPostTreeListSource
     {
         /// <summary>
         /// Конструктор.
@@ -42,9 +42,19 @@ namespace DvachBrowser3.ViewModels
         protected virtual void UpdateOperationOnResultGot(object sender, EventArgs e)
         {
             var result = UpdateOperation.Result;
+            UpdateOperationOnResultGot(result);
+        }
+
+        /// <summary>
+        /// Данные получены.
+        /// </summary>
+        /// <param name="result">Результат.</param>
+        protected virtual void UpdateOperationOnResultGot(T result)
+        {
             if (result != null)
             {
                 SetData(result);
+                OnPostsUpdated();
             }
         }
 
@@ -56,6 +66,7 @@ namespace DvachBrowser3.ViewModels
         {
             var posts = data != null ? await data.GetPosts() : null;
             MergePosts(posts);
+            HasData = true;
         }
 
         /// <summary>
@@ -97,6 +108,19 @@ namespace DvachBrowser3.ViewModels
         public virtual Task Stop()
         {
             Update.Cancel();
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Возобновить.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public virtual Task Resume()
+        {
+            if (!HasData)
+            {
+                Update.Start();
+            }
             return Task.FromResult(true);
         }
     }

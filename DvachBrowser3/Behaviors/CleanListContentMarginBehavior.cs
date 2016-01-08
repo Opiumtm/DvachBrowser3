@@ -10,14 +10,14 @@ namespace DvachBrowser3.Behaviors
     /// Изменение отсупов в элементе списка.
     /// </summary>
     [TypeConstraint(typeof(ListViewItemPresenter))]
-    public sealed class CleanListContentMarginBehavior : DependencyObject, IBehavior
+    public sealed class CleanListContentMarginBehavior : DependencyObject, IBehavior, IWeakEventCallback
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         public CleanListContentMarginBehavior()
         {
-            Shell.Instance.RegisterPropertyChangedCallback(Shell.IsNarrowViewProperty, PropertyChangedCallback);
+            Shell.IsNarrowViewChanged.AddCallback(this);
             RegisterPropertyChangedCallback(NarrowThicknessProperty, PropertyChangedCallback);
             RegisterPropertyChangedCallback(NormalThicknessProperty, PropertyChangedCallback);
         }
@@ -31,17 +31,20 @@ namespace DvachBrowser3.Behaviors
 
         private void UpdateContentMargin()
         {
-            if (Presenter != null)
+            AppHelpers.ActionOnUiThread(() =>
             {
-                if (Shell.Instance.IsNarrowView)
+                if (Presenter != null)
                 {
-                    Presenter.ContentMargin = NarrowThickness;
+                    if (Shell.Instance.IsNarrowView)
+                    {
+                        Presenter.ContentMargin = NarrowThickness;
+                    }
+                    else
+                    {
+                        Presenter.ContentMargin = NormalThickness;
+                    }
                 }
-                else
-                {
-                    Presenter.ContentMargin = NormalThickness;
-                }
-            }
+            });
         }
 
         /// <summary>
@@ -106,5 +109,19 @@ namespace DvachBrowser3.Behaviors
         /// </summary>
         public static readonly DependencyProperty NormalThicknessProperty = DependencyProperty.Register("NormalThickness", typeof (Thickness), typeof (CleanListContentMarginBehavior),
             new PropertyMetadata(new Thickness(0)));
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == Shell.IsNarrowViewChangedId)
+            {
+                UpdateContentMargin();
+            }
+        }
     }
 }

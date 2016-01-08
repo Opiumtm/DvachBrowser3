@@ -117,7 +117,9 @@
     <Compile Include="Configuration\INetworkProfileService.cs" />
     <Compile Include="Configuration\IUiConfigurationService.cs" />
     <Compile Include="Configuration\IUiPagesConfiguration.cs" />
+    <Compile Include="Configuration\NetworkProfileHelper.cs" />
     <Compile Include="Core\AppConstants.cs" />
+    <Compile Include="Core\AppEvents.cs" />
     <Compile Include="Core\AppHelpers.cs" />
     <Compile Include="Core\AsyncOperationDispatcher.cs" />
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
@@ -143,6 +145,10 @@
     <Compile Include="Logic\BoardPageLoaderArgument.cs" />
     <Compile Include="Logic\BoardPageLoaderOperation.cs" />
     <Compile Include="Logic\IBoardPageLoaderResult.cs" />
+    <Compile Include="Logic\IThreadLoaderResult.cs" />
+    <Compile Include="Logic\ThreadLoaderArgument.cs" />
+    <Compile Include="Logic\ThreadLoaderOperation.cs" />
+    <Compile Include="Logic\ThreadLoaderUpdateMode.cs" />
     <Compile Include="Navigation\IBoardLinkPage.cs" />
     <Compile Include="Navigation\Implementation\PageNavigationService.cs" />
     <Compile Include="Navigation\INavigationDataPage.cs" />
@@ -153,6 +159,7 @@
     <Compile Include="Navigation\Targets\BoardCatalogNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
+    <Compile Include="PageServices\IDynamicShellAppBarProvider.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
     <Compile Include="PageServices\IShellAppBarProvider.cs" />
@@ -206,6 +213,7 @@
     <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\YoutubeThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />
+    <Compile Include="ViewModels\IStartableViewModelWithResume.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />
     <Compile Include="ViewModels\Operations\IOperationViewModel.cs" />
@@ -225,6 +233,7 @@
     <Compile Include="ViewModels\Post\Implementation\Collections\BoardPageViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\StaticPostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\ThreadPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Post\Implementation\Collections\ThreadViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Collections\UpdateablePostCollectionViewModelBase.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostNameViewModel.cs" />
@@ -249,6 +258,7 @@
     <Compile Include="ViewModels\Post\IPostPartViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostTextViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostViewModel.cs" />
+    <Compile Include="ViewModels\Post\IThreadViewModel.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventArgs.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventHandler.cs" />
     <Compile Include="ViewModels\ViewModelAdapter.cs" />
@@ -318,6 +328,9 @@
     </Compile>
     <Compile Include="Views\TestingPage.xaml.cs">
       <DependentUpon>TestingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ThreadPage.xaml.cs">
+      <DependentUpon>ThreadPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +445,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TestingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ThreadPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

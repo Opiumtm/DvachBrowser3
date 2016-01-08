@@ -21,5 +21,18 @@ namespace DvachBrowser3.PageServices
                 await StatusBarHelper.StatusBar.ProgressIndicator.HideAsync();
             }
         }
+
+        /// <summary>
+        /// Возобновление.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="o">Объект.</param>
+        protected async override void OnResume(Page sender, object o)
+        {
+            if (StatusBarHelper.IsStatusBarPresent)
+            {
+                await StatusBarHelper.StatusBar.ProgressIndicator.HideAsync();
+            }
+        }
     }
 }

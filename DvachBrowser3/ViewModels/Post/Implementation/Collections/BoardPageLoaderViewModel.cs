@@ -115,7 +115,7 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Задача.</returns>
         public Task Start()
         {
-            var profile = ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().CurrentProfile;
+            var profile = NetworkProfileHelper.CurrentProfile;
             if (profile.UpdateBoardPageOnEntry && !IsBackNavigatedToViewModel)
             {
                 Update.Start2(BoardPageLoaderUpdateMode.Load);
@@ -135,6 +135,19 @@ namespace DvachBrowser3.ViewModels
         {
             Update.Cancel();
             Page?.Banner?.Cancel();
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Возобновить.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public Task Resume()
+        {
+            if (Page == null)
+            {
+                Update.Start2(BoardPageLoaderUpdateMode.GetFromCache);
+            }
             return Task.FromResult(true);
         }
 

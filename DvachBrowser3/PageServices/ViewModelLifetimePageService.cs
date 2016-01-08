@@ -38,5 +38,25 @@ namespace DvachBrowser3.PageServices
                 await vmodel.Stop();
             }
         }
+
+        /// <summary>
+        /// Возобновление.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="o">Объект.</param>
+        protected override async void OnResume(Page sender, object o)
+        {
+            var vmSource = sender as IPageViewModelSource;
+            var vmodel = vmSource?.GetViewModel() as IStartableViewModel;
+            var vmodelR = vmodel as IStartableViewModelWithResume;
+            if (vmodelR != null)
+            {
+                await vmodelR.Resume();
+            }
+            else if (vmodel != null)
+            {
+                await vmodel.Start();
+            }
+        }
     }
 }

@@ -15,17 +15,39 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.ViewModels;
+using Template10.Common;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class PreviewImage : UserControl, INotifyPropertyChanged
+    public sealed partial class PreviewImage : UserControl, INotifyPropertyChanged, IWeakEventCallback
     {
         public PreviewImage()
         {
             this.InitializeComponent();
             this.SizeChanged += OnSizeChanged;
+            AppEvents.AppResume.AddCallback(this);
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == AppEvents.AppResumeId)
+            {
+                if (ViewModel?.Load != null)
+                {
+                    if (!ViewModel.ImageLoaded && !ViewModel.Load.Progress.IsActive)
+                    {
+                        ViewModel.Load.Start();
+                    }
+                }
+            }
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

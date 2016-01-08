@@ -9,7 +9,21 @@ namespace DvachBrowser3
     /// </summary>
     public sealed class WeakEventChannel : IWeakEventChannel
     {
-        private ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>> callbacks = new ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>>();
+        private readonly ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>> callbacks = new ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>>();
+
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="id">Идентификатор канала.</param>
+        public WeakEventChannel(Guid id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Идентификатор канала.
+        /// </summary>
+        public Guid Id { get; }
 
         /// <summary>
         /// Зарегистрировать обратныйй вызов.
@@ -59,7 +73,7 @@ namespace DvachBrowser3
             {
                 try
                 {
-                    callback.ReceiveWeakEvent(sender, e);
+                    callback.ReceiveWeakEvent(sender, this, e);
                 }
                 catch (Exception ex)
                 {

@@ -81,6 +81,21 @@ namespace DvachBrowser3.Views
         /// Сжатый вид.
         /// </summary>
         public static readonly DependencyProperty IsNarrowViewProperty = DependencyProperty.Register("IsNarrowView", typeof (bool), typeof (Shell),
-            new PropertyMetadata(false));
+            new PropertyMetadata(false, IsNarrowViewPropertyChangedCallback));
+
+        private static void IsNarrowViewPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            IsNarrowViewChanged.RaiseEvent(d, e);
+        }
+
+        /// <summary>
+        /// Состояние свойства IsNarrowViewChanged изменилось.
+        /// </summary>
+        public static Guid IsNarrowViewChangedId = new Guid("{B87399B2-75DB-4F41-BE66-4B14ACCB295A}");
+
+        /// <summary>
+        /// Состояние свойства IsNarrowViewChanged изменилось.
+        /// </summary>
+        public static readonly IWeakEventChannel IsNarrowViewChanged = new WeakEventChannel(IsNarrowViewChangedId);
     }
 }

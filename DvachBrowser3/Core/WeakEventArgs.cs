@@ -11,15 +11,22 @@ namespace DvachBrowser3
         /// Конструктор.
         /// </summary>
         /// <param name="parameter">Параметр.</param>
-        public WeakEventArgs(object parameter)
+        /// <param name="channel">Канал.</param>
+        public WeakEventArgs(object parameter, IWeakEventChannel channel)
         {
             Parameter = parameter;
+            Channel = channel;
         }
 
         /// <summary>
         /// Параметр.
         /// </summary>
         public object Parameter { get; }
+
+        /// <summary>
+        /// Канал.
+        /// </summary>
+        public IWeakEventChannel Channel { get; }
 
         /// <summary>
         /// Проверка на принадлежность к типу.

@@ -49,6 +49,26 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public abstract IOperationViewModel Update { get; }
 
+        private bool hasData;
+
+        /// <summary>
+        /// Есть данные.
+        /// </summary>
+        public bool HasData
+        {
+            get { return hasData; }
+            protected set
+            {
+                hasData = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Посты обновлены.
+        /// </summary>
+        public event EventHandler PostsUpdated;
+
         /// <summary>
         /// Создать модель представления поста.
         /// </summary>
@@ -59,10 +79,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Сливать и сортировать посты.
         /// </summary>
-        protected virtual bool MergeAndSortPosts
-        {
-            get { return true; }
-        }
+        protected virtual bool MergeAndSortPosts => true;
 
         /// <summary>
         /// Слить коллекцию с новыми постами.
@@ -147,6 +164,14 @@ namespace DvachBrowser3.ViewModels
         private void TextOnLinkClick(object sender, LinkClickEventArgs e)
         {
             LinkClick?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// Посты обновлены.
+        /// </summary>
+        protected virtual void OnPostsUpdated()
+        {
+            PostsUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }

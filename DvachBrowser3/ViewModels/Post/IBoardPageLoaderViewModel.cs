@@ -7,7 +7,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Загрузчик страницы борды.
     /// </summary>
-    public interface IBoardPageLoaderViewModel : INotifyPropertyChanged, IStartableViewModel
+    public interface IBoardPageLoaderViewModel : INotifyPropertyChanged, IStartableViewModelWithResume
     {
         /// <summary>
         /// Ссылка на страницу.

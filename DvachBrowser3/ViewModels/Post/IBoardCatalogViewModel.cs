@@ -5,7 +5,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления каталога.
     /// </summary>
-    public interface IBoardCatalogViewModel : IPostCollectionViewModel
+    public interface IBoardCatalogViewModel : IPostCollectionViewModel, IStartableViewModelWithResume
     {
         /// <summary>
         /// Ссылка.

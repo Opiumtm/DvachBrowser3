@@ -51,6 +51,21 @@ namespace DvachBrowser3.PageServices
         /// <param name="e">Событие.</param>
         protected override async void OnNavigatedTo(Page sender, NavigationEventArgs e)
         {
+            await LoadData(sender);
+        }
+
+        /// <summary>
+        /// Возобновление.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="o">Объект.</param>
+        protected override async void OnResume(Page sender, object o)
+        {
+            await LoadData(sender);
+        }
+
+        private async Task LoadData(Page sender)
+        {
             try
             {
                 var navData = sender as INavigationDataPage;

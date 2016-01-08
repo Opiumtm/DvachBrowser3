@@ -43,31 +43,17 @@ namespace DvachBrowser3.PageServices
 
         private void OnAppResumeCall(object sender, object o)
         {
-            if (!isNavigated)
-            {
-                isNavigated = true;
-                OnNavigatedTo(sender as Page, null);
-            }
+            OnResume(sender as Page, o);
         }
-
-        private bool isNavigated;
 
         private void OnNavigatedToCall(object sender, NavigationEventArgs e)
         {
-            if (!isNavigated)
-            {
-                isNavigated = true;
-                OnNavigatedTo(sender as Page, e);
-            }
+            OnNavigatedTo(sender as Page, e);
         }
 
         private void OnNavigatedFromCall(object sender, NavigationEventArgs e)
         {
-            if (isNavigated)
-            {
-                isNavigated = false;
-                OnNavigatedFrom(sender as Page, e);
-            }
+            OnNavigatedFrom(sender as Page, e);
         }
 
         /// <summary>
@@ -86,6 +72,15 @@ namespace DvachBrowser3.PageServices
         /// <param name="e">Событие.</param>
         protected virtual void OnNavigatedFrom(Page sender, NavigationEventArgs e)
         {
+        }
+
+        /// <summary>
+        /// Возобновление.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="o">Объект.</param>
+        protected virtual void OnResume(Page sender, object o)
+        {            
         }
     }
 }

@@ -23,11 +23,26 @@ using XamlAnimatedGif;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class BannerView : UserControl
+    public sealed partial class BannerView : UserControl, IWeakEventCallback
     {
         public BannerView()
         {
             this.InitializeComponent();
+            AppEvents.AppResume.AddCallback(this);
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == AppEvents.AppResumeId)
+            {
+                UpdateBanner();
+            }
         }
 
         private void ViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -42,6 +57,11 @@ namespace DvachBrowser3.Views.Partial
             {
                 newValue.BannerLoaded += OnBannerLoaded;
             }
+            UpdateBanner();
+        }
+
+        private void UpdateBanner()
+        {
             if (ViewModel != null && ViewModel.Behavior == PageBannerBehavior.Enabled && !ViewModel.IsLoaded)
             {
                 if (ViewModel.Behavior == PageBannerBehavior.Enabled && !ViewModel.IsLoaded)
@@ -50,7 +70,8 @@ namespace DvachBrowser3.Views.Partial
                     BannerImage.Visibility = Visibility.Collapsed;
                     AppHelpers.DispatchAction(ViewModel.TryLoadBanner);
                 }
-            } else if (ViewModel?.IsLoaded == true)
+            }
+            else if (ViewModel?.IsLoaded == true)
             {
                 ShowBanner();
             }
@@ -110,7 +131,8 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IPageBannerViewModel), typeof (BannerView),
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel",
+            typeof (IPageBannerViewModel), typeof (BannerView),
             new PropertyMetadata(null, ViewModelChangedCallback));
 
         private static void ViewModelChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)

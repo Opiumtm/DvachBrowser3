@@ -614,6 +614,68 @@ namespace DvachBrowser3.Logic
         }
 
         /// <summary>
+        /// Получить ссылку на тред из любой ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка на тред.</returns>
+        public BoardLinkBase GetThreadLinkFromAnyLink(BoardLinkBase link)
+        {
+            var tlink = link as ThreadLink;
+            if (tlink != null)
+            {
+                return new ThreadLink()
+                {
+                    Engine = tlink.Engine,
+                    Board = tlink.Board,
+                    Thread = tlink.Thread
+                };
+            }
+            var plink = link as PostLink;
+            if (plink != null)
+            {
+                return new ThreadLink()
+                {
+                    Engine = plink.Engine,
+                    Board = plink.Board,
+                    Thread = plink.Thread
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Получить ссылку на пост из любой ссылки.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Ссылка на пост.</returns>
+        public BoardLinkBase GetPostLinkFromAnyLink(BoardLinkBase link)
+        {
+            var tlink = link as ThreadLink;
+            if (tlink != null)
+            {
+                return new PostLink()
+                {
+                    Engine = tlink.Engine,
+                    Board = tlink.Board,
+                    Thread = tlink.Thread,
+                    Post = tlink.Thread
+                };
+            }
+            var plink = link as PostLink;
+            if (plink != null)
+            {
+                return new PostLink()
+                {
+                    Engine = plink.Engine,
+                    Board = plink.Board,
+                    Thread = plink.Thread,
+                    Post = plink.Post
+                };
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Средство сравнения ссылок.
         /// </summary>
         private sealed class LinkComparer : IComparer<BoardLinkBase>

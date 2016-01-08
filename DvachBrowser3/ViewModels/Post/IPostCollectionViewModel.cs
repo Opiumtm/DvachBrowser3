@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace DvachBrowser3.ViewModels
@@ -32,5 +33,15 @@ namespace DvachBrowser3.ViewModels
         /// Операция обновления данных.
         /// </summary>
         IOperationViewModel Update { get; }
+
+        /// <summary>
+        /// Есть данные.
+        /// </summary>
+        bool HasData { get; }
+
+        /// <summary>
+        /// Посты обновлены.
+        /// </summary>
+        event EventHandler PostsUpdated;
     }
 }

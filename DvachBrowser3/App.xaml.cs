@@ -33,6 +33,10 @@ namespace DvachBrowser3
             container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
             container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
             container.RegisterService<IPageNavigationService>(new PageNavigationService(container));
+            Resuming += (sender, o) =>
+            {
+                AppEvents.AppResume.RaiseEvent(this, o);
+            };
         }
 
         private bool isInitialized;

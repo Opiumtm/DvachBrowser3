@@ -8,6 +8,11 @@ namespace DvachBrowser3
     public interface IWeakEventChannel
     {
         /// <summary>
+        /// Идентификатор канала.
+        /// </summary>
+        Guid Id { get; }
+
+        /// <summary>
         /// Зарегистрировать обратныйй вызов.
         /// </summary>
         /// <param name="callback">Обратный вызов.</param>

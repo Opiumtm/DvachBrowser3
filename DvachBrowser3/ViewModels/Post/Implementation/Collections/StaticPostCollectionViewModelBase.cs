@@ -28,6 +28,8 @@ namespace DvachBrowser3.ViewModels
         private async void SetInitialData(T data)
         {
             MergePosts(await data.GetPosts());
+            HasData = true;
+            OnPostsUpdated();
         }
 
         /// <summary>

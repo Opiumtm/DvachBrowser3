@@ -10,6 +10,7 @@
         /// </summary>
         /// <param name="sender">Отправитель.</param>
         /// <param name="e">Параметр события.</param>
-        void ReceiveWeakEvent(object sender, object e);
+        /// <param name="channel">Канал.</param>
+        void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e);
     }
 }
