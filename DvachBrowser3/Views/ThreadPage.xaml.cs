@@ -19,6 +19,7 @@ using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
+using DvachBrowser3.Storage;
 using DvachBrowser3.ViewModels;
 using Template10.Common;
 
@@ -85,12 +86,51 @@ namespace DvachBrowser3.Views
             vm.IsBackNavigatedToViewModel = isBackNavigated;
             DataContext = vm;
             OnPropertyChanged(nameof(ViewModel));
+            savedTopPostHash = await GetStoredCurrentPostHash(navigatedLink);
             NavigatedTo?.Invoke(this, e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private async Task<string> GetStoredCurrentPostHash(BoardLinkBase threadLink)
+        {
+            try
+            {
+                var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                var link = await store.CurrentPostStore.GetCurrentPost(threadLink);
+                if (link == null)
+                {
+                    return null;
+                }
+                return linkHash.GetLinkHash(link);
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+                return null;
+            }
+        }
+
+        private async Task SetStoredCurrentPost(BoardLinkBase threadLink, BoardLinkBase postLink)
+        {
+            try
+            {
+                var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                await store.CurrentPostStore.SetCurrentPost(threadLink, postLink);
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+            var element = MainList.GetTopViewIndex();
+            if (element?.Link != null)
+            {
+                await SetStoredCurrentPost(navigatedLink, element.Link);
+            }
             NavigatedFrom?.Invoke(this, e);
         }
 
@@ -185,6 +225,7 @@ namespace DvachBrowser3.Views
         /// <returns>Данные навигации.</returns>
         public Task<Dictionary<string, object>> GetNavigationData()
         {
+            /*
             var element = MainList.GetTopViewIndex();
             var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
             if (element?.Link != null)
@@ -194,7 +235,7 @@ namespace DvachBrowser3.Views
                 {
                     { "TopVisiblePost", hash }
                 });
-            }
+            }*/
             return Task.FromResult(new Dictionary<string, object>());
         }
 
@@ -205,10 +246,11 @@ namespace DvachBrowser3.Views
         /// <returns>Результат.</returns>
         public Task RestoreNavigationData(Dictionary<string, object> data)
         {
+            /*
             if (data != null && data.ContainsKey("TopVisiblePost"))
             {
                 savedTopPostHash = data["TopVisiblePost"] as string;
-            }
+            }*/
             return Task.FromResult(true);
         }
 
