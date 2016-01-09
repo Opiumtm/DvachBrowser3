@@ -28,5 +28,11 @@ namespace DvachBrowser3.ViewModels
         /// Есть квоты.
         /// </summary>
         bool HasQuotes { get; }
+
+        /// <summary>
+        /// Получить текст без разметки.
+        /// </summary>
+        /// <returns>Текст.</returns>
+        IList<string> GetPlainText();
     }
 }

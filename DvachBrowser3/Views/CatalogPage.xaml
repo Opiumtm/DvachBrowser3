@@ -12,6 +12,7 @@
     xmlns:localBehaviors="using:DvachBrowser3.Behaviors"
     xmlns:controls="using:Template10.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d" x:Name="ThisPage">
 
     <ps:PageServices.Services>
@@ -51,6 +52,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
 
@@ -60,9 +62,17 @@
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
+            <controls:PageHeader.PrimaryCommands>
+                <AppBarButton Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" Click="SearchButton_OnClick">
+                    <AppBarButton.Icon>
+                        <SymbolIcon Symbol="Find" Foreground="White" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
-        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
+        <pa:SearchBox Grid.Row="1" x:Name="FilterBox" Visibility="Collapsed" Closed="FilterBox_OnClosed" FilterUpdated="FilterBox_OnFilterUpdated" VerticalAlignment="Top"/>
+        <pa:ProgressIndicatorControl Grid.Row="2" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
+        <GridView x:Name="MainList" Grid.Row="3" SelectionMode="None" ItemsSource="{x:Bind FilteredPosts.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
                   >
             <GridView.Header>
                 <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="18" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
@@ -81,7 +91,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <pa:ContentPopup x:Name="PostPreview" Grid.Row="2">
+        <pa:ContentPopup x:Name="PostPreview" Grid.Row="3">
             <pa:ContentPopup.ViewContent>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
                     <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True" ShowCounter="False"
@@ -91,3 +101,4 @@
         </pa:ContentPopup>
     </Grid>
 </Page>
+

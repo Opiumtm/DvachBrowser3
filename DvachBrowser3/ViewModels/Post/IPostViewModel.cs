@@ -89,5 +89,15 @@ namespace DvachBrowser3.ViewModels
         /// Дополнительные данные.
         /// </summary>
         IDictionary<string, object> CustomAttachedData { get; }
+
+        /// <summary>
+        /// Тэги.
+        /// </summary>
+        IList<string> Tags { get; }
+
+        /// <summary>
+        /// Есть тэги.
+        /// </summary>
+        bool HasTags { get; }
     }
 }

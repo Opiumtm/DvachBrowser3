@@ -262,6 +262,14 @@
     <Compile Include="ViewModels\Post\IThreadViewModel.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventArgs.cs" />
     <Compile Include="ViewModels\Post\LinkClickEventHandler.cs" />
+    <Compile Include="ViewModels\Post\PostCollectionViewModelHelper.cs" />
+    <Compile Include="ViewModels\Post\Search\FilteredPostCollection.cs" />
+    <Compile Include="ViewModels\Post\Search\IFilteredPostCollection.cs" />
+    <Compile Include="ViewModels\Post\Search\IPostCollectionSearchQuery.cs" />
+    <Compile Include="ViewModels\Post\Search\LinkHashPostCollectionSearchQuery.cs" />
+    <Compile Include="ViewModels\Post\Search\LinkPostCollectionSearchQuery.cs" />
+    <Compile Include="ViewModels\Post\Search\PostNumPostCollectionSearchQuery.cs" />
+    <Compile Include="ViewModels\Post\Search\TextPostCollectionSearchQuery.cs" />
     <Compile Include="ViewModels\ViewModelAdapter.cs" />
     <Compile Include="Views\AddBoardDialog.xaml.cs">
       <DependentUpon>AddBoardDialog.xaml</DependentUpon>
@@ -326,6 +334,9 @@
     <Compile Include="Views\Partial\Additional\ThreadPreviewTappedEventHandler.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullThreadEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullThreadEventHandler.cs" />
+    <Compile Include="Views\Partial\SearchBox.xaml.cs">
+      <DependentUpon>SearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\TileImage.xaml.cs">
       <DependentUpon>TileImage.xaml</DependentUpon>
     </Compile>
@@ -439,6 +450,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\ProgressIndicatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

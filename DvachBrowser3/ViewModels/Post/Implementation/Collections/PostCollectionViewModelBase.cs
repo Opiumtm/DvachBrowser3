@@ -125,6 +125,49 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Слить коллекцию с новыми постами.
+        /// </summary>
+        /// <param name="newPosts">Новая коллекция постов.</param>
+        protected void MergePosts(IList<IPostViewModel> newPosts)
+        {
+            if (newPosts == null)
+            {
+                Posts.Clear();
+                return;
+            }
+            if (MergeAndSortPosts)
+            {
+                var equalityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
+                var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();
+                var updateHelper = new SortedCollectionUpdateHelper<IPostViewModel, IPostViewModel, BoardLinkBase>(
+                    equalityComparer,
+                    comparer,
+                    a => a.Link,
+                    a => a.Link,
+                    a => a,
+                    (a, b) => true,
+                    (a, b) => { },
+                    newPosts,
+                    Posts
+                    );
+                var update = updateHelper.GetUpdate();
+                update.Added += UpdateOnAdded;
+                update.Removed += UpdateOnRemoved;
+                update.Update();
+            }
+            else
+            {
+                Posts.Clear();
+                foreach (var p in newPosts)
+                {
+                    Posts.Add(p);
+                }
+            }
+            OpPost = Posts.FirstOrDefault();
+            UpdatePostCounters();
+        }
+
+        /// <summary>
         /// Обновить счётчик постов.
         /// </summary>
         protected virtual void UpdatePostCounters()

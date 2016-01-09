@@ -87,6 +87,15 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        /// <summary>
+        /// Получить текст без разметки.
+        /// </summary>
+        /// <returns>Текст.</returns>
+        public IList<string> GetPlainText()
+        {
+            return post?.ToPlainText();
+        }
+
         private void RenderElements(ITextRenderLogic logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)
         {
             if (nodes == null)

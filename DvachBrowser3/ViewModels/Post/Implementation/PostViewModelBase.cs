@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
@@ -23,6 +25,15 @@ namespace DvachBrowser3.ViewModels
         {
             PostData = postData;
             Parent = parent;
+            var tagExt = PostData?.Extensions?.OfType<PostTreeTagsExtension>()?.FirstOrDefault();
+            if (tagExt?.Tags != null)
+            {
+                foreach (var t in tagExt.Tags)
+                {
+                    Tags.Add(t);
+                }
+                HasTags = Tags.Count > 0;
+            }
         }
 
         /// <summary>
@@ -128,6 +139,16 @@ namespace DvachBrowser3.ViewModels
         /// Дополнительные данные.
         /// </summary>
         public IDictionary<string, object> CustomAttachedData { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Тэги.
+        /// </summary>
+        public IList<string> Tags { get; } = new List<string>();
+
+        /// <summary>
+        /// Есть тэги.
+        /// </summary>
+        public bool HasTags { get; }
 
         /// <summary>
         /// Заголовок.

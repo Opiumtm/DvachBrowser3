@@ -99,6 +99,7 @@ namespace DvachBrowser3.Views
             DataContext = vm;
             OnPropertyChanged(nameof(ViewModel));
             OnPropertyChanged(nameof(ColViewModel));
+            FilteredPosts = vm;
             NavigatedTo?.Invoke(this, e);
         }
 
@@ -194,6 +195,48 @@ namespace DvachBrowser3.Views
             {
                 ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(tlink));
             }
+        }
+
+        private IPostCollectionViewModel filteredPosts;
+
+        /// <summary>
+        /// Фильтрованные посты.
+        /// </summary>
+        public IPostCollectionViewModel FilteredPosts
+        {
+            get { return filteredPosts; }
+            private set
+            {
+                filteredPosts = value;
+                OnPropertyChanged(nameof(FilteredPosts));
+            }
+        }
+
+        private void SetFilter(string filter)
+        {
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                FilteredPosts = ViewModel;
+            }
+            else
+            {
+                FilteredPosts = ViewModel.FilterPosts(new TextPostCollectionSearchQuery(filter), false);
+            }
+        }
+
+        private void FilterBox_OnClosed(object sender, EventArgs e)
+        {
+            FilterBox.AnimatedVisibility = Visibility.Collapsed;
+        }
+
+        private void FilterBox_OnFilterUpdated(object sender, EventArgs e)
+        {
+            SetFilter(FilterBox.FilterSting);
+        }
+
+        private void SearchButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FilterBox.AnimatedVisibility = Visibility.Visible;
         }
     }
 }
