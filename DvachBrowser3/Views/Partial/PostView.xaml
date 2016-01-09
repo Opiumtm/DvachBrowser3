@@ -79,11 +79,11 @@
         </RelativePanel>
         <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
                    MaxLines="3" Visibility="{x:Bind ViewModel.Subject, Mode=OneWay, Converter={StaticResource EmptyStringVisibilityConverter}, ConverterParameter=false}" />
-        <TextBlock Grid.Row="1" Grid.RowSpan="2"  Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+        <TextBlock Grid.Row="1" Grid.RowSpan="7"  Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                     Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}"  x:Name="CounterView" Margin="3" Foreground="Green" FontWeight="SemiBold" FontSize="24"
                     VerticalAlignment="Top" HorizontalAlignment="Right" Opacity="0.5"/>
         <GridView Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                  ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None">
+                  ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None" ShowsScrollingPlaceholders="False">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
                     <StackPanel Margin="2" ToolTipService.ToolTip="{x:Bind Name}">
@@ -105,7 +105,7 @@
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.1"/>
             </Border.BorderBrush>
             <GridView ItemsSource="{x:Bind ViewModel.Text.Quotes, Mode=OneWay}" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                      SelectionMode="None">
+                      SelectionMode="None" ShowsScrollingPlaceholders="False">
                 <GridView.Header>
                     <TextBlock FontSize="14.5" Margin="3, 0, 5, 0">
                         <Run>Ответы:</Run>
@@ -115,6 +115,13 @@
                     <Style TargetType="GridViewItem">
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="MinHeight" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="GridViewItem">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>

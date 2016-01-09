@@ -34,6 +34,11 @@ namespace DvachBrowser3.Navigation
                 NavigateToBoardCatalog((BoardCatalogNavigationTarget)target);
                 return;
             }
+            if (target is ThreadNavigationTarget)
+            {
+                NavigateToThread((ThreadNavigationTarget)target);
+                return;
+            }
             throw new ArgumentException($"Неизвестный тип цели навигации \"{target.GetType().FullName}\"", nameof(target));
         }
 
@@ -80,6 +85,23 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(CatalogPage), nkey);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Невозможно получить ключ навигации", nameof(target));
+            }
+        }
+
+        private void NavigateToThread(ThreadNavigationTarget target)
+        {
+            var nkey1 = target.Link?.GetNavigationKey();
+            if (nkey1 != null)
+            {
+                var nkey = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Serialize(nkey1);
+                if (nkey != null)
+                {
+                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(ThreadPage), nkey);
                 }
             }
             else

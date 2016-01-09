@@ -85,7 +85,7 @@ namespace DvachBrowser3.TextRender
             var words = Splitter.Split(text);
             var run = CheckLengths(attributes, words);
             var isAdded = false;
-            FrameworkElement old = null;
+            Func<FrameworkElement> old = null;
             var sb = new StringBuilder();
             foreach (var r in run)
             {
@@ -95,15 +95,16 @@ namespace DvachBrowser3.TextRender
                     if (!isAdded)
                     {
                         isAdded = true;
-                        if (old != null)
+                        var ta = old?.Invoke();
+                        if (ta != null)
                         {
-                            AddElementToCanvas(old);
+                            AddElementToCanvas(ta);
                         }
                         else
                         {
                             if (FirstInLine)
                             {
-                                AddElementToCanvas(r.Item3);
+                                AddElementToCanvas(r.Item3());
                                 isThis = true;
                             }
                             else
@@ -119,33 +120,82 @@ namespace DvachBrowser3.TextRender
                 }
                 old = r.Item3;
             }
-            if (!isAdded && old != null)
+            if (!isAdded)
             {
-                AddElementToCanvas(old);                
+                var ta = old?.Invoke();
+                if (ta != null)
+                {
+                    AddElementToCanvas(ta);
+                }
             }
 
             return sb.ToString();
         }
 
-        protected IEnumerable<Tuple<string, bool, FrameworkElement>> CheckLengths(ITextRenderAttributeState attributes, IEnumerable<string> words)
+        protected IEnumerable<Tuple<string, bool, Func<FrameworkElement>, bool>> CheckLengths(ITextRenderAttributeState attributes, IEnumerable<string> words)
         {
-            bool exceeded = false;
+            var wordsArr = words.ToArray();
+            var testEl = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent("a")));
+            var charWidth = testEl.Width;
+
+            int idx0 = 0;
             string current = "";
-            foreach (var word in words)
+            for (int i = 0; i < wordsArr.Length; i++)
             {
+                var word = wordsArr[i];
+                current += word;
+                var len = current.Length*charWidth;
+                if ((len + LineWidth) > TextCanvas.ActualWidth)
+                {
+                    idx0 = i;
+                    break;
+                }
+            }
+
+            int idx1 = -1;
+
+            for (int j = idx0; j >= 0; j--)
+            {
+                current = "";
+                for (int i = 0; i <= j; i++)
+                {
+                    var word = wordsArr[i];
+                    current += word;
+                }
+                var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
+                if (!((el.Width + LineWidth) > TextCanvas.ActualWidth))
+                {
+                    idx1 = j;
+                    break;
+                }
+            }
+
+            bool exceeded = false;
+            current = "";
+            for (int i = 0; i < wordsArr.Length; i++)
+            {
+                var word = wordsArr[i];
                 current += word;
                 if (exceeded)
                 {
-                    yield return new Tuple<string, bool, FrameworkElement>(word, false, null);
+                    yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, false, () => null, true);
                 }
                 else
                 {
-                    var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
-                    if ((el.Width + LineWidth) > TextCanvas.ActualWidth)
+                    if (i > idx1)
                     {
-                        exceeded = true;
+                        var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
+                        if ((el.Width + LineWidth) > TextCanvas.ActualWidth)
+                        {
+                            exceeded = true;
+                        }
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, !exceeded, () => el, false);
                     }
-                    yield return new Tuple<string, bool, FrameworkElement>(word, !exceeded, el);                    
+                    else
+                    {
+                        var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, true, () => Factory.Create(com), false);
+                    }
                 }
             }
         }

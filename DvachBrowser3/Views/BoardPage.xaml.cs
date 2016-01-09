@@ -274,9 +274,7 @@ namespace DvachBrowser3.Views
                     { "TopVisibleThread", hash }
                 });
             }
-            return Task.FromResult(new Dictionary<string, object>()
-            {
-            });
+            return Task.FromResult(new Dictionary<string, object>());
         }
 
         private string savedTopThreadHash;
@@ -331,6 +329,15 @@ namespace DvachBrowser3.Views
                 return;
             }
             base.OnNavigatingFrom(e);
+        }
+
+        private void ThreadPreview_OnShowFullThread(object sender, ShowFullThreadEventArgs e)
+        {
+            var tp = e.PostCollection as IThreadPreviewViewModel;
+            if (tp?.ThreadLink != null)
+            {
+                ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(tp.ThreadLink));
+            }
         }
     }
 }

@@ -159,6 +159,7 @@
     <Compile Include="Navigation\Targets\BoardCatalogNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
+    <Compile Include="Navigation\Targets\ThreadNavigationTarget.cs" />
     <Compile Include="PageServices\IDynamicShellAppBarProvider.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
     <Compile Include="PageServices\IPageService.cs" />
@@ -283,10 +284,13 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\Additional\BannerTappedEventArgs.cs" />
+    <Compile Include="Views\Partial\Additional\BannerTappedEventHandler.cs" />
+    <Compile Include="Views\Partial\Additional\ContentPopupManager.cs" />
     <Compile Include="Views\Partial\BannerView.xaml.cs">
       <DependentUpon>BannerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partial\BannerVisibilityConverter.cs" />
+    <Compile Include="Views\Partial\Additional\BannerVisibilityConverter.cs" />
     <Compile Include="Views\Partial\BoardThreadRefList.xaml.cs">
       <DependentUpon>BoardThreadRefList.xaml</DependentUpon>
     </Compile>
@@ -296,7 +300,7 @@
     <Compile Include="Views\Partial\BoardTile.xaml.cs">
       <DependentUpon>BoardTile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partial\BoardTileShortNameConverter.cs" />
+    <Compile Include="Views\Partial\Additional\BoardTileShortNameConverter.cs" />
     <Compile Include="Views\Partial\ContentPopup.xaml.cs">
       <DependentUpon>ContentPopup.xaml</DependentUpon>
     </Compile>
@@ -315,11 +319,15 @@
     <Compile Include="Views\Partial\ProgressIndicatorControl.xaml.cs">
       <DependentUpon>ProgressIndicatorControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partial\RenderTextElementFactory.cs" />
+    <Compile Include="Views\Partial\Additional\RenderTextElementFactory.cs" />
+    <Compile Include="Views\Partial\Additional\ThreadPreviewTappedEventArgs.cs" />
+    <Compile Include="Views\Partial\Additional\ThreadPreviewTappedEventHandler.cs" />
+    <Compile Include="Views\Partial\Additional\ShowFullThreadEventArgs.cs" />
+    <Compile Include="Views\Partial\Additional\ShowFullThreadEventHandler.cs" />
     <Compile Include="Views\Partial\TileImage.xaml.cs">
       <DependentUpon>TileImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Partial\WinRtWordSplitter.cs" />
+    <Compile Include="Views\Partial\Additional\WinRtWordSplitter.cs" />
     <Compile Include="Views\SelectPageDialog.xaml.cs">
       <DependentUpon>SelectPageDialog.xaml</DependentUpon>
     </Compile>

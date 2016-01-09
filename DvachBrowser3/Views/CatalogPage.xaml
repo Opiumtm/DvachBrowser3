@@ -62,7 +62,8 @@
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="4, 4, 4, 0">
+        <GridView x:Name="MainList" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind ColViewModel.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
+                  >
             <GridView.Header>
                 <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="18" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
             </GridView.Header>
@@ -83,7 +84,8 @@
         <pa:ContentPopup x:Name="PostPreview" Grid.Row="2">
             <pa:ContentPopup.ViewContent>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
-                    <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True"/>
+                    <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True"
+                                 ShowFullThread="PostView_OnShowFullThread"/>
                 </ScrollViewer>
             </pa:ContentPopup.ViewContent>
         </pa:ContentPopup>

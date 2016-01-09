@@ -19,6 +19,7 @@ using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.ViewModels;
+using DvachBrowser3.Views.Partial;
 using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -175,11 +176,6 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            PostPreview.IsContentVisible = false;
-        }
-
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back && PostPreview.IsContentVisible)
@@ -189,6 +185,15 @@ namespace DvachBrowser3.Views
                 return;
             }
             base.OnNavigatingFrom(e);
+        }
+
+        private void PostView_OnShowFullThread(object sender, ShowFullThreadEventArgs e)
+        {
+            var tlink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetThreadLinkFromAnyLink(e.Post?.Link);
+            if (tlink != null)
+            {
+                ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(tlink));
+            }
         }
     }
 }

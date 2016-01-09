@@ -14,7 +14,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using DvachBrowser3.Links;
 using DvachBrowser3.ViewModels;
 using Template10.Common;
 using XamlAnimatedGif;
@@ -164,30 +163,4 @@ namespace DvachBrowser3.Views.Partial
             }
         }
     }
-
-    /// <summary>
-    /// Аргументы тапа на баннер.
-    /// </summary>
-    public sealed class BannerTappedEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="T:System.EventArgs"/>.
-        /// </summary>
-        public BannerTappedEventArgs(BoardLinkBase link)
-        {
-            Link = link;
-        }
-
-        /// <summary>
-        /// Ссылка.
-        /// </summary>
-        public BoardLinkBase Link { get; private set; }
-    }
-
-    /// <summary>
-    /// Обработчик события тапа на баннер.
-    /// </summary>
-    /// <param name="sender">Источник события.</param>
-    /// <param name="e">Событие.</param>
-    public delegate void BannerTappedEventHandler(object sender, BannerTappedEventArgs e);
 }

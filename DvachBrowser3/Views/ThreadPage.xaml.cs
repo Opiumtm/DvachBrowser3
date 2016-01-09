@@ -126,7 +126,7 @@ namespace DvachBrowser3.Views
 
         private void ScrollIntoView(IPostViewModel post)
         {
-            // todo: написать скроллинг, когда будет готова разметка
+            MainList.ScrollIntoView(post);
         }
 
         /// <summary>
@@ -178,7 +178,17 @@ namespace DvachBrowser3.Views
         /// <returns>Данные навигации.</returns>
         public Task<Dictionary<string, object>> GetNavigationData()
         {
-            throw new NotImplementedException();
+            var element = MainList.GetTopViewIndex();
+            var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+            if (element?.Link != null)
+            {
+                var hash = linkHash.GetLinkHash(element.Link);
+                return Task.FromResult(new Dictionary<string, object>()
+                {
+                    { "TopVisiblePost", hash }
+                });
+            }
+            return Task.FromResult(new Dictionary<string, object>());
         }
 
         /// <summary>

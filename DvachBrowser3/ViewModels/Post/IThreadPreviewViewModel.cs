@@ -1,10 +1,17 @@
-﻿namespace DvachBrowser3.ViewModels
+﻿using DvachBrowser3.Links;
+
+namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Предварительный просмотр треда.
     /// </summary>
     public interface IThreadPreviewViewModel : IPostCollectionViewModel
     {
+        /// <summary>
+        /// Ссылка на тред.
+        /// </summary>
+        BoardLinkBase ThreadLink { get; }
+
         /// <summary>
         /// Родительская модель.
         /// </summary>

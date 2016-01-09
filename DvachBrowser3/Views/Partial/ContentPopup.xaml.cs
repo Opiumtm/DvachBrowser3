@@ -37,6 +37,7 @@ namespace DvachBrowser3.Views.Partial
                 {
                     (Resources["HideContentAnimation"] as Storyboard)?.Begin();
                 }
+                IsContentVisibleChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -139,5 +140,10 @@ namespace DvachBrowser3.Views.Partial
         {
             IsContentVisible = false;
         }
+
+        /// <summary>
+        /// Изменено состояние видимости.
+        /// </summary>
+        public event EventHandler IsContentVisibleChanged;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using DvachBrowser3.Links;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
 using DvachBrowser3.Storage;
@@ -19,6 +20,7 @@ namespace DvachBrowser3.ViewModels
         public ThreadPreviewViewModel(IBoardPageViewModel parent, ThreadPreviewTree data) : base(data)
         {
             Parent = parent;
+            ThreadLink = data?.Link;
 #pragma warning disable 4014
             BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdatePostCount());
 #pragma warning restore 4014
@@ -57,6 +59,11 @@ namespace DvachBrowser3.ViewModels
         {
             return new PostViewModel(post, this, CollectionData?.Omit ?? 0);
         }
+
+        /// <summary>
+        /// Ссылка на тред.
+        /// </summary>
+        public BoardLinkBase ThreadLink { get; }
 
         /// <summary>
         /// Родительская модель.

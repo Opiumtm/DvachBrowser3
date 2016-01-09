@@ -11,7 +11,7 @@
     
     <UserControl.Resources>
         <Storyboard x:Key="ShowContentAnimation">
-            <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
             <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="16.0" To="0.0">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" />
@@ -20,9 +20,16 @@
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.0" Value="Visible" />
             </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Background">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <SolidColorBrush Color="Black" Opacity="0.5" />
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="HideContentAnimation">
-            <DoubleAnimation Storyboard.TargetName="MainView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
             <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="0.0" To="16.0">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseOut" />
@@ -31,6 +38,13 @@
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="Collapsed" />
             </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Background">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <SolidColorBrush Color="Transparent" />
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
 
@@ -38,7 +52,7 @@
         <Border.Background>
             <SolidColorBrush Color="Black" Opacity="0.5" />
         </Border.Background>
-        <Grid Margin="{x:Bind PopupMargin, Mode=OneWay}">
+        <Grid Margin="{x:Bind PopupMargin, Mode=OneWay}" x:Name="BodyContainer">
             <Grid.RenderTransform>
                 <TranslateTransform x:Name="BodyScale" X="0" Y="0" />
             </Grid.RenderTransform>

@@ -15,7 +15,52 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     x:Name="ThisPage">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ps:PageServices.Services>
+        <ps:PageServiceCollection>
+            <ps:ShellAppBarPageService />
+            <ps:ViewModelLifetimePageService />
+            <ps:StoreNavigationDataPageService MinutesToStore="43200" Version="1.0.0"/>
+        </ps:PageServiceCollection>
+    </ps:PageServices.Services>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualStateNarrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateNormal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+                             Content="ТРЕД">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </interactivity:Interaction.Behaviors>
+        </controls:PageHeader>
+
+        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind PostCollection.Update.Progress, Mode=OneWay}" ShowMessage="True" />
+
+        <pa:PostCollectionView Grid.Row="2" Margin="4, 4, 4, 0" ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="20" ShowCounter="True" ShowPreviewSeparator="False"
+                               x:Name="MainList">
+        </pa:PostCollectionView>
     </Grid>
 </Page>

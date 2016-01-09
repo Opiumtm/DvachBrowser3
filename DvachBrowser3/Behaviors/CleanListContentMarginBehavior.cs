@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using DvachBrowser3.Views;
 using Microsoft.Xaml.Interactivity;
@@ -9,7 +10,7 @@ namespace DvachBrowser3.Behaviors
     /// <summary>
     /// Изменение отсупов в элементе списка.
     /// </summary>
-    [TypeConstraint(typeof(ListViewItemPresenter))]
+    [TypeConstraint(typeof(FrameworkElement))]
     public sealed class CleanListContentMarginBehavior : DependencyObject, IBehavior, IWeakEventCallback
     {
         /// <summary>
@@ -27,7 +28,7 @@ namespace DvachBrowser3.Behaviors
             UpdateContentMargin();
         }
 
-        private ListViewItemPresenter Presenter => AssociatedObject as ListViewItemPresenter;
+        private FrameworkElement Presenter => AssociatedObject as FrameworkElement;
 
         private void UpdateContentMargin()
         {
@@ -37,11 +38,11 @@ namespace DvachBrowser3.Behaviors
                 {
                     if (Shell.Instance.IsNarrowView)
                     {
-                        Presenter.ContentMargin = NarrowThickness;
+                        Presenter.Margin = NarrowThickness;
                     }
                     else
                     {
-                        Presenter.ContentMargin = NormalThickness;
+                        Presenter.Margin = NormalThickness;
                     }
                 }
             });
