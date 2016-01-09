@@ -67,41 +67,12 @@ namespace DvachBrowser3.Views.Partial
 
         private void UpdateNarrowLayout()
         {
-            EntryBox.SetValue(RelativePanel.AlignLeftWithPanelProperty, true);
-            if (Shell.Instance.IsNarrowView)
-            {
-                EntryBox.Margin = new Thickness(0, 0, 0, 8);
-                CloseButton.SetValue(RelativePanel.BelowProperty, EntryBox);
-                EntryBox.SetValue(RelativePanel.LeftOfProperty, null);
-                CloseButton.SetValue(RelativePanel.AlignRightWithPanelProperty, false);
-                CloseButton.SetValue(RelativePanel.AlignLeftWithPanelProperty, true);
-                EntryBox.SetValue(RelativePanel.AlignRightWithPanelProperty, true);
-            }
-            else
-            {
-                EntryBox.Margin = new Thickness(0, 0, 8, 0);
-                CloseButton.SetValue(RelativePanel.BelowProperty, null);
-                EntryBox.SetValue(RelativePanel.LeftOfProperty, CloseButton);
-                CloseButton.SetValue(RelativePanel.AlignRightWithPanelProperty, true);
-                CloseButton.SetValue(RelativePanel.AlignLeftWithPanelProperty, false);
-                EntryBox.SetValue(RelativePanel.AlignRightWithPanelProperty, false);
-            }
         }
-
-        /// <summary>
-        /// Представление закрыто.
-        /// </summary>
-        public event EventHandler Closed;
 
         /// <summary>
         /// Фильтр обновлён.
         /// </summary>
         public event EventHandler FilterUpdated;
-
-        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
 
         /// <summary>
         /// Строка.

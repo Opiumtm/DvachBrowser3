@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -222,11 +223,6 @@ namespace DvachBrowser3.Views
             {
                 FilteredPosts = ViewModel.FilterPosts(new TextPostCollectionSearchQuery(filter), false);
             }
-        }
-
-        private void FilterBox_OnClosed(object sender, EventArgs e)
-        {
-            FilterBox.AnimatedVisibility = Visibility.Collapsed;
         }
 
         private void FilterBox_OnFilterUpdated(object sender, EventArgs e)

@@ -63,14 +63,14 @@
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" Click="SearchButton_OnClick">
-                    <AppBarButton.Icon>
-                        <SymbolIcon Symbol="Find" Foreground="White" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
+                <AppBarToggleButton Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" x:Name="FilterButton" RequestedTheme="Dark" Style="{StaticResource HeaderAppBarToggleButtonStyle}">
+                    <AppBarToggleButton.Icon>
+                        <SymbolIcon Symbol="Find" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
             </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
-        <pa:SearchBox Grid.Row="1" x:Name="FilterBox" Visibility="Collapsed" Closed="FilterBox_OnClosed" FilterUpdated="FilterBox_OnFilterUpdated" VerticalAlignment="Top"/>
+        <pa:SearchBox Grid.Row="1" x:Name="FilterBox" FilterUpdated="FilterBox_OnFilterUpdated" VerticalAlignment="Top" AnimatedVisibility="{Binding ElementName=FilterButton, Path=IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
         <pa:ProgressIndicatorControl Grid.Row="2" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
         <GridView x:Name="MainList" Grid.Row="3" SelectionMode="None" ItemsSource="{x:Bind FilteredPosts.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
                   >
