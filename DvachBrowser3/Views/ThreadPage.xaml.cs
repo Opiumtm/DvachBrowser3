@@ -66,7 +66,14 @@ namespace DvachBrowser3.Views
             var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
             var link = NavigationHelper.GetLinkFromParameter(e.Parameter);
             navigatedLink = linkTransform.GetThreadLinkFromAnyLink(link);
-            navigatePostLink = linkTransform.GetPostLinkFromAnyLink(link);
+            navigatePostLink = null;
+            if (link != null)
+            {
+                if ((link.LinkKind & BoardLinkKind.Post) != 0)
+                {
+                    navigatePostLink = link;
+                }
+            }
             if (navigatedLink == null)
             {
                 await AppHelpers.ShowError(new InvalidOperationException("Неправильный тип параметра навигации"));

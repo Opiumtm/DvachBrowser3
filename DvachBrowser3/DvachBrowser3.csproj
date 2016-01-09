@@ -287,6 +287,8 @@
     <Compile Include="Views\Partial\Additional\BannerTappedEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\BannerTappedEventHandler.cs" />
     <Compile Include="Views\Partial\Additional\ContentPopupManager.cs" />
+    <Compile Include="Views\Partial\Additional\ShowFullPostEventArgs.cs" />
+    <Compile Include="Views\Partial\Additional\ShowFullPostEventHandler.cs" />
     <Compile Include="Views\Partial\BannerView.xaml.cs">
       <DependentUpon>BannerView.xaml</DependentUpon>
     </Compile>

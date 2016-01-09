@@ -51,37 +51,39 @@
                 <Run Text="{x:Bind ViewModel.Name.TripCode, Mode=OneWay}" />
             </TextBlock>
             <StackPanel x:Name="PostFlagsView" Orientation="Horizontal" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" VerticalAlignment="Top">
+                <TextBlock Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                    x:Name="CounterView" Margin="5, 0, 5, 0" Foreground="Green" FontWeight="SemiBold" FontSize="14.5"
+                    VerticalAlignment="Center">
+                    <Run>#</Run><Run Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}" />
+                </TextBlock>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Сажа">
+                     ToolTipService.ToolTip="Сажа" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1FD;" />
                 </Viewbox>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Прикреплённый">
+                     ToolTipService.ToolTip="Прикреплённый" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE840;" />
                 </Viewbox>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Закрыт">
+                     ToolTipService.ToolTip="Закрыт" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72E;" />
                 </Viewbox>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Редактировался">
+                     ToolTipService.ToolTip="Редактировался" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
                 </Viewbox>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Автор забанен">
+                     ToolTipService.ToolTip="Автор забанен" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe UI Symbol" Glyph="✞" Height="32" Width="32" Margin="-7" />
                 </Viewbox>
                 <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
-                     ToolTipService.ToolTip="Модтрип">
+                     ToolTipService.ToolTip="Модтрип" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
                 </Viewbox>
             </StackPanel>
         </RelativePanel>
         <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
                    MaxLines="3" Visibility="{x:Bind ViewModel.Subject, Mode=OneWay, Converter={StaticResource EmptyStringVisibilityConverter}, ConverterParameter=false}" />
-        <TextBlock Grid.Row="1" Grid.RowSpan="7"  Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                    Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}"  x:Name="CounterView" Margin="3" Foreground="Green" FontWeight="SemiBold" FontSize="24"
-                    VerticalAlignment="Top" HorizontalAlignment="Right" Opacity="0.5"/>
         <GridView Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                   ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None" ShowsScrollingPlaceholders="False">
             <GridView.ItemTemplate>
@@ -97,8 +99,13 @@
             </GridView.ItemTemplate>
         </GridView>
         <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <TextBlock Grid.Row="4" FontSize="14.5" Margin="3, 0, 3, 0" Text="[Показана часть поста]" FontWeight="SemiBold" HorizontalAlignment="Center"
+        <Border Margin="3, 0, 3, 0" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
+            <TextBlock FontSize="14.5" Text="[Показана часть текста]" FontWeight="SemiBold"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
+        </Border>
+        <Border Margin="3, 2, 3, 2" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+            <Button Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Click="ShowFullPostButton_OnClick">Показать текст целиком</Button>
+        </Border>
         <Border Grid.Row="5" Margin="3, 3, 3, 0" Padding="0, 3, 0, 0" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                 BorderThickness="0, 1, 0, 0">
             <Border.BorderBrush>

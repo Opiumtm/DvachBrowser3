@@ -28,7 +28,8 @@
                                     ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
-                                    ShowFullThread="PostView_OnShowFullThread"/>
+                                    ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
+                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

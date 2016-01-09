@@ -84,7 +84,7 @@
         <pa:ContentPopup x:Name="PostPreview" Grid.Row="2">
             <pa:ContentPopup.ViewContent>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="0" HorizontalAlignment="Stretch" x:Name="PostPreviewScroll">
-                    <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True"
+                    <pa:PostView x:Name="PostView" MaxLines="0" ShowFullThreadText="Перейти в тред" ShowPreviewSeparator="True" ShowCounter="False"
                                  ShowFullThread="PostView_OnShowFullThread"/>
                 </ScrollViewer>
             </pa:ContentPopup.ViewContent>

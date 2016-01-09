@@ -184,13 +184,38 @@ namespace DvachBrowser3.Views.Partial
             new PropertyMetadata("Показать целиком"));
 
         /// <summary>
+        /// Кнопка показа полного поста.
+        /// </summary>
+        public bool ShowFullPostButton
+        {
+            get { return (bool) GetValue(ShowFullPostButtonProperty); }
+            set { SetValue(ShowFullPostButtonProperty, value); }
+        }
+
+        /// <summary>
+        /// Кнопка показа полного поста.
+        /// </summary>
+        public static readonly DependencyProperty ShowFullPostButtonProperty = DependencyProperty.Register("ShowFullPostButton", typeof (bool), typeof (PostView),
+            new PropertyMetadata(false));
+
+        /// <summary>
         /// Показать тред целиком.
         /// </summary>
         public event ShowFullThreadEventHandler ShowFullThread;
 
+        /// <summary>
+        /// Показать полный пост.
+        /// </summary>
+        public event ShowFullPostEventHandler ShowFullPost;
+
         private void ShowFullThreadButton_OnClick(object sender, RoutedEventArgs e)
         {
             ShowFullThread?.Invoke(this, new ShowFullThreadEventArgs(ViewModel?.Parent, ViewModel));
+        }
+
+        private void ShowFullPostButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowFullPost?.Invoke(this, new ShowFullPostEventArgs(ViewModel));
         }
     }
 }
