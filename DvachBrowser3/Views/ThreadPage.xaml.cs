@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -37,6 +38,7 @@ namespace DvachBrowser3.Views
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
             AppEvents.AppResume.AddCallback(this);
+            AppEvents.AppSuspend.AddCallback(this);
         }
 
         /// <summary>
@@ -50,6 +52,10 @@ namespace DvachBrowser3.Views
             if (channel?.Id == AppEvents.AppResumeId)
             {
                 AppResume?.Invoke(this, e);
+            }
+            if (channel?.Id == AppEvents.AppSuspendId)
+            {
+                OnSuspending(e as SuspendingEventArgs);
             }
         }
 
@@ -110,12 +116,19 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private async Task SetStoredCurrentPost(BoardLinkBase threadLink, BoardLinkBase postLink)
+        private async Task SetStoredCurrentPost(BoardLinkBase threadLink, BoardLinkBase postLink, bool async = true)
         {
             try
             {
                 var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
-                await store.CurrentPostStore.SetCurrentPost(threadLink, postLink);
+                if (async)
+                {
+                    await store.CurrentPostStore.SetCurrentPost(threadLink, postLink);
+                }
+                else
+                {
+                    await store.CurrentPostStore.SetCurrentPostSync(threadLink, postLink);
+                }
             }
             catch (Exception ex)
             {
@@ -126,12 +139,40 @@ namespace DvachBrowser3.Views
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            var element = MainList.GetTopViewIndex();
-            if (element?.Link != null)
+            if (e.NavigationMode == NavigationMode.New || e.NavigationMode == NavigationMode.Back)
             {
-                await SetStoredCurrentPost(navigatedLink, element.Link);
+                var element = MainList.GetTopViewIndex();
+                if (element?.Link != null)
+                {
+                    await SetStoredCurrentPost(navigatedLink, element.Link);
+                }
             }
             NavigatedFrom?.Invoke(this, e);
+        }
+
+        private async void OnSuspending(SuspendingEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+            var deferral = e.SuspendingOperation.GetDeferral();
+            try
+            {
+                var element = MainList.GetTopViewIndex();
+                if (element?.Link != null)
+                {
+                    await SetStoredCurrentPost(navigatedLink, element.Link, false);
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         private void OnPostsUpdated(object sender, EventArgs eventArgs)

@@ -37,6 +37,10 @@ namespace DvachBrowser3
             {
                 AppEvents.AppResume.RaiseEvent(this, o);
             };
+            Suspending += (sender, e) =>
+            {
+                AppEvents.AppSuspend.RaiseEvent(this, e);
+            };
         }
 
         private bool isInitialized;

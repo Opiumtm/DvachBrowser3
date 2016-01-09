@@ -16,5 +16,15 @@ namespace DvachBrowser3
         /// Возобновление приложения.
         /// </summary>
         public static readonly IWeakEventChannel AppResume = new WeakEventChannel(AppResumeId);
+
+        /// <summary>
+        /// Приостановка приложения.
+        /// </summary>
+        public static readonly Guid AppSuspendId = new Guid("{58A2586F-E429-47DC-99D3-E2DD06631A71}");
+
+        /// <summary>
+        /// Приостановка приложения.
+        /// </summary>
+        public static readonly IWeakEventChannel AppSuspend = new WeakEventChannel(AppSuspendId);
     }
 }
