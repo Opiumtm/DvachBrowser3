@@ -92,5 +92,10 @@ namespace DvachBrowser3.ViewModels
         /// Начата загрузка.
         /// </summary>
         event EventHandler BannerLoadStarted;
+
+        /// <summary>
+        /// Модель возобновлена.
+        /// </summary>
+        event EventHandler ModelResumed;
     }
 }

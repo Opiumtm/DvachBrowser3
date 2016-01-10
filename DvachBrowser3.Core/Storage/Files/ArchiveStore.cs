@@ -20,7 +20,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
         /// <param name="cacheDescription">Описание.</param>
-        public ArchiveStore(IServiceProvider services, string folderName, string cacheDescription) : base(services, folderName, ulong.MaxValue, ulong.MaxValue, cacheDescription)
+        public ArchiveStore(IServiceProvider services, string folderName, string cacheDescription) : base(services, folderName, CacheRecycleConfig.MaxValue, cacheDescription)
         {
             CachedDb = new CachedFile<ArchiveCollection>(services, this, GetArchivesBaseFile, GetDataFolder, false);
         }

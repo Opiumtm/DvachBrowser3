@@ -22,33 +22,12 @@ using Template10.Common;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class TileImage : UserControl, INotifyPropertyChanged, IWeakEventCallback
+    public sealed partial class TileImage : UserControl, INotifyPropertyChanged
     {
         public TileImage()
         {
             this.InitializeComponent();
             UpdateState(null);
-            AppEvents.AppResume.AddCallback(this);
-        }
-
-        /// <summary>
-        /// Получить событие.
-        /// </summary>
-        /// <param name="sender">Отправитель.</param>
-        /// <param name="e">Параметр события.</param>
-        /// <param name="channel">Канал.</param>
-        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
-        {
-            if (channel?.Id == AppEvents.AppResumeId)
-            {
-                if (ViewModel != null)
-                {
-                    if (!ViewModel.ImageLoaded && !ViewModel.Load.Progress.IsActive)
-                    {
-                        ViewModel.Load.Start();
-                    }
-                }
-            }
         }
 
         private void ViewModelChanged(IImageSourceViewModel oldValue, IImageSourceViewModel newValue)

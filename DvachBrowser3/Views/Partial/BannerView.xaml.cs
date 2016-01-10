@@ -22,26 +22,13 @@ using XamlAnimatedGif;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class BannerView : UserControl, IWeakEventCallback
+    public sealed partial class BannerView : UserControl
     {
+        private object lifetimeToken;
+
         public BannerView()
         {
             this.InitializeComponent();
-            AppEvents.AppResume.AddCallback(this);
-        }
-
-        /// <summary>
-        /// Получить событие.
-        /// </summary>
-        /// <param name="sender">Отправитель.</param>
-        /// <param name="e">Параметр события.</param>
-        /// <param name="channel">Канал.</param>
-        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
-        {
-            if (channel?.Id == AppEvents.AppResumeId)
-            {
-                UpdateBanner();
-            }
         }
 
         private void ViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -51,11 +38,18 @@ namespace DvachBrowser3.Views.Partial
             if (oldValue != null)
             {
                 oldValue.BannerLoaded -= OnBannerLoaded;
+                oldValue.ModelResumed -= OnModelResumed;
             }
             if (newValue != null)
             {
                 newValue.BannerLoaded += OnBannerLoaded;
+                newValue.ModelResumed += OnModelResumed;
             }
+            UpdateBanner();
+        }
+
+        private void OnModelResumed(object sender, EventArgs eventArgs)
+        {
             UpdateBanner();
         }
 

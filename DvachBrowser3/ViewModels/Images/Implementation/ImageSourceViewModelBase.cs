@@ -10,9 +10,13 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Базовая модель источника изображений.
     /// </summary>
-    public abstract class ImageSourceViewModelBase : ViewModelBase, IImageSourceViewModel
+    public abstract class ImageSourceViewModelBase : ViewModelBase, IImageSourceViewModel, IWeakEventCallback
     {
         private ImageSource image;
+
+        private readonly bool bindToPageLifetime;
+
+        private IDisposable lifetimeToken;
 
         /// <summary>
         /// Конструктор.
@@ -20,11 +24,38 @@ namespace DvachBrowser3.ViewModels
         /// <param name="bindToPageLifetime">Привязать к времени жизни страницы.</param>
         protected ImageSourceViewModelBase(bool bindToPageLifetime = true)
         {
+            this.bindToPageLifetime = bindToPageLifetime;
             LoadImpl = new StdEngineOperationWrapper<StorageFile>(OperationFactory) { NeedDispatch = true };
             LoadImpl.ResultGot += LoadImplOnResultGot;
+            LoadImpl.Started += LoadImplOnStarted;
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == AppEvents.AppResumeId)
+            {
+                if (!ImageLoaded && !Load.Progress.IsActive)
+                {
+                    Load.Start();
+                }
+            }
+        }
+
+        private void LoadImplOnStarted(object sender, EventArgs eventArgs)
+        {
             if (bindToPageLifetime)
             {
                 Load.BindCancelToPageLifeTime();
+                if (lifetimeToken == null)
+                {
+                    lifetimeToken = this.BindAppLifetimeEventsToPage();
+                }
             }
         }
 
@@ -51,6 +82,11 @@ namespace DvachBrowser3.ViewModels
                 else
                 {
                     Image = new BitmapImage(cacheUri);
+                }
+                // ReSharper disable once UseNullPropagation
+                if (Image != null && lifetimeToken != null)
+                {
+                    lifetimeToken.Dispose();
                 }
             }
             catch (Exception ex)

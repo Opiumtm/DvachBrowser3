@@ -39,6 +39,12 @@ namespace DvachBrowser3.Storage.Files
         Task<ulong> GetTotalSize();
 
         /// <summary>
+        /// Получить общий размер и количество.
+        /// </summary>
+        /// <returns>Общий размер и количество.</returns>
+        Task<Tuple<ulong, int>> GetTotalSizeAndCount();
+
+        /// <summary>
         /// Получить все элементы.
         /// </summary>
         /// <returns>Все элементы.</returns>

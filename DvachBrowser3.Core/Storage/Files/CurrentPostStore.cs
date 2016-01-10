@@ -110,7 +110,7 @@ namespace DvachBrowser3.Storage.Files
                 return;
             }
             var thid = idService.GetLinkHash(threadLink);
-            data.Threads = data.Threads.Where(t => idService.GetLinkHash(t) == thid).ToList();
+            data.Threads = data.Threads.Where(t => idService.GetLinkHash(t) != thid).ToList();
             data.Threads.Insert(0, threadLink);
             data.Threads = data.Threads.Take(50).ToList();
             var ids = new HashSet<string>(data.Threads.Select(idService.GetLinkHash));

@@ -11,8 +11,10 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Базовый класс баннера.
     /// </summary>
-    public abstract class PageBannerViewModelBase : ViewModelBase, IPageBannerViewModel
+    public abstract class PageBannerViewModelBase : ViewModelBase, IPageBannerViewModel, IWeakEventCallback
     {
+        private IDisposable lifetimeToken;
+
         /// <summary>
         /// Поведение.
         /// </summary>
@@ -101,9 +103,14 @@ namespace DvachBrowser3.ViewModels
                     };
                     try
                     {
+                        if (lifetimeToken == null)
+                        {
+                            lifetimeToken = this.BindAppLifetimeEventsToPage();
+                        }
                         var operation = ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>().LoadMediaFile(BannerImageLink, LoadMediaFileMode.DefaultFullSize);
                         var image = await operation.Complete(tokenSource.Token);
                         IsLoaded = true;
+                        lifetimeToken?.Dispose();
                         BannerLoaded?.Invoke(this, new BannerLoadedEventArgs(image));
                     }
                     finally
@@ -202,6 +209,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public event EventHandler BannerLoadStarted;
 
+        /// <summary>
+        /// Модель возобновлена.
+        /// </summary>
+        public event EventHandler ModelResumed;
+
         private Action cancelAction;
 
         /// <summary>
@@ -220,6 +232,23 @@ namespace DvachBrowser3.ViewModels
         private bool GetShowBannersFromNetworkBehavior()
         {
             return ServiceLocator.Current.GetServiceOrThrow<INetworkProfileService>().CurrentProfile.ShowBanner;
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == AppEvents.AppResumeId)
+            {
+                AppHelpers.ActionOnUiThread(() =>
+                {
+                    ModelResumed?.Invoke(this, EventArgs.Empty);
+                });
+            }
         }
     }
 }

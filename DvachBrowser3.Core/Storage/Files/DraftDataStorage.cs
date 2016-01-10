@@ -19,7 +19,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="folderName">Имя директории.</param>
         /// <param name="cacheDescription">Описание.</param>
         /// <param name="mediaStorage">Хранилище медиа файлов.</param>
-        public DraftDataStorage(IServiceProvider services, string folderName, string cacheDescription, IPostingMediaStore mediaStorage) : base(services, folderName, ulong.MaxValue, ulong.MaxValue, cacheDescription)
+        public DraftDataStorage(IServiceProvider services, string folderName, string cacheDescription, IPostingMediaStore mediaStorage) : base(services, folderName, CacheRecycleConfig.MaxValue, cacheDescription)
         {
             MediaStorage = mediaStorage;
             CachedDb = new CachedFile<DraftCollection>(services, this, GetDraftBaseFile, GetDataFolder, false);

@@ -30,11 +30,13 @@ namespace DvachBrowser3.Views
     /// </summary>
     public sealed partial class BoardInfoPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, INavigationRolePage, IBoardLinkPage, IWeakEventCallback
     {
+        private object lifetimeToken;
+
         public BoardInfoPage()
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
-            AppEvents.AppResume.AddCallback(this);
+            lifetimeToken = this.BindAppLifetimeEvents();
         }
 
         /// <summary>

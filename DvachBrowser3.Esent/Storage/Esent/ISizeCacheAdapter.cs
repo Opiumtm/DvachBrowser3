@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DvachBrowser3.Storage.Esent
 {
@@ -22,6 +23,13 @@ namespace DvachBrowser3.Storage.Esent
         ulong GetTotalSize(TableTransaction tt);
 
         /// <summary>
+        /// Получить общий размер и количество.
+        /// </summary>
+        /// <param name="tt">Транзакция таблицы.</param>
+        /// <returns>Общий размер и количество.</returns>
+        Tuple<ulong, int> GetTotalSizeAndCount(TableTransaction tt);
+
+            /// <summary>
         /// Получить все элементы.
         /// </summary>
         /// <param name="tt">Транзакция таблицы.</param>

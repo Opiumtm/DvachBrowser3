@@ -112,6 +112,15 @@ namespace DvachBrowser3.Storage.Esent
         }
 
         /// <summary>
+        /// Получить общий размер и количество.
+        /// </summary>
+        /// <returns>Общий размер и количество.</returns>
+        public async Task<Tuple<ulong, int>> GetTotalSizeAndCount()
+        {
+            return await transaction.ExecutionContext.Execute(() => adapter.GetTotalSizeAndCount(transaction));
+        }
+
+        /// <summary>
         /// Получить все элементы.
         /// </summary>
         /// <returns>Все элементы.</returns>

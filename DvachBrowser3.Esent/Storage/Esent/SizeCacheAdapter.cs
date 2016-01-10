@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Microsoft.Isam.Esent.Interop;
 using Microsoft.Isam.Esent.Interop.Vista;
@@ -117,6 +118,39 @@ namespace DvachBrowser3.Storage.Esent
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Получить общий размер и количество.
+        /// </summary>
+        /// <param name="tt">Транзакция таблицы.</param>
+        /// <returns>Общий размер и количество.</returns>
+        public Tuple<ulong, int> GetTotalSizeAndCount(TableTransaction tt)
+        {
+            Api.JetSetCurrentIndex(tt.Session, tt.Table, null);
+
+            ulong result = 0;
+            int resultCnt = 0;
+
+            Api.JetSetTableSequential(tt.Session, tt.Table, Windows7Grbits.Forward);
+            try
+            {
+                if (Api.TryMoveFirst(tt.Session, tt.Table))
+                {
+                    do
+                    {
+                        var columnSize = Api.GetTableColumnid(tt.Session, tt.Table, "Size");
+                        result += Api.RetrieveColumnAsUInt64(tt.Session, tt.Table, columnSize) ?? 0;
+                        resultCnt++;
+                    } while (Api.TryMoveNext(tt.Session, tt.Table));
+                }
+            }
+            finally
+            {
+                Api.JetResetTableSequential(tt.Session, tt.Table, ResetTableSequentialGrbit.None);
+            }
+
+            return new Tuple<ulong, int>(result, resultCnt);
         }
 
         /// <summary>

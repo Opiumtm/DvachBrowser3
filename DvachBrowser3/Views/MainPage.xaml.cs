@@ -9,11 +9,13 @@ namespace DvachBrowser3.Views
 {
     public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback
     {
+        private object lifetimeToken;
+
         public MainPage()
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
-            AppEvents.AppResume.AddCallback(this);
+            lifetimeToken = this.BindAppLifetimeEvents();
         }
 
         /// <summary>

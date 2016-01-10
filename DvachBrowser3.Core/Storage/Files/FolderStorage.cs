@@ -18,14 +18,15 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
-        /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
-        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
+        /// <param name="recycleConfig">Конфигурация очистки.</param>
         /// <param name="cacheDescription">Описание кэша.</param>
-        public FolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
+        public FolderStorage(IServiceProvider services, string folderName, CacheRecycleConfig recycleConfig, string cacheDescription)
             : base(services, folderName)
         {
-            MaxCacheSize = maxCacheSize;
-            NormalCacheSize = normalCacheSize;
+            MaxCacheSize = recycleConfig.MaxSize;
+            NormalCacheSize = recycleConfig.NormalSize;
+            MaxFilesInCache = recycleConfig.MaxFiles;
+            NormalFilesInCache = recycleConfig.NormalFiles;
             CacheDescription = cacheDescription;
         }
 
@@ -38,6 +39,16 @@ namespace DvachBrowser3.Storage.Files
         /// Нормальный размер кэша в байтах.
         /// </summary>
         public ulong NormalCacheSize { get; private set; }
+
+        /// <summary>
+        /// Максимальное количество файлов в кэше.
+        /// </summary>
+        protected int MaxFilesInCache { get; private set; }
+
+        /// <summary>
+        /// Нормальное количество файлов в кэше.
+        /// </summary>
+        protected virtual int NormalFilesInCache { get; private set; }
 
         /// <summary>
         /// Получить директорию данных.
@@ -218,14 +229,16 @@ namespace DvachBrowser3.Storage.Files
 
         protected override async Task DoRecycleCache(IStorageSizeCache sizes)
         {
-            var totalSize = await sizes.GetTotalSize();
-            if (totalSize < MaxCacheSize) return;
+            var totalSizeData = await sizes.GetTotalSizeAndCount();
+            var totalSize = totalSizeData.Item1;
+            var totalCount = totalSizeData.Item2;
+            if (totalSize < MaxCacheSize && totalCount <= MaxFilesInCache) return;
             var cacheDir = await GetCacheFolder();
             var immunitySet = await GetRecycleImmunity();
             var toCheck = (await sizes.GetAllItems()).OrderBy(kv => kv.Value.Date).ToArray();
             foreach (var f in toCheck)
             {
-                if (totalSize <= NormalCacheSize)
+                if (totalSize <= NormalCacheSize && totalCount <= NormalFilesInCache)
                 {
                     break;
                 }
@@ -236,6 +249,7 @@ namespace DvachBrowser3.Storage.Files
                         var file = await cacheDir.GetFileAsync(f.Key);
                         await file.DeleteAsync();
                         totalSize -= f.Value.Size;
+                        totalCount--;
                         await sizes.DeleteItem(f.Key);
                     }
                     // ReSharper disable once EmptyGeneralCatchClause

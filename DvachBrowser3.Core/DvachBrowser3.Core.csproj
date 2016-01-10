@@ -59,6 +59,7 @@
     <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
+    <Compile Include="Storage\Files\CacheRecycleConfig.cs" />
     <Compile Include="Threading\AsyncConcurrencySemaphore.cs" />
     <Compile Include="Threading\AsyncLazy.cs" />
     <Compile Include="Threading\AsyncLock.cs" />

@@ -108,7 +108,8 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public static async Task ReplaceContent(this StorageFile file, StorageFolder tempFolder, Func<IRandomAccessStream, Task> action)
         {
-            var tempFile = await tempFolder.CreateFileAsync(file.Name, CreationCollisionOption.GenerateUniqueName);
+            //var tempFile = await tempFolder.CreateFileAsync(file.Name, CreationCollisionOption.GenerateUniqueName);
+            var tempFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"{Guid.NewGuid()}.tmp");
             Exception error = null;
             try
             {

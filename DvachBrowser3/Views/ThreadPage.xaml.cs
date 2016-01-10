@@ -33,12 +33,13 @@ namespace DvachBrowser3.Views
     /// </summary>
     public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback
     {
+        private object lifetimeToken;
+
         public ThreadPage()
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
-            AppEvents.AppResume.AddCallback(this);
-            AppEvents.AppSuspend.AddCallback(this);
+            lifetimeToken = this.BindAppLifetimeEvents();
         }
 
         /// <summary>
@@ -66,6 +67,7 @@ namespace DvachBrowser3.Views
         private string savedTopPostHash;
 
         private bool isBackNavigated;
+
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {

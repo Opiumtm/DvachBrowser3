@@ -14,7 +14,7 @@ namespace DvachBrowser3.Storage.Files
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
         /// <param name="cacheDescription">Описание.</param>
-        public DraftMediaStore(IServiceProvider services, string folderName, string cacheDescription) : base(services, folderName, ulong.MaxValue, ulong.MaxValue, cacheDescription)
+        public DraftMediaStore(IServiceProvider services, string folderName, string cacheDescription) : base(services, folderName, CacheRecycleConfig.MaxValue, cacheDescription)
         {
         }
 

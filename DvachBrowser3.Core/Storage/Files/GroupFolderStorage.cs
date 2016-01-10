@@ -16,14 +16,13 @@ namespace DvachBrowser3.Storage.Files
         /// </summary>
         /// <param name="services">Сервисы.</param>
         /// <param name="folderName">Имя директории.</param>
-        /// <param name="maxCacheSize">Максимальный размер кэша в байтах.</param>
-        /// <param name="normalCacheSize">Нормальный размер кэша в байтах.</param>
+        /// <param name="recycleConfig">Конфигурация очистки.</param>
         /// <param name="cacheDescription">Описание кэша.</param>
-        public GroupFolderStorage(IServiceProvider services, string folderName, ulong maxCacheSize, ulong normalCacheSize, string cacheDescription)
+        public GroupFolderStorage(IServiceProvider services, string folderName, CacheRecycleConfig recycleConfig, string cacheDescription)
             : base(services, folderName)
         {
-            MaxCacheSize = maxCacheSize;
-            NormalCacheSize = normalCacheSize;
+            MaxCacheSize = recycleConfig.MaxSize;
+            NormalCacheSize = recycleConfig.NormalSize;
             CacheDescription = cacheDescription;
         }
 

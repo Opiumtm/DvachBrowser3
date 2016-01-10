@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using DvachBrowser3.Configuration;
@@ -43,6 +45,32 @@ namespace DvachBrowser3
             };
         }
 
+        private async Task CleanTempFiles()
+        {
+            try
+            {
+                var files = await ApplicationData.Current.TemporaryFolder.GetFilesAsync();
+                var tasks = files.Select(DeleteTempFile).ToArray();
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
+        private async Task DeleteTempFile(StorageFile f)
+        {
+            try
+            {
+                await f.DeleteAsync();
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
         private bool isInitialized;
 
         private bool isCoreInitialized;
@@ -51,6 +79,7 @@ namespace DvachBrowser3
         {
             if (!isCoreInitialized)
             {
+                await CleanTempFiles();
                 isCoreInitialized = true;
                 await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
