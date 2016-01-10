@@ -1,15 +1,15 @@
-using System;
+п»їusing System;
 using Microsoft.Isam.Esent.Interop;
 
 namespace DvachBrowser3.Storage.Esent
 {
     /// <summary>
-    /// Экземпляр.
+    /// Р­РєР·РµРјРїР»СЏСЂ.
     /// </summary>
     internal sealed class EsentInstance : IEsentInstance
     {
         /// <summary>
-        /// Выполняет определяемые приложением задачи, связанные с удалением, высвобождением или сбросом неуправляемых ресурсов.
+        /// Р’С‹РїРѕР»РЅСЏРµС‚ РѕРїСЂРµРґРµР»СЏРµРјС‹Рµ РїСЂРёР»РѕР¶РµРЅРёРµРј Р·Р°РґР°С‡Рё, СЃРІСЏР·Р°РЅРЅС‹Рµ СЃ СѓРґР°Р»РµРЅРёРµРј, РІС‹СЃРІРѕР±РѕР¶РґРµРЅРёРµРј РёР»Рё СЃР±СЂРѕСЃРѕРј РЅРµСѓРїСЂР°РІР»СЏРµРјС‹С… СЂРµСЃСѓСЂСЃРѕРІ.
         /// </summary>
         public void Dispose()
         {
@@ -17,7 +17,7 @@ namespace DvachBrowser3.Storage.Esent
         }
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="T:System.Object"/>.
+        /// РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РЅРѕРІС‹Р№ СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° <see cref="T:System.Object"/>.
         /// </summary>
         public EsentInstance(Action onDispose, Instance instance)
         {
@@ -26,12 +26,12 @@ namespace DvachBrowser3.Storage.Esent
         }
 
         /// <summary>
-        /// Экземпляр.
+        /// Р­РєР·РµРјРїР»СЏСЂ.
         /// </summary>
         public Instance Instance { get; }
 
         /// <summary>
-        /// Действие по завершению.
+        /// Р”РµР№СЃС‚РІРёРµ РїРѕ Р·Р°РІРµСЂС€РµРЅРёСЋ.
         /// </summary>
         private Action OnDispose;
     }
