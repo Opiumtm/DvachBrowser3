@@ -22,15 +22,15 @@ namespace DvachBrowser3.Storage
             {
                 MaxSize = 24 * 1024 * 1024,
                 NormalSize = 20 * 1024 * 1024,
-                MaxFiles = 500,
-                NormalFiles = 400
+                MaxFiles = 240,
+                NormalFiles = 200
             }, "Полноразмерные медиафайлы");
             ThreadData = new ThreadDataStorage(services, "threads", new CacheRecycleConfig()
             {
                 MaxSize = 12 * 1024 * 1024,
                 NormalSize = 10 * 1024 * 1024,
-                MaxFiles = 300,
-                NormalFiles = 250
+                MaxFiles = 500,
+                NormalFiles = 400
             }, "Данные тредов");
             PostData = new PostDataStorage(services, "posting", new CacheRecycleConfig()
             {
