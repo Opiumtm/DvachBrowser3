@@ -122,16 +122,20 @@ namespace DvachBrowser3.Views.Partial
                 needBorder = true;
                 b.BorderThickness = new Thickness(b.BorderThickness.Left, 1.2, b.BorderThickness.Right, b.BorderThickness.Bottom);
             }
+
+            Border strikeBorder = null;
+
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Strikethrough))
             {
                 needGrid = true;
-                g.Children.Add(new Border()
+                strikeBorder = new Border()
                 {
                     Background = r.Foreground,
                     Height = 1.2,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Center,
-                });
+                    VerticalAlignment = VerticalAlignment.Top,
+                };
+                g.Children.Add(strikeBorder);
             }
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Subscript) || command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Superscript))
             {
@@ -175,6 +179,13 @@ namespace DvachBrowser3.Views.Partial
             r.Measure(new Size(0, 0));
             r.Height = r.ActualHeight;
             r.Width = r.ActualWidth + endSpaces * spaceWidth;
+
+            if (strikeBorder != null)
+            {
+                var oh = r.ActualHeight;
+                const double koef = 0.6;
+                strikeBorder.Margin = new Thickness(0, koef * oh, 0, 0);
+            }
 
             if (needGrid)
             {
