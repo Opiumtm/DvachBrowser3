@@ -339,6 +339,9 @@
     <Compile Include="Views\Partial\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\SinglePostCollectionView.xaml.cs">
+      <DependentUpon>SinglePostCollectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\TileImage.xaml.cs">
       <DependentUpon>TileImage.xaml</DependentUpon>
     </Compile>
@@ -456,6 +459,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\SinglePostCollectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

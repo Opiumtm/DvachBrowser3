@@ -60,7 +60,14 @@
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind PostCollection.Update.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <pa:PostCollectionView Grid.Row="2" Margin="4, 4, 4, 0" ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="20" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="True"
-                               x:Name="MainList">
+                               x:Name="MainList" ShowFullPost="MainList_OnShowFullPost">
         </pa:PostCollectionView>
+
+        <pa:ContentPopup Grid.Row="2" x:Name="SinglePostViewPopup">
+            <pa:ContentPopup.ViewContent>
+                <pa:SinglePostCollectionView ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="0" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="False"
+                               x:Name="SingleList"/>
+            </pa:ContentPopup.ViewContent>
+        </pa:ContentPopup>
     </Grid>
 </Page>

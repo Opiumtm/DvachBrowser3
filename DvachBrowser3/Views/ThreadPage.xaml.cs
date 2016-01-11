@@ -22,6 +22,7 @@ using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.Storage;
 using DvachBrowser3.ViewModels;
+using DvachBrowser3.Views.Partial;
 using Template10.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -332,5 +333,10 @@ namespace DvachBrowser3.Views
         /// Коллекция постов.
         /// </summary>
         public IPostCollectionViewModel PostCollection => DataContext as IPostCollectionViewModel;
+
+        private void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
+        {
+            SinglePostViewPopup.IsContentVisible = true;
+        }
     }
 }

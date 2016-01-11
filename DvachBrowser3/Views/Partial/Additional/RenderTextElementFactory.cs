@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
@@ -20,6 +21,11 @@ namespace DvachBrowser3.Views.Partial
         private readonly bool isNarrow;
 
         private long count;
+
+        /// <summary>
+        /// Кэш ширины буквы "о" при разных настройках разметки.
+        /// </summary>
+        private static Dictionary<string, double> OWidthCache = new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Конструктор.
@@ -162,9 +168,7 @@ namespace DvachBrowser3.Views.Partial
                 }
             }
 
-            r.Text = "o";
-            r.Measure(new Size(0, 0));
-            var spaceWidth = r.ActualWidth;
+            var spaceWidth = GetOWidth(command.Attributes, r);
 
             int endSpaces = 0;
             var s2 = text;
@@ -175,8 +179,8 @@ namespace DvachBrowser3.Views.Partial
             }
 
             r.Text = s2;
-
             r.Measure(new Size(0, 0));
+
             r.Height = r.ActualHeight;
             r.Width = r.ActualWidth + endSpaces * spaceWidth;
 
@@ -223,6 +227,20 @@ namespace DvachBrowser3.Views.Partial
             }
 
             return result;
+        }
+
+        private double GetOWidth(ITextRenderAttributeState attributes, TextBlock r)
+        {
+            var key = GetCacheKey(new TextRenderCommand(attributes, new TextRenderTextContent("o")));
+            if (!OWidthCache.ContainsKey(key))
+            {
+                var s2 = r.Text;
+                r.Text = "o";
+                r.Measure(new Size(0, 0));
+                OWidthCache[key] = r.ActualWidth;
+                r.Text = s2;
+            }
+            return OWidthCache[key];
         }
 
         /// <summary>
