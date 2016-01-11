@@ -241,6 +241,7 @@
     <Compile Include="ViewModels\Post\IPostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostQuoteViewModel.cs" />
+    <Compile Include="ViewModels\Post\IThreadPostNavigationStackViewModel.cs" />
     <Compile Include="ViewModels\Post\IThreadPreviewViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\Media\ImageMediaFileViewModelBase.cs" />

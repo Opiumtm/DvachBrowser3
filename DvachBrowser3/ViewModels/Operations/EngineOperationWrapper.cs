@@ -74,7 +74,7 @@ namespace DvachBrowser3.ViewModels
             CanStart = !IsActive && !isDisabled;
         }
 
-        private async Task DoOperation(IEngineOperationsWithProgress<TResult, TProgress> operation)
+        private async Task DoOperation(IEngineOperationsWithProgress<TResult, TProgress> operation, object arg)
         {
             IsActive = true;
             UpdateCanStart();
@@ -86,7 +86,9 @@ namespace DvachBrowser3.ViewModels
             Message = null;
             IsCancelled = false;
             IsWaiting = true;
+            Argument = arg;
             operation.Progress += OperationOnProgress;
+            OperationProgressFinishedEventArgs finishArgs = null;
             try
             {
                 using (var tokenSource = new CancellationTokenSource())
@@ -98,7 +100,7 @@ namespace DvachBrowser3.ViewModels
                         {
                             Started?.Invoke(this, EventArgs.Empty);
                             Result = await operation.Complete(tokenSource.Token);
-                            Finished?.Invoke(this, new OperationProgressFinishedEventArgs());
+                            finishArgs = new OperationProgressFinishedEventArgs(arg);
                             ResultGot?.Invoke(this, EventArgs.Empty);
                         }
                         catch (Exception ex)
@@ -108,7 +110,7 @@ namespace DvachBrowser3.ViewModels
                                 IsError = true;
                                 Error = ex.Message;
                                 Exception = ex;
-                                Finished?.Invoke(this, new OperationProgressFinishedEventArgs(ex));
+                                finishArgs = new OperationProgressFinishedEventArgs(arg, ex);
                             }
                         }
                     }
@@ -119,7 +121,7 @@ namespace DvachBrowser3.ViewModels
                     if (tokenSource.IsCancellationRequested)
                     {
                         IsCancelled = true;
-                        Finished?.Invoke(this, new OperationProgressFinishedEventArgs(null, true));
+                        finishArgs = new OperationProgressFinishedEventArgs(arg, null, true);
                     }
                 }
             }
@@ -129,6 +131,10 @@ namespace DvachBrowser3.ViewModels
                 IsActive = false;
                 IsWaiting = false;
                 UpdateCanStart();
+                if (finishArgs != null)
+                {
+                    Finished?.Invoke(this, finishArgs);
+                }
             }
         }
 
@@ -141,31 +147,34 @@ namespace DvachBrowser3.ViewModels
         /// Начать.
         /// </summary>
         /// <param name="arg">Аргумент.</param>
-        public async void Start2(object arg)
+        public void Start2(object arg)
         {
-            if (!CanStart)
+            AppHelpers.DispatchAction(async () =>
             {
-                return;
-            }
-            var operation = OperationFactory(arg);
-            if (operation == null)
-            {
-                return;
-            }
-            var cancelFlag = new InterlockedFlagContainer();
-            cancelAction = () =>
-            {
-                cancelFlag.Flag = true;
-            };
-            Func<Task> action = async () =>
-            {
-                if (cancelFlag.Flag)
+                if (!CanStart)
                 {
                     return;
                 }
-                await DoOperation(operation);
-            };
-            await action();
+                var operation = OperationFactory(arg);
+                if (operation == null)
+                {
+                    return;
+                }
+                var cancelFlag = new InterlockedFlagContainer();
+                cancelAction = () =>
+                {
+                    cancelFlag.Flag = true;
+                };
+                Func<Task> action = async () =>
+                {
+                    if (cancelFlag.Flag)
+                    {
+                        return;
+                    }
+                    await DoOperation(operation, arg);
+                };
+                await action();
+            });
         }
 
         public void Start()
@@ -383,6 +392,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 isWaiting = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private object argument;
+
+        /// <summary>
+        /// Аргумент.
+        /// </summary>
+        public object Argument
+        {
+            get { return argument; }
+            private set
+            {
+                argument = value;
                 RaisePropertyChanged();
             }
         }

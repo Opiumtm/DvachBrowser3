@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
@@ -14,10 +16,71 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public abstract class PostCollectionViewModelBase : ViewModelBase, IPostCollectionViewModel
     {
+        protected PostCollectionViewModelBase()
+        {
+            PostsByLink = new Dictionary<BoardLinkBase, IPostViewModel>(ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer());
+            var posts = new ObservableCollection<IPostViewModel>();
+            Posts = posts;
+            posts.CollectionChanged += PostsOnCollectionChanged;
+        }
+
+        private void PostsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Reset:
+                    PostsByLink.Clear();
+                    foreach (var p in Posts.ToArray().Where(p => p.Link != null))
+                    {
+                        PostsByLink[p.Link] = p;
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewItems != null)
+                    {
+                        foreach (var p in e.NewItems.OfType<IPostViewModel>().ToArray().Where(p => p.Link != null))
+                        {
+                            PostsByLink[p.Link] = p;
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldItems != null)
+                    {
+                        foreach (var p in e.OldItems.OfType<IPostViewModel>().ToArray().Where(p => p.Link != null))
+                        {
+                            PostsByLink.Remove(p.Link);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldItems != null)
+                    {
+                        foreach (var p in e.OldItems.OfType<IPostViewModel>().ToArray().Where(p => p.Link != null))
+                        {
+                            PostsByLink.Remove(p.Link);
+                        }
+                    }
+                    if (e.NewItems != null)
+                    {
+                        foreach (var p in e.NewItems.OfType<IPostViewModel>().ToArray().Where(p => p.Link != null))
+                        {
+                            PostsByLink[p.Link] = p;
+                        }
+                    }
+                    break;
+            }
+        }
+
         /// <summary>
         /// Посты.
         /// </summary>
-        public IList<IPostViewModel> Posts { get; } = new ObservableCollection<IPostViewModel>();
+        public IList<IPostViewModel> Posts { get; }
+
+        /// <summary>
+        /// Посты со ссылками.
+        /// </summary>
+        public IDictionary<BoardLinkBase, IPostViewModel> PostsByLink { get; }
 
         private IPostViewModel opPost;
 

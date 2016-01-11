@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using DvachBrowser3.TextRender;
 
 namespace DvachBrowser3.ViewModels
@@ -8,6 +10,11 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public interface IPostTextViewModel : IPostPartViewModel, ILinkClickCallback
     {
+        /// <summary>
+        /// Уникальный идентификатор.
+        /// </summary>
+        Guid UniqueId { get; }
+
         /// <summary>
         /// Отобразить текст.
         /// </summary>

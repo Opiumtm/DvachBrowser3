@@ -54,6 +54,11 @@ namespace DvachBrowser3.ViewModels
         bool IsWaiting { get; }
 
         /// <summary>
+        /// Аргумент.
+        /// </summary>
+        object Argument { get; }
+
+        /// <summary>
         /// Запущено.
         /// </summary>
         event EventHandler Started;

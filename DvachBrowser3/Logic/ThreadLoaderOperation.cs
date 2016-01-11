@@ -28,7 +28,7 @@ namespace DvachBrowser3.Logic
         /// </summary>
         /// <param name="token">Токен отмены операции.</param>
         /// <returns>Таск.</returns>
-        public async override Task<IThreadLoaderResult> Complete(CancellationToken token)
+        public override async Task<IThreadLoaderResult> Complete(CancellationToken token)
         {
             var engines = Services.GetServiceOrThrow<INetworkEngines>();
             var engine = engines.FindEngine(Parameter.ThreadLink?.Engine);
@@ -39,19 +39,26 @@ namespace DvachBrowser3.Logic
                 var tree = await storage.ThreadData.LoadThread(Parameter.ThreadLink);
                 if (tree != null)
                 {
-                    if (engine == null)
+                    try
+                    {
+                        if (engine == null)
+                        {
+                            return new OperaiontResult() { IsUpdated = false, Data = tree };
+                        }
+                        if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0)
+                        {
+                            return new OperaiontResult() { IsUpdated = false, Data = tree };
+                        }
+                        var lastId = await storage.ThreadData.LoadStamp(Parameter.ThreadLink);
+                        var updateOperation = engine.GetResourceLastModified(Parameter.ThreadLink);
+                        updateOperation.Progress += (sender, e) => OnProgress(e);
+                        var newId = await updateOperation.Complete(token);
+                        return new OperaiontResult() { IsUpdated = lastId != newId?.LastModified, Data = tree };
+                    }
+                    catch
                     {
                         return new OperaiontResult() { IsUpdated = false, Data = tree };
                     }
-                    if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0)
-                    {
-                        return new OperaiontResult() { IsUpdated = false, Data = tree };
-                    }
-                    var lastId = await storage.ThreadData.LoadStamp(Parameter.ThreadLink);
-                    var updateOperation = engine.GetResourceLastModified(Parameter.ThreadLink);
-                    updateOperation.Progress += (sender, e) => OnProgress(e);
-                    var newId = await updateOperation.Complete(token);
-                    return new OperaiontResult() { IsUpdated = lastId != newId?.LastModified, Data = tree };
                 }
             }
             else if (Parameter.UpdateMode == ThreadLoaderUpdateMode.CheckForUpdates)

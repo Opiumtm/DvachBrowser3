@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace DvachBrowser3.TextRender
 {
@@ -13,6 +16,10 @@ namespace DvachBrowser3.TextRender
     /// </summary>
     public class CanvasTextRenderCommandExecutor : ITextRenderCommandExecutor
     {
+        private static readonly CycleCache<string, double> WidthCache = new CycleCache<string, double>(500, StringComparer.Ordinal);
+
+        private readonly CycleCache<string, FrameworkElement> elementCache = new CycleCache<string, FrameworkElement>(100, StringComparer.Ordinal);
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -135,8 +142,9 @@ namespace DvachBrowser3.TextRender
         protected IEnumerable<Tuple<string, bool, Func<FrameworkElement>, bool>> CheckLengths(ITextRenderAttributeState attributes, IEnumerable<string> words)
         {
             var wordsArr = words.ToArray();
-            var testEl = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent("a")));
-            var charWidth = testEl.Width;
+            var testCom = new TextRenderCommand(attributes, new TextRenderTextContent("a"));
+            var teskKey = GetElementKey(testCom);
+            var charWidth = GetElementWidth(teskKey, testCom);
 
             int idx0 = 0;
             string current = "";
@@ -144,7 +152,7 @@ namespace DvachBrowser3.TextRender
             {
                 var word = wordsArr[i];
                 current += word;
-                var len = current.Length*charWidth;
+                var len = current.Length * charWidth;
                 if ((len + LineWidth) > TextCanvas.ActualWidth)
                 {
                     idx0 = i;
@@ -162,8 +170,10 @@ namespace DvachBrowser3.TextRender
                     var word = wordsArr[i];
                     current += word;
                 }
-                var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
-                if (!((el.Width + LineWidth) > TextCanvas.ActualWidth))
+                var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
+                var key = GetElementKey(com);
+                var elWidth = GetElementWidth(key, com);
+                if (!((elWidth + LineWidth) > TextCanvas.ActualWidth))
                 {
                     idx1 = j;
                     break;
@@ -182,22 +192,62 @@ namespace DvachBrowser3.TextRender
                 }
                 else
                 {
+                    var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
+                    var key = GetElementKey(com);
                     if (i > idx1)
                     {
-                        var el = Factory.Create(new TextRenderCommand(attributes, new TextRenderTextContent(current)));
-                        if ((el.Width + LineWidth) > TextCanvas.ActualWidth)
+                        var elWidth = GetElementWidth(key, com);
+                        if ((elWidth + LineWidth) > TextCanvas.ActualWidth)
                         {
                             exceeded = true;
                         }
-                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, !exceeded, () => el, false);
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, !exceeded, ExtractElement(key, com), false);
                     }
                     else
                     {
-                        var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
-                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, true, () => Factory.Create(com), false);
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, true, ExtractElement(key, com), false);
                     }
                 }
             }
+        }
+
+        private string GetElementKey(ITextRenderCommand command)
+        {
+            return Factory.GetCacheKey(command);
+        }
+
+        private Func<FrameworkElement> ExtractElement(string key, ITextRenderCommand command)
+        {
+            return ExtractElement(key, () => Factory.Create(command));
+        }
+
+        private Func<FrameworkElement> ExtractElement(string key, Func<FrameworkElement> createFunc)
+        {
+            return () => elementCache.ExtractValue(key, createFunc);
+        }
+
+        private FrameworkElement GetElement(string key, ITextRenderCommand command)
+        {
+            return GetElement(key, () => Factory.Create(command));
+        }
+
+        private FrameworkElement GetElement(string key, Func<FrameworkElement> createFunc)
+        {
+            return elementCache.GetValue(key, createFunc);
+        }
+
+        private double GetElementWidth(string key, ITextRenderCommand command)
+        {
+            return GetElementWidth(key, () => Factory.Create(command));
+        }
+
+        private double GetElementWidth(string key, Func<FrameworkElement> createFunc)
+        {
+            return WidthCache.GetValue(key, () =>
+            {
+                var element = GetElement(key, createFunc);
+                return element.Width;
+            });
         }
 
         private void AddElementToCanvas(FrameworkElement el)

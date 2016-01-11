@@ -10,10 +10,12 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Конструктор.
         /// </summary>
+        /// <param name="argument">Аргумент.</param>
         /// <param name="error">Ошибка.</param>
         /// <param name="isCancelled">Отменено.</param>
-        public OperationProgressFinishedEventArgs(Exception error = null, bool isCancelled = false)
+        public OperationProgressFinishedEventArgs(object argument, Exception error = null, bool isCancelled = false)
         {
+            Argument = argument;
             Error = error;
             IsCancelled = isCancelled;
         }
@@ -32,5 +34,10 @@ namespace DvachBrowser3.ViewModels
         /// Отменено.
         /// </summary>
         public bool IsCancelled { get; private set; }
+
+        /// <summary>
+        /// Аргумент.
+        /// </summary>
+        public object Argument { get; private set; }
     }
 }

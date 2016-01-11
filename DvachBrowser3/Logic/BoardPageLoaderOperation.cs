@@ -38,19 +38,26 @@ namespace DvachBrowser3.Logic
                 var tree = await storage.ThreadData.LoadBoardPage(Parameter.PageLink);
                 if (tree != null)
                 {
-                    if (engine == null)
+                    try
+                    {
+                        if (engine == null)
+                        {
+                            return new OperaiontResult() { IsUpdated = false, Data = tree };
+                        }
+                        if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0)
+                        {
+                            return new OperaiontResult() { IsUpdated = false, Data = tree };
+                        }
+                        var lastId = await storage.ThreadData.LoadStamp(Parameter.PageLink);
+                        var updateOperation = engine.GetResourceLastModified(Parameter.PageLink);
+                        updateOperation.Progress += (sender, e) => OnProgress(e);
+                        var newId = await updateOperation.Complete(token);
+                        return new OperaiontResult() { IsUpdated = lastId != newId?.LastModified, Data = tree };
+                    }
+                    catch
                     {
                         return new OperaiontResult() { IsUpdated = false, Data = tree };
                     }
-                    if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0)
-                    {
-                        return new OperaiontResult() { IsUpdated = false, Data = tree };
-                    }
-                    var lastId = await storage.ThreadData.LoadStamp(Parameter.PageLink);
-                    var updateOperation = engine.GetResourceLastModified(Parameter.PageLink);
-                    updateOperation.Progress += (sender, e) => OnProgress(e);
-                    var newId = await updateOperation.Complete(token);
-                    return new OperaiontResult() { IsUpdated = lastId != newId?.LastModified, Data = tree };
                 }
             }
             else if (Parameter.UpdateMode == BoardPageLoaderUpdateMode.CheckForUpdates)

@@ -122,12 +122,7 @@ namespace DvachBrowser3.ViewModels
             return new PostViewModel(post, this);
         }
 
-        /// <summary>
-        /// Фабрика операций.
-        /// </summary>
-        /// <param name="o">Данные.</param>
-        /// <returns>Операция.</returns>
-        protected override IEngineOperationsWithProgress<IThreadLoaderResult, EngineProgress> UpdateOperationFactory(object o)
+        private ThreadLoaderUpdateMode UpdateModeFromArg(object o)
         {
             var updateMode = ThreadLoaderUpdateMode.Load;
             if (o != null)
@@ -137,6 +132,36 @@ namespace DvachBrowser3.ViewModels
                     updateMode = (ThreadLoaderUpdateMode)o;
                 }
             }
+            return updateMode;
+        }
+
+        /// <summary>
+        /// Нужно взять данные из кэша.
+        /// </summary>
+        /// <param name="arg">Аргумент.</param>
+        /// <returns>Данные.</returns>
+        protected override bool IsNeedGetFallbackData(object arg)
+        {
+            return UpdateModeFromArg(arg) == ThreadLoaderUpdateMode.Load || UpdateModeFromArg(arg) == ThreadLoaderUpdateMode.LoadFull;
+        }
+
+        /// <summary>
+        /// Получить данные иным способом.
+        /// </summary>
+        protected override Task GetDataFallback()
+        {
+            Update.Start2(ThreadLoaderUpdateMode.GetFromCache);
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Фабрика операций.
+        /// </summary>
+        /// <param name="o">Данные.</param>
+        /// <returns>Операция.</returns>
+        protected override IEngineOperationsWithProgress<IThreadLoaderResult, EngineProgress> UpdateOperationFactory(object o)
+        {
+            var updateMode = UpdateModeFromArg(o);
             return new ThreadLoaderOperation(ServiceLocator.Current, new ThreadLoaderArgument()
             {
                 UpdateMode = updateMode,

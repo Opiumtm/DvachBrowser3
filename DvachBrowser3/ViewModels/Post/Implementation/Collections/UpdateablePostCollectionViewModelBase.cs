@@ -26,12 +26,37 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <param name="sender">Источник события.</param>
         /// <param name="e">Cобытие.</param>
-        protected async virtual void UpdateOperationOnFinished(object sender, OperationProgressFinishedEventArgs e)
+        protected virtual void UpdateOperationOnFinished(object sender, OperationProgressFinishedEventArgs e)
         {
-            if (e.Error != null)
+            if (e.Error != null && !e.IsCancelled)
             {
-                await AppHelpers.ShowError(e.Error);
+                AppHelpers.DispatchAction(async () =>
+                {
+                    if (!HasData && IsNeedGetFallbackData(e.Argument))
+                    {
+                        await GetDataFallback();
+                    }
+                    await AppHelpers.ShowError(e.Error);
+                });
             }
+        }
+
+        /// <summary>
+        /// Нужно взять данные из кэша.
+        /// </summary>
+        /// <param name="arg">Аргумент.</param>
+        /// <returns>Данные.</returns>
+        protected virtual bool IsNeedGetFallbackData(object arg)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Получить данные иным способом.
+        /// </summary>
+        protected virtual Task GetDataFallback()
+        {
+            return Task.FromResult(true);
         }
 
         /// <summary>

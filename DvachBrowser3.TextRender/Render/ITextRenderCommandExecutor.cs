@@ -1,4 +1,6 @@
-﻿namespace DvachBrowser3.TextRender
+﻿using System.Threading.Tasks;
+
+namespace DvachBrowser3.TextRender
 {
     /// <summary>
     /// Исполнение команды текстового рендеринга.

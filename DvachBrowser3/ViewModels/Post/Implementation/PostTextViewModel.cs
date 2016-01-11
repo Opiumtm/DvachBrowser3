@@ -25,6 +25,7 @@ namespace DvachBrowser3.ViewModels
         /// <param name="post">Пост.</param>
         public PostTextViewModel(IPostViewModel parent, PostTree post) : base(parent)
         {
+            this.UniqueId = Guid.NewGuid();
             this.post = post;
             if (post?.Quotes != null)
             {
@@ -46,6 +47,11 @@ namespace DvachBrowser3.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Уникальный идентификатор.
+        /// </summary>
+        public Guid UniqueId { get; }
 
         /// <summary>
         /// Отобразить текст.

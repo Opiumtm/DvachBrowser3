@@ -13,5 +13,12 @@ namespace DvachBrowser3.TextRender
         /// <param name="command">Команда.</param>
         /// <returns>Элемент.</returns>
         FrameworkElement Create(ITextRenderCommand command);
+
+        /// <summary>
+        /// Получить ключ кэша.
+        /// </summary>
+        /// <param name="command">Команда.</param>
+        /// <returns>Ключ кэша.</returns>
+        string GetCacheKey(ITextRenderCommand command);
     }
 }

@@ -53,7 +53,7 @@ namespace DvachBrowser3.ViewModels
         {
             var result = update.Result;
 #pragma warning disable 4014
-            BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(async () =>
+            AppHelpers.DispatchAction(async () =>
 #pragma warning restore 4014
             {
                 try
@@ -81,27 +81,37 @@ namespace DvachBrowser3.ViewModels
             });
         }
 
-        private async void UpdateOnFinished(object sender, OperationProgressFinishedEventArgs e)
+        private void UpdateOnFinished(object sender, OperationProgressFinishedEventArgs e)
         {
             if (e.Error != null && !e.IsCancelled)
             {
-                await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(async () =>
+                AppHelpers.DispatchAction(async () =>
                 {
+                    if (Page == null && ModeFromArgument(e.Argument) == BoardPageLoaderUpdateMode.Load)
+                    {
+                        Update.Start2(BoardPageLoaderUpdateMode.GetFromCache);
+                    }
                     await AppHelpers.ShowError(e.Error);
                 });
             }
         }
 
-        private IEngineOperationsWithProgress<IBoardPageLoaderResult, EngineProgress> OperationFactory(object o)
+        private BoardPageLoaderUpdateMode ModeFromArgument(object o)
         {
             var updateMode = BoardPageLoaderUpdateMode.Load;
             if (o != null)
             {
-                if (o.GetType() == typeof (BoardPageLoaderUpdateMode))
+                if (o.GetType() == typeof(BoardPageLoaderUpdateMode))
                 {
-                    updateMode = (BoardPageLoaderUpdateMode) o;
+                    updateMode = (BoardPageLoaderUpdateMode)o;
                 }
             }
+            return updateMode;
+        }
+
+        private IEngineOperationsWithProgress<IBoardPageLoaderResult, EngineProgress> OperationFactory(object o)
+        {
+            var updateMode = ModeFromArgument(o);
             return new BoardPageLoaderOperation(ServiceLocator.Current, new BoardPageLoaderArgument()
             {
                 PageLink = PageLink,

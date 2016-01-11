@@ -66,6 +66,7 @@
     <Compile Include="Render\ITextRenderLogic.cs" />
     <Compile Include="Render\ITextRenderTextContent.cs" />
     <Compile Include="Render\IWordSplitter.cs" />
+    <Compile Include="Render\CycleCache.cs" />
     <Compile Include="Render\TextRenderCommand.cs" />
     <Compile Include="Render\TextRenderCommandFormer.cs" />
     <Compile Include="Render\TextRenderLineBreakContent.cs" />

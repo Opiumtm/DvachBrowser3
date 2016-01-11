@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -40,8 +42,21 @@ namespace DvachBrowser3.Views.Partial
 
         private void ClearOldData()
         {
+            if (isCleared) return;
             ScrollablePlaceholderGrid.Children.Clear();
+            isRendered = false;
+            isCleared = true;
         }
+
+        private bool isCleared = true;
+
+        private bool isRendered = false;
+
+        private double? lastWidth = null;
+
+        private bool? lastNarrow = null;
+
+        private Guid? lastId = null;
 
         private void RefreshView()
         {
@@ -51,7 +66,14 @@ namespace DvachBrowser3.Views.Partial
                 return;
             }
 
-            var renderFactory = new RenderTextElementFactory(ViewModel, Shell.Instance.IsNarrowView);
+            var isNarrow = Shell.Instance.IsNarrowView;
+
+            if (lastWidth == ActualWidth && lastNarrow == isNarrow && ViewModel.UniqueId == lastId && isRendered)
+            {
+                return;
+            }
+
+            var renderFactory = new RenderTextElementFactory(ViewModel, isNarrow);
             var canvas = new Canvas();
 
             ScrollablePlaceholderGrid.Measure(new Size(MainGrid.ActualWidth, MainGrid.ActualHeight));
@@ -60,13 +82,22 @@ namespace DvachBrowser3.Views.Partial
             canvas.Height = 5;
             canvas.HorizontalAlignment = HorizontalAlignment.Left;
             canvas.VerticalAlignment = VerticalAlignment.Top;
+
             var logic = new TextRenderLogic(new TextRenderCommandFormer(), new CanvasTextRenderCommandExecutor(canvas, renderFactory, new WordSplitter()));
             logic.MaxLines = MaxLines > 0 ? (int?)MaxLines : null;
             ViewModel.RenderText(logic);
+
             ClearOldData();
             ScrollablePlaceholderGrid.Children.Add(canvas);
+
             ExceedLines = logic.ExceedLines && MaxLines > 0;
             TextRendered?.Invoke(this, EventArgs.Empty);
+
+            isCleared = false;
+            isRendered = true;
+            lastWidth = ActualWidth;
+            lastNarrow = isNarrow;
+            lastId = ViewModel.UniqueId;
         }
 
         /// <summary>

@@ -16,6 +16,11 @@ namespace DvachBrowser3.ViewModels
         IList<IPostViewModel> Posts { get; }
 
         /// <summary>
+        /// Посты со ссылками.
+        /// </summary>
+        IDictionary<BoardLinkBase, IPostViewModel> PostsByLink { get; }
+
+            /// <summary>
         /// ОП-пост.
         /// </summary>
         IPostViewModel OpPost { get; }
