@@ -7,7 +7,7 @@ namespace DvachBrowser3.TextRender
     /// <summary>
     /// Циклический кэш.
     /// </summary>
-    internal sealed class CycleCache<TKey, T>
+    public sealed class CycleCache<TKey, T>
     {
         private readonly int maxSize;
 

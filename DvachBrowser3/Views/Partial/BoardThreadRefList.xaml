@@ -49,7 +49,7 @@
                 <Border Margin="0, 15, 0, 0" BorderThickness="0, 1, 0, 0" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
                         <TextBlock Margin="5" FontSize="14.5">
-                            <Run>Скорость борды: </Run>
+                            <Run>Скорость доски: </Run>
                             <Run Text="{x:Bind ViewModel.BoardSpeed, Mode=OneWay}" FontWeight="SemiBold" />
                         </TextBlock>
                     </StackPanel>
