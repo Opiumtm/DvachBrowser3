@@ -38,13 +38,13 @@ namespace DvachBrowser3.PageServices
         /// <param name="e">Событие.</param>
         protected override void OnNavigatedFrom(Page sender, NavigationEventArgs e)
         {
-            if (e != null)
+            /*if (e != null)
             {
                 if (e.NavigationMode == NavigationMode.Back || e.NavigationMode == NavigationMode.New)
                 {
                     Views.Shell.Instance?.SetBottomAppBar(null);
                 }
-            }
+            }*/
         }
 
         /// <summary>

@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:DvachBrowser3.ViewModels"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:DvachBrowser3.Behaviors"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -17,7 +19,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ContentPresenter Grid.Row="0" Content="{x:Bind Header, Mode=OneWay}" ContentTemplate="{x:Bind HeaderTemplate, Mode=OneWay}" />
-        <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}">
+        <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" Background="Transparent" SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
             <FlipView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IPostViewModel">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
@@ -26,7 +28,11 @@
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
                                     ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
-                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"/>
+                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost">
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
+                            </interactivity:Interaction.Behaviors>
+                        </local:PostView>
                     </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>

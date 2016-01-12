@@ -18,7 +18,7 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class PostCollectionView : UserControl
+    public sealed partial class PostCollectionView : UserControl, IPostCollectionVisualIndexStore
     {
         public PostCollectionView()
         {

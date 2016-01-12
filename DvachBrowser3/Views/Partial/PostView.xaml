@@ -98,7 +98,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" MaxLines="{x:Bind MaxLines, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Border Margin="3, 0, 3, 0" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
             <TextBlock FontSize="14.5" Text="[Показана часть текста]" FontWeight="SemiBold"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>

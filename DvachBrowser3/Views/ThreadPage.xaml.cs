@@ -36,6 +36,8 @@ namespace DvachBrowser3.Views
     {
         private object lifetimeToken;
 
+        private readonly Stack<string> singleNavigationStack = new Stack<string>();
+
         public ThreadPage()
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
@@ -212,6 +214,25 @@ namespace DvachBrowser3.Views
                         ScrollIntoView(el);
                     }
                 }
+                if (restoredView == PageContentViews.SinglePostView && restoredSinglePostHash != null)
+                {
+                    var el = ViewModel.Posts.FirstOrDefault(t =>
+                    {
+                        var o = t?.Link;
+                        if (o == null)
+                        {
+                            return false;
+                        }
+                        return linkHash.GetLinkHash(o) == restoredSinglePostHash;
+                    });
+                    if (el != null)
+                    {
+                        SingleSelectedItem = el;
+                        SinglePostViewPopup.IsContentVisible = true;
+                    }
+                }
+                restoredView = null;
+                restoredSinglePostHash = null;
             });
         }
 
@@ -269,19 +290,23 @@ namespace DvachBrowser3.Views
         /// <returns>Данные навигации.</returns>
         public Task<Dictionary<string, object>> GetNavigationData()
         {
-            /*
-            var element = MainList.GetTopViewIndex();
+            var result = new Dictionary<string, object>();
+            var element = SingleSelectedItem as IPostViewModel;
             var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
             if (element?.Link != null)
             {
                 var hash = linkHash.GetLinkHash(element.Link);
-                return Task.FromResult(new Dictionary<string, object>()
-                {
-                    { "TopVisiblePost", hash }
-                });
-            }*/
-            return Task.FromResult(new Dictionary<string, object>());
+                result["SingleListPost"] = hash;
+            }
+            result["CurrentView"] = (int)currentContentView;
+            var stackArr = singleNavigationStack.ToArray();
+            result["SingleNavigationStack"] = stackArr;
+            return Task.FromResult(result);
         }
+
+        private string restoredSinglePostHash;
+
+        private PageContentViews? restoredView;
 
         /// <summary>
         /// Восстановить данные навигации.
@@ -290,11 +315,32 @@ namespace DvachBrowser3.Views
         /// <returns>Результат.</returns>
         public Task RestoreNavigationData(Dictionary<string, object> data)
         {
-            /*
-            if (data != null && data.ContainsKey("TopVisiblePost"))
+            if (data != null)
             {
-                savedTopPostHash = data["TopVisiblePost"] as string;
-            }*/
+                restoredSinglePostHash = null;
+                if (data.ContainsKey("SingleListPost"))
+                {
+                    restoredSinglePostHash = (string) data["SingleListPost"];
+                }
+                restoredView = null;
+                if (data.ContainsKey("CurrentView"))
+                {
+                    var v = (int)data["CurrentView"];
+                    restoredView = (PageContentViews) v;
+                }
+                singleNavigationStack.Clear();
+                if (data.ContainsKey("SingleNavigationStack"))
+                {
+                    var a = (string[]) data["SingleNavigationStack"];
+                    if (a != null)
+                    {
+                        foreach (var l in a)
+                        {
+                            singleNavigationStack.Push(l);
+                        }
+                    }
+                }
+            }
             return Task.FromResult(true);
         }
 
@@ -336,7 +382,52 @@ namespace DvachBrowser3.Views
 
         private void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
         {
+            SingleSelectedItem = e.Post;
             SinglePostViewPopup.IsContentVisible = true;
         }
+
+        private enum PageContentViews
+        {
+            Default = 0,
+            SinglePostView = 1
+        }
+
+        private PageContentViews currentContentView = PageContentViews.Default;
+
+        private void ContentPopup_OnIsContentVisibleChanged(object sender, EventArgs e)
+        {
+            var v = sender as ContentPopup;
+            if (v == null)
+            {
+                return;
+            }
+            if (v == SinglePostViewPopup && v.IsContentVisible)
+            {
+                currentContentView = PageContentViews.SinglePostView;
+            }
+            else
+            {
+                currentContentView = PageContentViews.Default;
+            }
+
+            if (v == SinglePostViewPopup && !v.IsContentVisible)
+            {
+                singleNavigationStack.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Выбранный элемент.
+        /// </summary>
+        public object SingleSelectedItem
+        {
+            get { return (object) GetValue(SingleSelectedItemProperty); }
+            set { SetValue(SingleSelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Выбранный элемент.
+        /// </summary>
+        public static readonly DependencyProperty SingleSelectedItemProperty = DependencyProperty.Register("SingleSelectedItem", typeof (object), typeof (ThreadPage), new PropertyMetadata(null));
     }
 }

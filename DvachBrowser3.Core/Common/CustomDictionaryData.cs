@@ -9,6 +9,8 @@ namespace DvachBrowser3
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(BoardLinkBase))]
+    [KnownType(typeof(BoardLinkBase[]))]
+    [KnownType(typeof(string[]))]
     public sealed class CustomDictionaryData
     {
         /// <summary>

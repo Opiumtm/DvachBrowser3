@@ -18,7 +18,7 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class SinglePostCollectionView : UserControl
+    public sealed partial class SinglePostCollectionView : UserControl, IPostCollectionVisualIndexStore
     {
         public SinglePostCollectionView()
         {
@@ -194,5 +194,47 @@ namespace DvachBrowser3.Views.Partial
         {
             ShowFullPost?.Invoke(this, e);
         }
+
+        /// <summary>
+        /// Получить индекс видимого элемента.
+        /// </summary>
+        /// <returns>Индекс.</returns>
+        public IPostViewModel GetTopViewIndex()
+        {
+            return MainList.SelectedItem as IPostViewModel;
+        }
+
+        /// <summary>
+        /// Показать видимый элемент.
+        /// </summary>
+        /// <param name="post">Пост.</param>
+        public void ScrollIntoView(IPostViewModel post)
+        {
+            try
+            {
+                if (post != null)
+                {
+                    MainList.SelectedItem = post;
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Выбранный элемент.
+        /// </summary>
+        public object SelectedItem
+        {
+            get { return (object) GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Выбранный элемент.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof (object), typeof (SinglePostCollectionView), new PropertyMetadata(null));
     }
 }

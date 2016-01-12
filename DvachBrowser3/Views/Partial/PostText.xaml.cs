@@ -33,6 +33,13 @@ namespace DvachBrowser3.Views.Partial
             MainGrid.SizeChanged += sizeChangeDelay.OnSizeChanged;
             sizeChangeDelay.SizeUpdated += SizeChangeDelayOnSizeUpdated;
             RefreshView();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            isLoaded = true;
+            RefreshView();
         }
 
         private void SizeChangeDelayOnSizeUpdated(object sender, EventArgs e)
@@ -58,8 +65,16 @@ namespace DvachBrowser3.Views.Partial
 
         private Guid? lastId = null;
 
+        private int? lastMaxLines = null;
+
+        private bool isLoaded = false;
+
         private void RefreshView()
         {
+            if (!isLoaded)
+            {
+                return;
+            }
             if (ViewModel == null || ActualWidth < 50)
             {
                 ClearOldData();
@@ -68,7 +83,7 @@ namespace DvachBrowser3.Views.Partial
 
             var isNarrow = Shell.Instance.IsNarrowView;
 
-            if (lastWidth == ActualWidth && lastNarrow == isNarrow && ViewModel.UniqueId == lastId && isRendered)
+            if (lastWidth == ActualWidth && lastNarrow == isNarrow && ViewModel.UniqueId == lastId && lastMaxLines == MaxLines && isRendered)
             {
                 return;
             }
@@ -98,6 +113,7 @@ namespace DvachBrowser3.Views.Partial
             lastWidth = ActualWidth;
             lastNarrow = isNarrow;
             lastId = ViewModel.UniqueId;
+            lastMaxLines = MaxLines;
         }
 
         /// <summary>

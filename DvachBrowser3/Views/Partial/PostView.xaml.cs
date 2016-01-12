@@ -53,6 +53,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void PostLinesUpdated(int ml)
         {
+            PostTextView.MaxLines = ml;
         }
 
         /// <summary>
