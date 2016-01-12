@@ -54,7 +54,7 @@
                     <Run Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
-            <TextBlock FontWeight="SemiBold" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top" x:Name="TitleText"/>
+            <TextBlock FontWeight="SemiBold" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top" x:Name="TitleText" MaxLines="2"/>
             <StackPanel Visibility="{x:Bind VerticalHeaderVisibility, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
