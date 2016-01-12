@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -18,5 +20,10 @@ namespace DvachBrowser3.ViewModels
         }
 
         public IPostViewModel Parent { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
     }
 }

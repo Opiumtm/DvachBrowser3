@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -68,5 +69,10 @@ namespace DvachBrowser3.ViewModels
         /// Можно вызывать каталог.
         /// </summary>
         bool CanInvokeCatalog { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

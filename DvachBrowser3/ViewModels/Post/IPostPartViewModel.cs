@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {

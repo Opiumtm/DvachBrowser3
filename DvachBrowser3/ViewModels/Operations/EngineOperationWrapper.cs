@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Common;
 using Template10.Mvvm;
 
@@ -425,6 +427,11 @@ namespace DvachBrowser3.ViewModels
         /// Завершено.
         /// </summary>
         public event OperationProgressFinishedEventHandler Finished;
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         /// <summary>
         /// Получен результат.

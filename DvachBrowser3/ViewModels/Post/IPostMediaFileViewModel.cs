@@ -1,4 +1,5 @@
 ﻿using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -51,5 +52,11 @@ namespace DvachBrowser3.ViewModels
         /// Строка с информацией.
         /// </summary>
         string InfoString { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
+
     }
 }

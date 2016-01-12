@@ -154,21 +154,6 @@ namespace DvachBrowser3.Views
         /// </summary>
         public NavigationRole? NavigationRole => Navigation.NavigationRole.Catalog;
 
-        /// <summary>
-        /// Ширина тайла.
-        /// </summary>
-        public double TileWidth
-        {
-            get { return (double) GetValue(TileWidthProperty); }
-            set { SetValue(TileWidthProperty, value); }
-        }
-
-        /// <summary>
-        /// Ширина тайла.
-        /// </summary>
-        public static readonly DependencyProperty TileWidthProperty = DependencyProperty.Register("TileWidth", typeof (double), typeof (CatalogPage),
-            new PropertyMetadata(100.0));
-
         private void CatalogElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             var t = (sender as FrameworkElement)?.Tag as IPostViewModel;

@@ -2,6 +2,7 @@
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -71,5 +72,10 @@ namespace DvachBrowser3.ViewModels
         /// Для взрослых.
         /// </summary>
         bool IsAdult { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

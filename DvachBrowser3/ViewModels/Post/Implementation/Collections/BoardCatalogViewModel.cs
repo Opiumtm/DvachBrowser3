@@ -4,6 +4,8 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -102,6 +104,11 @@ namespace DvachBrowser3.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         /// <summary>
         /// Запуск.

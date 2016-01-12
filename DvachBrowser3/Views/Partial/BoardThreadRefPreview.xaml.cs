@@ -20,40 +20,27 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class BoardThreadRefPreview : UserControl, INotifyPropertyChanged
+    public sealed partial class BoardThreadRefPreview : UserControl, INotifyPropertyChanged, IWeakEventCallback
     {
         public BoardThreadRefPreview()
         {
             this.InitializeComponent();
-            this.SizeChanged += OnSizeChanged;
+            Shell.IsNarrowViewChanged.AddCallback(this);
             SizeStateChanged();
         }
 
         private void SizeStateChanged()
         {
-            if (this.ActualWidth <= 500)
+            if (Shell.Instance?.IsNarrowView ?? false)
             {
                 VerticalHeaderVisibility = Visibility.Visible;
                 HorizontalHeaderVisibility = Visibility.Collapsed;
-                PostText.MaxLines = 7;
-                ImageWidth = 100;
-                ImageWidthWithBorder = 104;
-                TitleText.FontSize = 16;
             }
             else
             {
                 VerticalHeaderVisibility = Visibility.Collapsed;
                 HorizontalHeaderVisibility = Visibility.Visible;
-                PostText.MaxLines = 5;
-                ImageWidth = 150;
-                ImageWidthWithBorder = 154;
-                TitleText.FontSize = 18;
             }
-        }
-
-        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
-        {
-            SizeStateChanged();
         }
 
         /// <summary>
@@ -78,6 +65,7 @@ namespace DvachBrowser3.Views.Partial
             {
                 if (e.Property == ViewModelProperty)
                 {
+                    // ReSharper disable once ExplicitCallerInfoArgument
                     dd.OnPropertyChanged("PostCollectionViewModel");
                 }
             }
@@ -123,33 +111,30 @@ namespace DvachBrowser3.Views.Partial
             new PropertyMetadata(Visibility.Visible));
 
         /// <summary>
-        /// Ширина изображения.
+        /// Получить событие.
         /// </summary>
-        public double ImageWidth
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
         {
-            get { return (double) GetValue(ImageWidthProperty); }
-            set { SetValue(ImageWidthProperty, value); }
+            if (channel?.Id == Shell.IsNarrowViewChangedId)
+            {
+                SizeStateChanged();
+            }
+        }
+    }
+
+    public class BoardThreadRefPreviewImageWidthValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return (double) value + 4.0;
         }
 
-        /// <summary>
-        /// Ширина изображения.
-        /// </summary>
-        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof (double), typeof (BoardThreadRefPreview),
-            new PropertyMetadata(100.0));
-
-        /// <summary>
-        /// Ширина изображения с бордюром.
-        /// </summary>
-        public double ImageWidthWithBorder
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            get { return (double) GetValue(ImageWidthWithBorderProperty); }
-            set { SetValue(ImageWidthWithBorderProperty, value); }
+            throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Ширина изображения с бордюром.
-        /// </summary>
-        public static readonly DependencyProperty ImageWidthWithBorderProperty = DependencyProperty.Register("ImageWidthWithBorder", typeof (double), typeof (BoardThreadRefPreview),
-            new PropertyMetadata(104.0));
     }
 }

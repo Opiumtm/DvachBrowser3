@@ -6,7 +6,9 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
+using DvachBrowser3.Styles;
 using DvachBrowser3.TextRender;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -279,6 +281,11 @@ namespace DvachBrowser3.ViewModels
             /// Ссылка.
             /// </summary>
             public BoardLinkBase Link { get; set; }
+
+            /// <summary>
+            /// Менеджер стилей.
+            /// </summary>
+            public IStyleManager StyleManager => Shell.StyleManager;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -72,5 +73,10 @@ namespace DvachBrowser3.ViewModels
         /// Завершено.
         /// </summary>
         event OperationProgressFinishedEventHandler Finished;
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

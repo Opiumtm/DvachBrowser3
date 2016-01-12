@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.UI;
 using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -100,5 +101,10 @@ namespace DvachBrowser3.ViewModels
         /// Есть тэги.
         /// </summary>
         bool HasTags { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

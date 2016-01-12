@@ -9,6 +9,8 @@ using DvachBrowser3.Logic;
 using DvachBrowser3.Makaba;
 using DvachBrowser3.Posts;
 using DvachBrowser3.Storage;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -235,6 +237,11 @@ namespace DvachBrowser3.ViewModels
         {
             IsObsolete = true;
         }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         private void TvOnLinkClick(object sender, LinkClickEventArgs e)
         {

@@ -52,7 +52,7 @@
         <Border.Background>
             <SolidColorBrush Color="Black" Opacity="0.5" />
         </Border.Background>
-        <Grid Margin="{x:Bind PopupMargin, Mode=OneWay}" x:Name="BodyContainer">
+        <Grid x:Name="BodyContainer">
             <Grid.RenderTransform>
                 <TranslateTransform x:Name="BodyScale" X="0" Y="0" />
             </Grid.RenderTransform>

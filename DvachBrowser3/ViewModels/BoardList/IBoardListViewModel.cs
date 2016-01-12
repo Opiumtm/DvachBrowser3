@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
 using Windows.UI.Xaml.Data;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -57,5 +58,10 @@ namespace DvachBrowser3.ViewModels
         /// Убрать из избранного.
         /// </summary>
         ICommand RemoveFromFavorites { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

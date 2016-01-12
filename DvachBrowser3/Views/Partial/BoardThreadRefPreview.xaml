@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local2:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <local:BoardThreadRefPreviewImageWidthValueConverter x:Key="PreviewImageWidthConverter"  />
         <SolidColorBrush x:Key="LocBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
     </UserControl.Resources>
 
@@ -33,7 +34,7 @@
             <Border.BorderBrush>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
             </Border.BorderBrush>
-            <local:PreviewImage Height="100" Width="{x:Bind ImageWidth, Mode=OneWay}" 
+            <local:PreviewImage Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Tiles.ThreadPrevewImageHeight, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Tiles.ThreadPreviewImageWidth, Mode=OneWay}" 
                             ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" />
         </Border>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Top">
@@ -41,66 +42,66 @@
                 <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                         Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
                         ToolTipService.ToolTip="{x:Bind PostCollectionViewModel.OpPost.Name.IconName, Mode=OneWay}">
-                    <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
+                    <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
                 </Border>
-                <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
+                <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
                        Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                        Margin="2"
                        />
-                <TextBlock FontSize="13.5" TextWrapping="Wrap">
+                <TextBlock FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" TextWrapping="Wrap">
                     <Run Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
                     <Run Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
                     <Run Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
-            <TextBlock FontWeight="SemiBold" FontSize="16" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top" x:Name="TitleText"/>
+            <TextBlock FontWeight="SemiBold" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" Text="{x:Bind PostCollectionViewModel.OpPost.Subject, Mode=OneWay}" VerticalAlignment="Top" x:Name="TitleText"/>
             <StackPanel Visibility="{x:Bind VerticalHeaderVisibility, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal">
                     <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                             Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
                             ToolTipService.ToolTip="{x:Bind PostCollectionViewModel.OpPost.Name.IconName, Mode=OneWay}">
-                        <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
+                        <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
                     </Border>
-                    <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
+                    <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
                            Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                            Margin="2"
                        />
-                    <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
+                    <TextBlock FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="{x:Bind PostCollectionViewModel.OpPost.Name.Name, Mode=OneWay}" />
                 </StackPanel>
-                <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
-                <TextBlock FontSize="13.5" Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
+                <TextBlock FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="{x:Bind PostCollectionViewModel.OpPost.Date, Mode=OneWay}" />
+                <TextBlock FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="{x:Bind PostCollectionViewModel.OpPost.PostNumStr, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Top">
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Сажа">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1FD;" />
             </Viewbox>
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Прикреплённый">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE840;" />
             </Viewbox>
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Закрыт">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72E;" />
             </Viewbox>
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Редактировался">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
             </Viewbox>
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Автор забанен">
                 <FontIcon FontFamily="Segoe UI Symbol" Glyph="✞" Height="32" Width="32" Margin="-7" />
             </Viewbox>
-            <Viewbox Height="16" Width="16" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+            <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Модтрип">
                 <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
             </Viewbox>
         </StackPanel>
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" VerticalAlignment="Top" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0">
-            <local:PostText x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" />
+            <local:PostText x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" MaxLines="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.ThreadPreviewPostLines, Mode=OneWay}" />
         </Border>
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="13.5" Margin="2, 5, 2, 2">
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="2, 5, 2, 2">
             <Run>Постов</Run>
             <Bold><Run Text="{x:Bind ViewModel.PostCount, Mode=OneWay}"/></Bold>
             <Run>Изображений</Run>

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -98,5 +99,10 @@ namespace DvachBrowser3.ViewModels
         /// Пометить как устаревшую.
         /// </summary>
         void TriggerObsolete();
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

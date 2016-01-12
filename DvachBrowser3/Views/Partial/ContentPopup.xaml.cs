@@ -18,11 +18,13 @@ using Windows.UI.Xaml.Navigation;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class ContentPopup : UserControl
+    public sealed partial class ContentPopup : UserControl, IWeakEventCallback
     {
         public ContentPopup()
         {
             this.InitializeComponent();
+            Loaded += (sender, e) => SetContentMargin();
+            Shell.IsNarrowViewChanged.AddCallback(this);
         }
 
         private void ContentVisibleChanged(bool oldValue, bool newValue)
@@ -40,21 +42,6 @@ namespace DvachBrowser3.Views.Partial
                 IsContentVisibleChanged?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        /// <summary>
-        /// Отступ всплывающего содержимого.
-        /// </summary>
-        public Thickness PopupMargin
-        {
-            get { return (Thickness) GetValue(PopupMarginProperty); }
-            set { SetValue(PopupMarginProperty, value); }
-        }
-
-        /// <summary>
-        /// Отступ всплывающего содержимого.
-        /// </summary>
-        public static readonly DependencyProperty PopupMarginProperty = DependencyProperty.Register("PopupMargin", typeof (Thickness), typeof (ContentPopup),
-            new PropertyMetadata(new Thickness(5)));
 
         /// <summary>
         /// Содержимое видимо.
@@ -145,5 +132,31 @@ namespace DvachBrowser3.Views.Partial
         /// Изменено состояние видимости.
         /// </summary>
         public event EventHandler IsContentVisibleChanged;
+
+        private void SetContentMargin()
+        {
+            if (!Shell.Instance?.IsNarrowView ?? false)
+            {
+                BodyContainer.Margin = new Thickness(24, 5, 24, 5);
+            }
+            else
+            {
+                BodyContainer.Margin = new Thickness(5);
+            }
+        }
+
+        /// <summary>
+        /// Получить событие.
+        /// </summary>
+        /// <param name="sender">Отправитель.</param>
+        /// <param name="e">Параметр события.</param>
+        /// <param name="channel">Канал.</param>
+        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
+        {
+            if (channel?.Id == Shell.IsNarrowViewChangedId)
+            {
+                SetContentMargin();
+            }
+        }
     }
 }

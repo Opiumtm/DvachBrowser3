@@ -33,7 +33,6 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NarrowMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ThisPage.TileWidth" Value="95" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VisualStateNormal">
@@ -41,7 +40,6 @@
                         <AdaptiveTrigger MinWindowWidth="{StaticResource NormalMinWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ThisPage.TileWidth" Value="160" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -80,7 +78,7 @@
                     <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="vm:IBoardListBoardViewModel">
-                                <pa:BoardTile ViewModel="{x:Bind This}" Height="80" Width="{Binding ElementName=ThisPage, Path=TileWidth, Mode=OneWay}" Margin="4" Tapped="BoardTile_OnTapped">
+                                <pa:BoardTile ViewModel="{x:Bind This}" Margin="4" Tapped="BoardTile_OnTapped">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="RightTapped">
                                             <behaviors:OpenFlyoutAction />
@@ -100,7 +98,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock FontSize="24" FontWeight="SemiBold" Text="{Binding Name}" />
+                                        <TextBlock FontSize="{Binding ElementName=ThisPage, Path=ViewModel.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -111,7 +109,7 @@
                     <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource BoardSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="10" FontSize="24" FontWeight="SemiBold" Text="{Binding Group.Name}" />
+                                <TextBlock Margin="10" FontSize="{Binding ElementName=ThisPage, Path=ViewModel.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Group.Name}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

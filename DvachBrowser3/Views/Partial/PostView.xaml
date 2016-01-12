@@ -39,50 +39,51 @@
                     ToolTipService.ToolTip="{x:Bind ViewModel.Name.IconName, Mode=OneWay}"
                     RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" x:Name="IconView"
                     VerticalAlignment="Top">
-                <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Icon.Image, Mode=OneWay}" />
+                <Image Height="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}"
+                       Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Icon.Image, Mode=OneWay}" />
             </Border>
-            <Image Height="16" Width="16" Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Flag.Image, Mode=OneWay}"
+            <Image Height="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Flag.Image, Mode=OneWay}"
                    Visibility="{x:Bind ViewModel.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                    Margin="2" x:Name="FlagView" RelativePanel.RightOf="IconView" VerticalAlignment="Top"/>
-            <TextBlock FontSize="13.5" TextWrapping="Wrap" RelativePanel.RightOf="FlagView" RelativePanel.LeftOf="PostFlagsView" VerticalAlignment="Top" MaxLines="4">
+            <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" TextWrapping="Wrap" RelativePanel.RightOf="FlagView" RelativePanel.LeftOf="PostFlagsView" VerticalAlignment="Top" MaxLines="4">
                 <Run Text="{x:Bind ViewModel.Name.Name, Mode=OneWay}" FontWeight="SemiBold" />
                 <Run Text="{x:Bind ViewModel.Date, Mode=OneWay}" />
                 <Run Text="{x:Bind ViewModel.PostNumStr, Mode=OneWay}" />
                 <Run Text="{x:Bind ViewModel.Name.TripCode, Mode=OneWay}" />
             </TextBlock>
             <StackPanel x:Name="PostFlagsView" Orientation="Horizontal" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" VerticalAlignment="Top" Margin="2, 0, 0, 0">
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Сажа" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1FD;" />
                 </Viewbox>
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.Sticky, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Прикреплённый" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE840;" />
                 </Viewbox>
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.Closed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Закрыт" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72E;" />
                 </Viewbox>
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.IsEdited, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Редактировался" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
                 </Viewbox>
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.Banned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Автор забанен" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe UI Symbol" Glyph="✞" Height="32" Width="32" Margin="-7" />
                 </Viewbox>
-                <Viewbox Height="16" Width="16" Visibility="{x:Bind ViewModel.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
+                <Viewbox Height="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.Flags.AdminTrip, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Модтрип" VerticalAlignment="Center">
                     <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
                 </Viewbox>
                 <TextBlock Visibility="{x:Bind ShowCounter, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                    x:Name="CounterView" Margin="3, 0, 5, 0" Foreground="Green" FontWeight="SemiBold" FontSize="14.5"
+                    x:Name="CounterView" Margin="3, 0, 5, 0" Foreground="Green" FontWeight="SemiBold" FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}"
                     VerticalAlignment="Center">
                     <Run>#</Run><Run Text="{x:Bind ViewModel.CounterStr, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
         </RelativePanel>
-        <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind TitleTextSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
+        <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind ViewModel.StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
                    MaxLines="3" Visibility="{x:Bind ViewModel.Subject, Mode=OneWay, Converter={StaticResource EmptyStringVisibilityConverter}, ConverterParameter=false}" />
         <GridView Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                   ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None" ShowsScrollingPlaceholders="False">
@@ -90,9 +91,9 @@
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
                     <StackPanel Margin="2" ToolTipService.ToolTip="{x:Bind Name}">
                         <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder">
-                            <local:PreviewImage Height="100" Width="{Binding ElementName=MainControl, Path=ImageWidth, Mode=OneWay, FallbackValue=150.0}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" />
+                            <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" />
                         </Border>
-                        <TextBlock TextWrapping="Wrap" FontSize="12" Text="{x:Bind InfoString, Mode=OneWay}"
+                        <TextBlock TextWrapping="Wrap" FontSize="{x:Bind StyleManager.Text.SmallFontSize, Mode=OneWay}" Text="{x:Bind InfoString, Mode=OneWay}"
                                    MaxLines="2"/>
                     </StackPanel>
                 </DataTemplate>
@@ -100,11 +101,11 @@
         </GridView>
         <local:PostText Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Border Margin="3, 0, 3, 0" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
-            <TextBlock FontSize="14.5" Text="[Показана часть текста]" FontWeight="SemiBold"
+            <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="[Показана часть текста]" FontWeight="SemiBold"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
         </Border>
         <Border Margin="3, 2, 3, 2" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
-            <Button Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Click="ShowFullPostButton_OnClick">Показать текст целиком</Button>
+            <Button Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Click="ShowFullPostButton_OnClick" FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}">Показать текст целиком</Button>
         </Border>
         <Border Grid.Row="5" Margin="3, 3, 3, 0" Padding="0, 3, 0, 0" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                 BorderThickness="0, 1, 0, 0">
@@ -114,7 +115,7 @@
             <GridView ItemsSource="{x:Bind ViewModel.Text.Quotes, Mode=OneWay}" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                       SelectionMode="None" ShowsScrollingPlaceholders="False">
                 <GridView.Header>
-                    <TextBlock FontSize="14.5" Margin="3, 0, 5, 0">
+                    <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="3, 0, 5, 0">
                         <Run>Ответы:</Run>
                     </TextBlock>
                 </GridView.Header>
@@ -133,7 +134,7 @@
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:IPostQuoteViewModel">
-                        <TextBlock Margin="3, 0, 3, 0" FontSize="14.5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"><Underline><Run Text="{x:Bind Name}"></Run></Underline></TextBlock>
+                        <TextBlock Margin="3, 0, 3, 0" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"><Underline><Run Text="{x:Bind Name}"></Run></Underline></TextBlock>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
@@ -146,8 +147,8 @@
                     <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
                 </Border.BorderBrush>
                 <StackPanel Padding="0, 2, 0, 2">
-                    <Button Content="{x:Bind ShowFullThreadText, Mode=OneWay}" HorizontalAlignment="Center" Click="ShowFullThreadButton_OnClick" />
-                    <TextBlock FontSize="15" Visibility="{x:Bind ViewModel.OmitPostCountStr, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center" Margin="0, 3, 0, 0">
+                    <Button FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}"  Content="{x:Bind ShowFullThreadText, Mode=OneWay}" HorizontalAlignment="Center" Click="ShowFullThreadButton_OnClick" />
+                    <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Visibility="{x:Bind ViewModel.OmitPostCountStr, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center" Margin="0, 3, 0, 0">
                         <Run>Пропущено постов:</Run>
                         <Run Text="{x:Bind ViewModel.OmitPostCountStr, Mode=OneWay}" FontWeight="SemiBold" />
                     </TextBlock>

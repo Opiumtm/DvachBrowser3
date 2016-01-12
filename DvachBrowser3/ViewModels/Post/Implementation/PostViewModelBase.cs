@@ -7,6 +7,8 @@ using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -149,6 +151,11 @@ namespace DvachBrowser3.ViewModels
         /// Есть тэги.
         /// </summary>
         public bool HasTags { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         /// <summary>
         /// Заголовок.

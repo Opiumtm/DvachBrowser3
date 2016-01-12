@@ -143,21 +143,6 @@ namespace DvachBrowser3.Views
             ViewModel.ApplyFilter();
         }
 
-        /// <summary>
-        /// Ширина плитки.
-        /// </summary>
-        public double TileWidth
-        {
-            get { return (double) GetValue(TileWidthProperty); }
-            set { SetValue(TileWidthProperty, value); }
-        }
-
-        /// <summary>
-        /// Ширина плитки.
-        /// </summary>
-        public static readonly DependencyProperty TileWidthProperty = DependencyProperty.Register("TileWidth", typeof (double), typeof (BoardsPage),
-            new PropertyMetadata(100.0));
-
         private void AddToFavorites_OnClick(object sender, RoutedEventArgs e)
         {
             var mf = sender as FrameworkElement;

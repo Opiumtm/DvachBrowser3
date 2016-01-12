@@ -1,4 +1,5 @@
 ﻿using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -26,5 +27,10 @@ namespace DvachBrowser3.ViewModels
         /// Была навигация назад.
         /// </summary>
         bool IsBackNavigatedToViewModel { get; set; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

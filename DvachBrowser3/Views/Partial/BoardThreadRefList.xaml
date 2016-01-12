@@ -25,7 +25,7 @@
                                       Visibility="{x:Bind ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                                       ToolTipService.ToolTip="{x:Bind ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"
                                       BannerTapped="Banner_OnBannerTapped"/>
-                    <TextBlock Text="{x:Bind ListTitle, Mode=OneWay}" FontWeight="SemiBold" FontSize="18" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                    <TextBlock Text="{x:Bind ListTitle, Mode=OneWay}" FontWeight="SemiBold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemContainerStyle>
@@ -48,7 +48,7 @@
             <ListView.Footer>
                 <Border Margin="0, 15, 0, 0" BorderThickness="0, 1, 0, 0" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <StackPanel>
-                        <TextBlock Margin="5" FontSize="14.5">
+                        <TextBlock Margin="5" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}">
                             <Run>Скорость доски: </Run>
                             <Run Text="{x:Bind ViewModel.BoardSpeed, Mode=OneWay}" FontWeight="SemiBold" />
                         </TextBlock>

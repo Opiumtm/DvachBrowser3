@@ -416,6 +416,19 @@ namespace DvachBrowser3.Views
             }
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                if (SinglePostViewPopup.IsContentVisible)
+                {
+                    SinglePostViewPopup.IsContentVisible = false;
+                    e.Cancel = true;
+                }
+            }
+            base.OnNavigatingFrom(e);
+        }
+
         /// <summary>
         /// Выбранный элемент.
         /// </summary>

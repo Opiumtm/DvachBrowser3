@@ -70,7 +70,7 @@ namespace DvachBrowser3.Views.Partial
                 Foreground = Application.Current.Resources["PostNormalTextBrush"] as Brush,
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.None,
-                FontSize = 14.5,
+                FontSize = Shell.StyleManager.Text.PostFontSize,
                 TextLineBounds = TextLineBounds.Full,
                 IsTextSelectionEnabled = false,
                 TextAlignment = TextAlignment.Left

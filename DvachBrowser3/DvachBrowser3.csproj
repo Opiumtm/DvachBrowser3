@@ -173,6 +173,15 @@
     <Compile Include="PageServices\StoreNavigationDataPageService.cs" />
     <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManager.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerIcons.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerObjectBase.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerText.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerTiles.cs" />
+    <Compile Include="Styles\Manager\IStyleManager.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerIcons.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerText.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerTiles.cs" />
     <Compile Include="ViewModels\Banners\BannerLoadedEventArgs.cs" />
     <Compile Include="ViewModels\Banners\BannerLoadedEventHandler.cs" />
     <Compile Include="ViewModels\Banners\Implementation\MakabaPageBannerViewModel.cs" />

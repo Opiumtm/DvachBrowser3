@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
+using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 using Template10.Services.NavigationService;
 
@@ -133,5 +134,6 @@ namespace DvachBrowser3.Views.Partial
         public static readonly DependencyProperty ListTitleProperty = DependencyProperty.Register("ListTitle", typeof (string), typeof (BoardThreadRefList),
             new PropertyMetadata(null));
 
+        public IStyleManager StyleManager => Shell.StyleManager;
     }
 }

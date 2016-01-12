@@ -25,8 +25,6 @@ namespace DvachBrowser3.Views.Partial
         public PostView()
         {
             this.InitializeComponent();
-            MainGrid.SizeChanged += MainGridOnSizeChanged;
-            MainGridOnSizeChanged(null, null);
             PostLinesUpdated(MaxLines);
             PostTextView.TextRendered += PostTextViewOnTextRendered;
             PostTextViewOnTextRendered(PostTextView, EventArgs.Empty);
@@ -35,20 +33,6 @@ namespace DvachBrowser3.Views.Partial
         private void PostTextViewOnTextRendered(object sender, EventArgs eventArgs)
         {
             ExceedLines = PostTextView.ExceedLines;
-        }
-
-        private void MainGridOnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (this.ActualWidth <= 500)
-            {
-                ImageWidth = 140;
-                TitleTextSize = 16;
-            }
-            else
-            {
-                ImageWidth = 150;
-                TitleTextSize = 18;
-            }
         }
 
         private void PostLinesUpdated(int ml)
@@ -133,18 +117,6 @@ namespace DvachBrowser3.Views.Partial
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private double imageWidth = 150;
-
-        public double ImageWidth
-        {
-            get { return imageWidth; }
-            private set
-            {
-                imageWidth = value;
-                OnPropertyChanged();
-            }
-        }
-
         private bool exceedLines;
 
         public bool ExceedLines
@@ -153,18 +125,6 @@ namespace DvachBrowser3.Views.Partial
             set
             {
                 exceedLines = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private double titleTextSize = 16;
-
-        public double TitleTextSize
-        {
-            get { return titleTextSize; }
-            private set
-            {
-                titleTextSize = value;
                 OnPropertyChanged();
             }
         }

@@ -11,6 +11,8 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Common;
 using Template10.Mvvm;
 
@@ -287,6 +289,11 @@ namespace DvachBrowser3.ViewModels
         /// Убрать из избранного.
         /// </summary>
         public ICommand RemoveFromFavorites { get; }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         private static IEngineOperationsWithProgress<ICollection<IBoardListBoardViewModel>, EngineProgress> RefreshOperationFactory(object o)
         {

@@ -23,19 +23,6 @@ namespace DvachBrowser3.Views.Partial
         public BoardTile()
         {
             this.InitializeComponent();
-            this.SizeChanged += OnSizeChanged;
-        }
-
-        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
-        {
-            if (ActualWidth <= 140)
-            {
-                EngineName.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                EngineName.Visibility = Visibility.Visible;
-            }
         }
 
         /// <summary>

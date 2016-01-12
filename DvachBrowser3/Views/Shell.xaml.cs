@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Styles;
 using Template10.Common;
 using Template10.Controls;
 using Template10.Services.NavigationService;
@@ -91,11 +92,23 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Состояние свойства IsNarrowViewChanged изменилось.
         /// </summary>
-        public static Guid IsNarrowViewChangedId = new Guid("{B87399B2-75DB-4F41-BE66-4B14ACCB295A}");
+        public static readonly Guid IsNarrowViewChangedId;
 
         /// <summary>
         /// Состояние свойства IsNarrowViewChanged изменилось.
         /// </summary>
-        public static readonly IWeakEventChannel IsNarrowViewChanged = new WeakEventChannel(IsNarrowViewChangedId);
+        public static readonly IWeakEventChannel IsNarrowViewChanged;
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public static readonly IStyleManager StyleManager;
+
+        static Shell()
+        {
+            IsNarrowViewChangedId = new Guid("{B87399B2-75DB-4F41-BE66-4B14ACCB295A}");
+            IsNarrowViewChanged = new WeakEventChannel(IsNarrowViewChangedId);
+            StyleManager = new StyleManager();
+        }
     }
 }
