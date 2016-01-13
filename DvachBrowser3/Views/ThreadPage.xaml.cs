@@ -274,9 +274,52 @@ namespace DvachBrowser3.Views
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
             syncButton.Click += (sender, e) => ViewModel?.Synchronize();
 
+            short downNum, upNum;
+            unchecked
+            {
+                downNum = (short) 0xE74B;
+                upNum = (short) 0xE74A;
+            }
+
+            var downButton = new AppBarButton()
+            {
+                Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new [] { (char)downNum }) },
+                Label = "Вниз"
+            };
+            downButton.Click += (sender, e) => Down();
+
+            var upButton = new AppBarButton()
+            {
+                Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new[] { (char)upNum }) },
+                Label = "Вверх"
+            };
+            upButton.Click += (sender, e) => Up();
+
+            appBar.PrimaryCommands.Add(upButton);
+            appBar.PrimaryCommands.Add(downButton);
             appBar.PrimaryCommands.Add(syncButton);
 
             return appBar;
+        }
+
+        private void Down()
+        {
+            var vm = ViewModel?.Posts.LastOrDefault();
+            if (vm != null)
+            {
+                MainList.ScrollIntoView(vm);
+                SinglePostViewPopup.IsContentVisible = false;
+            }
+        }
+
+        private void Up()
+        {
+            var vm = ViewModel?.Posts.FirstOrDefault();
+            if (vm != null)
+            {
+                MainList.ScrollIntoView(vm);
+                SinglePostViewPopup.IsContentVisible = false;
+            }
         }
 
         /// <summary>

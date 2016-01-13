@@ -14,9 +14,13 @@
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
-    <StackPanel Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
-        <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Visibility="{x:Bind IsShowMessage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+    <Grid Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+        <Border Padding="4" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Margin="4">
+            <StackPanel>
+                <ProgressBar IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}" Minimum="0" Maximum="100" Margin="2" Value="{x:Bind Progress, Mode=OneWay}" />
+                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Visibility="{x:Bind IsShowMessage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                    Text="{x:Bind Message, Mode=OneWay}" FontSize="{x:Bind ViewModel.StyleManager.Text.PostFontSize, Mode=OneWay}" Margin="2"/>
-        <ProgressBar IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}" Minimum="0" Maximum="100" Margin="2" Value="{x:Bind Progress, Mode=OneWay}" />
-    </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>
