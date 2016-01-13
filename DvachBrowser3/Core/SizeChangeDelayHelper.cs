@@ -49,7 +49,7 @@ namespace DvachBrowser3
 
         private DateTime stamp;
 
-        private async void DelayAction()
+        private async Task DelayAction()
         {
             stamp = DateTime.Now;
             isRefreshed = true;
@@ -77,9 +77,10 @@ namespace DvachBrowser3
             OnSizeUpdated();
         }
 
-        private void OnSizeUpdated()
+        private Task OnSizeUpdated()
         {
             SizeUpdated?.Invoke(this, EventArgs.Empty);
+            return Task.CompletedTask;
         }
     }
 }

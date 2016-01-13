@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DvachBrowser3.Views;
 
 namespace DvachBrowser3.Navigation
@@ -120,6 +121,7 @@ namespace DvachBrowser3.Navigation
             AppHelpers.DispatchAction(() =>
             {
                 DoNavigate(target);
+                return Task.CompletedTask;
             }, reportError);
         }
     }

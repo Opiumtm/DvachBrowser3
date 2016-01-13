@@ -134,7 +134,7 @@
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="viewModels:IPostQuoteViewModel">
-                        <TextBlock Margin="3, 0, 3, 0" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"><Underline><Run Text="{x:Bind Name}"></Run></Underline></TextBlock>
+                        <TextBlock Margin="3, 0, 3, 0" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Tag="{x:Bind Mode=OneWay}" Tapped="Quote_OnTapped"><Underline><Run Text="{x:Bind Name, Mode=OneWay}"></Run></Underline></TextBlock>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

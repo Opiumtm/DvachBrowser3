@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DvachBrowser3.Links;
 using DvachBrowser3.Makaba;
 
@@ -41,7 +42,7 @@ namespace DvachBrowser3.ViewModels
             AppHelpers.DispatchAction(LoadBannerName);
         }
 
-        private async void LoadBannerName()
+        private async Task LoadBannerName()
         {
             try
             {

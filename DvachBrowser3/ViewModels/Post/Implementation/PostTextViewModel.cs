@@ -259,7 +259,7 @@ namespace DvachBrowser3.ViewModels
         {
             if (link != null)
             {
-                var e = new LinkClickEventArgs(link);
+                var e = new LinkClickEventArgs(link) { LinkContext = Parent };
                 LinkClick?.Invoke(this, e);
                 ViewModelEvents.LinkClick.RaiseEvent(this, e);
             }

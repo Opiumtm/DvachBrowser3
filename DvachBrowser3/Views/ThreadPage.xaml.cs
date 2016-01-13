@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,7 +33,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback
+    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback, INavigationLinkCallback
     {
         private object lifetimeToken;
 
@@ -233,6 +234,7 @@ namespace DvachBrowser3.Views
                 }
                 restoredView = null;
                 restoredSinglePostHash = null;
+                return Task.FromResult(true);
             });
         }
 
@@ -382,6 +384,7 @@ namespace DvachBrowser3.Views
 
         private void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
         {
+            singleNavigationStack.Clear();
             SingleSelectedItem = e.Post;
             SinglePostViewPopup.IsContentVisible = true;
         }
@@ -442,5 +445,119 @@ namespace DvachBrowser3.Views
         /// Выбранный элемент.
         /// </summary>
         public static readonly DependencyProperty SingleSelectedItemProperty = DependencyProperty.Register("SingleSelectedItem", typeof (object), typeof (ThreadPage), new PropertyMetadata(null));
+
+        private void PushCurrentLink(BoardLinkBase l)
+        {
+            var si = SingleSelectedItem as IPostViewModel;
+            PushCurrentLink(si, l);
+        }
+
+        private void PushCurrentLink(IPostViewModel si, BoardLinkBase l)
+        {
+            if (si?.Link != null)
+            {
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                var oldHash = linkHash.GetLinkHash(si.Link);
+                if (ViewModel?.FindPost(new LinkHashPostCollectionSearchQuery(oldHash)) == null)
+                {
+                    return;
+                }
+                if (l != null)
+                {
+                    var newHash = linkHash.GetLinkHash(l);
+                    if (newHash == oldHash)
+                    {
+                        return;
+                    }
+                }
+                singleNavigationStack.Push(oldHash);
+            }
+        }
+
+        /// <summary>
+        /// Обработать событие по переходу по ссылке.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Событие.</param>
+        /// <returns>true, если обработка произведена и действий по умолчанию не требуется.</returns>
+        public bool HandleNavigationLinkClick(object sender, LinkClickEventArgs e)
+        {
+            var l0 = e?.Link?.CustomData as BoardLinkBase;
+            if (l0 != null)
+            {
+                var l = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostLinkFromAnyLink(l0);
+                if (l != null)
+                {
+                    if (ViewModel.PostsByLink.ContainsKey(l))
+                    {
+                        var p = ViewModel.PostsByLink[l];
+                        if (p != null)
+                        {
+                            if (!SinglePostViewPopup.IsContentVisible)
+                            {
+                                singleNavigationStack.Clear();
+                            }
+                            var lvm = e.LinkContext as IPostViewModel;
+                            var lc = lvm?.Link;
+                            if (lc != null)
+                            {
+                                if (SinglePostViewPopup.IsContentVisible)
+                                {
+                                    PushCurrentLink(lc);
+                                }
+                                PushCurrentLink(lvm, l);
+                            }
+                            else
+                            {
+                                PushCurrentLink(l);
+                            }
+                            SingleSelectedItem = p;
+                            SinglePostViewPopup.IsContentVisible = true;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void ThreadPage_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                e.Handled = true;
+                SinglePostViewPopup.IsContentVisible = false;
+            }
+        }
+
+        private void SingleList_OnBackButtonClick(object sender, EventArgs e)
+        {
+            if (SinglePostViewPopup.IsContentVisible)
+            {
+                if (singleNavigationStack.Count > 0)
+                {
+                    var hash = singleNavigationStack.Pop();
+                    var p = ViewModel.FindPost(new LinkHashPostCollectionSearchQuery(hash));
+                    if (p != null)
+                    {
+                        SingleSelectedItem = p;
+                    }
+                }
+                else
+                {
+                    SinglePostViewPopup.IsContentVisible = false;
+                }
+            }
+        }
+
+        private void SingleList_OnGoButtonClick(object sender, EventArgs e)
+        {
+            var si = SingleSelectedItem as IPostViewModel;
+            if (SinglePostViewPopup.IsContentVisible && si != null)
+            {
+                MainList.ScrollIntoView(si);
+                SinglePostViewPopup.IsContentVisible = false;
+            }
+        }
     }
 }

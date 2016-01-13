@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -126,6 +127,7 @@ namespace DvachBrowser3.Views
                     {
                         MainList.ScrollIntoView(el);
                     }
+                    return Task.CompletedTask;
                 });
             }
         }
@@ -339,6 +341,15 @@ namespace DvachBrowser3.Views
             if (tp?.ThreadLink != null)
             {
                 ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(tp.ThreadLink));
+            }
+        }
+
+        private void BoardPage_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                e.Handled = true;
+                ThreadPreviewPopup.IsContentVisible = false;
             }
         }
     }

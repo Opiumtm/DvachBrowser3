@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -80,7 +81,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Попробовать загрузить баннер.
         /// </summary>
-        public async void TryLoadBanner()
+        public async Task TryLoadBanner()
         {
             IsLoaded = false;
             IsError = false;
@@ -247,6 +248,7 @@ namespace DvachBrowser3.ViewModels
                 AppHelpers.ActionOnUiThread(() =>
                 {
                     ModelResumed?.Invoke(this, EventArgs.Empty);
+                    return Task.FromResult(true);
                 });
             }
         }

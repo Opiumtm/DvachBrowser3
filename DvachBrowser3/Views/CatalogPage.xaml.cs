@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -220,6 +221,15 @@ namespace DvachBrowser3.Views
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             FilterBox.AnimatedVisibility = Visibility.Visible;
+        }
+
+        private void CatalogPage_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                e.Handled = true;
+                PostPreview.IsContentVisible = false;
+            }
         }
     }
 }

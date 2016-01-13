@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
@@ -56,7 +57,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Попробовать загрузить баннер.
         /// </summary>
-        void TryLoadBanner();
+        Task TryLoadBanner();
 
         /// <summary>
         /// Баннер загружается.

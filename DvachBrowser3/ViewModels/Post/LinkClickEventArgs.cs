@@ -21,5 +21,10 @@ namespace DvachBrowser3.ViewModels
         /// Ссылка.
         /// </summary>
         public ITextRenderLinkAttribute Link { get; }
+
+        /// <summary>
+        /// Контекст ссылки.
+        /// </summary>
+        public object LinkContext { get; set; }
     }
 }

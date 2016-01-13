@@ -152,8 +152,10 @@
     <Compile Include="Navigation\IBoardLinkPage.cs" />
     <Compile Include="Navigation\Implementation\PageNavigationService.cs" />
     <Compile Include="Navigation\INavigationDataPage.cs" />
+    <Compile Include="Navigation\INavigationLinkCallback.cs" />
     <Compile Include="Navigation\INavigationRolePage.cs" />
     <Compile Include="Navigation\IPageNavigationService.cs" />
+    <Compile Include="Navigation\LinkNavigationManager.cs" />
     <Compile Include="Navigation\NavigationRole.cs" />
     <Compile Include="Navigation\PageNavigationTargetBase.cs" />
     <Compile Include="Navigation\Targets\BoardCatalogNavigationTarget.cs" />

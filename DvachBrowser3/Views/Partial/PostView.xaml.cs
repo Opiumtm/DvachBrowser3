@@ -178,5 +178,22 @@ namespace DvachBrowser3.Views.Partial
         {
             ShowFullPost?.Invoke(this, new ShowFullPostEventArgs(ViewModel));
         }
+
+        private async void Quote_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostQuoteViewModel;
+                if (t != null)
+                {
+                    Shell.LinkNavigationManager.RaiseLinkNavigationObject(sender, t.Link, ViewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
     }
 }

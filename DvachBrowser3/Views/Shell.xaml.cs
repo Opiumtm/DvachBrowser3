@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.Styles;
 using Template10.Common;
 using Template10.Controls;
@@ -37,6 +38,7 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             MyHamburgerMenu.NavigationService = navigationService;
             VisualStateManager.GoToState(Instance, Instance.NormalVisualState.Name, true);
+            LinkNavigationManager.Start();
         }
 
         public static void SetBusyVisibility(Visibility visible, string text = null)
@@ -104,11 +106,17 @@ namespace DvachBrowser3.Views
         /// </summary>
         public static readonly IStyleManager StyleManager;
 
+        /// <summary>
+        /// Менеджер навигации.
+        /// </summary>
+        public static readonly LinkNavigationManager LinkNavigationManager;
+
         static Shell()
         {
             IsNarrowViewChangedId = new Guid("{B87399B2-75DB-4F41-BE66-4B14ACCB295A}");
             IsNarrowViewChanged = new WeakEventChannel(IsNarrowViewChangedId);
             StyleManager = new StyleManager();
+            LinkNavigationManager = new LinkNavigationManager();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace DvachBrowser3.Behaviors
             AppHelpers.DispatchAction(DelayAction);
         }
 
-        private async void DelayAction()
+        private async Task DelayAction()
         {
             stamp = DateTime.Now;
             isRefreshed = true;

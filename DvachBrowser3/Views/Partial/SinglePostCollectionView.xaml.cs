@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -236,5 +237,27 @@ namespace DvachBrowser3.Views.Partial
         /// Выбранный элемент.
         /// </summary>
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof (object), typeof (SinglePostCollectionView), new PropertyMetadata(null));
+
+        private void BackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            BackButtonClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Нажата кнопка "назад".
+        /// </summary>
+        public event EventHandler BackButtonClick;
+
+        private void GoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            GoButtonClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Нажата кнопка "перейти".
+        /// </summary>
+        public event EventHandler GoButtonClick;
+
+        public IStyleManager StyleManager => Shell.StyleManager;
     }
 }

@@ -109,7 +109,7 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="a">Действие.</param>
         /// <param name="reportError">Показать ошибку.</param>
-        public static void DispatchAction(Action a, bool reportError = false)
+        public static void DispatchAction(Func<Task> a, bool reportError = false)
         {
             if (a == null)
             {
@@ -122,7 +122,7 @@ namespace DvachBrowser3
             });
         }
 
-        private static async Task RunAction(Action a, bool reportError = false)
+        private static async Task RunAction(Func<Task> a, bool reportError = false)
         {
             if (a == null)
             {
@@ -130,7 +130,7 @@ namespace DvachBrowser3
             }
             try
             {
-                a();
+                await a();
             }
             catch (Exception ex)
             {
@@ -150,7 +150,7 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="a">Действие.</param>
         /// <param name="reportError">Показать ошибку.</param>
-        public static async void ActionOnUiThread(Action a, bool reportError = false)
+        public static async void ActionOnUiThread(Func<Task> a, bool reportError = false)
         {
             if (a == null)
             {

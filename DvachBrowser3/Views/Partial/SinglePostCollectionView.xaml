@@ -16,27 +16,52 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ContentPresenter Grid.Row="0" Content="{x:Bind Header, Mode=OneWay}" ContentTemplate="{x:Bind HeaderTemplate, Mode=OneWay}" />
-        <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" Background="Transparent" SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
-            <FlipView.ItemTemplate>
-                <DataTemplate x:DataType="vm:IPostViewModel">
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-                        <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
+        <Border Grid.Row="0" Margin="0, 2, 0, 5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="3, 0, 3, 0" Click="BackButton_OnClick" Padding="3" ToolTipService.ToolTip="Назад">
+                    <Viewbox Height="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}">
+                        <SymbolIcon Symbol="Back" />
+                    </Viewbox>
+                </Button>
+                <Button Grid.Column="2" Margin="3, 0, 3, 0" Click="GoButton_OnClick" Padding="3" ToolTipService.ToolTip="Открыть в общем списке">
+                    <Viewbox Height="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}">
+                        <SymbolIcon Symbol="Go" />
+                    </Viewbox>
+                </Button>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ContentPresenter Grid.Row="0" Content="{x:Bind Header, Mode=OneWay}" ContentTemplate="{x:Bind HeaderTemplate, Mode=OneWay}" />
+            <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" Background="Transparent" SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:IPostViewModel">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                            <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
                                     ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
                                     ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
                                     ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost">
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
-                            </interactivity:Interaction.Behaviors>
-                        </local:PostView>
-                    </ScrollViewer>
-                </DataTemplate>
-            </FlipView.ItemTemplate>
-        </FlipView>
-        <ContentPresenter Grid.Row="2" Content="{x:Bind Footer, Mode=OneWay}" ContentTemplate="{x:Bind FooterTemplate, Mode=OneWay}" />
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
+                                </interactivity:Interaction.Behaviors>
+                            </local:PostView>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <ContentPresenter Grid.Row="2" Content="{x:Bind Footer, Mode=OneWay}" ContentTemplate="{x:Bind FooterTemplate, Mode=OneWay}" />
+        </Grid>
     </Grid>
 </UserControl>

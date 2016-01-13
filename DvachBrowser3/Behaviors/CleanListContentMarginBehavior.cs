@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -45,6 +46,7 @@ namespace DvachBrowser3.Behaviors
                         Presenter.Margin = NormalThickness;
                     }
                 }
+                return Task.FromResult(true);
             });
         }
 

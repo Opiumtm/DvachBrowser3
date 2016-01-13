@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -58,6 +59,7 @@ namespace DvachBrowser3.Views.Partial
                         newValue.Load.Start();
                     }
                 }
+                return Task.CompletedTask;
             });
         }
 
@@ -75,14 +77,14 @@ namespace DvachBrowser3.Views.Partial
                     MainImage.Visibility = Visibility.Collapsed;
                     ErrorIcon.Visibility = Visibility.Collapsed;
                     NoIcon.Visibility = Visibility.Visible;
-                    return;
+                    return Task.CompletedTask;
                 }
                 if (ViewModel?.Load?.Progress == null)
                 {
                     MainImage.Visibility = Visibility.Collapsed;
                     ErrorIcon.Visibility = Visibility.Collapsed;
                     NoIcon.Visibility = Visibility.Collapsed;
-                    return;
+                    return Task.CompletedTask;
                 }
                 if (ViewModel.Load.Progress.IsError)
                 {
@@ -111,6 +113,7 @@ namespace DvachBrowser3.Views.Partial
                 {
                     ImageData = ViewModel?.Image;
                 }
+                return Task.CompletedTask;
             });
         }
 
