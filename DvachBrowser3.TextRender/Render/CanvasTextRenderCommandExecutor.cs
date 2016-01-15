@@ -139,7 +139,91 @@ namespace DvachBrowser3.TextRender
             return sb.ToString();
         }
 
+        protected IEnumerable<Tuple<string, double>> GetRoughLengths(ITextRenderAttributeState attributes, IEnumerable<string> words)
+        {
+            var wordsArr = words.ToArray();
+            var agg = wordsArr.Aggregate(new StringBuilder(), (sb, s) => sb.Append(s)).ToString();
+            var aggCom = new TextRenderCommand(attributes, new TextRenderTextContent(agg));
+            var aggKey = GetElementKey(aggCom);
+            var totalWidth = GetElementWidth(aggKey, aggCom);
+            var totalCount = agg.Length > 0 ? agg.Length : 1;
+            int cnt = 0;
+            foreach (var word in wordsArr)
+            {
+                cnt += word.Length;                
+                yield return new Tuple<string, double>(word, totalWidth * cnt / totalCount);
+            }
+        }
+
         protected IEnumerable<Tuple<string, bool, Func<FrameworkElement>, bool>> CheckLengths(ITextRenderAttributeState attributes, IEnumerable<string> words)
+        {
+            var wordsArr = GetRoughLengths(attributes, words).ToArray();
+            int idx0 = 0;
+            string current = "";
+            double len = 0;
+            for (int i = 0; i < wordsArr.Length; i++)
+            {
+                var word = wordsArr[i];
+                current += word.Item1;
+                len = word.Item2;
+                if ((len + LineWidth) > TextCanvas.ActualWidth)
+                {
+                    idx0 = i;
+                    break;
+                }
+            }
+            int idx1 = -1;
+
+            for (int j = idx0; j >= 0; j--)
+            {
+                current = "";
+                for (int i = 0; i <= j; i++)
+                {
+                    var word = wordsArr[i].Item1;
+                    current += word;
+                }
+                var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
+                var key = GetElementKey(com);
+                var elWidth = GetElementWidth(key, com);
+                if (!((elWidth + LineWidth) > TextCanvas.ActualWidth))
+                {
+                    idx1 = j;
+                    break;
+                }
+            }
+
+            bool exceeded = false;
+            current = "";
+            for (int i = 0; i < wordsArr.Length; i++)
+            {
+                var word = wordsArr[i].Item1;
+                current += word;
+                if (exceeded)
+                {
+                    yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, false, () => null, true);
+                }
+                else
+                {
+                    var com = new TextRenderCommand(attributes, new TextRenderTextContent(current));
+                    var key = GetElementKey(com);
+                    if (i > idx1)
+                    {
+                        var elWidth = GetElementWidth(key, com);
+                        if ((elWidth + LineWidth) > TextCanvas.ActualWidth)
+                        {
+                            exceeded = true;
+                        }
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, !exceeded, ExtractElement(key, com), false);
+                    }
+                    else
+                    {
+                        yield return new Tuple<string, bool, Func<FrameworkElement>, bool>(word, true, ExtractElement(key, com), false);
+                    }
+                }
+            }
+        }
+
+        protected IEnumerable<Tuple<string, bool, Func<FrameworkElement>, bool>> CheckLengthsOld(ITextRenderAttributeState attributes, IEnumerable<string> words)
         {
             var wordsArr = words.ToArray();
             var testCom = new TextRenderCommand(attributes, new TextRenderTextContent("a"));
