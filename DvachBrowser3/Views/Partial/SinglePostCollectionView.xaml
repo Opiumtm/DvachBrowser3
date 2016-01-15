@@ -13,30 +13,7 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="100*" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Margin="0, 2, 0, 5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="100*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Margin="3, 0, 3, 0" Click="BackButton_OnClick" Padding="3" ToolTipService.ToolTip="Назад">
-                    <Viewbox Height="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}">
-                        <SymbolIcon Symbol="Back" />
-                    </Viewbox>
-                </Button>
-                <Button Grid.Column="2" Margin="3, 0, 3, 0" Click="GoButton_OnClick" Padding="3" ToolTipService.ToolTip="Показать в общем списке">
-                    <Viewbox Height="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind StyleManager.Icons.HeaderIconSize, Mode=OneWay}">
-                        <SymbolIcon Symbol="Go" />
-                    </Viewbox>
-                </Button>
-            </Grid>
-        </Border>
-        <Grid Grid.Row="1">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*" />

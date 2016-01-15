@@ -65,7 +65,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*" />
             </Grid.RowDefinitions>
-            <pa:ProgressIndicatorControl Grid.Row="0" Margin="4" ShowMessage="True" ViewModel="{x:Bind ViewModel.Refresh.Progress, Mode=OneWay}" />
+            <pa:ProgressIndicatorControl Grid.Row="0" ShowMessage="True" ViewModel="{x:Bind ViewModel.Refresh.Progress, Mode=OneWay}" />
             <TextBox x:Name="SearchBox" Grid.Row="1" PlaceholderText="Поиск доски" Margin="8, 2, 8, 2" Text="{x:Bind ViewModel.Filter, Mode=OneWay}">
                 <Interactivity:Interaction.Behaviors>
                     <localBehaviors:TextBoxChangeDelayBehavior>

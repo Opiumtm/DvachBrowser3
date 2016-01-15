@@ -188,7 +188,9 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 result.Extensions.Add(new PostTreePosterExtension()
                 {
-                    Name = Windows.Data.Html.HtmlUtilities.ConvertToText(name ?? ""),
+                    Name = HtmlToText(name ?? ""),
+                    /* Windows.Data.Html.HtmlUtilities.ConvertToText работает очень медленно, потому что вызывает EDGE через COM, не годится для массовых обработок*/
+                    //Name = Windows.Data.Html.HtmlUtilities.ConvertToText(name ?? ""),
                     Tripcode = data.Tripcode,
                     NameColorStr = nameColor,
                     NameColor = color
@@ -567,6 +569,12 @@ namespace DvachBrowser3.Engines.Makaba.Html
             /// Флаг.
             /// </summary>
             public PostTreeCountryExtension Country;
+        }
+
+        private static string HtmlToText(string html)
+        {
+            var htt = new StdReplace.HtmlToText();
+            return htt.ConvertHtml(html);
         }
     }
 }

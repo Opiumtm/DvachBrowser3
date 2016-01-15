@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Dynamic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,10 +51,30 @@ namespace DvachBrowser3.Engines
             {
                 await stream.CopyToNetStreamWithProgress(buffer, new Progress<ulong>(l => DownloadProgress(size, l)), token);
                 buffer.Position = 0;
-                result = serializer.Deserialize<TJson>(buffer, encoding);
+                SignalProcessingJson();
+                result = await DeserializeJson(serializer, buffer, encoding);
             }
             SignalProcessing();
             return await ProcessJson(result, etag, token);
+        }
+
+        private Task<TJson> DeserializeJson(IJsonService serializer, Stream buffer, Encoding encoding)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                var result = serializer.Deserialize<TJson>(buffer, encoding);
+                return result;
+            });
+        }
+
+        /// <summary>
+        /// Обработка данных.
+        /// </summary>
+        protected virtual void SignalProcessingJson()
+        {
+            dynamic otherData = new ExpandoObject();
+            otherData.Kind = "PARSE";
+            OnProgress(new EngineProgress("Чтение JSON...", null, otherData));
         }
 
         /// <summary>

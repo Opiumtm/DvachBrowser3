@@ -33,7 +33,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback, INavigationLinkCallback
+    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IDynamicShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback, INavigationLinkCallback
     {
         private object lifetimeToken;
 
@@ -266,6 +266,51 @@ namespace DvachBrowser3.Views
         {
             var appBar = new CommandBar();
 
+            if (currentContentView == PageContentViews.Default)
+            {
+                short downNum, upNum;
+                unchecked
+                {
+                    downNum = (short)0xE74B;
+                    upNum = (short)0xE74A;
+                }
+
+                var downButton = new AppBarButton()
+                {
+                    Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new[] { (char)downNum }) },
+                    Label = "Вниз"
+                };
+                downButton.Click += (sender, e) => Down();
+
+                var upButton = new AppBarButton()
+                {
+                    Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new[] { (char)upNum }) },
+                    Label = "Вверх"
+                };
+                upButton.Click += (sender, e) => Up();
+
+                appBar.PrimaryCommands.Add(upButton);
+                appBar.PrimaryCommands.Add(downButton);
+            } else if (currentContentView == PageContentViews.SinglePostView)
+            {
+                var backButton = new AppBarButton()
+                {
+                    Icon = new SymbolIcon(Symbol.Back),
+                    Label = "Назад"
+                };
+                backButton.Click += (sender, e) => SingleListBack();
+
+                var goButton = new AppBarButton()
+                {
+                    Icon = new SymbolIcon(Symbol.Go),
+                    Label = "Перейти"
+                };
+                goButton.Click += (sender, e) => SingleListGo();
+                appBar.PrimaryCommands.Add(backButton);
+                appBar.PrimaryCommands.Add(goButton);
+            }
+
+
             var syncButton = new AppBarButton()
             {
                 Icon = new SymbolIcon(Symbol.Sync),
@@ -273,30 +318,6 @@ namespace DvachBrowser3.Views
             };
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
             syncButton.Click += (sender, e) => ViewModel?.Synchronize();
-
-            short downNum, upNum;
-            unchecked
-            {
-                downNum = (short) 0xE74B;
-                upNum = (short) 0xE74A;
-            }
-
-            var downButton = new AppBarButton()
-            {
-                Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new [] { (char)downNum }) },
-                Label = "Вниз"
-            };
-            downButton.Click += (sender, e) => Down();
-
-            var upButton = new AppBarButton()
-            {
-                Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(new[] { (char)upNum }) },
-                Label = "Вверх"
-            };
-            upButton.Click += (sender, e) => Up();
-
-            appBar.PrimaryCommands.Add(upButton);
-            appBar.PrimaryCommands.Add(downButton);
             appBar.PrimaryCommands.Add(syncButton);
 
             return appBar;
@@ -447,6 +468,7 @@ namespace DvachBrowser3.Views
             {
                 return;
             }
+            var ocv = currentContentView;
             if (v == SinglePostViewPopup && v.IsContentVisible)
             {
                 currentContentView = PageContentViews.SinglePostView;
@@ -454,6 +476,11 @@ namespace DvachBrowser3.Views
             else
             {
                 currentContentView = PageContentViews.Default;
+            }
+
+            if (currentContentView != ocv)
+            {
+                AppBarChange?.Invoke(this, EventArgs.Empty);
             }
 
             if (v == SinglePostViewPopup && !v.IsContentVisible)
@@ -573,7 +600,7 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private void SingleList_OnBackButtonClick(object sender, EventArgs e)
+        private void SingleListBack()
         {
             if (SinglePostViewPopup.IsContentVisible)
             {
@@ -593,7 +620,12 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private void SingleList_OnGoButtonClick(object sender, EventArgs e)
+        private void SingleList_OnBackButtonClick(object sender, EventArgs e)
+        {
+            SingleListBack();
+        }
+
+        private void SingleListGo()
         {
             var si = SingleSelectedItem as IPostViewModel;
             if (SinglePostViewPopup.IsContentVisible && si != null)
@@ -602,5 +634,15 @@ namespace DvachBrowser3.Views
                 SinglePostViewPopup.IsContentVisible = false;
             }
         }
+
+        private void SingleList_OnGoButtonClick(object sender, EventArgs e)
+        {
+            SingleListGo();
+        }
+
+        /// <summary>
+        /// Изменить строку команд.
+        /// </summary>
+        public event EventHandler AppBarChange;
     }
 }
