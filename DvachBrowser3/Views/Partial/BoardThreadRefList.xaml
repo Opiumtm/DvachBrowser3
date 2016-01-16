@@ -37,16 +37,16 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IThreadPreviewViewModel">
-                    <Border Tag="{x:Bind}" Tapped="ThreadElement_OnTapped">
+                    <Border Tag="{x:Bind}" Tapped="ThreadElement_OnTapped" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                         <Border.Background>
                             <SolidColorBrush Opacity="0" />
                         </Border.Background>
-                        <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 0, 5" />
+                        <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 10, 5" />
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Border Margin="0, 15, 0, 0" BorderThickness="0, 1, 0, 0" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                <Border Margin="0, 15, 0, 0">
                     <StackPanel>
                         <TextBlock Margin="5" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}">
                             <Run>Скорость доски: </Run>

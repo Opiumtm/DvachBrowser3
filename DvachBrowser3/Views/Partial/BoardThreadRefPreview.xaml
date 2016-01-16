@@ -101,11 +101,19 @@
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" VerticalAlignment="Top" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0">
             <local:PostText x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" MaxLines="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.ThreadPreviewPostLines, Mode=OneWay}" />
         </Border>
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="2, 5, 2, 2">
-            <Run>Постов</Run>
-            <Bold><Run Text="{x:Bind ViewModel.PostCount, Mode=OneWay}"/></Bold>
-            <Run>Изображений</Run>
-            <Bold><Run Text="{x:Bind ViewModel.ImageCount, Mode=OneWay}"/></Bold>
-        </TextBlock>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="2, 5, 2, 2">
+            <Border Margin="0, 0, 5, 0" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Visibility="{x:Bind ViewModel.HasNotViewedPosts, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+                <TextBlock Margin="4, 0, 4, 0" FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}"
+                       Foreground="White">
+                    <Bold><Run>+</Run><Run Text="{x:Bind ViewModel.NotViewedPosts, Mode=OneWay}"/></Bold>
+                </TextBlock>
+            </Border>
+            <TextBlock FontSize="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.NormalFontSize, Mode=OneWay}">
+                <Run>Постов</Run>
+                <Bold><Run Text="{x:Bind ViewModel.PostCount, Mode=OneWay}"/></Bold>
+                <Run>Изображений</Run>
+                <Bold><Run Text="{x:Bind ViewModel.ImageCount, Mode=OneWay}"/></Bold>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

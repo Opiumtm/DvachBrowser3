@@ -41,11 +41,13 @@ namespace DvachBrowser3.ViewModels
                 var loadedPosts = data.LoadedPostCount;
                 NotViewedPosts = Math.Max(0, PostCount - loadedPosts);
                 IsHidden = data.IsHidden;
+                HasNotViewedPosts = NotViewedPosts > 0;
             }
             catch (Exception ex)
             {
                 DebugHelper.BreakOnError(ex);
                 NotViewedPosts = 0;
+                HasNotViewedPosts = false;
                 IsHidden = false;
             }
         }
@@ -101,6 +103,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 notViewedPosts = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool hasNotViewedPosts;
+
+        /// <summary>
+        /// Есть не отображённые посты.
+        /// </summary>
+        public bool HasNotViewedPosts
+        {
+            get { return hasNotViewedPosts; }
+            private set
+            {
+                hasNotViewedPosts = value;
                 RaisePropertyChanged();
             }
         }

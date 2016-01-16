@@ -43,6 +43,11 @@ namespace DvachBrowser3.ViewModels
         int NotViewedPosts { get; }
 
         /// <summary>
+        /// Есть не отображённые посты.
+        /// </summary>
+        bool HasNotViewedPosts { get; }
+
+        /// <summary>
         /// Тред скрыт.
         /// </summary>
         bool IsHidden { get; }
