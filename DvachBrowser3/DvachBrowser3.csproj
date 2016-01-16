@@ -222,6 +222,8 @@
     <Compile Include="ViewModels\ICancellableViewModel.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModelWithSize.cs" />
+    <Compile Include="ViewModels\Images\Implementation\BigMediaSourceViewModel.cs" />
+    <Compile Include="ViewModels\Images\IBigMediaSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModelBase.cs" />
     <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />

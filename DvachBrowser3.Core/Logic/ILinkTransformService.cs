@@ -159,5 +159,12 @@ namespace DvachBrowser3.Logic
         /// <param name="link">Ссылка.</param>
         /// <returns>Ссылка на пост.</returns>
         BoardLinkBase GetPostLinkFromAnyLink(BoardLinkBase link);
+
+        /// <summary>
+        /// Получить имя файла медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Имя файла.</returns>
+        string GetMediaFileName(BoardLinkBase link);
     }
 }

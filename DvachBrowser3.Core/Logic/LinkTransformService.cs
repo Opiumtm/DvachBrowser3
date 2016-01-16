@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Logic
@@ -673,6 +674,37 @@ namespace DvachBrowser3.Logic
                 };
             }
             return null;
+        }
+
+        /// <summary>
+        /// Получить имя файла медиа.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>Имя файла.</returns>
+        public string GetMediaFileName(BoardLinkBase link)
+        {
+            string uri = null;
+            var bml = link as BoardMediaLink;
+            if (bml != null)
+            {
+                uri = bml.RelativeUri;
+            }
+            var ml = link as MediaLink;
+            if (ml != null)
+            {
+                uri = ml.RelativeUri;
+            }
+            var yl = link as YoutubeLink;
+            if (yl != null)
+            {
+                return $"youtube-{yl.YoutubeId}.jpg";
+            }
+            if (uri == null)
+            {
+                return null;
+            }
+            var lp = uri.Split('/').LastOrDefault(p => !string.IsNullOrWhiteSpace(p));
+            return lp?.Trim();
         }
 
         /// <summary>
