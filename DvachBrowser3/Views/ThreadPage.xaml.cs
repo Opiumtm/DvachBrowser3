@@ -22,6 +22,7 @@ using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.Storage;
+using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 using DvachBrowser3.Views.Partial;
 using Template10.Common;
@@ -644,5 +645,10 @@ namespace DvachBrowser3.Views
         /// Изменить строку команд.
         /// </summary>
         public event EventHandler AppBarChange;
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
     }
 }

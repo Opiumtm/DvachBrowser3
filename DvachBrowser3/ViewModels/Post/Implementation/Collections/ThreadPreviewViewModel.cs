@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DvachBrowser3.Links;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
@@ -21,12 +22,10 @@ namespace DvachBrowser3.ViewModels
         {
             Parent = parent;
             ThreadLink = data?.Link;
-#pragma warning disable 4014
-            BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdatePostCount());
-#pragma warning restore 4014
+            AppHelpers.DispatchAction(UpdatePostCount);
         }
 
-        private async void UpdatePostCount()
+        private async Task UpdatePostCount()
         {
             try
             {
@@ -38,7 +37,7 @@ namespace DvachBrowser3.ViewModels
                     IsHidden = false;
                     return;
                 }
-                var loadedPosts = data.LoadedPostCount;
+                var loadedPosts = Math.Max(data.LoadedPostCount, data.ViewedPostCount);
                 NotViewedPosts = Math.Max(0, PostCount - loadedPosts);
                 IsHidden = data.IsHidden;
                 HasNotViewedPosts = NotViewedPosts > 0;
@@ -152,6 +151,30 @@ namespace DvachBrowser3.ViewModels
                 };
                 data.IsHidden = true;
                 await store.ThreadData.SavePostCountInfo(data);
+                AppHelpers.DispatchAction(UpdatePostCount);
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Пометить как прочитанное.
+        /// </summary>
+        public async void MarkAsRead()
+        {
+            try
+            {
+                var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                var data = await store.ThreadData.LoadPostCountInfo(CollectionData.Link);
+                if (data != null)
+                {
+                    data.LastView = DateTime.Now;
+                    data.ViewedPostCount = PostCount;
+                    await store.ThreadData.SavePostCountInfo(data);
+                    AppHelpers.DispatchAction(UpdatePostCount);
+                }
             }
             catch (Exception ex)
             {

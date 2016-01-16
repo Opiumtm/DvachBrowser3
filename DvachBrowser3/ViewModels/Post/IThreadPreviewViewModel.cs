@@ -56,5 +56,10 @@ namespace DvachBrowser3.ViewModels
         /// Скрыть тред.
         /// </summary>
         void Hide();
+
+        /// <summary>
+        /// Пометить как прочитанное.
+        /// </summary>
+        void MarkAsRead();
     }
 }

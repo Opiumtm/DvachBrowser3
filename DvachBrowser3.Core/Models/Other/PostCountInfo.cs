@@ -29,6 +29,12 @@ namespace DvachBrowser3.Other
         public int LoadedPostCount { get; set; }
 
         /// <summary>
+        /// Просмотренное количество постов.
+        /// </summary>
+        [DataMember]
+        public int ViewedPostCount { get; set; }
+
+        /// <summary>
         /// Последнее изменение.
         /// </summary>
         [DataMember]
@@ -59,7 +65,8 @@ namespace DvachBrowser3.Other
                 LastView = LastView,
                 Link = Link,
                 LoadedPostCount = LoadedPostCount,
-                PostCount = PostCount
+                PostCount = PostCount,
+                ViewedPostCount = ViewedPostCount
             };
         }
 
@@ -77,7 +84,8 @@ namespace DvachBrowser3.Other
                 LastView = DateTime.MinValue,
                 Link = link,
                 LoadedPostCount = 0,
-                PostCount = 0
+                PostCount = 0,
+                ViewedPostCount = 0
             };
         }
     }

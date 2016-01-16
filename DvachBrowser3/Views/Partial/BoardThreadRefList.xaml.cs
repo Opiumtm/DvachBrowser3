@@ -135,5 +135,36 @@ namespace DvachBrowser3.Views.Partial
             new PropertyMetadata(null));
 
         public IStyleManager StyleManager => Shell.StyleManager;
+
+        private async void MarkAsReadFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IThreadPreviewViewModel;
+                t?.MarkAsRead();
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void OpenThreadFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IThreadPreviewViewModel;
+                if (t?.ThreadLink != null)
+                {
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(t.ThreadLink));
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
     }
 }

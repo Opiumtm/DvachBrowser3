@@ -63,6 +63,11 @@
                                x:Name="MainList" ShowFullPost="MainList_OnShowFullPost" ShowFullScreen="MainList_OnShowFullPost">
         </pa:PostCollectionView>
 
+        <Border Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="0.75" Padding="4"
+                Visibility="{x:Bind ViewModel.IsUpdated, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+            <TextBlock FontWeight="SemiBold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" Foreground="White">НОВЫЕ ПОСТЫ</TextBlock>
+        </Border>
+
         <pa:ContentPopup Grid.Row="1" Grid.RowSpan="2" x:Name="SinglePostViewPopup" IsContentVisibleChanged="ContentPopup_OnIsContentVisibleChanged">
             <pa:ContentPopup.ViewContent>
                 <pa:SinglePostCollectionView ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="0" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="False"

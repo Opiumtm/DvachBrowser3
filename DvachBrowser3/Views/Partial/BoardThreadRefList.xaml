@@ -42,6 +42,16 @@
                             <SolidColorBrush Opacity="0" />
                         </Border.Background>
                         <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 10, 5" />
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:PopupMenuBehavior>
+                                <behaviors:PopupMenuBehavior.MenuFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Открыть тред" Tag="{x:Bind}" Click="OpenThreadFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="Прочитано" Tag="{x:Bind}" Click="MarkAsReadFlyoutItem_OnClick" />
+                                    </MenuFlyout>
+                                </behaviors:PopupMenuBehavior.MenuFlyout>
+                            </behaviors:PopupMenuBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
