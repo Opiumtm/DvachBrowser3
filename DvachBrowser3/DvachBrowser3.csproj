@@ -101,6 +101,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviors\CleanListContentMarginBehavior.cs" />
+    <Compile Include="Behaviors\DvachBrowserBehaviorBase.cs" />
+    <Compile Include="Behaviors\PopupMenuBehavior.cs" />
     <Compile Include="Behaviors\TextBoxChangeDelayBehavior.cs" />
     <Compile Include="Configuration\Implementation\AppDataNetworkProfile.cs" />
     <Compile Include="Configuration\Implementation\BuiltIn\Bad3GNetworkProfile.cs" />
