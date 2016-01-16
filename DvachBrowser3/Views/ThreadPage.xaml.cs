@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -100,7 +101,29 @@ namespace DvachBrowser3.Views
             DataContext = vm;
             OnPropertyChanged(nameof(ViewModel));
             savedTopPostHash = await GetStoredCurrentPostHash(navigatedLink);
+            vm.PropertyChanged += ViewModelOnPropertyChanged;
+            ViewModelOnPropertyChanged(vm, new PropertyChangedEventArgs(null));
             NavigatedTo?.Invoke(this, e);
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var vm = sender as IThreadViewModel;
+            if (vm != null && object.ReferenceEquals(vm, ViewModel))
+            {
+                if (e.PropertyName == nameof(IThreadViewModel.IsUpdated) || e.PropertyName == null)
+                {
+                    var isUpdated = vm.IsUpdated;
+                    if (NewPostsIndicator.Visibility == Visibility.Collapsed && isUpdated)
+                    {
+                        (Resources["ShowNewPostsAnimation"] as Storyboard)?.Begin();
+                    }
+                    if (NewPostsIndicator.Visibility == Visibility.Visible && !isUpdated)
+                    {
+                        (Resources["HideNewPostsAnimation"] as Storyboard)?.Begin();
+                    }
+                }
+            }
         }
 
         private async Task<string> GetStoredCurrentPostHash(BoardLinkBase threadLink)
@@ -650,5 +673,10 @@ namespace DvachBrowser3.Views
         /// Менеджер стилей.
         /// </summary>
         public IStyleManager StyleManager => Shell.StyleManager;
+
+        private void NewPostsIndicator_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ViewModel?.CleanUpdated();
+        }
     }
 }

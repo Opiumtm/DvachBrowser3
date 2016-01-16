@@ -36,5 +36,10 @@ namespace DvachBrowser3.ViewModels
         /// Проверить на обновления.
         /// </summary>
         void CheckForUpdates();
+
+        /// <summary>
+        /// Сбросить статус обновления.
+        /// </summary>
+        void CleanUpdated();
     }
 }

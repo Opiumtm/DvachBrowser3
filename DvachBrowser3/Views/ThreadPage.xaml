@@ -22,6 +22,23 @@
             <ps:StoreNavigationDataPageService MinutesToStore="60" Version="1.0.0"/>
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
+    
+    <Page.Resources>
+        <Storyboard x:Key="ShowNewPostsAnimation">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NewPostsIndicator" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame Value="Visible" KeyTime="0:0:0.0" />
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="NewPostsIndicator" Storyboard.TargetProperty="Opacity" From="0" To="0.75" Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="NewPostsIndicatorTransform" Storyboard.TargetProperty="X" From="32" To="0" Duration="0:0:0.1" />
+        </Storyboard>
+        <Storyboard x:Key="HideNewPostsAnimation">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NewPostsIndicator" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame Value="Collapsed" KeyTime="0:0:0.1" />
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="NewPostsIndicator" Storyboard.TargetProperty="Opacity" From="0.75" To="0" Duration="0:0:0.1" />
+            <DoubleAnimation Storyboard.TargetName="NewPostsIndicatorTransform" Storyboard.TargetProperty="X" From="0" To="32" Duration="0:0:0.1" />
+        </Storyboard>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         
@@ -63,8 +80,11 @@
                                x:Name="MainList" ShowFullPost="MainList_OnShowFullPost" ShowFullScreen="MainList_OnShowFullPost">
         </pa:PostCollectionView>
 
-        <Border Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="0.75" Padding="4"
-                Visibility="{x:Bind ViewModel.IsUpdated, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+        <Border x:Name="NewPostsIndicator" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="0.75" Padding="4"
+                Visibility="Collapsed" Tapped="NewPostsIndicator_OnTapped">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="NewPostsIndicatorTransform" />
+            </Border.RenderTransform>
             <TextBlock FontWeight="SemiBold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" Foreground="White">НОВЫЕ ПОСТЫ</TextBlock>
         </Border>
 

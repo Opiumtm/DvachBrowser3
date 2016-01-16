@@ -44,6 +44,7 @@ namespace DvachBrowser3.ViewModels
                     });
                     var result = await operation.Complete();
                     IsUpdated = result.IsUpdated;
+                    isUpdatedInternal = IsUpdated;
                 });
             }
         }
@@ -177,12 +178,15 @@ namespace DvachBrowser3.ViewModels
         {
             base.UpdateOperationOnResultGot(result);
             IsUpdated = result.IsUpdated;
+            isUpdatedInternal = IsUpdated;
         }
 
         /// <summary>
         /// Ссылка.
         /// </summary>
         public BoardLinkBase Link { get; }
+
+        private bool isUpdatedInternal;
 
         /// <summary>
         /// Тред обновлён.
@@ -228,7 +232,7 @@ namespace DvachBrowser3.ViewModels
                 return;
             }
             var profile = NetworkProfileHelper.CurrentProfile;
-            if (profile.CheckForUpdatesInsteadOfLoad && !IsUpdated)
+            if (profile.CheckForUpdatesInsteadOfLoad && !isUpdatedInternal)
             {
                 Update.Start2(ThreadLoaderUpdateMode.CheckForUpdates);
             }
@@ -252,6 +256,14 @@ namespace DvachBrowser3.ViewModels
         public void CheckForUpdates()
         {
             Update.Start2(ThreadLoaderUpdateMode.CheckForUpdates);
+        }
+
+        /// <summary>
+        /// Сбросить статус обновления.
+        /// </summary>
+        public void CleanUpdated()
+        {
+            IsUpdated = false;
         }
     }
 }
