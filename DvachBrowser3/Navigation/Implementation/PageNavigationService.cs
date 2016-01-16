@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
+using DvachBrowser3.Configuration;
+using DvachBrowser3.Logic;
 using DvachBrowser3.Views;
 
 namespace DvachBrowser3.Navigation
@@ -17,33 +20,33 @@ namespace DvachBrowser3.Navigation
         {
         }
 
-        private void DoNavigate(PageNavigationTargetBase target)
+        private async Task DoNavigate(PageNavigationTargetBase target)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
             if (target is BoardInfoNavigationTarget)
             {
-                NavigateToBoardInfo((BoardInfoNavigationTarget)target);
+                await NavigateToBoardInfo((BoardInfoNavigationTarget)target);
                 return;
             }
             if (target is BoardPageNavigationTarget)
             {
-                NavigateToBoardPage((BoardPageNavigationTarget)target);
+                await NavigateToBoardPage((BoardPageNavigationTarget)target);
                 return;
             }
             if (target is BoardCatalogNavigationTarget)
             {
-                NavigateToBoardCatalog((BoardCatalogNavigationTarget)target);
+                await NavigateToBoardCatalog((BoardCatalogNavigationTarget)target);
                 return;
             }
             if (target is ThreadNavigationTarget)
             {
-                NavigateToThread((ThreadNavigationTarget)target);
+                await NavigateToThread((ThreadNavigationTarget)target);
                 return;
             }
             throw new ArgumentException($"Неизвестный тип цели навигации \"{target.GetType().FullName}\"", nameof(target));
         }
 
-        private void NavigateToBoardInfo(BoardInfoNavigationTarget target)
+        private async Task NavigateToBoardInfo(BoardInfoNavigationTarget target)
         {
             var nkey1 = target.Link?.GetNavigationKey();
             if (nkey1 != null)
@@ -60,7 +63,7 @@ namespace DvachBrowser3.Navigation
             }
         }
 
-        private void NavigateToBoardPage(BoardPageNavigationTarget target)
+        private async Task NavigateToBoardPage(BoardPageNavigationTarget target)
         {
             var nkey1 = target.Link?.GetNavigationKey();
             if (nkey1 != null)
@@ -77,7 +80,29 @@ namespace DvachBrowser3.Navigation
             }
         }
 
-        private void NavigateToBoardCatalog(BoardCatalogNavigationTarget target)
+        private async Task NavigateToBoardCatalog(BoardCatalogNavigationTarget target)
+        {
+            var profile = NetworkProfileHelper.CurrentProfile;
+            if (profile.WarningCatalog)
+            {
+                var dialog = new MessageDialog("Открыть каталог треда? Это может привести к большому расходу трафика.", "Внимание!")
+                {
+                    Commands = { new UICommand("Да", async command =>
+                    {
+                        await DoNavigateToBoardCatalog(target);
+                    }), new UICommand("Нет")}
+                };
+                dialog.CancelCommandIndex = 1;
+                dialog.DefaultCommandIndex = 0;
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                await DoNavigateToBoardCatalog(target);
+            }
+        }
+
+        private async Task DoNavigateToBoardCatalog(BoardCatalogNavigationTarget target)
         {
             var nkey1 = target.Link?.GetNavigationKey();
             if (nkey1 != null)
@@ -94,7 +119,7 @@ namespace DvachBrowser3.Navigation
             }
         }
 
-        private void NavigateToThread(ThreadNavigationTarget target)
+        private async Task NavigateToThread(ThreadNavigationTarget target)
         {
             var nkey1 = target.Link?.GetNavigationKey();
             if (nkey1 != null)
@@ -118,10 +143,9 @@ namespace DvachBrowser3.Navigation
         /// <param name="reportError">Показать ошибку.</param>
         public void Navigate(PageNavigationTargetBase target, bool reportError = true)
         {
-            AppHelpers.DispatchAction(() =>
+            AppHelpers.DispatchAction(async () =>
             {
-                DoNavigate(target);
-                return Task.CompletedTask;
+                await DoNavigate(target);
             }, reportError);
         }
     }

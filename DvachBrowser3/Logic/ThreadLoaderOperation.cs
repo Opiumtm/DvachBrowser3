@@ -85,6 +85,10 @@ namespace DvachBrowser3.Logic
             {
                 request = networkLogic.LoadThread(Parameter.ThreadLink, UpdateThreadMode.DefaultFull);
             }
+            else if (Parameter.UpdateMode == ThreadLoaderUpdateMode.ResyncFull)
+            {
+                request = networkLogic.LoadThread(Parameter.ThreadLink, UpdateThreadMode.DefaultReload);
+            }
             else
             {
                 request = networkLogic.LoadThread(Parameter.ThreadLink);

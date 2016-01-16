@@ -64,5 +64,15 @@
         /// Предпочитать частичную загрузку.
         /// </summary>
         public bool PreferPartialLoad => true;
+
+        /// <summary>
+        /// Предупреждать о полной перезагрузке.
+        /// </summary>
+        public bool WarningFullReload => false;
+
+        /// <summary>
+        /// Предупреждать об открытии каталога.
+        /// </summary>
+        public bool WarningCatalog => false;
     }
 }

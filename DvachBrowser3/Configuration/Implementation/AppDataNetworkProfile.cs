@@ -313,5 +313,51 @@ namespace DvachBrowser3.Configuration
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Предупреждать о полной перезагрузке.
+        /// </summary>
+        public bool WarningFullReload
+        {
+            get
+            {
+                try
+                {
+                    return (bool)compositeValue["WarningFullReload"];
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+            set
+            {
+                compositeValue["WarningFullReload"] = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Предупреждать об открытии каталога.
+        /// </summary>
+        public bool WarningCatalog
+        {
+            get
+            {
+                try
+                {
+                    return (bool)compositeValue["WarningCatalog"];
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+            set
+            {
+                compositeValue["WarningCatalog"] = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -23,6 +23,11 @@
         /// <summary>
         /// Полная загрузка.
         /// </summary>
-        LoadFull
+        LoadFull,
+
+        /// <summary>
+        /// Полная пересинхронизация.
+        /// </summary>
+        ResyncFull
     }
 }

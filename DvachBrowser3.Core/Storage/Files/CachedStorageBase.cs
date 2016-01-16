@@ -22,9 +22,9 @@ namespace DvachBrowser3.Storage.Files
             syncAggregator = new TimePeriodDataAggregator<string, StorageSizeCacheItem>(TimeSpan.FromSeconds(0.5), SaveSyncData);
         }
 
-        protected readonly static SerializedAccessManager<object> SizeAccessManager = new SerializedAccessManager<object>();
+        protected static readonly SerializedAccessManager<object> SizeAccessManager = new SerializedAccessManager<object>();
 
-        protected readonly static object EmptyResult = new object();
+        protected static readonly object EmptyResult = new object();
 
         /// <summary>
         /// Фабрика сервиса хранения кэша.

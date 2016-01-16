@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Engines;
@@ -245,9 +246,26 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Полностью перезагрузить.
         /// </summary>
-        public void FullReload()
+        public async void FullReload()
         {
-            Update.Start2(ThreadLoaderUpdateMode.LoadFull);
+            var profile = NetworkProfileHelper.CurrentProfile;
+            if (profile.WarningFullReload)
+            {
+                var dialog = new MessageDialog("Сбросить кэш и загрузить все посты треда заново? Это может привести к большому расходу трафика.", "Внимание!")
+                {
+                    Commands = { new UICommand("Да", command =>
+                    {
+                        Update.Start2(ThreadLoaderUpdateMode.ResyncFull);
+                    }), new UICommand("Нет")}
+                };
+                dialog.CancelCommandIndex = 1;
+                dialog.DefaultCommandIndex = 0;
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                Update.Start2(ThreadLoaderUpdateMode.ResyncFull);
+            }
         }
 
         /// <summary>

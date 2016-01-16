@@ -3,7 +3,7 @@
     /// <summary>
     /// Хороший 3G.
     /// </summary>
-    public sealed class Good3GNetworkProfile : INetworkProfile
+    internal sealed class Good3GNetworkProfile : INetworkProfile
     {
         /// <summary>
         /// Стандартный.
@@ -64,5 +64,15 @@
         /// Предпочитать частичную загрузку.
         /// </summary>
         public bool PreferPartialLoad => true;
+
+        /// <summary>
+        /// Предупреждать о полной перезагрузке.
+        /// </summary>
+        public bool WarningFullReload => false;
+
+        /// <summary>
+        /// Предупреждать об открытии каталога.
+        /// </summary>
+        public bool WarningCatalog => false;
     }
 }

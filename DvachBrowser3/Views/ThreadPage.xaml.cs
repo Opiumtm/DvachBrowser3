@@ -10,6 +10,7 @@ using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -343,6 +344,17 @@ namespace DvachBrowser3.Views
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
             syncButton.Click += (sender, e) => ViewModel?.Synchronize();
             appBar.PrimaryCommands.Add(syncButton);
+
+            var loadAllButton = new AppBarButton()
+            {
+                Label = "Загрузить заново",
+            };
+            loadAllButton.Click += (sender, e) =>
+            {
+                ViewModel?.FullReload();
+            };
+
+            appBar.SecondaryCommands.Add(loadAllButton);
 
             return appBar;
         }
