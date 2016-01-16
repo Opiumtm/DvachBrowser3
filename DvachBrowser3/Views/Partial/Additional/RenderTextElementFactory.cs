@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using DvachBrowser3.Behaviors;
+using DvachBrowser3.Engines;
+using DvachBrowser3.Links;
 using DvachBrowser3.TextRender;
 using DvachBrowser3.ViewModels;
+using Microsoft.Xaml.Interactivity;
 
 namespace DvachBrowser3.Views.Partial
 {
@@ -223,10 +228,61 @@ namespace DvachBrowser3.Views.Partial
                         e.Handled = true;
                         linkClickCallback?.OnLinkClick(linkAttribute);
                     };
+                    var bc = new BehaviorCollection();
+                    var mf = new MenuFlyout();
+                    var mfi = new MenuFlyoutItem()
+                    {
+                        Text = "Копировать ссылку",
+                    };
+                    mfi.Click += MfiOnClick(linkAttribute);
+                    mf.Items?.Add(mfi);
+                    bc.Add(new PopupMenuBehavior()
+                    {
+                        MenuFlyout = mf
+                    });
+                    Interaction.SetBehaviors(result, bc);
                 }
             }
 
             return result;
+        }
+
+        private RoutedEventHandler MfiOnClick(ITextRenderLinkAttribute linkAttribute)
+        {
+            return async (sender, e) =>
+            {
+                try
+                {
+                    if (linkAttribute.Uri != null && linkAttribute.Uri != "[data]")
+                    {
+                        var dp = new DataPackage();
+                        dp.SetText(linkAttribute.Uri);
+                        dp.SetWebLink(new Uri(linkAttribute.Uri, UriKind.Absolute));
+                        Clipboard.SetContent(dp);
+                        Clipboard.Flush();
+                    }
+                    else if (linkAttribute.CustomData != null)
+                    {
+                        var link = linkAttribute.CustomData as BoardLinkBase;
+                        if (link != null)
+                        {
+                            var uri = link.GetWebLink();
+                            if (uri != null)
+                            {
+                                var dp = new DataPackage();
+                                dp.SetText(uri.ToString());
+                                dp.SetWebLink(uri);
+                                Clipboard.SetContent(dp);
+                                Clipboard.Flush();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await AppHelpers.ShowError(ex);
+                }
+            };
         }
 
         private double GetOWidth(ITextRenderAttributeState attributes, TextBlock r)

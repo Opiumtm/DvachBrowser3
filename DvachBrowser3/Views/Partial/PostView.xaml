@@ -8,6 +8,8 @@
     mc:Ignorable="d"
     xmlns:local2="using:DvachBrowser3"
     xmlns:viewModels="using:DvachBrowser3.ViewModels"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:DvachBrowser3.Behaviors"
     d:DesignHeight="800"
     d:DesignWidth="400"
     x:Name="MainControl">
@@ -30,6 +32,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0" />
+        </Grid.Background>
         <RelativePanel Grid.Row="0" Margin="3" Padding="2">
             <RelativePanel.Background>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.15" />
@@ -91,7 +96,18 @@
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
                     <StackPanel Margin="2" ToolTipService.ToolTip="{x:Bind Name}">
                         <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder">
-                            <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" />
+                            <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}">
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:PopupMenuBehavior>
+                                        <behaviors:PopupMenuBehavior.MenuFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyMediaLinkFlyoutItem_OnClick"/>
+                                                <MenuFlyoutItem Text="Открыть в браузере" Tag="{x:Bind}" Click="OpenInBrowserMediaFlyoutItem_OnClick" />
+                                            </MenuFlyout>
+                                        </behaviors:PopupMenuBehavior.MenuFlyout>
+                                    </behaviors:PopupMenuBehavior>
+                                </interactivity:Interaction.Behaviors>
+                            </local:PreviewImage>
                         </Border>
                         <TextBlock TextWrapping="Wrap" FontSize="{x:Bind StyleManager.Text.SmallFontSize, Mode=OneWay}" Text="{x:Bind InfoString, Mode=OneWay}"
                                    MaxLines="2"/>

@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -188,6 +190,45 @@ namespace DvachBrowser3.Views.Partial
                 if (t != null)
                 {
                     Shell.LinkNavigationManager.RaiseLinkNavigationObject(sender, t.Link, ViewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void CopyMediaLinkFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostMediaFileViewModel;
+                if (t?.WebLink != null)
+                {
+                    var dp = new DataPackage();
+                    dp.SetText(t.WebLink);
+                    dp.SetWebLink(new Uri(t.WebLink, UriKind.Absolute));
+                    Clipboard.SetContent(dp);
+                    Clipboard.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void OpenInBrowserMediaFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostMediaFileViewModel;
+                if (t?.WebLink != null)
+                {
+                    var uri = new Uri(t.WebLink, UriKind.Absolute);
+                    await Launcher.LaunchUriAsync(uri);
                 }
             }
             catch (Exception ex)

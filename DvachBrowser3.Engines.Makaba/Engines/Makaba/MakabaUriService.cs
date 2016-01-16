@@ -57,6 +57,20 @@ namespace DvachBrowser3.Engines.Makaba
         }
 
         /// <summary>
+        /// Получить URI поста.
+        /// </summary>
+        /// <param name="link">Ссылка.</param>
+        /// <returns>URI.</returns>
+        private Uri GetPostUri(PostLink link)
+        {
+            if (link.Post == link.Thread)
+            {
+                return new Uri(BaseUri, string.Format("{0}/res/{1}.html", link.Board, link.Thread));
+            }
+            return new Uri(BaseUri, string.Format("{0}/res/{1}.html#{2}", link.Board, link.Thread, link.Post));
+        }
+
+        /// <summary>
         /// Получить URI части треда.
         /// </summary>
         /// <param name="link">Ссылка.</param>
@@ -292,6 +306,10 @@ namespace DvachBrowser3.Engines.Makaba
             if (link is ThreadLink)
             {
                 return GetThreadUri(link as ThreadLink, true);
+            }
+            if (link is PostLink)
+            {
+                return GetPostUri(link as PostLink);
             }
             if (link is MediaLink)
             {

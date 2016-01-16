@@ -6,6 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:DvachBrowser3.ViewModels"
+    xmlns:int="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:DvachBrowser3.Behaviors"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -27,7 +29,20 @@
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
                                     ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
-                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"/>
+                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost">
+                        <int:Interaction.Behaviors>
+                            <behaviors:PopupMenuBehavior>
+                                <behaviors:PopupMenuBehavior.MenuFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Копировать текст" Tag="{x:Bind}" Click="CopyTextFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="Во весь экран" Tag="{x:Bind}" Click="ShowFullScreenFlyoutItem_OnClick"
+                                                        Visibility="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
+                                    </MenuFlyout>
+                                </behaviors:PopupMenuBehavior.MenuFlyout>
+                            </behaviors:PopupMenuBehavior>
+                        </int:Interaction.Behaviors>
+                    </local:PostView>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
