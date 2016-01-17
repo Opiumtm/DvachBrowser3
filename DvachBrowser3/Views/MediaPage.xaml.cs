@@ -365,5 +365,17 @@ namespace DvachBrowser3.Views
                 OnPropertyChanged(nameof(ImageBackgroundBrush));
             }
         }
+
+        private async void CopyImageFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await ViewModel.CopyToClipboard();
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
     }
 }

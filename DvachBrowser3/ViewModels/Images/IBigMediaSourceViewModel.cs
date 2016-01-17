@@ -23,6 +23,11 @@ namespace DvachBrowser3.ViewModels
         Task OpenInProgram();
 
         /// <summary>
+        /// Скопировать в клипоборд.
+        /// </summary>
+        Task CopyToClipboard();
+
+        /// <summary>
         /// Расширение.
         /// </summary>
         string Extension { get; }

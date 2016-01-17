@@ -40,6 +40,15 @@
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ImageViewModel.Load.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <Border x:Name="ImageViewer" Grid.Row="2" Margin="4, 4, 4, 0" Visibility="Collapsed">
+            <interactivity:Interaction.Behaviors>
+                <localBehaviors:PopupMenuBehavior>
+                    <localBehaviors:PopupMenuBehavior.MenuFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Копировать" Click="CopyImageFlyoutItem_OnClick" />
+                        </MenuFlyout>
+                    </localBehaviors:PopupMenuBehavior.MenuFlyout>
+                </localBehaviors:PopupMenuBehavior>
+            </interactivity:Interaction.Behaviors>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ZoomMode="Enabled" x:Name="ImageScroll" Background="{x:Bind ImageBackgroundBrush, Mode=OneWay}"
                           MinZoomFactor="0.1" MaxZoomFactor="10">
                 <Grid>

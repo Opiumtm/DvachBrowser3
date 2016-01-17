@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -181,6 +182,19 @@ namespace DvachBrowser3.ViewModels
             var f2 = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fn, CreationCollisionOption.GenerateUniqueName);
             await f.CopyAndReplaceAsync(f2);
             await Launcher.LaunchFileAsync(f2);
+        }
+
+        /// <summary>
+        /// Скопировать в клипоборд.
+        /// </summary>
+        public async Task CopyToClipboard()
+        {
+            var dp = new DataPackage();
+            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            var f = await storage.FullSizeMediaFiles.GetFromMediaStorage(link);
+            dp.SetBitmap(RandomAccessStreamReference.CreateFromFile(f));
+            Clipboard.SetContent(dp);
+            Clipboard.Flush();
         }
 
         /// <summary>
