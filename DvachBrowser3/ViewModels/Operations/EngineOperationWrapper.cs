@@ -198,6 +198,7 @@ namespace DvachBrowser3.ViewModels
                 else
                 {
                     Progress = progressValue.Value;
+                    IsIndeterminate = false;
                 }
                 Message = messageValue;
                 IsWaiting = GetIsWaiting(p);

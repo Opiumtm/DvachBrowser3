@@ -70,24 +70,33 @@ namespace DvachBrowser3.ViewModels
                     return;
                 }
                 var cacheUri = GetImageCacheUri();
-                if (cacheUri == null)
+                if (SetImageSource)
                 {
-                    var imgSource = new BitmapImage();
-                    using (var f = await result.OpenReadAsync())
+                    if (cacheUri == null)
                     {
-                        await imgSource.SetSourceAsync(f);
+                        var imgSource = new BitmapImage();
+                        using (var f = await result.OpenReadAsync())
+                        {
+                            await imgSource.SetSourceAsync(f);
+                        }
+                        Image = imgSource;
                     }
-                    Image = imgSource;
+                    else
+                    {
+                        Image = new BitmapImage(cacheUri);
+                    }
                 }
                 else
                 {
-                    Image = new BitmapImage(cacheUri);
+                    // Пустое изображение.
+                    Image = new BitmapImage();
                 }
                 // ReSharper disable once UseNullPropagation
                 if (Image != null && lifetimeToken != null)
                 {
                     lifetimeToken.Dispose();
                 }
+                ImageSourceGot?.Invoke(this, new ImageSourceGotEventArgs(cacheUri, result));
             }
             catch (Exception ex)
             {
@@ -140,5 +149,15 @@ namespace DvachBrowser3.ViewModels
         /// Операция загрузки.
         /// </summary>
         public IOperationViewModel Load => LoadImpl;
+
+        /// <summary>
+        /// Устанавливать значение изображения.
+        /// </summary>
+        public bool SetImageSource { get; set; } = true;
+
+        /// <summary>
+        /// Изображение получено.
+        /// </summary>
+        public event ImageSourceGotEventHandler ImageSourceGot;
     }
 }

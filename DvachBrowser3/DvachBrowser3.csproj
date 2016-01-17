@@ -163,6 +163,7 @@
     <Compile Include="Navigation\Targets\BoardCatalogNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
+    <Compile Include="Navigation\Targets\MediaNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\ThreadNavigationTarget.cs" />
     <Compile Include="PageServices\IDynamicShellAppBarProvider.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
@@ -220,8 +221,11 @@
     <Compile Include="Logic\SyncBoardsOperation.cs" />
     <Compile Include="ViewModels\Events\ViewModelEvents.cs" />
     <Compile Include="ViewModels\ICancellableViewModel.cs" />
+    <Compile Include="ViewModels\Images\BigMediaSourceType.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\IImageSourceViewModelWithSize.cs" />
+    <Compile Include="ViewModels\Images\ImageSourceGotEventArgs.cs" />
+    <Compile Include="ViewModels\Images\ImageSourceGotEventHandler.cs" />
     <Compile Include="ViewModels\Images\Implementation\BigMediaSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\IBigMediaSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModel.cs" />
@@ -307,6 +311,9 @@
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MediaPage.xaml.cs">
+      <DependentUpon>MediaPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Additional\BannerTappedEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\BannerTappedEventHandler.cs" />
@@ -433,6 +440,10 @@
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MediaPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\BannerView.xaml">
       <SubType>Designer</SubType>

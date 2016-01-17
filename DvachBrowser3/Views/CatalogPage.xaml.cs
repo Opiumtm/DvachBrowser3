@@ -94,6 +94,7 @@ namespace DvachBrowser3.Views
             {
                 await AppHelpers.ShowError(new InvalidOperationException("Неправильный тип параметра навигации"));
                 BootStrapper.Current.NavigationService.GoBack();
+                return;
             }
             var vm = new BoardCatalogViewModel(navigatedLink);
             var isBackNavigated = e.NavigationMode == NavigationMode.Back;

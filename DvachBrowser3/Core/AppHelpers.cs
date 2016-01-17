@@ -146,6 +146,16 @@ namespace DvachBrowser3
         }
 
         /// <summary>
+        /// С обработкой ошибок.
+        /// </summary>
+        /// <param name="a">Действие.</param>
+        /// <param name="reportError">Показать ошибку.</param>
+        public static async void WithHandleErrors(Func<Task> a, bool reportError = false)
+        {
+            await RunAction(a, reportError);
+        }
+
+        /// <summary>
         /// Выполнить дейсвтие на UI треде.
         /// </summary>
         /// <param name="a">Действие.</param>

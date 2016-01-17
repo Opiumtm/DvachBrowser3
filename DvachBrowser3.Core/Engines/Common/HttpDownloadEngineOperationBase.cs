@@ -35,6 +35,10 @@ namespace DvachBrowser3.Engines
             var hasLength = message.Content.TryComputeLength(out length);
             var operation = message.Content.ReadAsInputStreamAsync();
             ulong? length1 = hasLength ? (ulong?) length : null;
+            if (length1 == null)
+            {
+                length1 = totalReceive;
+            }
             using (var stream = await operation.AsTask(token))
             {
                 return await DoComplete(message, stream, length1, token);

@@ -95,7 +95,10 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
                     <StackPanel Margin="2" ToolTipService.ToolTip="{x:Bind Name}">
-                        <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder">
+                        <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder" Tapped="ImageBorder_OnTapped" Tag="{x:Bind}">
+                            <Border.Background>
+                                <SolidColorBrush Color="Black" Opacity="0" />
+                            </Border.Background>
                             <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:PopupMenuBehavior>

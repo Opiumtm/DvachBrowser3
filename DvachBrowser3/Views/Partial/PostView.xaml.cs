@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -229,6 +230,26 @@ namespace DvachBrowser3.Views.Partial
                 {
                     var uri = new Uri(t.WebLink, UriKind.Absolute);
                     await Launcher.LaunchUriAsync(uri);
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void ImageBorder_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostMediaFileViewModel;
+                if (t?.Link != null)
+                {
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new MediaNavigationTarget(t.Link)
+                    {
+                        SizeKb = t.Size != null ? (double?)((double)t.Size.Value / 1024.0) : null
+                    });
                 }
             }
             catch (Exception ex)

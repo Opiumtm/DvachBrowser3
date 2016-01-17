@@ -1,0 +1,69 @@
+﻿<Page
+    x:Class="DvachBrowser3.Views.MediaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:vm="using:DvachBrowser3.ViewModels"
+    xmlns:pa="using:DvachBrowser3.Views.Partial"
+    xmlns:behaviors="using:Template10.Behaviors"
+    xmlns:ps="using:DvachBrowser3.PageServices"
+    xmlns:localBehaviors="using:DvachBrowser3.Behaviors"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    x:Name="ThisPage">
+
+    <ps:PageServices.Services>
+        <ps:PageServiceCollection>
+            <ps:ShellAppBarPageService />
+            <ps:ViewModelLifetimePageService />
+        </ps:PageServiceCollection>
+    </ps:PageServices.Services>
+
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+                             Content="МЕДИА">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </interactivity:Interaction.Behaviors>
+        </controls:PageHeader>
+        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ImageViewModel.Load.Progress, Mode=OneWay}" ShowMessage="True" />
+
+        <Border x:Name="ImageViewer" Grid.Row="2" Margin="4, 4, 4, 0" Visibility="Collapsed">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ZoomMode="Enabled">
+                <Grid>
+                    <Image x:Name="MainImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Image x:Name="MainGifImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </Grid>
+            </ScrollViewer>
+        </Border>
+        <Grid x:Name="LoadingViewer" Grid.Row="2" Margin="4, 4, 4, 0" Visibility="Collapsed">
+            <TextBlock FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center">Загружается...</TextBlock>
+        </Grid>
+        <Grid x:Name="OpenInBrowserViewer" Grid.Row="2" Margin="4, 4, 4, 0" Visibility="Collapsed" Padding="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <TextBlock FontWeight="SemiBold" Margin="0, 0, 0, 10" Grid.Row="0" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center">Нельзя открыть содержимое</TextBlock>
+            <TextBlock Grid.Row="1" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" HorizontalAlignment="Stretch" TextWrapping="Wrap">
+                К сожалению, данный тип медиа нельзя посмотреть в приложении. Откройте медиа в браузере или через программу, которая может открывать файлы данного типа.
+            </TextBlock>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button HorizontalAlignment="Center" Margin="3" Click="WebButtonOnClick">Открыть в браузере</Button>
+                <Button HorizontalAlignment="Center" Margin="3" Click="AppButtonOnClick">Открыть в программе</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

@@ -3,6 +3,7 @@ using Windows.Storage;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
+using DvachBrowser3.Storage;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -43,5 +44,14 @@ namespace DvachBrowser3.ViewModels
         /// Ширина.
         /// </summary>
         public int Width => thumbnail.Width;
+
+        /// <summary>
+        /// Получить URL кэша изображения.
+        /// </summary>
+        /// <returns>URL кэша.</returns>
+        protected override Uri GetImageCacheUri()
+        {
+            return ServiceLocator.Current.GetServiceOrThrow<IStorageService>().SmallImages.GetStoredImageUri(thumbnail.Link);
+        }
     }
 }

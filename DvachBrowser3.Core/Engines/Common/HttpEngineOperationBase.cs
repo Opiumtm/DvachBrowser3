@@ -129,6 +129,8 @@ namespace DvachBrowser3.Engines
         /// <returns>URI запроса.</returns>
         protected abstract Uri GetRequestUri();
 
+        protected ulong? totalReceive;
+
         /// <summary>
         /// Прогресс HTTP.
         /// </summary>
@@ -142,6 +144,7 @@ namespace DvachBrowser3.Engines
             {
                 if (progressInfo.TotalBytesToReceive != null && progressInfo.TotalBytesToReceive > 0)
                 {
+                    totalReceive = progressInfo.TotalBytesToReceive;
                     OnProgress(new EngineProgress(string.Format("Получено {0}/{1}", BytesToStr(progressInfo.BytesReceived), BytesToStr(progressInfo.TotalBytesToReceive.Value)), (double)progressInfo.BytesReceived / (double)(progressInfo.TotalBytesToReceive.Value) * 100.0, otherData));
                 }
                 else

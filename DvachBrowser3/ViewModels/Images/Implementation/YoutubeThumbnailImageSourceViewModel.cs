@@ -1,7 +1,9 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Storage;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -35,6 +37,17 @@ namespace DvachBrowser3.ViewModels
         {
             return ServiceLocator.Current.GetServiceOrThrow<INetworkLogic>().LoadMediaFile(new YoutubeLink() { Engine = engine, YoutubeId = youtubeId }, LoadMediaFileMode.DefaultSmallSize);
         }
+
+        /// <summary>
+        /// Получить URL кэша изображения.
+        /// </summary>
+        /// <returns>URL кэша.</returns>
+        protected override Uri GetImageCacheUri()
+        {
+            var link = new YoutubeLink() {Engine = engine, YoutubeId = youtubeId};
+            return ServiceLocator.Current.GetServiceOrThrow<IStorageService>().SmallImages.GetStoredImageUri(link);
+        }
+
 
         /// <summary>
         /// Высота.

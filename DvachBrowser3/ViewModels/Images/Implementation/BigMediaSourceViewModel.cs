@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -28,6 +29,35 @@ namespace DvachBrowser3.ViewModels
         {
             if (link == null) throw new ArgumentNullException(nameof(link));
             this.link = link;
+            var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+            var fn = linkTransform.GetMediaFileName(link);
+            if (fn == null)
+            {
+                Extension = null;
+            }
+            else
+            {
+                Extension = fn.Split('.').LastOrDefault()?.ToLowerInvariant();
+            }
+            if (Extension == null)
+            {
+                SourceType = BigMediaSourceType.Static;
+            }
+            else
+            {
+                switch (Extension)
+                {
+                    case "gif":
+                        SourceType = BigMediaSourceType.Gif;
+                        break;
+                    case "webm":
+                        SourceType = BigMediaSourceType.Webm;
+                        break;
+                    default:
+                        SourceType = BigMediaSourceType.Static;
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -82,6 +112,28 @@ namespace DvachBrowser3.ViewModels
                 {
                     SuggestedStartLocation = PickerLocationId.PicturesLibrary
                 };
+                if (Extension != null)
+                {
+                    fsp.DefaultFileExtension = "." + Extension;
+                }
+                switch (Extension ?? "")
+                {
+                    case "jpg":
+                        fsp.FileTypeChoices.Add("JPEG File", new [] {".jpg"});
+                        break;
+                    case "gif":
+                        fsp.FileTypeChoices.Add("GIF File", new[] { ".gif" });
+                        break;
+                    case "png":
+                        fsp.FileTypeChoices.Add("PNG File", new[] { ".png" });
+                        break;
+                    case "webm":
+                        fsp.FileTypeChoices.Add("WEBM File", new[] { ".webm" });
+                        break;
+                    default:
+                        fsp.FileTypeChoices.Add($"{Extension ?? ""} File", new[] { $".{Extension ?? ""}" });
+                        break;
+                }
                 if (fn != null)
                 {
                     fsp.SuggestedFileName = fn;
@@ -111,6 +163,43 @@ namespace DvachBrowser3.ViewModels
                 throw new InvalidOperationException("Невозможно получить URI файла");
             }
             await Launcher.LaunchUriAsync(uri);
+        }
+
+        /// <summary>
+        /// Открыть в программе.
+        /// </summary>
+        public async Task OpenInProgram()
+        {
+            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+            var fn = linkTransform.GetMediaFileName(link);
+            var f = await storage.FullSizeMediaFiles.GetFromMediaStorage(link);
+            if (f == null)
+            {
+                throw new FileNotFoundException();
+            }
+            var f2 = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(fn, CreationCollisionOption.GenerateUniqueName);
+            await f.CopyAndReplaceAsync(f2);
+            await Launcher.LaunchFileAsync(f2);
+        }
+
+        /// <summary>
+        /// Расширение.
+        /// </summary>
+        public string Extension { get; }
+
+        /// <summary>
+        /// Тип изображения.
+        /// </summary>
+        public BigMediaSourceType SourceType { get; }
+
+        /// <summary>
+        /// Получить URL кэша изображения.
+        /// </summary>
+        /// <returns>URL кэша.</returns>
+        protected override Uri GetImageCacheUri()
+        {
+            return ServiceLocator.Current.GetServiceOrThrow<IStorageService>().FullSizeMediaFiles.GetStoredImageUri(link);
         }
     }
 }

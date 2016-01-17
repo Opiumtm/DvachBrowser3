@@ -22,5 +22,15 @@ namespace DvachBrowser3.ViewModels
         /// Операция загрузки.
         /// </summary>
         IOperationViewModel Load { get; }
+
+        /// <summary>
+        /// Устанавливать значение изображения.
+        /// </summary>
+        bool SetImageSource { get; set; }
+
+        /// <summary>
+        /// Изображение получено.
+        /// </summary>
+        event ImageSourceGotEventHandler ImageSourceGot;
     }
 }
