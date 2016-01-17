@@ -84,6 +84,42 @@ namespace ApiKeyContainerBuilder
         public string ContainerStr { get; private set; }
     }
 
+    public class EncryptedString
+    {
+        private readonly string original;
+        private readonly string password;
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="T:System.Object"/>.
+        /// </summary>
+        public EncryptedString(string original, string password)
+        {
+            this.original = original;
+            this.password = password;
+        }
+        private byte[] GetPasswordHash(string salt)
+        {
+            var src = Encoding.UTF8.GetBytes($"{password}+{salt}");
+            var prov = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha1);
+            var hash = prov.CreateHash();
+            hash.Append(CryptographicBuffer.CreateFromByteArray(src));
+            var result = hash.GetValueAndReset();
+            return result.ToArray();
+        }
+
+        public string Encrypt()
+        {
+            var passwordHash = GetPasswordHash("pwd");
+            var ivHash = GetPasswordHash("iv");
+            var prov = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
+            var aes = prov.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(passwordHash.Take(16).ToArray()));
+            var iv = CryptographicBuffer.CreateFromByteArray(ivHash.Take(16).ToArray());
+            var plainBuf = CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(original));
+            var r = CryptographicEngine.Encrypt(aes, plainBuf, iv);
+            return CryptographicBuffer.EncodeToBase64String(r);
+        }
+    }
+
     public class KeyContainer
     {
         [JsonProperty("vid")]

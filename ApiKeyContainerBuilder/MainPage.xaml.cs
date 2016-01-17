@@ -50,5 +50,20 @@ namespace ApiKeyContainerBuilder
                 await d.ShowAsync();
             }
         }
+
+        private async void GenerateButton2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var factory = new EncryptedString(StrToEncodeBox.Text, StrPasswordBox.Text);
+                StrContainerBox.Text = factory.Encrypt();
+            }
+            catch (Exception ex)
+            {
+                var d = new MessageDialog(ex.Message);
+                d.Commands.Add(new UICommand("OK"));
+                await d.ShowAsync();
+            }
+        }
     }
 }

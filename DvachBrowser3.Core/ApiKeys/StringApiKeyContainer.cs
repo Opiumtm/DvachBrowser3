@@ -15,15 +15,15 @@ namespace DvachBrowser3.ApiKeys
     /// </summary>
     public sealed class StringApiKeyContainer : IApiKeyContainer
     {
-        private readonly string containerStr;
+        private readonly Lazy<string> containerStr;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="containerStr">Строковое представление.</param>
-        public StringApiKeyContainer(string containerStr)
+        public StringApiKeyContainer(Func<string> containerStr)
         {
-            this.containerStr = containerStr;
+            this.containerStr = new Lazy<string>(containerStr);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace DvachBrowser3.ApiKeys
         /// <returns>Ключи.</returns>
         public IReadOnlyDictionary<string, IApiKey> GetKeys()
         {
-            var parts = containerStr.Split('|');
+            var parts = containerStr.Value.Split('|');
             if (parts.Length != 3)
             {
                 throw new InvalidOperationException("Неправильно задан контейнер ключей");

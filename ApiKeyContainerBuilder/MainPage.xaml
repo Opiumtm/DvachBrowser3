@@ -8,20 +8,27 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Stretch" Margin="4">
-            <TextBox Header="Публичный ключ" x:Name="PublicKeyBox" />
-            <TextBox Header="Секретный ключ" x:Name="PrivateKeyBox" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Header="Пароль" x:Name="PasswordBox" VerticalAlignment="Bottom" />
-                <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" x:Name="RandomPasswordButton" Click="RandomPasswordButton_Click">Случайный</Button>
-            </Grid>
-            <Button Margin="0, 8, 0, 8" x:Name="GenerateButton" Click="GenerateButton_Click">Генерировать</Button>
-            <TextBox Header="Уникальный ID" x:Name="UniqueIdBox" IsReadOnly="True" />
-            <TextBox Header="Контейнер" x:Name="ContainerBox" IsReadOnly="True" TextWrapping="Wrap" />
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel HorizontalAlignment="Stretch" Margin="4">
+                <TextBox Header="Публичный ключ" x:Name="PublicKeyBox" />
+                <TextBox Header="Секретный ключ" x:Name="PrivateKeyBox" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Header="Пароль" x:Name="PasswordBox" VerticalAlignment="Bottom" />
+                    <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" x:Name="RandomPasswordButton" Click="RandomPasswordButton_Click">Случайный</Button>
+                </Grid>
+                <Button Margin="0, 8, 0, 8" x:Name="GenerateButton" Click="GenerateButton_Click">Генерировать</Button>
+                <TextBox Header="Уникальный ID" x:Name="UniqueIdBox" IsReadOnly="True" />
+                <TextBox Header="Контейнер" x:Name="ContainerBox" IsReadOnly="True" TextWrapping="Wrap" />
+                <Border Height="3" Margin="8" Background="{ThemeResource DefaultTextForegroundThemeBrush}" />
+                <TextBox Header="Исходная строка" x:Name="StrToEncodeBox" TextWrapping="Wrap"></TextBox>
+                <TextBox Header="Пароль" x:Name="StrPasswordBox" TextWrapping="Wrap"></TextBox>
+                <Button Margin="0, 8, 0, 8" x:Name="GenerateButton2" Click="GenerateButton2_Click">Генерировать</Button>
+                <TextBox Header="Контейнер" x:Name="StrContainerBox" IsReadOnly="True" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
