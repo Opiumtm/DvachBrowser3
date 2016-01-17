@@ -42,10 +42,12 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeys\ApiKey.cs" />
     <Compile Include="ApiKeys\ApiKeyService.cs" />
     <Compile Include="ApiKeys\IApiKey.cs" />
     <Compile Include="ApiKeys\IApiKeyContainer.cs" />
     <Compile Include="ApiKeys\IApiKeyService.cs" />
+    <Compile Include="ApiKeys\StringApiKeyContainer.cs" />
     <Compile Include="Captcha\CaptchaService.cs" />
     <Compile Include="Captcha\ICaptcha.cs" />
     <Compile Include="Captcha\ICaptchaConfig.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
+    <Compile Include="Common\SizeHelper.cs" />
+    <Compile Include="Engines\DvachCaptchaPostingData.cs" />
     <Compile Include="Models\Posts\PostNodeBoardLinkAttribute.cs" />
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />

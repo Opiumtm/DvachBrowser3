@@ -97,6 +97,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeysInitializer.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -134,7 +135,6 @@
     <Compile Include="Core\ScrollViewHelper.cs" />
     <Compile Include="Core\NavigationHelper.cs" />
     <Compile Include="Core\SizeChangeDelayHelper.cs" />
-    <Compile Include="Core\SizeHelper.cs" />
     <Compile Include="Core\StatusBarHelper.cs" />
     <Compile Include="Core\VisualTreeHelperExtensions.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
@@ -243,6 +243,11 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingFieldsViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingFieldViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingMediaCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingMediaViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardCatalogViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />
@@ -382,6 +387,7 @@
     <Compile Include="Views\ThreadPage.xaml.cs">
       <DependentUpon>ThreadPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_Secret\ApiKeysInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -544,7 +550,9 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Posting\Implementation\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

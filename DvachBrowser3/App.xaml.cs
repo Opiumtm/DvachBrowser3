@@ -37,6 +37,8 @@ namespace DvachBrowser3
             container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
             container.RegisterService<IPageNavigationService>(new PageNavigationService(container));
             container.RegisterService<ILocalFolderProvider>(new LocalFolderProvider(container));
+            var keyInitializer = new ApiKeysInitializer();
+            keyInitializer.SetContainer();
             Resuming += (sender, o) =>
             {
                 AppEvents.AppResume.RaiseEvent(this, o);

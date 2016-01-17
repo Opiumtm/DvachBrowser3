@@ -29,7 +29,12 @@
         /// Трипкод (1 часть).
         /// </summary>
         PosterTrip,
-       
+
+        /// <summary>
+        /// Трипкод (2 часть).
+        /// </summary>
+        PosterTrip2,
+
         /// <summary>
         /// Иконка (для политача и подобных борд).
         /// </summary>

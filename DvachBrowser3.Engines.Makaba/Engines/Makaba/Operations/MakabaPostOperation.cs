@@ -75,6 +75,30 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             if (Parameter.CommonData.ContainsKey(PostingFieldSemanticRole.PosterName))
             {
                 var val = (string)Parameter.CommonData[PostingFieldSemanticRole.PosterName];
+                string trip1 = null;
+                string trip2 = null;
+
+                if (Parameter.CommonData.ContainsKey(PostingFieldSemanticRole.PosterTrip))
+                {
+                    trip1 = (string) Parameter.CommonData[PostingFieldSemanticRole.PosterTrip];
+                }
+                if (Parameter.CommonData.ContainsKey(PostingFieldSemanticRole.PosterTrip2))
+                {
+                    trip2 = (string)Parameter.CommonData[PostingFieldSemanticRole.PosterTrip2];
+                }
+
+                trip1 = trip1?.Replace("#", "");
+                trip2 = trip2?.Replace("#", "");
+
+                if (!string.IsNullOrWhiteSpace(trip1))
+                {
+                    val = val + "#" + trip1;
+                }
+                if (!string.IsNullOrWhiteSpace(trip2))
+                {
+                    val = val + "##" + trip2;
+                }
+
                 stringData.Add(new KeyValuePair<string, string>("name", val));
             }
 
@@ -101,6 +125,12 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 stringData.Add(new KeyValuePair<string, string>("subject", val));
             }
 
+            if (Parameter.CommonData.ContainsKey(PostingFieldSemanticRole.ThreadTag))
+            {
+                var val = (string)Parameter.CommonData[PostingFieldSemanticRole.ThreadTag];
+                stringData.Add(new KeyValuePair<string, string>("tags", val));
+            }
+
             var comment = "";
 
             if (Parameter.CommonData.ContainsKey(PostingFieldSemanticRole.Comment))
@@ -117,6 +147,13 @@ namespace DvachBrowser3.Engines.Makaba.Operations
 
             if (Parameter.Captcha != null)
             {
+                if (Parameter.Captcha is DvachCaptchaPostingData)
+                {
+                    var c = Parameter.Captcha as DvachCaptchaPostingData;
+                    stringData.Add(new KeyValuePair<string, string>("captcha_type", "2chaptcha"));
+                    stringData.Add(new KeyValuePair<string, string>("2chaptcha_id", c.Key));
+                    stringData.Add(new KeyValuePair<string, string>("2chaptcha_value", c.CaptchaEntry));
+                }
                 if (Parameter.Captcha is YandexCaptchaPostingData)
                 {
                     var c = Parameter.Captcha as YandexCaptchaPostingData;

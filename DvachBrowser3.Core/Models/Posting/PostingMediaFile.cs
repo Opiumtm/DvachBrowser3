@@ -19,5 +19,17 @@ namespace DvachBrowser3.Posting
         /// </summary>
         [DataMember]
         public string OriginalName { get; set; }
+
+        /// <summary>
+        /// Изменить размер.
+        /// </summary>
+        [DataMember]
+        public bool Resize { get; set; }
+
+        /// <summary>
+        /// Добавить уникальный ID.
+        /// </summary>
+        [DataMember]
+        public bool AddUniqueId { get; set; }
     }
 }
