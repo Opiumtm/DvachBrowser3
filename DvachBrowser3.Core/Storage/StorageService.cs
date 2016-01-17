@@ -13,15 +13,15 @@ namespace DvachBrowser3.Storage
         {
             SmallImages = new MediaStorage(services, "images", new CacheRecycleConfig()
             {
-                MaxSize = 6 * 1024 * 1024,
-                NormalSize = 5 * 1024 * 1024,
-                MaxFiles = 1000,
-                NormalFiles = 800
+                MaxSize = 12 * 1024 * 1024,
+                NormalSize = 10 * 1024 * 1024,
+                MaxFiles = 1200,
+                NormalFiles = 1000
             }, "Маленькие изображения");
             FullSizeMediaFiles = new MediaStorage(services, "media", new CacheRecycleConfig()
             {
-                MaxSize = 24 * 1024 * 1024,
-                NormalSize = 20 * 1024 * 1024,
+                MaxSize = 48 * 1024 * 1024,
+                NormalSize = 40 * 1024 * 1024,
                 MaxFiles = 240,
                 NormalFiles = 200
             }, "Полноразмерные медиафайлы");
@@ -34,8 +34,8 @@ namespace DvachBrowser3.Storage
             }, "Данные тредов");
             PostData = new PostDataStorage(services, "posting", new CacheRecycleConfig()
             {
-                MaxSize = 6 * 1024 * 1024,
-                NormalSize = 5 * 1024 * 1024,
+                MaxSize = 12 * 1024 * 1024,
+                NormalSize = 10 * 1024 * 1024,
                 MaxFiles = 240,
                 NormalFiles = 200
             }, "Данные постинга", new PostingMediaStore(services, "posting-img", new CacheRecycleConfig()
@@ -50,8 +50,8 @@ namespace DvachBrowser3.Storage
             CurrentPostStore = new CurrentPostStore(services, "other", "currentposts.cache");
             CustomData = new CustomDataStore(services, "custom", new CacheRecycleConfig()
             {
-                MaxSize = 5 * 1024 * 1024,
-                NormalSize = 3 * 1024 * 1024,
+                MaxSize = 6 * 1024 * 1024,
+                NormalSize = 5 * 1024 * 1024,
                 MaxFiles = 120,
                 NormalFiles = 100
             }, "Прочие данные");
