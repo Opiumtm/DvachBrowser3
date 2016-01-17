@@ -1,16 +1,16 @@
-using System.Runtime.Serialization;
+п»їusing System.Runtime.Serialization;
 using DvachBrowser3.Links;
 
 namespace DvachBrowser3.Posts
 {
     /// <summary>
-    /// Ссылка на борду.
+    /// РЎСЃС‹Р»РєР° РЅР° Р±РѕСЂРґСѓ.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     public class PostNodeBoardLinkAttribute : PostNodeAttributeBase
     {
         /// <summary>
-        /// Ссылка.
+        /// РЎСЃС‹Р»РєР°.
         /// </summary>
         [DataMember]
         public BoardLinkBase BoardLink { get; set; }
