@@ -100,9 +100,19 @@ namespace DvachBrowser3.Storage.Esent
         /// <returns>Директория.</returns>
         public async Task<StorageFolder> GetDirectory()
         {
-            var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
-            var indexFolder = await dataFolder.CreateFolderAsync("esent", CreationCollisionOption.OpenIfExists);
-            return indexFolder;
+            var folderProvider = ServiceLocator.Current.GetService<ILocalFolderProvider>();
+            if (folderProvider != null)
+            {
+                var dataFolder = await (await folderProvider.GetFolder()).CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
+                var indexFolder = await dataFolder.CreateFolderAsync("esent", CreationCollisionOption.OpenIfExists);
+                return indexFolder;
+            }
+            else
+            {
+                var dataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
+                var indexFolder = await dataFolder.CreateFolderAsync("esent", CreationCollisionOption.OpenIfExists);
+                return indexFolder;
+            }
         }
 
         /// <summary>

@@ -41,6 +41,11 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Корневая директорию.</returns>
         public virtual async Task<StorageFolder> GetRootDataFolder()
         {
+            var folderProvider = Services.GetService<ILocalFolderProvider>();
+            if (folderProvider != null)
+            {
+                return await (await folderProvider.GetFolder()).CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
+            }
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("data", CreationCollisionOption.OpenIfExists);
         }
 

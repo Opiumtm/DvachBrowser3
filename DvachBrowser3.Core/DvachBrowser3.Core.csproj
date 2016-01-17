@@ -62,6 +62,7 @@
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />
     <Compile Include="Storage\Files\CacheRecycleConfig.cs" />
+    <Compile Include="Storage\ILocalFolderProvider.cs" />
     <Compile Include="Threading\AsyncConcurrencySemaphore.cs" />
     <Compile Include="Threading\AsyncLazy.cs" />
     <Compile Include="Threading\AsyncLock.cs" />

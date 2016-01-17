@@ -10,6 +10,7 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.Services;
+using DvachBrowser3.Storage;
 using DvachBrowser3.Storage.Files;
 using DvachBrowser3.SystemInformation;
 using DvachBrowser3.Views;
@@ -35,6 +36,7 @@ namespace DvachBrowser3
             container.RegisterService<INetworkProfileService>(new NetworkProfileService(container));
             container.RegisterService<IUiConfigurationService>(new UiConfigurationService(container));
             container.RegisterService<IPageNavigationService>(new PageNavigationService(container));
+            container.RegisterService<ILocalFolderProvider>(new LocalFolderProvider(container));
             Resuming += (sender, o) =>
             {
                 AppEvents.AppResume.RaiseEvent(this, o);
