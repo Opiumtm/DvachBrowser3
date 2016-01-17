@@ -1,18 +1,18 @@
-using System;
+п»їusing System;
 using Windows.Storage;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
-    /// Параметр события получения изображения.
+    /// РџР°СЂР°РјРµС‚СЂ СЃРѕР±С‹С‚РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ.
     /// </summary>
     public sealed class ImageSourceGotEventArgs : EventArgs
     {
         /// <summary>
-        /// Конструктор.
+        /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
         /// </summary>
-        /// <param name="cacheUri">URI кэша.</param>
-        /// <param name="file">Файл.</param>
+        /// <param name="cacheUri">URI РєСЌС€Р°.</param>
+        /// <param name="file">Р¤Р°Р№Р».</param>
         public ImageSourceGotEventArgs(Uri cacheUri, StorageFile file)
         {
             CacheUri = cacheUri;
@@ -20,12 +20,12 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
-        /// URI кэша.
+        /// URI РєСЌС€Р°.
         /// </summary>
         public Uri CacheUri { get; }
 
         /// <summary>
-        /// Файл.
+        /// Р¤Р°Р№Р».
         /// </summary>
         public StorageFile File { get; }
     }
