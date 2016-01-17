@@ -116,7 +116,38 @@ namespace ApiKeyContainerBuilder
             var iv = CryptographicBuffer.CreateFromByteArray(ivHash.Take(16).ToArray());
             var plainBuf = CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(original));
             var r = CryptographicEngine.Encrypt(aes, plainBuf, iv);
-            return CryptographicBuffer.EncodeToBase64String(r);
+            //return CryptographicBuffer.EncodeToBase64String(r);
+            var sb = new StringBuilder();
+            sb.Append("private static readonly byte[] C = new byte[] {");
+            bool f = true;
+            foreach (var b in r.ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+
+            sb.Append("private static readonly byte[] I = new byte[] {");
+            f = true;
+            foreach (var b in ivHash.Take(16).ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+
+            sb.Append("private static readonly byte[] P = new byte[] {");
+            f = true;
+            foreach (var b in passwordHash.Take(16).ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+            return sb.ToString();
         }
     }
 
