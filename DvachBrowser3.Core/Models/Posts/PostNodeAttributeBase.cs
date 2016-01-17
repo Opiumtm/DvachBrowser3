@@ -8,6 +8,7 @@ namespace DvachBrowser3.Posts
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(PostNodeAttribute))]
     [KnownType(typeof(PostNodeLinkAttribute))]
+    [KnownType(typeof(PostNodeBoardLinkAttribute))]
     public class PostNodeAttributeBase
     {
     }

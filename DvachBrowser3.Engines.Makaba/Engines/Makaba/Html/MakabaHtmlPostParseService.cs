@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
+using DvachBrowser3.Links;
 using DvachBrowser3.Posts;
 using HtmlAgilityPack;
 
@@ -47,13 +48,41 @@ namespace DvachBrowser3.Engines.Makaba.Html
                          .If(node => node.Name.EqualsNc("sub"), (node, res) => CreateAttribute(res, PostNodeBasicAttribute.Sub))
                          .If(node => node.Name.EqualsNc("sup"), (node, res) => CreateAttribute(res, PostNodeBasicAttribute.Sup))
                          .If(node => CheckSpan(node, "unkfunc"), (node, res) => CreateAttribute(res, PostNodeBasicAttribute.Quote))
-                         .If(node => node.Name.EqualsNc("a") && !string.IsNullOrWhiteSpace(node.GetAttributeValue("href", null)), (node, res) => CreateNode(res, new PostNodeLinkAttribute()
-                         {
-                             LinkUri = GetLinkText(node.GetAttributeValue("href", null))
-                         }))
+                         .If(node => node.Name.EqualsNc("a") && !string.IsNullOrWhiteSpace(node.GetAttributeValue("href", null)), CreateLinkAttrNode)
                          .Else((node, res) => res)
                          .Run();
             return result;
+        }
+
+        private ICollection<PostNodeBase> CreateLinkAttrNode(HtmlNode node, ICollection<PostNodeBase> res)
+        {
+            var linkUri = GetLinkText(node.GetAttributeValue("href", null));
+            var uriService = Services.GetServiceOrThrow<IMakabaUriService>();
+            var detectedLink = uriService.TryParsePostLink(linkUri);
+            if (detectedLink != null)
+            {
+                return CreateNode(res, new PostNodeBoardLinkAttribute()
+                {
+                    BoardLink = detectedLink
+                });
+            }
+            var youtubeService = Services.GetServiceOrThrow<IYoutubeIdService>();
+            var youtubeId = youtubeService.GetYoutubeIdFromUri(linkUri);
+            if (youtubeId != null)
+            {
+                return CreateNode(res, new PostNodeBoardLinkAttribute()
+                {
+                    BoardLink = new YoutubeLink()
+                    {
+                        Engine = CoreConstants.Engine.Makaba,
+                        YoutubeId = youtubeId
+                    }
+                });
+            }
+            return CreateNode(res, new PostNodeLinkAttribute()
+            {
+                LinkUri = linkUri
+            });
         }
 
         private bool CheckSpan(HtmlNode node, string className)

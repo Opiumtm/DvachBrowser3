@@ -164,6 +164,7 @@ namespace DvachBrowser3.ViewModels
             }
             var nodeAttr = node.Attribute as PostNodeAttribute;
             var nodeLink = node.Attribute as PostNodeLinkAttribute;
+            var nodeBLink = node.Attribute as PostNodeBoardLinkAttribute;
 
             ITextRenderAttribute attribute = null;
 
@@ -186,6 +187,11 @@ namespace DvachBrowser3.ViewModels
             if (nodeLink?.LinkUri != null)
             {
                 linkAttribute = new LinkTextRenderAttribute(nodeLink.LinkUri);
+            }
+
+            if (nodeBLink?.BoardLink != null)
+            {
+                linkAttribute = new LinkTextRenderAttribute("[data]", nodeBLink.BoardLink);
             }
 
             if (attribute != null)

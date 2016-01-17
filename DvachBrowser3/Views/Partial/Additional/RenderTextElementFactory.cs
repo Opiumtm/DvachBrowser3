@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -241,10 +242,45 @@ namespace DvachBrowser3.Views.Partial
                         MenuFlyout = mf
                     });
                     Interaction.SetBehaviors(result, bc);
+                    var youtubeLink = linkAttribute.CustomData as YoutubeLink;
+                    if (youtubeLink != null)
+                    {
+                        var youtubeVm = new YoutubeThumbnailImageSourceViewModel(youtubeLink.Engine, youtubeLink.YoutubeId);
+                        var youtubeImage = new PreviewImage()
+                        {
+                            ViewModel = youtubeVm,
+                            Height = youtubeVm.Height / 2.0,
+                            Width = youtubeVm.Width / 2.0
+                        };
+                        ToolTipService.SetToolTip(result, youtubeImage);
+                        var yl = new MenuFlyoutItem()
+                        {
+                            Text = "Открыть в браузере"
+                        };
+                        yl.Click += YlOnClick(youtubeLink);
+                        mf.Items?.Add(yl);
+                    }
                 }
             }
 
             return result;
+        }
+
+        private RoutedEventHandler YlOnClick(YoutubeLink link)
+        {
+            return async (sender, e) =>
+            {
+                try
+                {
+                    var youtubeUri = ServiceLocator.Current.GetServiceOrThrow<IYoutubeUriService>();
+                    var uri = youtubeUri.GetViewUri(link.YoutubeId);
+                    await Launcher.LaunchUriAsync(uri);
+                }
+                catch (Exception ex)
+                {
+                    await AppHelpers.ShowError(ex);
+                }
+            };
         }
 
         private RoutedEventHandler MfiOnClick(ITextRenderLinkAttribute linkAttribute)

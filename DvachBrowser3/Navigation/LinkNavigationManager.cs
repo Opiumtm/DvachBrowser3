@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.System;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.TextRender;
@@ -115,6 +116,18 @@ namespace DvachBrowser3.Navigation
                     ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardCatalogNavigationTarget(link));
                     return;
                 }
+                if ((link.LinkKind & BoardLinkKind.Media) != 0)
+                {
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new MediaNavigationTarget(link));
+                    return;
+                }
+                if ((link.LinkKind & BoardLinkKind.Youtube) != 0)
+                {
+                    if (await NavigateYoutube(link))
+                    {
+                        return;
+                    }
+                }
                 if (uri == null || uri == "[data]")
                 {
                     var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
@@ -134,6 +147,23 @@ namespace DvachBrowser3.Navigation
                     throw new InvalidOperationException($"Ошибка запуска URL \"{uri}\"");
                 }
             }
+        }
+
+        private async Task<bool> NavigateYoutube(BoardLinkBase link)
+        {
+            var youtubeLink = link as YoutubeLink;
+            if (youtubeLink != null)
+            {
+                var uriService = ServiceLocator.Current.GetServiceOrThrow<IYoutubeUriService>();
+                var appUri = uriService.GetLaunchApplicationUri(youtubeLink.YoutubeId);
+                var status = await Launcher.QueryUriSupportAsync(appUri, LaunchQuerySupportType.Uri);
+                if (status == LaunchQuerySupportStatus.Available)
+                {
+                    await Launcher.LaunchUriAsync(appUri);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace DvachBrowser3.Posts
         /// Ссылка.
         /// </summary>
         [DataMember]
-        public string LinkUri { get; set; }          
+        public string LinkUri { get; set; }
     }
 }

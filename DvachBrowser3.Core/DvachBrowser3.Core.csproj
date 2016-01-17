@@ -59,6 +59,7 @@
     <Compile Include="Common\DateService.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
+    <Compile Include="Models\Posts\PostNodeBoardLinkAttribute.cs" />
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />
     <Compile Include="Storage\Files\CacheRecycleConfig.cs" />
