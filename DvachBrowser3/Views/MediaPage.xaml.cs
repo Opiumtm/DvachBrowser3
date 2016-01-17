@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
@@ -81,6 +83,16 @@ namespace DvachBrowser3.Views
             OnPropertyChanged(nameof(ViewModel));
             OnPropertyChanged(nameof(ImageViewModel));
             NavigatedTo?.Invoke(this, e);
+            var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
+            var engine = engines.FindEngine(link.Engine);
+            if (engine != null)
+            {
+                ImageBackgroundBrush = new SolidColorBrush(engine.DefaultBackgroundColor);
+            }
+            else
+            {
+                ImageBackgroundBrush = new SolidColorBrush(Colors.White);
+            }
         }
 
         private void ProgressOnStarted(object sender, EventArgs eventArgs)
@@ -309,6 +321,48 @@ namespace DvachBrowser3.Views
             {
                 isLoaded = value;
                 OnPropertyChanged(nameof(IsLoaded));
+            }
+        }
+
+        private void Image_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var image = sender as Image;
+            if (image != null)
+            {
+                if (isEnlarged)
+                {
+                    ImageScroll.ChangeView(0, 0, 1);
+                    isEnlarged = false;
+                }
+                else
+                {
+                    isEnlarged = true;
+                    var maxW = ImageScroll.ActualWidth - 14;
+                    var maxH = ImageScroll.ActualHeight - 14;
+                    var actW = image.ActualWidth > 1 ? image.ActualWidth : 1;
+                    var actH = image.ActualHeight > 1 ? image.ActualHeight : 1;
+                    float zoomH = (float)(maxH/actH);
+                    float zoomW = (float)(maxW/actW);
+                    if (zoomH < ImageScroll.MinZoomFactor) zoomH = ImageScroll.MinZoomFactor;
+                    if (zoomH > ImageScroll.MaxZoomFactor) zoomH = ImageScroll.MaxZoomFactor;
+                    if (zoomW < ImageScroll.MinZoomFactor) zoomW = ImageScroll.MinZoomFactor;
+                    if (zoomW > ImageScroll.MaxZoomFactor) zoomW = ImageScroll.MaxZoomFactor;
+                    ImageScroll.ChangeView(0, 0, Math.Min(zoomW, zoomH));
+                }
+            }
+        }
+
+        private bool isEnlarged;
+
+        private Brush imageBackgroundBrush;
+
+        public Brush ImageBackgroundBrush
+        {
+            get { return imageBackgroundBrush; }
+            set
+            {
+                imageBackgroundBrush = value;
+                OnPropertyChanged(nameof(ImageBackgroundBrush));
             }
         }
     }

@@ -40,10 +40,11 @@
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ImageViewModel.Load.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <Border x:Name="ImageViewer" Grid.Row="2" Margin="4, 4, 4, 0" Visibility="Collapsed">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ZoomMode="Enabled">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ZoomMode="Enabled" x:Name="ImageScroll" Background="{x:Bind ImageBackgroundBrush, Mode=OneWay}"
+                          MinZoomFactor="0.1" MaxZoomFactor="10">
                 <Grid>
-                    <Image x:Name="MainImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Image x:Name="MainGifImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Image x:Name="MainImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" DoubleTapped="Image_OnDoubleTapped" />
+                    <Image x:Name="MainGifImage" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" DoubleTapped="Image_OnDoubleTapped" />
                 </Grid>
             </ScrollViewer>
         </Border>
