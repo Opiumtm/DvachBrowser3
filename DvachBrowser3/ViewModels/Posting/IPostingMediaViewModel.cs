@@ -14,6 +14,11 @@ namespace DvachBrowser3.ViewModels
         IPostingMediaCollectionViewModel Parent { get; }
 
         /// <summary>
+        /// Идентификатор.
+        /// </summary>
+        string Id { get; }
+
+        /// <summary>
         /// Изображение.
         /// </summary>
         ImageSource Image { get; }

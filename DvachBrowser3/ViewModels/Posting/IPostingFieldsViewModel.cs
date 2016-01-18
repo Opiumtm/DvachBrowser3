@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -10,6 +12,79 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Родительская модель.
         /// </summary>
-        IPostingViewModel Parent { get; } 
+        IPostingViewModel Parent { get; }
+
+        /// <summary>
+        /// Заголовок.
+        /// </summary>
+        IPostingFieldViewModel<string> Title { get; }
+
+        /// <summary>
+        /// Комментарий.
+        /// </summary>
+        IPostingFieldViewModel<string> Comment { get; }
+
+        /// <summary>
+        /// Адрес почты.
+        /// </summary>
+        IPostingFieldViewModel<string> Email { get; }
+
+        /// <summary>
+        /// Имя постера.
+        /// </summary>
+        IPostingFieldViewModel<string> PosterName { get; }
+
+
+        /// <summary>
+        /// Трипкод (первая часть).
+        /// </summary>
+        IPostingFieldViewModel<string> PosterTrip1 { get; }
+
+        /// <summary>
+        /// Трипкод (вторая часть).
+        /// </summary>
+        IPostingFieldViewModel<string> PosterTrip2 { get; }
+
+        /// <summary>
+        /// Иконка.
+        /// </summary>
+        IPostingIconViewModel Icon { get; }
+
+        /// <summary>
+        /// Имя постера.
+        /// </summary>
+        IPostingFieldViewModel<bool> SageFlag { get; }
+
+        /// <summary>
+        /// Вотермарка.
+        /// </summary>
+        IPostingFieldViewModel<bool> WatermarkFlag { get; }
+
+        /// <summary>
+        /// Вотермарка.
+        /// </summary>
+        IPostingFieldViewModel<bool> OpFlag { get; }
+
+        /// <summary>
+        /// Медиа файлы.
+        /// </summary>
+        IPostingMediaCollectionViewModel Media { get; }
+
+        /// <summary>
+        /// Тэг треда.
+        /// </summary>
+        IPostingFieldViewModel<string> ThreadTag { get; }
+
+        /// <summary>
+        /// Сохранить хранилище полей.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        void Save(IDictionary<PostingFieldSemanticRole, object> data);
+
+        /// <summary>
+        /// Загрузить хранилище полей.
+        /// </summary>
+        /// <param name="data">Данные.</param>
+        void Load(IDictionary<PostingFieldSemanticRole, object> data);
     }
 }

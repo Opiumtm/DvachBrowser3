@@ -245,6 +245,8 @@
     <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldsViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldViewModel.cs" />
+    <Compile Include="ViewModels\Posting\IPostingIconElement.cs" />
+    <Compile Include="ViewModels\Posting\IPostingIconViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingMediaCollectionViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingMediaViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingViewModel.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace DvachBrowser3.Storage
@@ -28,5 +29,12 @@ namespace DvachBrowser3.Storage
         /// <param name="id">Идентификатор.</param>
         /// <returns>Таск.</returns>
         Task DeleteMediaFile(string id);
+
+        /// <summary>
+        /// Получить ссылку на файл в хранилище.
+        /// </summary>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>Ссылка.</returns>
+        Uri GetMediaFileUri(string id);
     }
 }

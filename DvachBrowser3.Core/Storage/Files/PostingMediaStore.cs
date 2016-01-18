@@ -88,5 +88,16 @@ namespace DvachBrowser3.Storage.Files
                 DebugHelper.BreakOnError(ex);
             }
         }
+
+        /// <summary>
+        /// Получить ссылку на файл в хранилище.
+        /// </summary>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>Ссылка.</returns>
+        public Uri GetMediaFileUri(string id)
+        {
+            var fileName = string.Format("{0}.cache", id);
+            return new Uri($"ms-appdata:///local/data/{FolderName}/cache/{fileName}", UriKind.Absolute);
+        }
     }
 }
