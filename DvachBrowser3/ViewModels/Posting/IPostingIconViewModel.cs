@@ -13,6 +13,11 @@ namespace DvachBrowser3.ViewModels
         IList<IPostingIconElement> Icons { get; }
 
         /// <summary>
+        /// Иконка по умолчанию.
+        /// </summary>
+        IPostingIconElement DefaultIcon { get; }
+
+        /// <summary>
         /// Выбранная иконка.
         /// </summary>
         IPostingIconElement SelectedIcon { get; set; }

@@ -39,7 +39,7 @@ namespace DvachBrowser3.ViewModels
         /// Получить данные постинга.
         /// </summary>
         /// <returns>Данные постинга.</returns>
-        KeyValuePair<PostingFieldSemanticRole, object> GetValueData();
+        KeyValuePair<PostingFieldSemanticRole, object>? GetValueData();
 
         /// <summary>
         /// Заполнить значение.

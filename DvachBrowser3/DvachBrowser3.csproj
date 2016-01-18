@@ -243,6 +243,11 @@
     <Compile Include="ViewModels\Operations\StdEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\PageLifetimeHelper.cs" />
     <Compile Include="ViewModels\Banners\IPageBannerViewModel.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingFieldViewModel.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingFieldViewModelBase.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingIconElement.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingIconViewModel.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingMediaViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldsViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingIconElement.cs" />
@@ -552,9 +557,7 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Posting\Implementation\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
