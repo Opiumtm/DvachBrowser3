@@ -41,7 +41,7 @@ namespace ApiKeyContainerBuilder
                 var factory = new KeyContainerFactory(PrivateKeyBox.Text, PublicKeyBox.Text, PasswordBox.Text);
                 factory.GenerateContainerString();
                 UniqueIdBox.Text = factory.UniqueId;
-                ContainerBox.Text = $"{factory.UniqueId}|{PasswordBox.Text}|{factory.ContainerStr}";
+                ContainerBox.Text = factory.ContainerStr;
             }
             catch (Exception ex)
             {

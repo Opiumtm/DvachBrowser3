@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.ViewModels
@@ -86,5 +87,16 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <param name="data">Данные.</param>
         void Load(IDictionary<PostingFieldSemanticRole, object> data);
+
+        /// <summary>
+        /// Сохранить данные.
+        /// </summary>
+        Task Flush();
+
+        /// <summary>
+        /// Очистить данные.
+        /// </summary>
+        /// <returns></returns>
+        Task Clear();
     }
 }

@@ -247,6 +247,7 @@
     <Compile Include="ViewModels\Posting\Implementation\PostingFieldViewModelBase.cs" />
     <Compile Include="ViewModels\Posting\Implementation\PostingIconElement.cs" />
     <Compile Include="ViewModels\Posting\Implementation\PostingIconViewModel.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingMediaCollectionViewModel.cs" />
     <Compile Include="ViewModels\Posting\Implementation\PostingMediaViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldsViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldViewModel.cs" />

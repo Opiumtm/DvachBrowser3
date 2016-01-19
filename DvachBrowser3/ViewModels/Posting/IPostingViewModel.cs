@@ -40,17 +40,6 @@ namespace DvachBrowser3.ViewModels
         CaptchaType CaptchaType { get; }
 
         /// <summary>
-        /// Сохранить данные на диск.
-        /// </summary>
-        Task Flush();
-
-        /// <summary>
-        /// Очистить данные.
-        /// </summary>
-        /// <returns></returns>
-        Task Clear();
-
-        /// <summary>
         /// Получить параметр постинга.
         /// </summary>
         /// <param name="captcha">Данные капчи.</param>

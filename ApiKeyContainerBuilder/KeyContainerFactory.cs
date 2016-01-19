@@ -39,13 +39,46 @@ namespace ApiKeyContainerBuilder
         {
             var passwordHash = GetPasswordHash();
             var prov = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
-            var aes = prov.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(passwordHash.Take(16).ToArray()));
+            var pwdBuf = CryptographicBuffer.CreateFromByteArray(passwordHash.Take(16).ToArray());
+            var aes = prov.CreateSymmetricKey(pwdBuf);
             var iv = CryptographicBuffer.GenerateRandom(aes.KeySize / 8);
             UniqueId = CryptographicBuffer.EncodeToBase64String(iv);
             var plainText = GetPlainTextString();
             var plainBuf = CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(plainText));
             var r = CryptographicEngine.Encrypt(aes, plainBuf, iv);
-            ContainerStr = CryptographicBuffer.EncodeToBase64String(r);
+            //ContainerStr = CryptographicBuffer.EncodeToBase64String(r);
+            var sb = new StringBuilder();
+
+            sb.Append("private static readonly byte[] C = new byte[] {");
+            bool f = true;
+            foreach (var b in r.ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+
+            sb.Append("private static readonly byte[] I = new byte[] {");
+            f = true;
+            foreach (var b in iv.ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+
+            sb.Append("private static readonly byte[] P = new byte[] {");
+            f = true;
+            foreach (var b in pwdBuf.ToArray())
+            {
+                if (!f) sb.Append(",");
+                f = false;
+                sb.Append("0x" + b.ToString("X2"));
+            }
+            sb.AppendLine("};");
+            ContainerStr = sb.ToString();
         }
 
         private string GetPlainTextString()
@@ -110,10 +143,9 @@ namespace ApiKeyContainerBuilder
         public string Encrypt()
         {
             var passwordHash = GetPasswordHash("pwd");
-            var ivHash = GetPasswordHash("iv");
             var prov = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
             var aes = prov.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(passwordHash.Take(16).ToArray()));
-            var iv = CryptographicBuffer.CreateFromByteArray(ivHash.Take(16).ToArray());
+            var iv = CryptographicBuffer.GenerateRandom(16);
             var plainBuf = CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(original));
             var r = CryptographicEngine.Encrypt(aes, plainBuf, iv);
             //return CryptographicBuffer.EncodeToBase64String(r);
@@ -130,7 +162,7 @@ namespace ApiKeyContainerBuilder
 
             sb.Append("private static readonly byte[] I = new byte[] {");
             f = true;
-            foreach (var b in ivHash.Take(16).ToArray())
+            foreach (var b in iv.ToArray())
             {
                 if (!f) sb.Append(",");
                 f = false;

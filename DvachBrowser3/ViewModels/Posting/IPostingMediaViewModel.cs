@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
+using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -37,5 +39,36 @@ namespace DvachBrowser3.ViewModels
         /// Размер файла.
         /// </summary>
         ulong FileSize { get; }
+
+        /// <summary>
+        /// Оригинальное имя.
+        /// </summary>
+        string OriginalName { get; }
+
+        /// <summary>
+        /// Добавлять уникальный ID.
+        /// </summary>
+        bool AddUniqueId { get; set; }
+
+        /// <summary>
+        /// Изменять размер.
+        /// </summary>
+        bool Resize { get; set; }
+
+        /// <summary>
+        /// Можно изменять размер.
+        /// </summary>
+        bool CanResize { get; }
+
+        /// <summary>
+        /// Создать описание файла.
+        /// </summary>
+        /// <returns>Описание файла.</returns>
+        PostingMediaFile CreateData();
+
+        /// <summary>
+        /// Удалить файл.
+        /// </summary>
+        Task Delete();
     }
 }

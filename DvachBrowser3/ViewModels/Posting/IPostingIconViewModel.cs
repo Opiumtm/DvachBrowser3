@@ -5,7 +5,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Иконка.
     /// </summary>
-    public interface IPostingIconViewModel : IPostingFieldViewModel<Empty>
+    public interface IPostingIconViewModel : IPostingFieldViewModel<IPostingIconElement>
     {
         /// <summary>
         /// Иконки.
@@ -16,10 +16,5 @@ namespace DvachBrowser3.ViewModels
         /// Иконка по умолчанию.
         /// </summary>
         IPostingIconElement DefaultIcon { get; }
-
-        /// <summary>
-        /// Выбранная иконка.
-        /// </summary>
-        IPostingIconElement SelectedIcon { get; set; }
     }
 }

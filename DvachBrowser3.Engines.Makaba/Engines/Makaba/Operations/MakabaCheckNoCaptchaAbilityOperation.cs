@@ -69,7 +69,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 result = new Result(NoCaptchaAbility.NoApiKeys);
                 return true;
             }
-            if (!(Parameter is RootLink || Parameter.LinkKind == BoardLinkKind.Thread || Parameter.LinkKind == BoardLinkKind.PartialThread || Parameter.LinkKind == BoardLinkKind.Post))
+            if (!(Parameter is RootLink || (Parameter.LinkKind & BoardLinkKind.Thread) != 0 || (Parameter.LinkKind & BoardLinkKind.PartialThread) != 0 || (Parameter.LinkKind & BoardLinkKind.Post) != 0))
             {
                 result = new Result(NoCaptchaAbility.ForbiddenForLink);
                 return true;

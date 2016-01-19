@@ -9,7 +9,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Иконка.
     /// </summary>
-    public sealed class PostingIconViewModel : PostingFieldViewModelBase<Empty>, IPostingIconViewModel
+    public sealed class PostingIconViewModel : PostingFieldViewModelBase<IPostingIconElement>, IPostingIconViewModel
     {
         /// <summary>
         /// Конструктор.
@@ -22,7 +22,7 @@ namespace DvachBrowser3.ViewModels
         public PostingIconViewModel(IPostingFieldsViewModel parent, bool isSupported, PostingFieldSemanticRole role, MakabaBoardReferenceExtension extension, string engine) : base(parent, isSupported && extension?.Icons != null, role)
         {
             Icons.Add(DefaultIcon);
-            SelectedIcon = DefaultIcon;
+            Value = DefaultIcon;
             var iconsSrc = extension?.Icons;
             if (iconsSrc != null)
             {
@@ -43,28 +43,13 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public IPostingIconElement DefaultIcon { get; } = new PostingIconElement(null, "Без иконки", null);
 
-        private IPostingIconElement selectedIcon;
-
-        /// <summary>
-        /// Выбранная иконка.
-        /// </summary>
-        public IPostingIconElement SelectedIcon
-        {
-            get { return selectedIcon; }
-            set
-            {
-                selectedIcon = value;
-                RaisePropertyChanged();
-            }
-        }
-
         /// <summary>
         /// Получить данные постинга.
         /// </summary>
         /// <returns>Данные постинга.</returns>
         public override KeyValuePair<PostingFieldSemanticRole, object>? GetValueData()
         {
-            var idx = SelectedIcon?.Value;
+            var idx = Value?.Value;
             if (idx == null)
             {
                 return null;
@@ -80,12 +65,12 @@ namespace DvachBrowser3.ViewModels
         {
             if (data == null)
             {
-                SelectedIcon = DefaultIcon;
+                Value = DefaultIcon;
             }
             else
             {
                 var v = (int)data;
-                SelectedIcon = Icons.FirstOrDefault(i => i.Value == v) ?? DefaultIcon;
+                Value = Icons.FirstOrDefault(i => i.Value == v) ?? DefaultIcon;
             }
         }
     }

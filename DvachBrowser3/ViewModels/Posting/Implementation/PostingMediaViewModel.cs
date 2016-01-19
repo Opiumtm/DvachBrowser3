@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using DvachBrowser3.Posting;
 using DvachBrowser3.Storage;
 using Template10.Mvvm;
 
@@ -16,12 +19,13 @@ namespace DvachBrowser3.ViewModels
         /// Конструктор.
         /// </summary>
         /// <param name="parent">Родительская модель.</param>
-        /// <param name="id">Идентификатор.</param>
-        public PostingMediaViewModel(IPostingMediaCollectionViewModel parent, string id)
+        /// <param name="file">Идентификатор.</param>
+        public PostingMediaViewModel(IPostingMediaCollectionViewModel parent, PostingMediaFile file)
         {
-            if (id == null) throw new ArgumentNullException(nameof(id));
+            if (file == null) throw new ArgumentNullException(nameof(file));
             Parent = parent;
-            Id = id;
+            Id = file.MediaFileId;
+            OriginalName = file.OriginalName ?? "file.tmp";
             AppHelpers.DispatchAction(Initialize);
         }
 
@@ -92,6 +96,106 @@ namespace DvachBrowser3.ViewModels
             {
                 fileSize = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Оригинальное имя.
+        /// </summary>
+        public string OriginalName { get; }
+
+        private bool addUniqueId;
+
+        /// <summary>
+        /// Добавлять уникальный ID.
+        /// </summary>
+        public bool AddUniqueId
+        {
+            get { return addUniqueId; }
+            set
+            {
+                addUniqueId = value;
+                RaisePropertyChanged();
+                Flush();
+            }
+        }
+
+        private bool resize;
+
+        /// <summary>
+        /// Изменять размер.
+        /// </summary>
+        public bool Resize
+        {
+            get { return resize; }
+            set
+            {
+                resize = value;
+                RaisePropertyChanged();
+                Flush();
+            }
+        }
+
+        private void Flush()
+        {
+            if (Parent?.Parent != null)
+            {
+                AppHelpers.DispatchAction(Parent.Parent.Flush);
+            }
+        }
+
+        /// <summary>
+        /// Можно изменять размер.
+        /// </summary>
+        public bool CanResize
+        {
+            get
+            {
+                try
+                {
+                    var ext = Path.GetExtension(OriginalName);
+                    if (".gif".Equals(ext, StringComparison.OrdinalIgnoreCase) || 
+                        ".jpg".Equals(ext, StringComparison.OrdinalIgnoreCase) || 
+                        ".jpeg".Equals(ext, StringComparison.OrdinalIgnoreCase) ||
+                        ".png".Equals(ext, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugHelper.BreakOnError(ex);
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Создать описание файла.
+        /// </summary>
+        /// <returns>Описание файла.</returns>
+        public PostingMediaFile CreateData()
+        {
+            return new PostingMediaFile()
+            {
+                OriginalName = OriginalName,
+                AddUniqueId = AddUniqueId,
+                Resize = Resize && CanResize,
+                MediaFileId = Id
+            };
+        }
+
+        /// <summary>
+        /// Удалить файл.
+        /// </summary>
+        public async Task Delete()
+        {
+            var storageService = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            await storageService.PostData.MediaStorage.DeleteMediaFile(Id);
+            // ReSharper disable once UseNullPropagation
+            if (Parent != null)
+            {
+                Parent.Media.Remove(this);
             }
         }
 

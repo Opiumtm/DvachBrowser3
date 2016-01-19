@@ -120,7 +120,8 @@ namespace DvachBrowser3.ViewModels
                 switch (Extension ?? "")
                 {
                     case "jpg":
-                        fsp.FileTypeChoices.Add("JPEG File", new [] {".jpg"});
+                    case "jpeg":
+                        fsp.FileTypeChoices.Add("JPEG File", new[] { ".jpg", ".jpeg" });
                         break;
                     case "gif":
                         fsp.FileTypeChoices.Add("GIF File", new[] { ".gif" });

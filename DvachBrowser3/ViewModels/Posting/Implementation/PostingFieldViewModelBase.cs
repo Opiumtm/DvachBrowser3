@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DvachBrowser3.Posting;
 using Template10.Mvvm;
 
@@ -55,6 +56,18 @@ namespace DvachBrowser3.ViewModels
             {
                 objValue = value;
                 RaisePropertyChanged();
+                OnValueChange();
+            }
+        }
+
+        /// <summary>
+        /// Изменение значения.
+        /// </summary>
+        protected virtual void OnValueChange()
+        {
+            if (Parent != null)
+            {
+                AppHelpers.DispatchAction(Parent.Flush);
             }
         }
 
