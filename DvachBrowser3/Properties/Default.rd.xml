@@ -25,7 +25,8 @@
     
     
     <!-- Add your application specific runtime directives here. -->
-
+    
+    <Type Name="DvachBrowser3.ApiKeysInitializer" Browse="Excluded" Dynamic="Excluded" Activate="Excluded" />
 
   </Application>
 </Directives>
