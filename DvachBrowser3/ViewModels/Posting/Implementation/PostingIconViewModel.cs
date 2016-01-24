@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DvachBrowser3.Makaba;
 using DvachBrowser3.Posting;
 
@@ -61,17 +62,43 @@ namespace DvachBrowser3.ViewModels
         /// Заполнить значение.
         /// </summary>
         /// <param name="data">Значение.</param>
-        public override void SetValueData(object data)
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override void SetValueData(object data, bool flush = true)
         {
             if (data == null)
             {
-                Value = DefaultIcon;
+                objValue = DefaultIcon;
             }
             else
             {
                 var v = (int)data;
-                Value = Icons.FirstOrDefault(i => i.Value == v) ?? DefaultIcon;
+                objValue = Icons.FirstOrDefault(i => i.Value == v) ?? DefaultIcon;
             }
+            // ReSharper disable once ExplicitCallerInfoArgument
+            RaisePropertyChanged(nameof(Value));
+            if (flush)
+            {
+                OnValueChange();
+            }
+        }
+
+        /// <summary>
+        /// Заполнить значение по умолчанию.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override void SetDefaultValueData(bool flush = true)
+        {
+            SetValueData(null, flush);
+        }
+
+        /// <summary>
+        /// Очистить данные.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override Task Clear(bool flush = true)
+        {
+            SetValueData(null, flush);
+            return Task.CompletedTask;
         }
     }
 }

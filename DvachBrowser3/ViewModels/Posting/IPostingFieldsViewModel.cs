@@ -91,7 +91,8 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Сохранить данные.
         /// </summary>
-        Task Flush();
+        /// <param name="immediate">Сохранить немедленно.</param>
+        Task Flush(bool immediate = false);
 
         /// <summary>
         /// Очистить данные.

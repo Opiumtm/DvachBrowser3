@@ -8,7 +8,7 @@ namespace DvachBrowser3.ViewModels
     /// Поле постинга.
     /// </summary>
     /// <typeparam name="T">Тип поля.</typeparam>
-    public interface IPostingFieldViewModel<T> : INotifyPropertyChanged
+    public interface IPostingFieldViewModel<T> : INotifyPropertyChanged, IPostingFieldDataProvider
     {
         /// <summary>
         /// Родительская модель.
@@ -26,25 +26,8 @@ namespace DvachBrowser3.ViewModels
         bool IsSupported { get; }
 
         /// <summary>
-        /// Роль.
-        /// </summary>
-        PostingFieldSemanticRole Role { get; }
-
-        /// <summary>
         /// Значение.
         /// </summary>
         T Value { get; set; }
-
-        /// <summary>
-        /// Получить данные постинга.
-        /// </summary>
-        /// <returns>Данные постинга.</returns>
-        KeyValuePair<PostingFieldSemanticRole, object>? GetValueData();
-
-        /// <summary>
-        /// Заполнить значение.
-        /// </summary>
-        /// <param name="data">Значение.</param>
-        void SetValueData(object data);
     }
 }

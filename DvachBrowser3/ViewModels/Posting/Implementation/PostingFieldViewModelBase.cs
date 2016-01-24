@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DvachBrowser3.Posting;
 using Template10.Mvvm;
 
@@ -44,7 +45,8 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public PostingFieldSemanticRole Role { get; }
 
-        private T objValue;
+        // ReSharper disable once InconsistentNaming
+        protected T objValue;
 
         /// <summary>
         /// Значение.
@@ -67,7 +69,10 @@ namespace DvachBrowser3.ViewModels
         {
             if (Parent != null)
             {
-                AppHelpers.DispatchAction(Parent.Flush);
+                AppHelpers.ActionOnUiThread(async () =>
+                {
+                    await Parent.Flush(false);
+                });
             }
         }
 
@@ -84,16 +89,59 @@ namespace DvachBrowser3.ViewModels
         /// Заполнить значение.
         /// </summary>
         /// <param name="data">Значение.</param>
-        public virtual void SetValueData(object data)
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public virtual void SetValueData(object data, bool flush = true)
         {
-            if (data == null)
+            if (data?.GetType() == typeof(T))
             {
-                Value = default(T);
+                objValue = (T)data;
             }
             else
             {
-                Value = (T)data;
+                objValue = DefaultValue;
+            }
+            // ReSharper disable once ExplicitCallerInfoArgument
+            RaisePropertyChanged(nameof(Value));
+            if (flush)
+            {
+                OnValueChange();
             }
         }
+
+        /// <summary>
+        /// Заполнить значение по умолчанию.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public virtual void SetDefaultValueData(bool flush = true)
+        {
+            objValue = DefaultValue;
+            // ReSharper disable once ExplicitCallerInfoArgument
+            RaisePropertyChanged(nameof(Value));
+            if (flush)
+            {
+                OnValueChange();
+            }
+        }
+
+        /// <summary>
+        /// Очистить данные.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public virtual Task Clear(bool flush = true)
+        {
+            objValue = DefaultValue;
+            // ReSharper disable once ExplicitCallerInfoArgument
+            RaisePropertyChanged(nameof(Value));
+            if (flush)
+            {
+                OnValueChange();
+            }
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Значение по умолчанию.
+        /// </summary>
+        public T DefaultValue { get; set; }
     }
 }

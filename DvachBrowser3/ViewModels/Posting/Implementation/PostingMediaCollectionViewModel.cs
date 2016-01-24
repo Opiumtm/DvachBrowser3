@@ -62,6 +62,7 @@ namespace DvachBrowser3.ViewModels
                 AddUniqueId = false,
                 MediaFileId = item.Id
             }));
+            OnValueChange();
         }
 
         /// <summary>
@@ -83,10 +84,28 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Очистить файлы.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override async Task Clear(bool flush = true)
+        {
+            var toDelete = Media.ToArray();
+            foreach (var item in toDelete)
+            {
+                await item.Delete();
+            }
+            if (flush)
+            {
+                OnValueChange();
+            }
+        }
+
+        /// <summary>
         /// Заполнить значение.
         /// </summary>
         /// <param name="data">Значение.</param>
-        public override void SetValueData(object data)
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override void SetValueData(object data, bool flush = true)
         {
             Media.Clear();
             var newData = data as PostingMediaFiles;
@@ -97,6 +116,19 @@ namespace DvachBrowser3.ViewModels
                     Media.Add(new PostingMediaViewModel(this, file));
                 }
             }
+            if (flush)
+            {
+                OnValueChange();
+            }
+        }
+
+        /// <summary>
+        /// Заполнить значение по умолчанию.
+        /// </summary>
+        /// <param name="flush">Вызвать сохранение данных.</param>
+        public override void SetDefaultValueData(bool flush = true)
+        {
+            SetValueData(null, flush);
         }
 
         /// <summary>

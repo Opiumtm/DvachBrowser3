@@ -140,7 +140,10 @@ namespace DvachBrowser3.ViewModels
         {
             if (Parent?.Parent != null)
             {
-                AppHelpers.DispatchAction(Parent.Parent.Flush);
+                AppHelpers.ActionOnUiThread(async () =>
+                {
+                    await Parent.Parent.Flush(false);
+                });
             }
         }
 
