@@ -1,17 +1,17 @@
-namespace DvachBrowser3.Logic
+п»їnamespace DvachBrowser3.Logic
 {
     /// <summary>
-    /// Тип результата постинга.
+    /// РўРёРї СЂРµР·СѓР»СЊС‚Р°С‚Р° РїРѕСЃС‚РёРЅРіР°.
     /// </summary>
     public enum PostingResultKind
     {
         /// <summary>
-        /// Нужна капча.
+        /// РќСѓР¶РЅР° РєР°РїС‡Р°.
         /// </summary>
         NeedCaptcha,
 
         /// <summary>
-        /// Успех.
+        /// РЈСЃРїРµС….
         /// </summary>
         Success
     }
