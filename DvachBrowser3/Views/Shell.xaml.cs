@@ -32,7 +32,7 @@ namespace DvachBrowser3.Views
 
         public static HamburgerMenu HamburgerMenu => Instance.MyHamburgerMenu;
 
-        public Shell(NavigationService navigationService)
+        public Shell(INavigationService navigationService)
         {
             Instance = this;
             this.InitializeComponent();

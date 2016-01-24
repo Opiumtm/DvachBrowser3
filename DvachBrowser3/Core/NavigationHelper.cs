@@ -3,6 +3,7 @@ using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.TextRender;
+using Template10.Services.SerializationService;
 
 namespace DvachBrowser3
 {
@@ -32,7 +33,12 @@ namespace DvachBrowser3
         /// <returns>Ссылка.</returns>
         public static BoardLinkBase GetLinkFromParameter(object parameter)
         {
-            var str = parameter as string;
+            var str1 = parameter as string;
+            if (str1 == null)
+            {
+                return null;
+            }
+            var str = SerializationService.Json.Deserialize<string>(str1);
             if (str == null)
             {
                 return null;
