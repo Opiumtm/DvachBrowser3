@@ -292,6 +292,7 @@ namespace DvachBrowser3.ViewModels
                     }
                 }
                 await storage.PostData.SavePostData(postData);
+                Flushed?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -316,5 +317,21 @@ namespace DvachBrowser3.ViewModels
             }
             await Flush(true);
         }
+
+        /// <summary>
+        /// Установить значения по умолчанию.
+        /// </summary>
+        public void SetDefault()
+        {
+            foreach (var kv in data)
+            {
+                kv.Value?.SetDefaultValueData(false);
+            }
+        }
+
+        /// <summary>
+        /// Сохранено.
+        /// </summary>
+        public event EventHandler Flushed;
     }
 }

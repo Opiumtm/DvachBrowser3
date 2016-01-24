@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using DvachBrowser3.Posting;
@@ -99,5 +100,15 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns></returns>
         Task Clear();
+
+        /// <summary>
+        /// Установить значения по умолчанию.
+        /// </summary>
+        void SetDefault();
+
+        /// <summary>
+        /// Сохранено.
+        /// </summary>
+        event EventHandler Flushed;
     }
 }

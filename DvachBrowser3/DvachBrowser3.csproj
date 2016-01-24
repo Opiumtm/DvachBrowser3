@@ -255,6 +255,7 @@
     <Compile Include="ViewModels\Posting\Implementation\PostingIconViewModel.cs" />
     <Compile Include="ViewModels\Posting\Implementation\PostingMediaCollectionViewModel.cs" />
     <Compile Include="ViewModels\Posting\Implementation\PostingMediaViewModel.cs" />
+    <Compile Include="ViewModels\Posting\Implementation\PostingViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldDataProvider.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldsViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingFieldViewModel.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="ViewModels\Posting\IPostingMediaViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingViewModel.cs" />
     <Compile Include="ViewModels\Posting\NeedSetCaptchaEventArgs.cs" />
+    <Compile Include="ViewModels\Posting\PostingSuccessEventArgs.cs" />
     <Compile Include="ViewModels\Post\IBoardCatalogViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />

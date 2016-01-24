@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
@@ -29,24 +30,24 @@ namespace DvachBrowser3.ViewModels
         IPostingFieldsViewModel Fields { get; }
 
         /// <summary>
-        /// Тип капчи.
-        /// </summary>
-        CaptchaType CaptchaType { get; }
-
-        /// <summary>
-        /// Время сохранения.
-        /// </summary>
-        string StorageDate { get; }
-
-        /// <summary>
         /// Капча.
         /// </summary>
         CaptchaPostingData Captcha { get; set; }
 
         /// <summary>
+        /// Время сохранения.
+        /// </summary>
+        string SaveTime { get; }
+
+        /// <summary>
         /// Необходимо установить капчу.
         /// </summary>
         event NeedSetCaptchaEventHandler NeedSetCaptcha;
+
+        /// <summary>
+        /// Удачный постинг.
+        /// </summary>
+        event PostingSuccessEventHandler PostingSuccess;
 
         /// <summary>
         /// Начать постинг.
