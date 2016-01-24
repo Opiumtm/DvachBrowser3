@@ -21,7 +21,7 @@ namespace DvachBrowser3.Engines.Makaba
         public MakabaEngine(IServiceProvider services) : base(services)
         {
             configuration = new MakabaEngineConfig();
-            postCorrection = new MakabaPostCorrectionService(services);
+            PostCorrection = new MakabaPostCorrectionService(services);
         }
 
         /// <summary>
@@ -52,21 +52,14 @@ namespace DvachBrowser3.Engines.Makaba
         /// <summary>
         /// Возможности движка.
         /// </summary>
-        public EngineCapability Capability
-        {
-            get
-            {
-                return 
-                    EngineCapability.BoardsListRequest | 
-                    EngineCapability.LastModifiedRequest | 
-                    EngineCapability.PartialThreadRequest | 
-                    EngineCapability.ThreadStatusRequest | 
-                    EngineCapability.SearchRequest |
-                    EngineCapability.TopPostsRequest |
-                    EngineCapability.NoCaptcha |
-                    EngineCapability.Catalog;
-            }
-        }
+        public EngineCapability Capability => EngineCapability.BoardsListRequest | 
+                                              EngineCapability.LastModifiedRequest | 
+                                              EngineCapability.PartialThreadRequest | 
+                                              EngineCapability.ThreadStatusRequest | 
+                                              EngineCapability.SearchRequest |
+                                              EngineCapability.TopPostsRequest |
+                                              EngineCapability.NoCaptcha |
+                                              EngineCapability.Catalog;
 
         private readonly IMakabaEngineConfig configuration;
 
@@ -85,12 +78,15 @@ namespace DvachBrowser3.Engines.Makaba
         /// </summary>
         public CaptchaTypes CaptchaTypes => CaptchaTypes.DvachCaptcha;
 
-        private readonly IPostCorrectionService postCorrection;
+        /// <summary>
+        /// Тип капчи по умолчанию.
+        /// </summary>
+        public CaptchaType DefaultCaptchaType => CaptchaType.DvachCaptcha;
 
         /// <summary>
         /// Сервис коррекции постов.
         /// </summary>
-        public IPostCorrectionService PostCorrection => postCorrection;
+        public IPostCorrectionService PostCorrection { get; }
 
         /// <summary>
         /// Корневая ссылка.
@@ -139,7 +135,7 @@ namespace DvachBrowser3.Engines.Makaba
         /// <returns>Ключи для капчи.</returns>
         public IEngineOperationsWithProgress<ICaptchaResult, EngineProgress> GetCaptchaKeys(BoardLinkBase link, CaptchaType captchaType)
         {
-            return new MakabaGetCaptchaOperation(captchaType, Services);
+            return new MakabaGetCaptchaOperation(new MakabaGetCaptchaArgument() { Link = link, CaptchaType = captchaType }, Services);
         }
 
         /// <summary>

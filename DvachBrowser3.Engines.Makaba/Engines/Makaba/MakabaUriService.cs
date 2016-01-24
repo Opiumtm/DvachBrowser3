@@ -218,14 +218,13 @@ namespace DvachBrowser3.Engines.Makaba
             return Services.GetServiceOrThrow<IYoutubeUriService>().GetThumbnailUri(link.YoutubeId);
         }
 
-        private const string CaptchaUri = "makaba/captcha.fcgi";
-        
         /// <summary>
         /// Получить URI капчи.
         /// </summary>
         /// <param name="captchaType">Тип капчи.</param>
+        /// <param name="forThread">Для треда.</param>
         /// <returns>URI капчи.</returns>
-        public Uri GetCaptchaUri(CaptchaType captchaType)
+        public Uri GetCaptchaUri(CaptchaType captchaType, bool forThread)
         {
             if (captchaType == CaptchaType.Yandex)
             {
@@ -237,15 +236,25 @@ namespace DvachBrowser3.Engines.Makaba
             }
             if (captchaType == CaptchaType.GoogleRecaptcha2СhV1)
             {
-                return new Uri(BaseUri, CaptchaUri + "type=recaptchav1&mobile=1");
+                return new Uri(BaseUri, CaptchaUri + "?type=recaptchav1&mobile=1");
             }
             if (captchaType == CaptchaType.GoogleRecaptcha2СhV2)
             {
-                return new Uri(BaseUri, CaptchaUri + "type=recaptcha&mobile=1");
+                return new Uri(BaseUri, CaptchaUri + "?type=recaptcha&mobile=1");
+            }
+            if (captchaType == CaptchaType.DvachCaptcha)
+            {
+                if (forThread)
+                {
+                    return new Uri(BaseUri, CaptchaUri + "?type=2chaptcha&action=thread");
+                }
+                return new Uri(BaseUri, CaptchaUri + "?type=2chaptcha");
             }
             return null;
         }
 
+        private const string CaptchaUri = "makaba/captcha.fcgi";
+        
         /// <summary>
         /// Получить URI для постинга.
         /// </summary>

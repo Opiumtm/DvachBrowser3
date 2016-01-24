@@ -149,7 +149,11 @@
     <Compile Include="Logic\BoardPageLoaderArgument.cs" />
     <Compile Include="Logic\BoardPageLoaderOperation.cs" />
     <Compile Include="Logic\IBoardPageLoaderResult.cs" />
+    <Compile Include="Logic\IPostingResult.cs" />
     <Compile Include="Logic\IThreadLoaderResult.cs" />
+    <Compile Include="Logic\PostingArgument.cs" />
+    <Compile Include="Logic\PostingOperation.cs" />
+    <Compile Include="Logic\PostingResultKind.cs" />
     <Compile Include="Logic\ThreadLoaderArgument.cs" />
     <Compile Include="Logic\ThreadLoaderOperation.cs" />
     <Compile Include="Logic\ThreadLoaderUpdateMode.cs" />
@@ -259,6 +263,7 @@
     <Compile Include="ViewModels\Posting\IPostingMediaCollectionViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingMediaViewModel.cs" />
     <Compile Include="ViewModels\Posting\IPostingViewModel.cs" />
+    <Compile Include="ViewModels\Posting\NeedSetCaptchaEventArgs.cs" />
     <Compile Include="ViewModels\Post\IBoardCatalogViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageLoaderViewModel.cs" />
     <Compile Include="ViewModels\Post\IBoardPageViewModel.cs" />

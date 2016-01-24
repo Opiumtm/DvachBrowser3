@@ -177,6 +177,10 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 {
                     await AddNoCaptchaData(stringData, comment);
                 }
+                if (Parameter.Captcha is SkipCaptchaPostingData)
+                {
+                    // Не добавляем капчу - не нужно
+                }
             }
             
             foreach (var sd in stringData)

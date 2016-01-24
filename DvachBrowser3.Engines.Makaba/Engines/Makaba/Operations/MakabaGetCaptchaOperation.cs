@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using DvachBrowser3.Links;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Engines.Makaba.Operations
@@ -12,14 +13,14 @@ namespace DvachBrowser3.Engines.Makaba.Operations
     /// <summary>
     /// Получить капчу.
     /// </summary>
-    public sealed class MakabaGetCaptchaOperation : HttpGetEngineOperationBase<ICaptchaResult, CaptchaType>
+    public sealed class MakabaGetCaptchaOperation : HttpGetEngineOperationBase<ICaptchaResult, MakabaGetCaptchaArgument>
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="parameter">Параметр.</param>
         /// <param name="services">Сервисы.</param>
-        public MakabaGetCaptchaOperation(CaptchaType parameter, IServiceProvider services) : base(parameter, services)
+        public MakabaGetCaptchaOperation(MakabaGetCaptchaArgument parameter, IServiceProvider services) : base(parameter, services)
         {
         }
 
@@ -29,11 +30,13 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         /// <returns>URI запроса.</returns>
         protected override Uri GetRequestUri()
         {
-            if (Parameter == CaptchaType.Yandex || Parameter == CaptchaType.Recaptcha)
+            var isThread = (Parameter.Link.LinkKind & BoardLinkKind.Thread) != 0;
+            var uri = Services.GetServiceOrThrow<IMakabaUriService>().GetCaptchaUri(Parameter.CaptchaType, isThread);
+            if (uri == null)
             {
-                return Services.GetServiceOrThrow<IMakabaUriService>().GetCaptchaUri(Parameter);                
+                throw new WebException("Неправильный тип капчи");
             }
-            throw new WebException("Неправильный тип капчи");
+            return uri;
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 var lines = (rd.ReadToEnd()).Split('\n');
                 if (lines.Length > 0)
                 {
-                    if (lines[0] == "OK" || lines[0] == "VIP")
+                    if ("OK".Equals(lines[0], StringComparison.OrdinalIgnoreCase) || "VIP".Equals(lines[0], StringComparison.OrdinalIgnoreCase) || "Disabled".Equals(lines[0], StringComparison.OrdinalIgnoreCase))
                     {
                         return new OperationResult()
                         {
@@ -61,27 +64,17 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                     }
                     if (lines[0] == "CHECK" && lines.Length > 1)
                     {
-                        if (Parameter == CaptchaType.Yandex)
+                        /* Остальные типы капчи уже не поддерживаются сервером */
+                        if (Parameter.CaptchaType == CaptchaType.DvachCaptcha)
                         {
                             return new OperationResult()
                             {
                                 NeedCaptcha = true,
-                                Keys = new YandexCaptchaKeys()
+                                Keys = new DvachCaptchaKeys()
                                 {
                                     Key = lines[1]
                                 }
                             };
-                        }
-                        if (Parameter == CaptchaType.Recaptcha)
-                        {
-                            return new OperationResult()
-                            {
-                                NeedCaptcha = true,
-                                Keys = new RecaptchaCaptchaKeys()
-                                {
-                                    Key = lines[1]
-                                }
-                            };                            
                         }
                         throw new WebException("Неправильный тип капчи");
                     }

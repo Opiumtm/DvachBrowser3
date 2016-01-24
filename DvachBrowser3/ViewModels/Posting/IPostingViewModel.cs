@@ -29,26 +29,28 @@ namespace DvachBrowser3.ViewModels
         IPostingFieldsViewModel Fields { get; }
 
         /// <summary>
-        /// Нужно вводить капчу.
-        /// </summary>
-        /// <returns>Результат.</returns>
-        Task<bool> NeedCheckCaptcha();
-
-        /// <summary>
         /// Тип капчи.
         /// </summary>
         CaptchaType CaptchaType { get; }
 
         /// <summary>
-        /// Получить параметр постинга.
-        /// </summary>
-        /// <param name="captcha">Данные капчи.</param>
-        /// <returns>Результат.</returns>
-        Task<object> GetPostingParam(CaptchaPostingData captcha);
-
-        /// <summary>
         /// Время сохранения.
         /// </summary>
         string StorageDate { get; }
+
+        /// <summary>
+        /// Капча.
+        /// </summary>
+        CaptchaPostingData Captcha { get; set; }
+
+        /// <summary>
+        /// Необходимо установить капчу.
+        /// </summary>
+        event NeedSetCaptchaEventHandler NeedSetCaptcha;
+
+        /// <summary>
+        /// Начать постинг.
+        /// </summary>
+        void Post();
     }
 }

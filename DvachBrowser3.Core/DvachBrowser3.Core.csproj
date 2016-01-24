@@ -62,7 +62,9 @@
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\Empty.cs" />
     <Compile Include="Common\SizeHelper.cs" />
+    <Compile Include="Engines\DvachCaptchaKeys.cs" />
     <Compile Include="Engines\DvachCaptchaPostingData.cs" />
+    <Compile Include="Engines\SkipCaptchaPostingData.cs" />
     <Compile Include="Models\Posts\PostNodeBoardLinkAttribute.cs" />
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />

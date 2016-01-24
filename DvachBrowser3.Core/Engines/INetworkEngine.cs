@@ -60,6 +60,11 @@ namespace DvachBrowser3.Engines
         CaptchaTypes CaptchaTypes { get; }
 
         /// <summary>
+        /// Тип капчи по умолчанию.
+        /// </summary>
+        CaptchaType DefaultCaptchaType { get; }
+
+        /// <summary>
         /// Сервис коррекции постов.
         /// </summary>
         IPostCorrectionService PostCorrection { get; }
