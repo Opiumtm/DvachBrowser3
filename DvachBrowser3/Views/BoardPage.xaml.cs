@@ -235,6 +235,22 @@ namespace DvachBrowser3.Views
                     }
                 };
 
+                var posting = new AppBarButton()
+                {
+                    Label = "Написать",
+                    Icon = new SymbolIcon(Symbol.Edit)
+                };
+
+                posting.Click += (sender, e) =>
+                {
+                    var boardLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().BoardLinkFromAnyLink(navigatedLink);
+                    if (boardLink != null)
+                    {
+                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(boardLink));
+                    }
+                };
+
+                appBar.PrimaryCommands.Add(posting);
                 appBar.PrimaryCommands.Add(prevButton);
                 appBar.PrimaryCommands.Add(nextButton);
                 appBar.SecondaryCommands.Add(gotoPage);
@@ -252,6 +268,21 @@ namespace DvachBrowser3.Views
                     tm?.MarkAsRead();
                     ThreadPreviewPopup.IsContentVisible = false;
                 };
+
+
+                var posting = new AppBarButton()
+                {
+                    Label = "Написать",
+                    Icon = new SymbolIcon(Symbol.Edit)
+                };
+
+                posting.Click += (sender, e) =>
+                {
+                    var tp = (ThreadPreview.ViewModel as IThreadPreviewViewModel)?.ThreadLink ?? navigatedLink;
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(tp));
+                };
+
+                appBar.PrimaryCommands.Add(posting);
                 appBar.PrimaryCommands.Add(readButton);
             }
 

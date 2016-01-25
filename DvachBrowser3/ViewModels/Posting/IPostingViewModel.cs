@@ -20,6 +20,11 @@ namespace DvachBrowser3.ViewModels
         BoardLinkBase PostingLink { get; }
 
         /// <summary>
+        /// Новый тред.
+        /// </summary>
+        bool IsNewThread { get; }
+
+        /// <summary>
         /// Операция постинга.
         /// </summary>
         IOperationViewModel Posting { get; }
@@ -53,5 +58,15 @@ namespace DvachBrowser3.ViewModels
         /// Начать постинг.
         /// </summary>
         void Post();
+
+        /// <summary>
+        /// Есть цитата.
+        /// </summary>
+        bool HasQuote { get; }
+
+        /// <summary>
+        /// Цитата.
+        /// </summary>
+        string Quote { get; }
     }
 }

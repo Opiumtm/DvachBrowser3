@@ -170,6 +170,7 @@
     <Compile Include="Navigation\Targets\BoardInfoNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\BoardPageNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\MediaNavigationTarget.cs" />
+    <Compile Include="Navigation\Targets\PostingNavigationTarget.cs" />
     <Compile Include="Navigation\Targets\ThreadNavigationTarget.cs" />
     <Compile Include="PageServices\IDynamicShellAppBarProvider.cs" />
     <Compile Include="PageServices\IPageLifetimeCallback.cs" />
@@ -393,6 +394,9 @@
       <DependentUpon>TileImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Additional\WinRtWordSplitter.cs" />
+    <Compile Include="Views\PostingPage.xaml.cs">
+      <DependentUpon>PostingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectPageDialog.xaml.cs">
       <DependentUpon>SelectPageDialog.xaml</DependentUpon>
     </Compile>
@@ -519,6 +523,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\TileImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PostingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

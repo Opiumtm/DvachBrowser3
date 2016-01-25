@@ -48,6 +48,11 @@ namespace DvachBrowser3.Navigation
                 await DoNavigateToMedia((MediaNavigationTarget)target);
                 return;
             }
+            if (target is PostingNavigationTarget)
+            {
+                await NavigateToPosting((PostingNavigationTarget)target);
+                return;
+            }
             throw new ArgumentException($"Неизвестный тип цели навигации \"{target.GetType().FullName}\"", nameof(target));
         }
 
@@ -158,6 +163,22 @@ namespace DvachBrowser3.Navigation
             }
         }
 
+        private async Task NavigateToPosting(PostingNavigationTarget target)
+        {
+            var nkey1 = target.Link?.GetNavigationKey();
+            if (nkey1 != null)
+            {
+                var nkey = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Serialize(nkey1);
+                if (nkey != null)
+                {
+                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), nkey);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Невозможно получить ключ навигации", nameof(target));
+            }
+        }
 
         /// <summary>
         /// Произвести навигацию.

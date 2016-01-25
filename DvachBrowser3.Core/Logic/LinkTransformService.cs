@@ -591,6 +591,11 @@ namespace DvachBrowser3.Logic
             {
                 return blink.Board?.ToLowerInvariant();
             }
+            var blink2 = boardLink as BoardPageLink;
+            if (blink2 != null)
+            {
+                return blink2.Board?.ToLowerInvariant();
+            }
             var tlink = boardLink as ThreadLink;
             if (tlink != null)
             {

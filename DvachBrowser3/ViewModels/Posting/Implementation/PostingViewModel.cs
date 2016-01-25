@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
@@ -22,11 +24,46 @@ namespace DvachBrowser3.ViewModels
         {
             if (postingLink == null) throw new ArgumentNullException(nameof(postingLink));
             PostingLink = postingLink;
+            if ((PostingLink.LinkKind & BoardLinkKind.Thread) == 0)
+            {
+                IsNewThread = true;
+            }
             operation = new StdEngineOperationWrapper<Logic.IPostingResult>(OperationFactory);
             operation.Finished += OperationOnFinished;
             operation.ResultGot += OperationOnResultGot;
             Fields = new PostingFieldsViewModel(this);
             Fields.Flushed += FieldsOnFlushed;
+            AppHelpers.DispatchAction(GetQuote);
+        }
+
+        private async Task GetQuote()
+        {
+            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+            var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+            var comparer = linkHash.GetComparer();
+            var threadLink = linkTransform.GetThreadLinkFromAnyLink(PostingLink);
+            var postLink = linkTransform.GetPostLinkFromAnyLink(PostingLink);
+            if (threadLink != null && postLink != null)
+            {
+                var data = await storage.ThreadData.LoadThread(threadLink);
+                if (data?.Posts != null)
+                {
+                    var post = data.Posts.FirstOrDefault(p => comparer.Equals(p.Link, postLink));
+                    if (post != null)
+                    {
+                        var text = post.ToPlainText();
+                        var sb = new StringBuilder();
+                        foreach (var line in text)
+                        {
+                            sb.Append(">");
+                            sb.AppendLine(line);
+                        }
+                        HasQuote = true;
+                        Quote = sb.ToString();
+                    }
+                }
+            }
         }
 
         private void FieldsOnFlushed(object sender, EventArgs eventArgs)
@@ -131,6 +168,11 @@ namespace DvachBrowser3.ViewModels
         public BoardLinkBase PostingLink { get; }
 
         /// <summary>
+        /// Новый тред.
+        /// </summary>
+        public bool IsNewThread { get; }
+
+        /// <summary>
         /// Операция постинга.
         /// </summary>
         public IOperationViewModel Posting => operation;
@@ -186,6 +228,36 @@ namespace DvachBrowser3.ViewModels
         public void Post()
         {
             Posting.Start();
+        }
+
+        private bool hasQuote;
+
+        /// <summary>
+        /// Есть цитата.
+        /// </summary>
+        public bool HasQuote
+        {
+            get { return hasQuote; }
+            private set
+            {
+                hasQuote = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string quote;
+
+        /// <summary>
+        /// Цитата.
+        /// </summary>
+        public string Quote
+        {
+            get { return quote; }
+            private set
+            {
+                quote = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }

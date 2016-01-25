@@ -56,10 +56,24 @@ namespace DvachBrowser3.ViewModels
             get { return objValue; }
             set
             {
-                objValue = value;
-                RaisePropertyChanged();
-                OnValueChange();
+                if (!IsEquals(objValue, value))
+                {
+                    objValue = value;
+                    RaisePropertyChanged();
+                    OnValueChange();
+                }
             }
+        }
+
+        /// <summary>
+        /// Проверка на равенство значений.
+        /// </summary>
+        /// <param name="oldValue">Старое значение.</param>
+        /// <param name="newValue">Новое значение.</param>
+        /// <returns>Результат.</returns>
+        protected virtual bool IsEquals(T oldValue, T newValue)
+        {
+            return EqualityComparer<T>.Default.Equals(oldValue, newValue);
         }
 
         /// <summary>
