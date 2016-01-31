@@ -45,17 +45,7 @@
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Posting.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <Grid Grid.Row="2" x:Name="MainGrid">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="4, 4, 4, 0">
-                <Grid>
-                    <interactivity:Interaction.Behaviors>
-                        <localBehaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}"/>
-                    </interactivity:Interaction.Behaviors>
-                    <Grid x:Name="NarrowGrid" Visibility="Collapsed">
-                    </Grid>
-                    <Grid x:Name="NormalGrid" Visibility="Collapsed">
-                    </Grid>
-                </Grid>
-            </ScrollViewer>
+            <pa:PostingEntryView ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
         </Grid>
         <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="True" IsContentVisible="{x:Bind ShowQuote, Mode=OneWay}">
             <pa:ContentPopup.ViewContent>

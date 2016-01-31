@@ -38,5 +38,10 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <param name="flush">Вызвать сохранение данных.</param>
         Task Clear(bool flush = true);
+
+        /// <summary>
+        /// Вызвать событие по изменению.
+        /// </summary>
+        void RaiseChanged();
     }
 }

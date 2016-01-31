@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Styles/PostRender.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <local:BoolToNullableConverter x:Key="BoolToNullableConverter" />
         </ResourceDictionary>
     </Application.Resources>
 

@@ -16,5 +16,10 @@ namespace DvachBrowser3.ViewModels
         /// Иконка по умолчанию.
         /// </summary>
         IPostingIconElement DefaultIcon { get; }
+
+        /// <summary>
+        /// Как базовый интерфейс.
+        /// </summary>
+        IPostingFieldViewModel<IPostingIconElement> AsBaseIntf { get; }
     }
 }

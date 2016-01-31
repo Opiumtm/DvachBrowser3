@@ -365,8 +365,14 @@
     <Compile Include="Views\Partial\ContentPopup.xaml.cs">
       <DependentUpon>ContentPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\MarkupControl.xaml.cs">
+      <DependentUpon>MarkupControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\PostCollectionView.xaml.cs">
       <DependentUpon>PostCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\PostingEntryView.xaml.cs">
+      <DependentUpon>PostingEntryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\PostText.xaml.cs">
       <DependentUpon>PostText.xaml</DependentUpon>
@@ -495,7 +501,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Partial\MarkupControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Partial\PostCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\PostingEntryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

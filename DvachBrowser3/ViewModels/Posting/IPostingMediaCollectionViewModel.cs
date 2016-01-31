@@ -30,5 +30,10 @@ namespace DvachBrowser3.ViewModels
         /// Выбрать медиа файл.
         /// </summary>
         Task ChooseMediaFile();
+
+        /// <summary>
+        /// Как базовый интерфейс.
+        /// </summary>
+        IPostingFieldViewModel<Empty> AsBaseIntf { get; }
     }
 }

@@ -2,6 +2,8 @@
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Engines.Makaba.BoardInfo;
 using DvachBrowser3.Engines.Makaba.Html;
+using DvachBrowser3.Markup;
+using DvachBrowser3.Markup.Makaba;
 using DvachBrowser3.SystemInformation;
 
 namespace DvachBrowser3.Services
@@ -23,6 +25,7 @@ namespace DvachBrowser3.Services
             container.RegisterService<IMakabaJsonResponseParseService>(new MakabaJsonResponseParseService(container));
             container.RegisterService<IMakabaBoardInfoParser>(new MakabaBoardInfoParser(container));
             container.GetServiceOrThrow<INetworkEngineInstaller>().Install(new MakabaEngine(container));
+            container.GetServiceOrThrow<IMarkupService>().RegisterProvider(new MakabaMarkupProvider());
         }
     }
 }

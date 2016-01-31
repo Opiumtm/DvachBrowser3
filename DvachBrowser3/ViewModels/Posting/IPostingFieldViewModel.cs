@@ -15,11 +15,6 @@ namespace DvachBrowser3.ViewModels
         IPostingFieldsViewModel Parent { get; }
 
         /// <summary>
-        /// Как базовый интерфейс.
-        /// </summary>
-        IPostingFieldViewModel<T> AsBaseIntf { get; }
-
-        /// <summary>
         /// Поддерживается.
         /// </summary>
         bool IsSupported { get; }

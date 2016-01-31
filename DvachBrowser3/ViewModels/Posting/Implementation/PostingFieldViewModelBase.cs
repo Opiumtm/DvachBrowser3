@@ -76,6 +76,14 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Вызвать событие по изменению.
+        /// </summary>
+        public void RaiseChanged()
+        {
+            RaisePropertyChanged();
+        }
+
+        /// <summary>
         /// Проверка на равенство значений.
         /// </summary>
         /// <param name="oldValue">Старое значение.</param>

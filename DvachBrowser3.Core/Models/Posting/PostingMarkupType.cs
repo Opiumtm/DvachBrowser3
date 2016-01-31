@@ -4,10 +4,10 @@
     /// Тип разметки.
     /// </summary>
     public enum PostingMarkupType : int
-    {
+    {        
         /// <summary>
         /// Макаба.
         /// </summary>
-        Makaba = 0
+        Makaba = 0,
     }
 }

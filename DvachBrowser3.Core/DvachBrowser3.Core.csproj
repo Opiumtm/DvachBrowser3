@@ -65,6 +65,10 @@
     <Compile Include="Engines\DvachCaptchaKeys.cs" />
     <Compile Include="Engines\DvachCaptchaPostingData.cs" />
     <Compile Include="Engines\SkipCaptchaPostingData.cs" />
+    <Compile Include="Markup\IMarkupProvider.cs" />
+    <Compile Include="Markup\IMarkupService.cs" />
+    <Compile Include="Markup\MarkupService.cs" />
+    <Compile Include="Markup\MarkupTag.cs" />
     <Compile Include="Models\Posts\PostNodeBoardLinkAttribute.cs" />
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />

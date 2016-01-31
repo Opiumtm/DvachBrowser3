@@ -107,8 +107,28 @@ namespace DvachBrowser3.ViewModels
         void SetDefault();
 
         /// <summary>
+        /// Вызвать событие по изменению.
+        /// </summary>
+        void RaiseChanged();
+
+        /// <summary>
         /// Сохранено.
         /// </summary>
         event EventHandler Flushed;
+
+        /// <summary>
+        /// Тип разметки.
+        /// </summary>
+        PostingMarkupType? MarkupType { get; }
+
+        /// <summary>
+        /// Инициализировано.
+        /// </summary>
+        event EventHandler Initialized;
+
+        /// <summary>
+        /// Инициализировать.
+        /// </summary>
+        void Initialize();
     }
 }

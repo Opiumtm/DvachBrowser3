@@ -37,6 +37,8 @@ namespace DvachBrowser3.ViewModels
             operation.ResultGot += OperationOnResultGot;
             Fields = new PostingFieldsViewModel(this);
             Fields.Flushed += FieldsOnFlushed;
+            Fields.Initialized += FieldsOnInitialized;
+            Fields.Initialize();
             AppHelpers.DispatchAction(GetQuote);
         }
 
@@ -142,6 +144,10 @@ namespace DvachBrowser3.ViewModels
             });
         }
 
+        private PostingData data;
+
+        private bool dataGot;
+
         /// <summary>
         /// Запуск.
         /// </summary>
@@ -151,21 +157,44 @@ namespace DvachBrowser3.ViewModels
             try
             {
                 var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
-                var data = await storage.PostData.LoadPostData(PostingLink);
+                data = await storage.PostData.LoadPostData(PostingLink);
+                dataGot = true;
                 if (data == null)
                 {
-                    Fields.SetDefault();
                     SaveTime = "";
                 }
                 else
                 {
-                    Fields.Load(data.FieldData);
                     SaveTime = data.SaveTime.ToString("g");
                 }
+                UpdateData();
             }
             catch (Exception ex)
             {
                 await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private bool isInitialized;
+
+        private void FieldsOnInitialized(object sender, EventArgs eventArgs)
+        {
+            isInitialized = true;
+            UpdateData();
+        }
+
+        private void UpdateData()
+        {
+            if (isInitialized && dataGot)
+            {
+                if (data == null)
+                {
+                    Fields.SetDefault();
+                }
+                else
+                {
+                    Fields.Load(data.FieldData);
+                }
             }
         }
 

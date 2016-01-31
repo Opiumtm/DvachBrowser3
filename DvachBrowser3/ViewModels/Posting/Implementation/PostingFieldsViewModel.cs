@@ -40,7 +40,6 @@ namespace DvachBrowser3.ViewModels
             Parent = parent;
             flushDelay = new EventDelayHelper(TimeSpan.FromSeconds(0.5));
             flushDelay.EventFired += FlushDelayOnEventFired;
-            AppHelpers.DispatchAction(InitializeData, true);
         }
 
         private async Task InitializeData()
@@ -107,6 +106,14 @@ namespace DvachBrowser3.ViewModels
             var media = caps.ContainsKey(PostingFieldSemanticRole.MediaFile) ? caps[PostingFieldSemanticRole.MediaFile] as PostingMediaFileCapability : null;
 
             SetField(new PostingMediaCollectionViewModel(this, caps.ContainsKey(PostingFieldSemanticRole.MediaFile), PostingFieldSemanticRole.MediaFile, media?.MaxFileCount ?? 1), nameof(Media));
+
+            var ccap = caps.ContainsKey(PostingFieldSemanticRole.Comment) ? caps[PostingFieldSemanticRole.Comment] as PostingCommentCapability : null;
+            if (ccap != null)
+            {
+                MarkupType = ccap.MarkupType;
+            }
+
+            Initialized?.Invoke(this, EventArgs.Empty);
         }
 
         private readonly Dictionary<PostingFieldSemanticRole, IPostingFieldDataProvider> data = new Dictionary<PostingFieldSemanticRole, IPostingFieldDataProvider>();
@@ -330,8 +337,47 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Вызвать событие по изменению.
+        /// </summary>
+        public void RaiseChanged()
+        {
+            foreach (var kv in data)
+            {
+                kv.Value?.RaiseChanged();
+            }
+        }
+
+        /// <summary>
         /// Сохранено.
         /// </summary>
         public event EventHandler Flushed;
+
+        private PostingMarkupType? markupType;
+
+        /// <summary>
+        /// Тип разметки.
+        /// </summary>
+        public PostingMarkupType? MarkupType
+        {
+            get { return markupType; }
+            private set
+            {
+                markupType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Инициализировано.
+        /// </summary>
+        public event EventHandler Initialized;
+
+        /// <summary>
+        /// Инициализировать.
+        /// </summary>
+        public void Initialize()
+        {
+            AppHelpers.DispatchAction(InitializeData, true);
+        }
     }
 }
