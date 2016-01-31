@@ -84,17 +84,33 @@ namespace DvachBrowser3.Storage.Files
         /// Получить файл в кэше (null, если нет такого файла).
         /// </summary>
         /// <param name="fileName">Имя файла.</param>
+        /// <param name="bypassDb">В обход базы.</param>
         /// <returns>Файл.</returns>
-        public async Task<StorageFile> GetCacheFileOrNull(string fileName)
+        public async Task<StorageFile> GetCacheFileOrNull(string fileName, bool bypassDb = false)
         {
-            var cacheDir = await GetCacheFolder();
-            if (!(await FindFileInCache(fileName)))
+            if (!bypassDb)
             {
-                return null;
+                var cacheDir = await GetCacheFolder();
+                if (!(await FindFileInCache(fileName)))
+                {
+                    return null;
+                }
+                return await cacheDir.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
             }
-            return await cacheDir.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+            else
+            {
+                try
+                {
+                    var cacheDir = await GetCacheFolder();
+                    return await cacheDir.GetFileAsync(fileName);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
         }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>

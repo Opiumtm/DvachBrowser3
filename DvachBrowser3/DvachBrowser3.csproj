@@ -128,6 +128,7 @@
     <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\EventDelayHelper.cs" />
+    <Compile Include="Core\ExtendedPageParam.cs" />
     <Compile Include="Core\InterlockedFlagContainer.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />

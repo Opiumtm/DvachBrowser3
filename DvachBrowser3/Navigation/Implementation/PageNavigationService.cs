@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Storage;
 using DvachBrowser3.Views;
 
 namespace DvachBrowser3.Navigation
@@ -171,7 +173,20 @@ namespace DvachBrowser3.Navigation
                 var nkey = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Serialize(nkey1);
                 if (nkey != null)
                 {
-                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), nkey);
+                    var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                    var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
+                    var postHashLink = target.PostText?.Parent?.Link;
+                    var postHash = postHashLink != null ? linkHash.GetLinkHash(postHashLink) : "none";
+                    var idSrc = $"POSTING::{linkHash.GetLinkHash(target.Link)}::{postHash}::{GetType().FullName}.NavigateToPosting";
+                    var id = UniqueIdHelper.CreateIdString(idSrc);
+                    var data = new Dictionary<string, object>();
+                    if (target.PostText != null)
+                    {
+                        data["PostQuote"] = target.PostText.GetQuoteText();
+                    }
+                    data["IsQuotePost"] = target.QuotePost;
+                    await storage.CustomData.SaveCustomData(id, data);
+                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), new ExtendedPageParam() { CustomDataId = id, LinkParam = nkey });
                 }
             }
             else

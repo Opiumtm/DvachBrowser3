@@ -53,7 +53,7 @@ namespace DvachBrowser3.Storage.Files
             try
             {
                 var fileName = GetFileName(key);
-                var file = await GetCacheFileOrNull(fileName);
+                var file = await GetCacheFileOrNull(fileName, true);
                 if (file == null)
                 {
                     return null;

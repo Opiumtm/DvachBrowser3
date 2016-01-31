@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -102,6 +103,26 @@ namespace DvachBrowser3.ViewModels
         public IList<string> GetPlainText()
         {
             return post?.ToPlainText();
+        }
+
+        /// <summary>
+        /// Получить текст цитаты.
+        /// </summary>
+        /// <returns>Текст цитаты.</returns>
+        public string GetQuoteText()
+        {
+            var sb = new StringBuilder();
+            var text = GetPlainText();
+            if (text == null)
+            {
+                return null;
+            }
+            foreach (var line in text)
+            {
+                sb.Append(">");
+                sb.AppendLine(line);
+            }
+            return sb.ToString();
         }
 
         private void RenderElements(ITextRenderLogic logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)

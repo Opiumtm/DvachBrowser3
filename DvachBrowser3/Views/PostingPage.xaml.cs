@@ -99,7 +99,8 @@ namespace DvachBrowser3.Views
         {
             base.OnNavigatedTo(e);
             var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
-            link = NavigationHelper.GetLinkFromParameter(e.Parameter);
+            var extParam = NavigationHelper.GetExtLinkFromParameter(e.Parameter);
+            link = extParam.Link;
             if (link == null)
             {
                 await AppHelpers.ShowError(new InvalidOperationException("Неправильный тип параметра навигации"));
@@ -113,7 +114,7 @@ namespace DvachBrowser3.Views
                 BootStrapper.Current.NavigationService.GoBack();
                 return;
             }
-            var vm = new PostingViewModel(link);
+            var vm = new PostingViewModel(extParam);
             vm.PostingSuccess += OnPostingSuccess;
             vm.NeedSetCaptcha += OnNeedSetCaptcha;
             vm.PropertyChanged += VmOnPropertyChanged;

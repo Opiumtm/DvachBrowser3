@@ -237,7 +237,7 @@ namespace DvachBrowser3.Views
 
                 var posting = new AppBarButton()
                 {
-                    Label = "Написать",
+                    Label = "Новый тред",
                     Icon = new SymbolIcon(Symbol.Edit)
                 };
 
@@ -246,7 +246,7 @@ namespace DvachBrowser3.Views
                     var boardLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().BoardLinkFromAnyLink(navigatedLink);
                     if (boardLink != null)
                     {
-                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(boardLink));
+                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(boardLink, null));
                     }
                 };
 
@@ -279,7 +279,7 @@ namespace DvachBrowser3.Views
                 posting.Click += (sender, e) =>
                 {
                     var tp = (ThreadPreview.ViewModel as IThreadPreviewViewModel)?.ThreadLink ?? navigatedLink;
-                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(tp));
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(tp, ThreadPreview.ViewModel?.OpPost?.Text));
                 };
 
                 appBar.PrimaryCommands.Add(posting);

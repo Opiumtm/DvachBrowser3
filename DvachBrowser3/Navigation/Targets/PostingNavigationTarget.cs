@@ -1,4 +1,5 @@
 using DvachBrowser3.Links;
+using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Navigation
 {
@@ -11,14 +12,26 @@ namespace DvachBrowser3.Navigation
         /// Конструктор.
         /// </summary>
         /// <param name="link">Ссылка.</param>
-        public PostingNavigationTarget(BoardLinkBase link)
+        /// <param name="postText">Текст поста.</param>
+        public PostingNavigationTarget(BoardLinkBase link, IPostTextViewModel postText)
         {
             Link = link;
+            PostText = postText;
         }
 
         /// <summary>
         /// Ссылка.
         /// </summary>
         public BoardLinkBase Link { get; }
+
+        /// <summary>
+        /// Текст поста.
+        /// </summary>
+        public IPostTextViewModel PostText { get; }
+
+        /// <summary>
+        /// Цитировать пост.
+        /// </summary>
+        public bool QuotePost { get; set; }
     }
 }

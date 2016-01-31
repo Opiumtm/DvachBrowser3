@@ -41,5 +41,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Текст.</returns>
         IList<string> GetPlainText();
+
+        /// <summary>
+        /// Получить текст цитаты.
+        /// </summary>
+        /// <returns>Текст цитаты.</returns>
+        string GetQuoteText();
     }
 }

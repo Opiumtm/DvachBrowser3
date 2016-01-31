@@ -16,12 +16,16 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public sealed class PostingViewModel : ViewModelBase, IPostingViewModel
     {
+        private readonly string customId;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="postingLink">Ссылка.</param>
-        public PostingViewModel(BoardLinkBase postingLink)
+        /// <param name="pageParam">Параметр страницы.</param>
+        public PostingViewModel(ExtendedPageParam2 pageParam)
         {
+            var postingLink = pageParam?.Link;
+            this.customId = pageParam?.CustomDataId;
             if (postingLink == null) throw new ArgumentNullException(nameof(postingLink));
             PostingLink = postingLink;
             if ((PostingLink.LinkKind & BoardLinkKind.Thread) == 0)
@@ -37,6 +41,25 @@ namespace DvachBrowser3.ViewModels
         }
 
         private async Task GetQuote()
+        {
+            if (customId != null)
+            {
+                var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                var customData = await storage.CustomData.LoadCustomData(customId);
+                if (customData?.ContainsKey("PostQuote") ?? false)
+                {
+                    var oquote = customData["PostQuote"]?.ToString();
+                    if (oquote != null)
+                    {
+                        HasQuote = true;
+                        Quote = oquote;
+                    }
+                }
+            }
+        }
+
+        [Obsolete]
+        private async Task GetQuoteOld()
         {
             var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
             var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
