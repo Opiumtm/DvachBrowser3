@@ -57,10 +57,24 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged">
+        <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="True" IsContentVisible="{x:Bind ShowQuote, Mode=OneWay}">
             <pa:ContentPopup.ViewContent>
-                <TextBlock FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="4" TextWrapping="Wrap" Text="{x:Bind ViewModel.Quote, Mode=OneWay}" IsTextSelectionEnabled="True">
-                </TextBlock>
+                <Grid Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Margin="0, 0, 0, 4" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}" BorderThickness="0, 0, 0, 1">
+                        <TextBlock FontSize="{x:Bind StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Цитата</TextBlock>
+                    </Border>
+                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <TextBlock FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="4" TextWrapping="Wrap" Text="{x:Bind ViewModel.Quote, Mode=OneWay}" IsTextSelectionEnabled="True">
+                            <interactivity:Interaction.Behaviors>
+                                <localBehaviors:CleanListContentMarginBehavior NormalThickness="{StaticResource CleanListPadding}" NarrowThickness="{StaticResource CleanListPaddingNarrow}" />
+                            </interactivity:Interaction.Behaviors>
+                        </TextBlock>
+                    </ScrollViewer>
+                </Grid>
             </pa:ContentPopup.ViewContent>
         </pa:ContentPopup>
     </Grid>

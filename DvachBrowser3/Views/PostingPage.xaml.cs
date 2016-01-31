@@ -128,11 +128,16 @@ namespace DvachBrowser3.Views
             }
             DataContext = vm;
             OnPropertyChanged(nameof(ViewModel));
+            OnPropertyChanged(nameof(ShowQuote));
             NavigatedTo?.Invoke(this, e);
         }
 
         private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(IPostingViewModel.HasQuote))
+            {
+                AppBarChange?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void OnNeedSetCaptcha(object sender, NeedSetCaptchaEventArgs e)
@@ -224,19 +229,55 @@ namespace DvachBrowser3.Views
                 quoteChar = (char) symbol;
             }
 
-            var quoteCommand = new AppBarButton()
-            {
-                Label = "Цитата",
-                Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(quoteChar, 1) }
-            };            
-            quoteCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.HasQuote"), Mode = BindingMode.OneWay });
-            quoteCommand.Click += (sender, e) => QuotePopup.IsContentVisible = true;
+            AppBarToggleButton quoteCommand = null;
 
-            appBar.PrimaryCommands.Add(quoteCommand);
+            if (ViewModel.HasQuote)
+            {
+                quoteCommand = new AppBarToggleButton()
+                {
+                    Label = "Цитата",
+                    Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(quoteChar, 1) },
+                    IsChecked = ShowQuote
+                };
+                quoteCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.HasQuote"), Mode = BindingMode.OneWay });
+                showQuoteFunc = (v) =>
+                {
+                    if (v != null && v != quoteCommand.IsChecked)
+                    {
+                        quoteCommand.IsChecked = v.Value;
+                    }
+                    return quoteCommand.IsChecked ?? false;
+                };
+                quoteCommand.Checked += (sender, e) =>
+                {
+                    OnPropertyChanged(nameof(ShowQuote));
+                };
+                quoteCommand.Unchecked += (sender, e) =>
+                {
+                    OnPropertyChanged(nameof(ShowQuote));
+                };
+            }
+            else
+            {
+                showQuoteFunc = null;
+            }
+
+            if (quoteCommand != null)
+            {
+                appBar.PrimaryCommands.Add(quoteCommand);
+            }
             appBar.PrimaryCommands.Add(clearCommand);
             appBar.PrimaryCommands.Add(postCommand);
 
             return appBar;
+        }
+
+        private Func<bool?, bool> showQuoteFunc = null;
+
+        public bool ShowQuote
+        {
+            get { return showQuoteFunc?.Invoke(null) ?? false; }
+            set { showQuoteFunc?.Invoke(value); }
         }
 
         private void ClearCommandOnClick(object sender, RoutedEventArgs routedEventArgs)
@@ -267,7 +308,28 @@ namespace DvachBrowser3.Views
 
         private void PostCommandOnClick(object sender, RoutedEventArgs e)
         {
-            ViewModel?.Post();
+            AppHelpers.DispatchAction(async () =>
+            {
+                bool isPost = false;
+                var dialog = new MessageDialog((ViewModel?.IsNewThread ?? false) ? "Создать новый тред?" : "Отправить пост в тред?", "Внимание!")
+                {
+                    Commands =
+                    {
+                        new UICommand("Да", command =>
+                        {
+                            isPost = true;
+                        }),
+                        new UICommand("Нет")
+                    },
+                    CancelCommandIndex = 1,
+                    DefaultCommandIndex = 0
+                };
+                await dialog.ShowAsync();
+                if (isPost)
+                {
+                    ViewModel?.Post();
+                }
+            }, true);
         }
 
         /// <summary>
@@ -309,6 +371,10 @@ namespace DvachBrowser3.Views
         private void Popup_OnIsContentVisibleChanged(object sender, EventArgs e)
         {
             var isVisible = (sender as ContentPopup)?.IsContentVisible ?? false;
+            if (sender == QuotePopup)
+            {
+                ShowQuote = isVisible;
+            }
             if (isVisible)
             {
                 if (sender == QuotePopup)

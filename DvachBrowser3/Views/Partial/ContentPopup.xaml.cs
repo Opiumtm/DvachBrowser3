@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -19,13 +21,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class ContentPopup : UserControl, IWeakEventCallback
+    public sealed partial class ContentPopup : UserControl, IWeakEventCallback, INotifyPropertyChanged
     {
         public ContentPopup()
         {
             this.InitializeComponent();
             Loaded += (sender, e) => SetContentMargin();
             Shell.IsNarrowViewChanged.AddCallback(this);
+            OnPropertyChanged(nameof(IsShowCloseButton));
         }
 
         private void ContentVisibleChanged(bool oldValue, bool newValue)
@@ -110,6 +113,26 @@ namespace DvachBrowser3.Views.Partial
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Скрывать кнопку закрытия.
+        /// </summary>
+        public bool HideCloseButton
+        {
+            get { return (bool) GetValue(HideCloseButtonProperty); }
+            set { SetValue(HideCloseButtonProperty, value); }
+        }
+
+        /// <summary>
+        /// Скрывать кнопку закрытия.
+        /// </summary>
+        public static readonly DependencyProperty HideCloseButtonProperty = DependencyProperty.Register("HideCloseButton", typeof (bool), typeof (ContentPopup), new PropertyMetadata(false, HideCloseButtonPropertyChangedCallback));
+
+        private static void HideCloseButtonPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as ContentPopup;
+            obj?.OnPropertyChanged(nameof(IsShowCloseButton));
+        }
+
+        /// <summary>
         /// Есть хардварная кнопка "назад".
         /// </summary>
         public bool IsHardwareBackButtonPresent
@@ -147,6 +170,11 @@ namespace DvachBrowser3.Views.Partial
         }
 
         /// <summary>
+        /// Показывать кнопку закрытия.
+        /// </summary>
+        public bool IsShowCloseButton => !IsHardwareBackButtonPresent && !HideCloseButton;
+
+        /// <summary>
         /// Получить событие.
         /// </summary>
         /// <param name="sender">Отправитель.</param>
@@ -158,6 +186,13 @@ namespace DvachBrowser3.Views.Partial
             {
                 SetContentMargin();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

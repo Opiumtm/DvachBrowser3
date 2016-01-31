@@ -1,18 +1,18 @@
-using DvachBrowser3.Links;
+п»їusing DvachBrowser3.Links;
 using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Navigation
 {
     /// <summary>
-    /// Цель - постинг.
+    /// Р¦РµР»СЊ - РїРѕСЃС‚РёРЅРі.
     /// </summary>
     public sealed class PostingNavigationTarget : PageNavigationTargetBase
     {
         /// <summary>
-        /// Конструктор.
+        /// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.
         /// </summary>
-        /// <param name="link">Ссылка.</param>
-        /// <param name="postText">Текст поста.</param>
+        /// <param name="link">РЎСЃС‹Р»РєР°.</param>
+        /// <param name="postText">РўРµРєСЃС‚ РїРѕСЃС‚Р°.</param>
         public PostingNavigationTarget(BoardLinkBase link, IPostTextViewModel postText)
         {
             Link = link;
@@ -20,17 +20,17 @@ namespace DvachBrowser3.Navigation
         }
 
         /// <summary>
-        /// Ссылка.
+        /// РЎСЃС‹Р»РєР°.
         /// </summary>
         public BoardLinkBase Link { get; }
 
         /// <summary>
-        /// Текст поста.
+        /// РўРµРєСЃС‚ РїРѕСЃС‚Р°.
         /// </summary>
         public IPostTextViewModel PostText { get; }
 
         /// <summary>
-        /// Цитировать пост.
+        /// Р¦РёС‚РёСЂРѕРІР°С‚СЊ РїРѕСЃС‚.
         /// </summary>
         public bool QuotePost { get; set; }
     }
