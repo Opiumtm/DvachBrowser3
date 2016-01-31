@@ -26,7 +26,7 @@ namespace DvachBrowser3.Logic
                 { typeof(PostLink), TypeFunc<PostLink>(a => string.Format("post-{0}-{1}-{2}-{3}", a.Engine, a.Board, a.Thread, a.Post)) },
                 { typeof(BoardMediaLink), TypeFunc<BoardMediaLink>(a => string.Format("boardmedia-{0}-{1}-{2}", a.Engine, a.Board, GetHashId(a.RelativeUri))) },
                 { typeof(MediaLink), TypeFunc<MediaLink>(a => string.Format("media-{0}-{1}-{2}", a.Engine, a.IsAbsolute ? 1 : 0, GetHashId(a.RelativeUri))) },
-                { typeof(YoutubeLink), TypeFunc<YoutubeLink>(a => string.Format("youtube-{0}-{1}", a.Engine, a.YoutubeId)) },
+                { typeof(YoutubeLink), TypeFunc<YoutubeLink>(a => string.Format("youtube-{0}-{1}", a.Engine, GetHashId(a.YoutubeId))) },
                 { typeof(RootLink), TypeFunc<RootLink>(a => string.Format("root-{0}", a.Engine)) },
                 { typeof(ThreadTagLink), TypeFunc<ThreadTagLink>(a => string.Format("tag-{0}-{1}-{2}", a.Engine, a.Board, GetHashId(a.Tag))) },
                 { typeof(BoardCatalogLink), TypeFunc<BoardCatalogLink>(a => string.Format("catalog-{0}-{1}-{2}", a.Engine, a.Board, (int)a.Sort)) },

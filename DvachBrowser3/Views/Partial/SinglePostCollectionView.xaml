@@ -29,7 +29,8 @@
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
                                     ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
-                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost">
+                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"
+                                    VerticalAlignment="Top">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
                                 </interactivity:Interaction.Behaviors>
