@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.ViewModels
@@ -29,5 +28,11 @@ namespace DvachBrowser3.ViewModels
         /// Значение.
         /// </summary>
         T Value { get; set; }
+
+        /// <summary>
+        /// Обновить значение без вызова NotifyPropertyChanged.
+        /// </summary>
+        /// <param name="value">Значение.</param>
+        void UpdateValueInternal(T value);
     }
 }

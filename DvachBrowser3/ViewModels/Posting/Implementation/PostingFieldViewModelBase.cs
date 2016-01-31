@@ -66,6 +66,16 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Обновить значение без вызова NotifyPropertyChanged.
+        /// </summary>
+        /// <param name="value">Значение.</param>
+        public void UpdateValueInternal(T value)
+        {
+            objValue = value;
+            OnValueChange();
+        }
+
+        /// <summary>
         /// Проверка на равенство значений.
         /// </summary>
         /// <param name="oldValue">Старое значение.</param>
