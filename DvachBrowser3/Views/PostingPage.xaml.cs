@@ -142,6 +142,13 @@ namespace DvachBrowser3.Views
 
         private void OnNeedSetCaptcha(object sender, NeedSetCaptchaEventArgs e)
         {
+            CaptchaQueryView.QueryParam = new CaptchaQueryViewParam()
+            {
+                CaptchaType = e.CaptchaType,
+                Engine = e.Engine
+            };
+            CaptchaQueryView.Load(ViewModel?.PostingLink);
+            CaptchaPopup.IsContentVisible = true;
         }
 
         private async void OnPostingSuccess(object sender, PostingSuccessEventArgs e)
@@ -327,6 +334,7 @@ namespace DvachBrowser3.Views
                 await dialog.ShowAsync();
                 if (isPost)
                 {
+                    if (ViewModel != null) ViewModel.Captcha = null;
                     ViewModel?.Post();
                 }
             }, true);
@@ -379,6 +387,11 @@ namespace DvachBrowser3.Views
             {
                 if (sender == QuotePopup)
                 {
+                    CaptchaPopup.IsContentVisible = false;
+                }
+                if (sender == CaptchaPopup)
+                {
+                    ShowQuote = false;
                 }
             }
         }
@@ -386,6 +399,16 @@ namespace DvachBrowser3.Views
         private void SetNarrowStyle()
         {
             IsNarrowView = Shell.Instance?.IsNarrowView ?? false;
+        }
+
+        private void CaptchaQueryView_OnCaptchaQueryResult(object sender, CaptchaQueryResultEventArgs e)
+        {
+            CaptchaPopup.IsContentVisible = false;
+            if (ViewModel != null)
+            {
+                ViewModel.Captcha = e.Data;
+                ViewModel.Post();
+            }
         }
     }
 }

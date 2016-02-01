@@ -321,6 +321,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             var hasLength = message.Content.TryComputeLength(out length);
             ulong? length1 = hasLength ? (ulong?) length : null;
             var str = await message.Content.ReadAsStringAsync().AsTask(token, new Progress<ulong>(l => DownloadProgress(length1, l)));
+            string error = null;
             try
             {
                 var obj = JsonConvert.DeserializeObject<PostingJsonResult>(str);
@@ -361,12 +362,13 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                     }
                     return new OperationResult();
                 }
-                throw new Exception(obj.Reason ?? "Сервер вернул неправильный ответ");
+                error = obj.Reason;
             }
             catch (Exception ex)
             {
                 throw new WebException("Сервер вернул неправильный ответ");
             }
+            throw new WebException(error ?? "Сервер вернул неправильный ответ");
         }
 
         /// <summary>

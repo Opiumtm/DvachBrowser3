@@ -428,7 +428,10 @@ namespace DvachBrowser3.Engines.Makaba
             }
         }
 
-        private Uri BaseUri
+        /// <summary>
+        /// Базовый URI.
+        /// </summary>
+        public Uri BaseUri
         {
             get
             {

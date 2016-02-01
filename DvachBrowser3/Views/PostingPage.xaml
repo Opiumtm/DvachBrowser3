@@ -67,5 +67,21 @@
                 </Grid>
             </pa:ContentPopup.ViewContent>
         </pa:ContentPopup>
+
+        <pa:ContentPopup Grid.Row="2" x:Name="CaptchaPopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="False">
+            <pa:ContentPopup.ViewContent>
+                <Grid Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Margin="0, 0, 0, 4" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}" BorderThickness="0, 0, 0, 1">
+                        <TextBlock FontSize="{x:Bind StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Капча</TextBlock>
+                    </Border>
+                    <pa:CaptchaQueryView Grid.Row="1" x:Name="CaptchaQueryView" CaptchaQueryResult="CaptchaQueryView_OnCaptchaQueryResult">
+                    </pa:CaptchaQueryView>
+                </Grid>
+            </pa:ContentPopup.ViewContent>
+        </pa:ContentPopup>
     </Grid>
 </Page>

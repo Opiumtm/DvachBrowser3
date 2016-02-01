@@ -343,7 +343,10 @@
     </Compile>
     <Compile Include="Views\Partial\Additional\BannerTappedEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\BannerTappedEventHandler.cs" />
+    <Compile Include="Views\Partial\Additional\CaptchaQueryResultEventArgs.cs" />
+    <Compile Include="Views\Partial\Additional\CaptchaQueryViewParam.cs" />
     <Compile Include="Views\Partial\Additional\ContentPopupManager.cs" />
+    <Compile Include="Views\Partial\Additional\ICatpchaQueryView.cs" />
     <Compile Include="Views\Partial\Additional\IPostCollectionVisualIndexStore.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullPostEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullPostEventHandler.cs" />
@@ -362,6 +365,12 @@
       <DependentUpon>BoardTile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\Additional\BoardTileShortNameConverter.cs" />
+    <Compile Include="Views\Partial\CaptchaQueryView.xaml.cs">
+      <DependentUpon>CaptchaQueryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\Captcha\DvachCaptchaQueryView.xaml.cs">
+      <DependentUpon>DvachCaptchaQueryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Partial\ContentPopup.xaml.cs">
       <DependentUpon>ContentPopup.xaml</DependentUpon>
     </Compile>
@@ -497,6 +506,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\BoardTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\CaptchaQueryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\Captcha\DvachCaptchaQueryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

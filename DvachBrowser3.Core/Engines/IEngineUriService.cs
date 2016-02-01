@@ -21,5 +21,10 @@ namespace DvachBrowser3.Engines
         /// <param name="uri">URI.</param>
         /// <returns>Ссылка.</returns>
         BoardLinkBase TryParsePostLink(string uri);
+
+        /// <summary>
+        /// Базовый URI.
+        /// </summary>
+        Uri BaseUri { get; }
     }
 }
