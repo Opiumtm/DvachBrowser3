@@ -345,7 +345,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                     if (!string.IsNullOrWhiteSpace(obj.Num) && "OK".Equals(obj.Status, StringComparison.OrdinalIgnoreCase) && pr.Thread > 0)
                     {
                         int n;
-                        if (int.TryParse(obj.Target, out n))
+                        if (int.TryParse(obj.Num, out n))
                         {
                             return new OperationResult()
                             {

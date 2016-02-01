@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
@@ -30,13 +31,12 @@ namespace DvachBrowser3.Engines
         /// <returns>Операция.</returns>
         protected sealed override async Task<T> DoComplete(HttpClient client, CancellationToken token)
         {
-            using (var content = await GetPostContent())
+            var uri = GetRequestUri();
+            var content = await GetPostContent();
+            var operation = client.PostAsync(uri, content).AsTask(token, new Progress<HttpProgress>(HttpOperationProgress));
+            using (var message = await operation)
             {
-                var operation = client.PostAsync(GetRequestUri(), content);
-                using (var message = await operation.AsTask(token, new Progress<HttpProgress>(HttpOperationProgress)))
-                {
-                    return await DoComplete(message, token);
-                }
+                return await DoComplete(message, token);
             }
         }
 

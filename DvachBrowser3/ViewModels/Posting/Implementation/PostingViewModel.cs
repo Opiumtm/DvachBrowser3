@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,6 +134,7 @@ namespace DvachBrowser3.ViewModels
         {
             var data = new PostingData()
             {
+                FieldData = new Dictionary<PostingFieldSemanticRole, object>(),
                 Link = PostingLink,
                 SaveTime = DateTime.Now
             };

@@ -101,7 +101,7 @@ namespace DvachBrowser3.ViewModels
             SetField(new PostingFieldViewModel<bool>(this, caps.ContainsKey(PostingFieldSemanticRole.SageFlag), PostingFieldSemanticRole.SageFlag) { DefaultValue = false }, nameof(SageFlag));
             SetField(new PostingFieldViewModel<bool>(this, caps.ContainsKey(PostingFieldSemanticRole.WatermarkFlag), PostingFieldSemanticRole.WatermarkFlag) { DefaultValue = false }, nameof(WatermarkFlag));
             SetField(new PostingFieldViewModel<bool>(this, caps.ContainsKey(PostingFieldSemanticRole.OpFlag), PostingFieldSemanticRole.OpFlag) { DefaultValue = false }, nameof(OpFlag));
-            SetField(new PostingFieldViewModel<string>(this, caps.ContainsKey(PostingFieldSemanticRole.ThreadTag), PostingFieldSemanticRole.ThreadTag) { DefaultValue = "" }, nameof(ThreadTag));
+            SetField(new PostingFieldViewModel<string>(this, caps.ContainsKey(PostingFieldSemanticRole.ThreadTag) && (Parent?.IsNewThread ?? false), PostingFieldSemanticRole.ThreadTag) { DefaultValue = "" }, nameof(ThreadTag));
 
             var media = caps.ContainsKey(PostingFieldSemanticRole.MediaFile) ? caps[PostingFieldSemanticRole.MediaFile] as PostingMediaFileCapability : null;
 
