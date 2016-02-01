@@ -64,7 +64,7 @@ namespace DvachBrowser3.Logic
                     };
                 }
             }
-            var postOperation = logic.Post(Parameter.Data, captcha, PostingMode.Default);
+            var postOperation = logic.Post(Parameter.Data, captcha, 0);
             postOperation.Progress += (sender, e) => OnProgress(e);
             var link = await postOperation.Complete(token);
             return new Result()

@@ -102,7 +102,7 @@ namespace DvachBrowser3.ViewModels
         private void OperationOnResultGot(object sender, EventArgs e)
         {
             var result = operation.Result;
-            AppHelpers.ActionOnUiThread(() =>
+            AppHelpers.ActionOnUiThread(async () =>
             {
                 if (result != null)
                 {
@@ -112,10 +112,13 @@ namespace DvachBrowser3.ViewModels
                     }
                     if (result.Kind == PostingResultKind.Success)
                     {
+                        Fields.MarkAsSent();
+                        var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                        await Fields.Clear();
+                        await storage.PostData.DeletePostingData(PostingLink);
                         PostingSuccess?.Invoke(this, new PostingSuccessEventArgs(result.RedirectLink));
                     }
                 }
-                return Task.CompletedTask;
             });
         }
 
