@@ -72,5 +72,15 @@ namespace DvachBrowser3.Styles
         /// Ширина тайла каталога.
         /// </summary>
         double CatalogTileWidth { get; }
+
+        /// <summary>
+        /// Высота тайла изображения постинга.
+        /// </summary>
+        double PostingMediaTileHeight { get; }
+
+        /// <summary>
+        /// Ширина тайла изображения постинга.
+        /// </summary>
+        double PostingMediaTileWidth { get; }
     }
 }

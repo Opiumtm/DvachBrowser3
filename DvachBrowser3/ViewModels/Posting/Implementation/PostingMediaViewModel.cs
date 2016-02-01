@@ -2,10 +2,13 @@
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using DvachBrowser3.Posting;
 using DvachBrowser3.Storage;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -174,6 +177,11 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Можно показывать предпросмотр.
+        /// </summary>
+        public bool CanPreview => CanResize;
+
+        /// <summary>
         /// Создать описание файла.
         /// </summary>
         /// <returns>Описание файла.</returns>
@@ -193,14 +201,38 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public async Task Delete()
         {
+            if (Image != null)
+            {
+                var bimg = Image as BitmapImage;
+                Image = null;
+                HasImage = false;
+                if (bimg != null)
+                {
+                    var makabaUri = new Uri("ms-appx:///Resources/MakabaLogo.png", UriKind.Absolute);
+                    var f = await StorageFile.GetFileFromApplicationUriAsync(makabaUri);
+                    using (var estr = await f.OpenAsync(FileAccessMode.Read))
+                    {
+                        await bimg.SetSourceAsync(estr);
+                    }
+                }
+            }
             var storageService = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
             await storageService.PostData.MediaStorage.DeleteMediaFile(Id);
             // ReSharper disable once UseNullPropagation
             if (Parent != null)
             {
                 Parent.Media.Remove(this);
+                AppHelpers.DispatchAction(async () =>
+                {
+                    await Parent.Parent.Flush(false);
+                });
             }
         }
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
 
         private async Task Initialize()
         {

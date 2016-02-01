@@ -45,7 +45,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Можно добавлять медиа файл.
         /// </summary>
-        public bool CanAdd => maxFiles != null && Media.Count <= maxFiles;
+        public bool CanAdd => maxFiles != null && Media.Count < maxFiles;
 
         /// <summary>
         /// Добавить медиа файл.

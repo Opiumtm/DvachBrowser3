@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.Posting;
+using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -61,6 +62,11 @@ namespace DvachBrowser3.ViewModels
         bool CanResize { get; }
 
         /// <summary>
+        /// Можно показывать предпросмотр.
+        /// </summary>
+        bool CanPreview { get; }
+
+        /// <summary>
         /// Создать описание файла.
         /// </summary>
         /// <returns>Описание файла.</returns>
@@ -70,5 +76,10 @@ namespace DvachBrowser3.ViewModels
         /// Удалить файл.
         /// </summary>
         Task Delete();
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        IStyleManager StyleManager { get; }
     }
 }

@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="DvachBrowser3.Views.Partial.PostingMediaCollectionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DvachBrowser3.Views.Partial"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:DvachBrowser3.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <GridView ItemsSource="{x:Bind ViewModel.Media, Mode=OneWay}">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:IPostingMediaViewModel">
+                    <Grid Margin="0, 0, 0, 4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Margin="0, 0, 0, 4" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Padding="2" 
+                                Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" Height="{x:Bind StyleManager.Tiles.PostingMediaTileHeight, Mode=OneWay}">
+                            <Grid>
+                                <Image Visibility="{x:Bind CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                   Stretch="Uniform" Source="{x:Bind Image, Mode=OneWay}">
+                                </Image>
+                                <SymbolIcon Visibility="{x:Bind CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" Symbol="Document" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" />
+                            </Grid>
+                        </Border>
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}"
+                                   TextAlignment="Left"
+                                   FontSize="{x:Bind StyleManager.Text.SmallFontSize, Mode=OneWay}">
+                            <Run Text="{x:Bind SizeStr, Mode=OneWay}" />, <Run Text="{x:Bind OriginalName, Mode=OneWay}" />
+                        </TextBlock>
+                        <StackPanel Grid.Row="2" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}">
+                            <CheckBox IsChecked="{x:Bind AddUniqueId, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Уникальный хэш</CheckBox>
+                            <CheckBox IsChecked="{x:Bind Resize, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}" IsEnabled="{x:Bind CanResize, Mode=OneWay}">Уменьшить</CheckBox>
+                            <Button HorizontalAlignment="Stretch" Tag="{x:Bind}" Click="DeleteButton_OnClick" ToolTipService.ToolTip="Удалить">
+                                <Viewbox Height="16" Width="16">
+                                    <SymbolIcon Symbol="Delete" />
+                                </Viewbox>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.Footer>
+                <Grid Margin="0, 4, 0, 0">
+                    <Button IsEnabled="{x:Bind ViewModel.CanAdd, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" ToolTipService.ToolTip="Добавить" Click="AddButton_OnClick">
+                        <Viewbox Height="16" Width="16">
+                            <SymbolIcon Symbol="Add" />
+                        </Viewbox>
+                    </Button>
+                </Grid>
+            </GridView.Footer>
+        </GridView>
+    </Grid>
+</UserControl>

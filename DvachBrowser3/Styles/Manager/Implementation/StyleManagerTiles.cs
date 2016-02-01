@@ -27,6 +27,8 @@ namespace DvachBrowser3.Styles
                 BoardTileWidth = 160;
                 CatalogTileWidth = 160;
                 CatalogTileHeight = 90;
+                PostingMediaTileHeight = 240;
+                PostingMediaTileWidth = 320;
             }
             else
             {
@@ -43,6 +45,8 @@ namespace DvachBrowser3.Styles
                 BoardTileWidth = 95;
                 CatalogTileWidth = 105;
                 CatalogTileHeight = 90;
+                PostingMediaTileHeight = 210;
+                PostingMediaTileWidth = 280;
             }
         }
 
@@ -240,6 +244,36 @@ namespace DvachBrowser3.Styles
             private set
             {
                 catalogTileWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double postingMediaTileHeight;
+
+        /// <summary>
+        /// Высота тайла изображения постинга.
+        /// </summary>
+        public double PostingMediaTileHeight
+        {
+            get { return postingMediaTileHeight; }
+            private set
+            {
+                postingMediaTileHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double postingMediaTileWidth;
+
+        /// <summary>
+        /// Ширина тайла изображения постинга.
+        /// </summary>
+        public double PostingMediaTileWidth
+        {
+            get { return postingMediaTileWidth; }
+            private set
+            {
+                postingMediaTileWidth = value;
                 OnPropertyChanged();
             }
         }

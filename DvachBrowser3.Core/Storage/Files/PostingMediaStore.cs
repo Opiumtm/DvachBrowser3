@@ -45,16 +45,14 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Медиа файл (null - не найден).</returns>
         public async Task<PostingMediaStoreItem?> GetMediaFile(string id)
         {
-            var fileName = string.Format("{0}.cache", id);
-            var hasFile = await FindFileInCache(fileName);
-            if (!hasFile)
-            {
-                return null;
-            }
-            var cacheDir = await GetCacheFolder();
             try
             {
-                var file = await cacheDir.GetFileAsync(fileName);
+                var fileName = string.Format("{0}.cache", id);
+                var file = await GetCacheFileOrNull(fileName, true);
+                if (file == null)
+                {
+                    return null;
+                }
                 return new PostingMediaStoreItem()
                 {
                     File = file,
