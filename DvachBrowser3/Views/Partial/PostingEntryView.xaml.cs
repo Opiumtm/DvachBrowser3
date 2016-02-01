@@ -20,31 +20,46 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class PostingEntryView : UserControl, IWeakEventCallback
+    public sealed partial class PostingEntryView : UserControl
     {
         public PostingEntryView()
         {
             this.InitializeComponent();
-            Shell.IsNarrowViewChanged.AddCallback(this);
             AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
-        }
-
-        /// <summary>
-        /// Получить событие.
-        /// </summary>
-        /// <param name="sender">Отправитель.</param>
-        /// <param name="e">Параметр события.</param>
-        /// <param name="channel">Канал.</param>
-        public void ReceiveWeakEvent(object sender, IWeakEventChannel channel, object e)
-        {
-            if (channel?.Id == Shell.IsNarrowViewChangedId)
+            MainGrid.SizeChanged += (sender, e) =>
             {
                 AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
-            }
+            };
         }
 
         private Task IsNarrowViewChanged()
         {
+            bool isNarrow;
+            bool isChange;
+            if (MainGrid.ActualWidth >= 680)
+            {
+                isNarrow = false;
+            }
+            else
+            {
+                isNarrow = true;
+            }
+            if (isNarrow)
+            {
+                isChange = NarrowUiPanel.Visibility != Visibility.Visible;
+                NarrowUiPanel.Visibility = Visibility.Visible;
+                NormalUiPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                isChange = NormalUiPanel.Visibility != Visibility.Visible;
+                NarrowUiPanel.Visibility = Visibility.Collapsed;
+                NormalUiPanel.Visibility = Visibility.Visible;
+            }
+            if (isChange)
+            {
+                ViewModel?.Fields?.RaiseChanged();
+            }
             return Task.CompletedTask;
         }
 

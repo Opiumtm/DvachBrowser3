@@ -80,7 +80,8 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public void RaiseChanged()
         {
-            RaisePropertyChanged();
+            // ReSharper disable once ExplicitCallerInfoArgument
+            RaisePropertyChanged(nameof(Value));
         }
 
         /// <summary>
