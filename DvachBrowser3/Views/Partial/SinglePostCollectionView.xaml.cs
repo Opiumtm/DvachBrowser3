@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -12,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Logic;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 
@@ -259,5 +263,69 @@ namespace DvachBrowser3.Views.Partial
         public event EventHandler GoButtonClick;
 
         public IStyleManager StyleManager => Shell.StyleManager;
+
+        private async void CopyTextFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostViewModel;
+                if (t != null)
+                {
+                    var dp = new DataPackage();
+                    var txt = t.Text.GetPlainText().Aggregate(new StringBuilder(), (sb, s) => sb.AppendLine(s)).ToString();
+                    dp.SetText(txt);
+                    Clipboard.SetContent(dp);
+                    Clipboard.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void CopyLinkFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostViewModel;
+                if (t?.Link != null)
+                {
+                    var uri = t.Link.GetWebLink();
+                    if (uri != null)
+                    {
+                        var dp = new DataPackage();
+                        dp.SetText(uri.ToString());
+                        dp.SetWebLink(uri);
+                        Clipboard.SetContent(dp);
+                        Clipboard.Flush();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        private async void PostQuoteFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostViewModel;
+                if (t != null)
+                {
+                    var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(t.ParentLink, t.Text) { QuotePost = linkTransform.GetBackLinkDisplayString(t.Link) });
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
     }
 }

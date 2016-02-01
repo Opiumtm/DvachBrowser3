@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
@@ -68,5 +69,10 @@ namespace DvachBrowser3.ViewModels
         /// Цитата.
         /// </summary>
         string Quote { get; }
+
+        /// <summary>
+        /// Ссылка квоты.
+        /// </summary>
+        string QuoteLink { get; }
     }
 }

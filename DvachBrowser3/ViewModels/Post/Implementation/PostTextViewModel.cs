@@ -117,6 +117,11 @@ namespace DvachBrowser3.ViewModels
             {
                 return null;
             }
+            var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+            if (Parent?.Link != null)
+            {
+                sb.AppendLine(linkTransform.GetBackLinkDisplayString(Parent.Link));
+            }
             foreach (var line in text)
             {
                 sb.Append(">");

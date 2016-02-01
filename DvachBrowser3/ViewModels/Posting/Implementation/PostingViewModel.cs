@@ -43,6 +43,8 @@ namespace DvachBrowser3.ViewModels
             AppHelpers.DispatchAction(GetQuote);
         }
 
+        private bool quotesGot = false;
+
         private async Task GetQuote()
         {
             if (customId != null)
@@ -58,7 +60,17 @@ namespace DvachBrowser3.ViewModels
                         Quote = oquote;
                     }
                 }
+                if (customData?.ContainsKey("IsQuotePost") ?? false)
+                {
+                    var olink = customData["IsQuotePost"]?.ToString();
+                    if (olink != null)
+                    {
+                        QuoteLink = olink;
+                    }
+                }
             }
+            quotesGot = true;
+            UpdateData();
         }
 
         [Obsolete]
@@ -188,18 +200,46 @@ namespace DvachBrowser3.ViewModels
             UpdateData();
         }
 
-        private void UpdateData()
+        private async void UpdateData()
         {
-            if (isInitialized && dataGot)
+            try
             {
-                if (data == null)
+                if (isInitialized && dataGot && quotesGot)
                 {
-                    Fields.SetDefault();
+                    if (data == null)
+                    {
+                        Fields.SetDefault();
+                    }
+                    else
+                    {
+                        Fields.Load(data.FieldData);
+                    }
+                    if (!string.IsNullOrWhiteSpace(QuoteLink))
+                    {
+                        var cmt = Fields.Comment.Value;
+                        var sb = new StringBuilder();
+                        if (!string.IsNullOrWhiteSpace(cmt))
+                        {
+                            sb.AppendLine(cmt);
+                        }
+                        sb.AppendLine(QuoteLink);
+                        Fields.Comment.Value = sb.ToString();
+                        if (customId != null)
+                        {
+                            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+                            var customData = await storage.CustomData.LoadCustomData(customId);
+                            if (customData != null && customData.ContainsKey("IsQuotePost"))
+                            {
+                                customData.Remove("IsQuotePost");
+                                await storage.CustomData.SaveCustomData(customId, customData);
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    Fields.Load(data.FieldData);
-                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
             }
         }
 
@@ -313,6 +353,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 quote = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string quoteLink;
+
+        /// <summary>
+        /// Ссылка квоты.
+        /// </summary>
+        public string QuoteLink
+        {
+            get { return quoteLink; }
+            private set
+            {
+                quoteLink = value;
                 RaisePropertyChanged();
             }
         }

@@ -292,6 +292,29 @@ namespace DvachBrowser3.Views
         {
             var appBar = new CommandBar();
 
+            var postButton = new AppBarButton()
+            {
+                Icon = new SymbolIcon(Symbol.Edit),
+                Label = "Написать"
+            };
+            postButton.Click += async (sender, e) =>
+            {
+                try
+                {
+                    var opPost = ViewModel?.OpPost;
+                    if (opPost != null)
+                    {
+                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(opPost.ParentLink, opPost.Text) );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await AppHelpers.ShowError(ex);
+                }
+            };
+
+            appBar.PrimaryCommands.Add(postButton);
+
             if (currentContentView == PageContentViews.Default)
             {
                 short downNum, upNum;

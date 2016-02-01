@@ -38,6 +38,7 @@
                                         <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
                                         <MenuFlyoutItem Text="Во весь экран" Tag="{x:Bind}" Click="ShowFullScreenFlyoutItem_OnClick"
                                                         Visibility="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
+                                        <MenuFlyoutItem Text="Ответить" Tag="{x:Bind}" Click="PostQuoteFlyoutItem_OnClick"/>
                                     </MenuFlyout>
                                 </behaviors:PopupMenuBehavior.MenuFlyout>
                             </behaviors:PopupMenuBehavior>

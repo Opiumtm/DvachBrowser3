@@ -32,6 +32,6 @@ namespace DvachBrowser3.Navigation
         /// <summary>
         /// Цитировать пост.
         /// </summary>
-        public bool QuotePost { get; set; }
+        public string QuotePost { get; set; }
     }
 }

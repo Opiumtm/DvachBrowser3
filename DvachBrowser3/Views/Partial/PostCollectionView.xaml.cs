@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Engines;
+using DvachBrowser3.Logic;
+using DvachBrowser3.Navigation;
 using DvachBrowser3.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -303,5 +305,23 @@ namespace DvachBrowser3.Views.Partial
         /// Показать во весь экран.
         /// </summary>
         public event ShowFullPostEventHandler ShowFullScreen;
+
+        private async void PostQuoteFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IPostViewModel;
+                if (t != null)
+                {
+                    var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(t.ParentLink, t.Text) { QuotePost = linkTransform.GetBackLinkDisplayString(t.Link) });
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
     }
 }
