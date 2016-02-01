@@ -146,6 +146,7 @@ namespace DvachBrowser3.Views
 
         private async void OnPostingSuccess(object sender, PostingSuccessEventArgs e)
         {
+            ViewModel.Fields.MarkAsSent();
             var dialog = new MessageDialog(ViewModel.IsNewThread ? "Новый тред успешно создан" : "Пост успешно отправлен", "Внимание!")
             {
                 Commands = { new UICommand("Ок")}

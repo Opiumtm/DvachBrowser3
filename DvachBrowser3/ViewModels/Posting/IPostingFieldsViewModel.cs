@@ -96,6 +96,11 @@ namespace DvachBrowser3.ViewModels
         Task Flush(bool immediate = false);
 
         /// <summary>
+        /// Пометить как сохранённый.
+        /// </summary>
+        void MarkAsSent();
+
+        /// <summary>
         /// Очистить данные.
         /// </summary>
         /// <returns></returns>

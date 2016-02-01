@@ -267,6 +267,16 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private bool isSent = false;
+
+        /// <summary>
+        /// Пометить как сохранённый.
+        /// </summary>
+        public void MarkAsSent()
+        {
+            isSent = true;
+        }
+
         private async void FlushDelayOnEventFired(object sender, EventArgs e)
         {
             try
@@ -281,6 +291,10 @@ namespace DvachBrowser3.ViewModels
 
         private async Task DoFlush()
         {
+            if (isSent)
+            {
+                return;
+            }
             try
             {
                 var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();

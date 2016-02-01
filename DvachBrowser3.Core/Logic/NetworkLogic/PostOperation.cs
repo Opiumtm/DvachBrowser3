@@ -196,7 +196,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                                 using (var outStr = await tempFile.OpenAsync(FileAccessMode.ReadWrite))
                                 {
                                     var propertySet = new BitmapPropertySet();
-                                    var qualityValue = new BitmapTypedValue(0.75, PropertyType.Single);
+                                    var qualityValue = new BitmapTypedValue(0.9, PropertyType.Single);
                                     propertySet.Add("ImageQuality", qualityValue);
                                     var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, outStr, propertySet);
                                     encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied, newW, newH, 96, 96, pixelData.DetachPixelData());
