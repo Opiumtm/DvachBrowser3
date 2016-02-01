@@ -33,7 +33,7 @@ namespace DvachBrowser3.Styles
             else
             {
                 ImagePreviewHeight = 90;
-                ImagePreviewWidth = 140;
+                ImagePreviewWidth = 130;
                 ThreadPreviewImageWidth = 100;
                 ThreadPrevewImageHeight = 100;
                 BoardTileEngineNameVisibility = Visibility.Collapsed;
@@ -42,11 +42,11 @@ namespace DvachBrowser3.Styles
                 BoardTileEngineNameFontSize = 12;
                 BoardTileDescFontSize = 11;
                 BoardTileHeight = 80;
-                BoardTileWidth = 95;
-                CatalogTileWidth = 105;
+                BoardTileWidth = 90;
+                CatalogTileWidth = 100;
                 CatalogTileHeight = 90;
-                PostingMediaTileHeight = 210;
-                PostingMediaTileWidth = 280;
+                PostingMediaTileHeight = 240;
+                PostingMediaTileWidth = 320;
             }
         }
 
