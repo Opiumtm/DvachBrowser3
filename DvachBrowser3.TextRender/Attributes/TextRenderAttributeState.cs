@@ -84,5 +84,14 @@ namespace DvachBrowser3.TextRender
             current.Clear();
             all.Clear();
         }
+
+        /// <summary>
+        /// Получить read-only копию.
+        /// </summary>
+        /// <returns>Клон состояния.</returns>
+        public ITextRenderAttributeState GetReadonlyCopy()
+        {
+            return new ReadonlyTextRenderAttributeState(this);
+        }
     }
 }

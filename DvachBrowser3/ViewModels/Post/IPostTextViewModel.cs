@@ -22,6 +22,12 @@ namespace DvachBrowser3.ViewModels
         void RenderText(ITextRenderLogic logic);
 
         /// <summary>
+        /// Создать программу.
+        /// </summary>
+        /// <returns>Программа.</returns>
+        ITextRender2RenderProgram CreateProgram();
+
+        /// <summary>
         /// Клик на ссылку.
         /// </summary>
         event LinkClickEventHandler LinkClick;

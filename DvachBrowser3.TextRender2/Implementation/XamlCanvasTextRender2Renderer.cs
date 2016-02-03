@@ -1,66 +1,76 @@
 ﻿using System;
-using System.Collections.Generic;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.System;
-using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using DvachBrowser3.Behaviors;
-using DvachBrowser3.Engines;
-using DvachBrowser3.Links;
-using DvachBrowser3.TextRender;
-using DvachBrowser3.ViewModels;
-using Microsoft.Xaml.Interactivity;
 
-namespace DvachBrowser3.Views.Partial
+namespace DvachBrowser3.TextRender
 {
     /// <summary>
-    /// Фабрика элементов для рендеринга текста.
+    /// Средство рендеринга разметки.
     /// </summary>
-    public sealed class RenderTextElementFactory : ICanvasElementFactory
+    public sealed class XamlCanvasTextRender2Renderer : ITextRender2Renderer
     {
-        private readonly ILinkClickCallback linkClickCallback;
-
-        private readonly bool isNarrow;
-
-        private long count;
-
-        /// <summary>
-        /// Кэш ширины буквы "о" при разных настройках разметки.
-        /// </summary>
-        private static Dictionary<string, double> OWidthCache = new Dictionary<string, double>(StringComparer.OrdinalIgnoreCase);
-
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="linkClickCallback">Обратный вызов клика на ссылку.</param>
-        /// <param name="isNarrow">Узкое представление.</param>
-        public RenderTextElementFactory(ILinkClickCallback linkClickCallback, bool isNarrow)
+        /// <param name="callback">Обратный вызов.</param>
+        public XamlCanvasTextRender2Renderer(ITextRender2RenderCallback callback)
         {
-            this.linkClickCallback = linkClickCallback;
-            this.isNarrow = isNarrow;
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
+            Callback = callback;
         }
 
         /// <summary>
-        /// Получить количество выполнений.
+        /// Обратный вызов.
         /// </summary>
+        public ITextRender2RenderCallback Callback { get; }
+
+        /// <summary>
+        /// Отрисовать.
+        /// </summary>
+        /// <param name="map">Карта расположений.</param>
         /// <returns>Результат.</returns>
-        public long GetExecutionCount()
+        public FrameworkElement Render(ITextRender2MeasureMap map)
         {
-            return count;
+            if (map == null) throw new ArgumentNullException(nameof(map));
+            var canvas = new Canvas()
+            {
+                Height = map.Bounds.Height,
+                Width = map.Bounds.Width
+            };
+            DoRender(canvas, map);
+            return canvas;
         }
 
-        /// <summary>
-        /// Создать элемент.
-        /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <returns>Элемент.</returns>
-        public FrameworkElement Create(ITextRenderCommand command)
+        private void DoRender(Canvas canvas, ITextRender2MeasureMap map)
         {
-            count++;
+            foreach (var line in map.GetMeasureMapLines())
+            {
+                if (map.MaxLines.HasValue)
+                {
+                    if (line.LineNumber >= map.MaxLines.Value)
+                    {
+                        break;
+                    }
+                }
+                DoRenderLine(canvas, map, line);
+            }
+        }
+
+        private void DoRenderLine(Canvas canvas, ITextRender2MeasureMap map, ITextRender2MeasureMapLine line)
+        {
+            foreach (var el in line.GetMeasureMap())
+            {
+                DoRenderElement(canvas, map, line, el);
+            }
+        }
+
+        private void DoRenderElement(Canvas canvas, ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
+        {
+            var command = el.Command;
+
             string text;
             var textCnt = command.Content as ITextRenderTextContent;
             if (textCnt != null)
@@ -73,13 +83,14 @@ namespace DvachBrowser3.Views.Partial
             }
             var r = new TextBlock()
             {
-                Foreground = Application.Current.Resources["PostNormalTextBrush"] as Brush,
+                FontFamily = new FontFamily("Segoe UI"),
+                Foreground = Callback.PostNormalTextBrush,
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.None,
-                FontSize = Shell.StyleManager.Text.PostFontSize,
-                TextLineBounds = TextLineBounds.Full,
+                FontSize = Callback.PostFontSize,
                 IsTextSelectionEnabled = false,
-                TextAlignment = TextAlignment.Left
+                TextAlignment = TextAlignment.Left,
+                Text = text
             };
 
             FrameworkElement result = r;
@@ -92,7 +103,6 @@ namespace DvachBrowser3.Views.Partial
 
             Grid g2 = new Grid();
             bool needOuterGrid = false;
-
 
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Bold))
             {
@@ -109,16 +119,16 @@ namespace DvachBrowser3.Views.Partial
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Spoiler))
             {
                 needBorder = true;
-                b.Background = Application.Current.Resources["PostSpoilerBackgroundBrush"] as Brush;
-                r.Foreground = Application.Current.Resources["PostSpoilerTextBrush"] as Brush;
+                b.Background = Callback.PostSpoilerBackgroundBrush;
+                r.Foreground = Callback.PostSpoilerTextBrush;
             }
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Quote))
             {
-                r.Foreground = Application.Current.Resources["PostQuoteTextBrush"] as Brush;
+                r.Foreground = Callback.PostQuoteTextBrush;
             }
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
             {
-                r.Foreground = Application.Current.Resources["PostLinkTextBrush"] as Brush;
+                r.Foreground = Callback.PostLinkTextBrush;
             }
 
             b.BorderBrush = r.Foreground;
@@ -152,11 +162,9 @@ namespace DvachBrowser3.Views.Partial
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Subscript) || command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Superscript))
             {
                 needOuterGrid = true;
-                r.Measure(new Size(0, 0));
-                var fh = r.ActualHeight;
-                r.FontSize = r.FontSize * 2.0 / 3.0;
-                r.Measure(new Size(0, 0));
-                var fh2 = r.ActualHeight;
+                var fh = line.Height;
+                r.FontSize = r.FontSize*2.0/3.0;
+                var fh2 = line.Height*2.0/3.0;
                 var delta = fh - fh2;
                 if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Subscript) &&
                     !command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Superscript))
@@ -170,99 +178,45 @@ namespace DvachBrowser3.Views.Partial
                 }
                 else
                 {
-                    g2.Padding = new Thickness(0, delta / 2, 0, delta / 2);
+                    g2.Padding = new Thickness(0, delta/2, 0, delta/2);
                 }
             }
 
-            var spaceWidth = GetOWidth(command.Attributes, r);
-
-            int endSpaces = 0;
-            var s2 = text;
-            while (s2.EndsWith(" "))
-            {
-                endSpaces++;
-                s2 = s2.Substring(0, s2.Length - 1);
-            }
-
-            r.Text = s2;
-            r.Measure(new Size(0, 0));
-
-            r.Height = r.ActualHeight;
-            r.Width = r.ActualWidth + endSpaces * spaceWidth;
-
             if (strikeBorder != null)
             {
-                var oh = r.ActualHeight;
-                const double koef = 0.6;
-                strikeBorder.Margin = new Thickness(0, koef * oh, 0, 0);
+                var oh = el.Size.Height;
+                strikeBorder.Margin = new Thickness(0, map.StrikethrougKoef*oh, 0, 0);
             }
 
             if (needGrid)
             {
-                g.Height = result.Height;
-                g.Width = result.Width;
                 g.Children.Add(result);
                 result = g;
             }
             if (needBorder)
             {
-                b.Height = result.Height;
-                b.Width = result.Width;
                 b.Child = result;
                 result = b;
             }
             if (needOuterGrid)
             {
-                g2.Height = result.Height + g2.Padding.Bottom + g2.Padding.Top;
-                g2.Width = result.Width;
                 g2.Children.Add(result);
                 result = g2;
             }
+
+            Canvas.SetLeft(result, el.Placement.X);
+            Canvas.SetTop(result, el.Placement.Y);
+
+            canvas.Children.Add(result);
 
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
             {
                 var linkAttribute = command.Attributes.Attributes[CommonTextRenderAttributes.Link] as ITextRenderLinkAttribute;
                 if (linkAttribute != null)
                 {
-                    RenderLinkClickHelper.SetupLinkActions(result, linkAttribute, linkClickCallback);
+                    Callback.RenderLinkCallback(result, linkAttribute);
                 }
             }
-
-            return result;
-        }
-
-        private double GetOWidth(ITextRenderAttributeState attributes, TextBlock r)
-        {
-            var key = GetCacheKey(new TextRenderCommand(attributes, new TextRenderTextContent("o")));
-            if (!OWidthCache.ContainsKey(key))
-            {
-                var s2 = r.Text;
-                r.Text = "o";
-                r.Measure(new Size(0, 0));
-                OWidthCache[key] = r.ActualWidth;
-                r.Text = s2;
-            }
-            return OWidthCache[key];
-        }
-
-        /// <summary>
-        /// Получить ключ кэша.
-        /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <returns>Ключ кэша.</returns>
-        public string GetCacheKey(ITextRenderCommand command)
-        {
-            return command.GetCacheKey(isNarrow);
-        }
-
-        /// <summary>
-        /// Создать элемент.
-        /// </summary>
-        /// <param name="command">Команда.</param>
-        /// <returns>Элемент.</returns>
-        FrameworkElement ICanvasElementFactory.Create(ITextRenderCommand command)
-        {
-            return Create(command);
         }
     }
 }

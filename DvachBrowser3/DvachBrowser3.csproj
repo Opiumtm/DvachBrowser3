@@ -348,6 +348,7 @@
     <Compile Include="Views\Partial\Additional\ContentPopupManager.cs" />
     <Compile Include="Views\Partial\Additional\ICatpchaQueryView.cs" />
     <Compile Include="Views\Partial\Additional\IPostCollectionVisualIndexStore.cs" />
+    <Compile Include="Views\Partial\Additional\RenderLinkClickHelper.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullPostEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullPostEventHandler.cs" />
     <Compile Include="Views\Partial\Additional\TextRenderCommandKeyHelper.cs" />
@@ -388,6 +389,9 @@
     </Compile>
     <Compile Include="Views\Partial\PostText.xaml.cs">
       <DependentUpon>PostText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\PostText2.xaml.cs">
+      <DependentUpon>PostText2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\PostView.xaml.cs">
       <DependentUpon>PostView.xaml</DependentUpon>
@@ -541,6 +545,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Partial\PostText2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Partial\PostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -606,6 +614,10 @@
     <ProjectReference Include="..\DvachBrowser3.Esent\DvachBrowser3.Esent.csproj">
       <Project>{efc6859d-4285-4ebf-9ad6-02fed7ef047c}</Project>
       <Name>DvachBrowser3.Esent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DvachBrowser3.TextRender2\DvachBrowser3.TextRender2.csproj">
+      <Project>{b755a698-a514-4205-a02f-bba42d566f79}</Project>
+      <Name>DvachBrowser3.TextRender2</Name>
     </ProjectReference>
     <ProjectReference Include="..\DvachBrowser3.TextRender\DvachBrowser3.TextRender.csproj">
       <Project>{eaa28772-59f6-490d-b680-c2b8dfae8421}</Project>

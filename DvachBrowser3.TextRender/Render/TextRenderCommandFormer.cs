@@ -109,11 +109,11 @@ namespace DvachBrowser3.TextRender
         {
             if (LineBreak)
             {
-                return new TextRenderCommand(Attributes, new TextRenderLineBreakContent());
+                return new TextRenderCommand(Attributes.GetReadonlyCopy(), new TextRenderLineBreakContent());
             }
             if (Text.Length > 0)
             {
-                return new TextRenderCommand(Attributes, new TextRenderTextContent(Text.ToString()));
+                return new TextRenderCommand(Attributes.GetReadonlyCopy(), new TextRenderTextContent(Text.ToString()));
             }
             return null;
         }

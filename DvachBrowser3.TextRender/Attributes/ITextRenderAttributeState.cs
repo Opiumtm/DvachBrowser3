@@ -28,5 +28,11 @@ namespace DvachBrowser3.TextRender
         /// Очистить.
         /// </summary>
         void Clear();
+
+        /// <summary>
+        /// Получить read-only копию.
+        /// </summary>
+        /// <returns>Клон состояния.</returns>
+        ITextRenderAttributeState GetReadonlyCopy();
     }
 }

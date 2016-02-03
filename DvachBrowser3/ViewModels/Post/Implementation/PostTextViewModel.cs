@@ -72,6 +72,19 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Создать программу.
+        /// </summary>
+        /// <returns>Программа.</returns>
+        public ITextRender2RenderProgram CreateProgram()
+        {
+            var former = new TextRender2ProgramFormer(new TextRenderCommandFormer());
+            var lastBreak = false;
+            RenderElements(former, post.Comment.Nodes, ref lastBreak);
+            former.Flush();
+            return former.GetProgram();
+        }
+
+        /// <summary>
         /// Клик на ссылку.
         /// </summary>
         public event LinkClickEventHandler LinkClick;
@@ -130,7 +143,7 @@ namespace DvachBrowser3.ViewModels
             return sb.ToString();
         }
 
-        private void RenderElements(ITextRenderLogic logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)
+        private void RenderElements(ITextRenderProgramConsumer logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)
         {
             if (nodes == null)
             {
@@ -142,7 +155,7 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private void RenderElement(ITextRenderLogic logic, PostNodeBase node, ref bool lastBreak)
+        private void RenderElement(ITextRenderProgramConsumer logic, PostNodeBase node, ref bool lastBreak)
         {
             if (node == null)
             {
@@ -182,7 +195,7 @@ namespace DvachBrowser3.ViewModels
             return ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetBackLinkDisplayString(link);
         }
 
-        private void RenderAttributedNodes(ITextRenderLogic logic, PostNode node, ref bool lastBreak)
+        private void RenderAttributedNodes(ITextRenderProgramConsumer logic, PostNode node, ref bool lastBreak)
         {
             if (node == null)
             {

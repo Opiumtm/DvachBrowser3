@@ -162,7 +162,7 @@ namespace DvachBrowser3.Views
             {
                 BootStrapper.Current.NavigationService.GoBack();
             }
-            if (e.RedirectLink != null)
+            if (e.RedirectLink != null && ViewModel.IsNewThread)
             {
                 ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(e.RedirectLink));
             }

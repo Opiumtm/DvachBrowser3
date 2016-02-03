@@ -3,7 +3,7 @@
     /// <summary>
     /// Логика рендеринга текста.
     /// </summary>
-    public interface ITextRenderLogic
+    public interface ITextRenderLogic : ITextRenderProgramConsumer
     {
         /// <summary>
         /// Формирователь команд.
@@ -19,23 +19,6 @@
         /// Максимальное количество линий.
         /// </summary>
         int? MaxLines { get; set; }
-
-        /// <summary>
-        /// Добавить элемент.
-        /// </summary>
-        /// <param name="element">Элемент.</param>
-        /// <returns>Можно ещё выполнять команды.</returns>
-        bool PushProgramElement(IRenderProgramElement element);
-
-        /// <summary>
-        /// Очистить.
-        /// </summary>
-        void Clear();
-
-        /// <summary>
-        /// Завершить последовательность.
-        /// </summary>
-        void Flush();
 
         /// <summary>
         /// Превышено количество линий.
