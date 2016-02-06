@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -62,29 +63,81 @@ namespace DvachBrowser3.Views.Partial
             queryView?.Load(link);
         }
 
+        /// <summary>
+        /// Обновить.
+        /// </summary>
+        public void Refresh()
+        {
+            queryView?.Refresh();
+        }
+
+        /// <summary>
+        /// Принять.
+        /// </summary>
+        public void Accept()
+        {
+            queryView?.Accept();
+        }
+
+        /// <summary>
+        /// Можно загрузить.
+        /// </summary>
+        public bool CanLoad => queryView?.CanLoad ?? false;
+
         private ICatpchaQueryView queryView;
 
         private void UpdateCaptchaData()
         {
-            CaptchaContainer.Children.Clear();
-            if (QueryParam != null)
+            var ov = queryView;
+            try
             {
-                if (QueryParam.CaptchaType == CaptchaType.DvachCaptcha && CoreConstants.Engine.Makaba.Equals(QueryParam.Engine, StringComparison.OrdinalIgnoreCase))
+                CaptchaContainer.Children.Clear();
+                if (QueryParam != null)
                 {
-                    var qv = new DvachCaptchaQueryView();
-                    queryView = qv;
-                    CaptchaContainer.Children.Add(qv);
-                    qv.CaptchaQueryResult += (sender, e) =>
+                    if (QueryParam.CaptchaType == CaptchaType.DvachCaptcha && CoreConstants.Engine.Makaba.Equals(QueryParam.Engine, StringComparison.OrdinalIgnoreCase))
                     {
-                        CaptchaQueryResult?.Invoke(this, e);
-                    };
-                    UnknownCaptcha.Visibility = Visibility.Collapsed;
-                    CaptchaContainer.Visibility = Visibility.Visible;
-                    return;
+                        var qv = new DvachCaptchaQueryView();
+                        queryView = qv;
+                        CaptchaContainer.Children.Add(qv);
+                        qv.CaptchaQueryResult += (sender, e) =>
+                        {
+                            CaptchaQueryResult?.Invoke(this, e);
+                        };
+                        UnknownCaptcha.Visibility = Visibility.Collapsed;
+                        CaptchaContainer.Visibility = Visibility.Visible;
+                        return;
+                    }
                 }
+                UnknownCaptcha.Visibility = Visibility.Visible;
+                CaptchaContainer.Visibility = Visibility.Collapsed;
             }
-            UnknownCaptcha.Visibility = Visibility.Visible;
-            CaptchaContainer.Visibility = Visibility.Collapsed;
+            finally
+            {
+                UpdateQueryView(ov, queryView);
+            }
         }
+
+        private void UpdateQueryView(ICatpchaQueryView oldView, ICatpchaQueryView newView)
+        {
+            if (oldView != null)
+            {
+                oldView.PropertyChanged -= QueryViewOnPropertyChanged;
+            }
+            if (newView != null)
+            {
+                newView.PropertyChanged += QueryViewOnPropertyChanged;
+            }
+            if (oldView != newView)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanLoad)));
+            }
+        }
+
+        private void QueryViewOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

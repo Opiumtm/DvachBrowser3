@@ -128,8 +128,9 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 Hash = data.Md5,
                 Extensions = new List<PostTreeExtension>(),
                 Email = data.Email,
-                Media = new List<PostMediaBase>()
+                Media = new List<PostMediaBase>(),
             };
+            result.GeneratePostStamp();
             if (string.IsNullOrWhiteSpace(result.Subject) && number == link.Thread)
             {
                 try

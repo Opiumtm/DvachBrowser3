@@ -26,7 +26,7 @@ using DvachBrowser3.StdReplace;
 
 namespace DvachBrowser3.Views.Partial.Captcha
 {
-    public sealed partial class DvachCaptchaQueryView : UserControl, ICatpchaQueryView, INotifyPropertyChanged
+    public sealed partial class DvachCaptchaQueryView : UserControl, ICatpchaQueryView
     {
         public DvachCaptchaQueryView()
         {
@@ -44,6 +44,48 @@ namespace DvachBrowser3.Views.Partial.Captcha
             try
             {
                 await DoLoad(link);
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Обновить.
+        /// </summary>
+        public async void Refresh()
+        {
+            try
+            {
+                await DoLoad(lastLink);
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Принять.
+        /// </summary>
+        public async void Accept()
+        {
+            try
+            {
+                var v = (EntryBox.Text ?? "").Trim();
+                if (v == string.Empty)
+                {
+                    var dlg = new MessageDialog("Нужно ввести капчу", "Внимание!");
+                    dlg.Commands.Add(new UICommand("Ок"));
+                    await dlg.ShowAsync();
+                    return;
+                }
+                CaptchaQueryResult?.Invoke(this, new CaptchaQueryResultEventArgs(new DvachCaptchaPostingData()
+                {
+                    Key = key,
+                    CaptchaEntry = v
+                }));
             }
             catch (Exception ex)
             {
@@ -180,31 +222,12 @@ namespace DvachBrowser3.Views.Partial.Captcha
 
         private void LoadButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Load(lastLink);
+            Refresh();
         }
 
-        private async void OkButton_OnClick(object sender, RoutedEventArgs e)
+        private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var v = (EntryBox.Text ?? "").Trim();
-                if (v == string.Empty)
-                {
-                    var dlg = new MessageDialog("Нужно ввести капчу", "Внимание!");
-                    dlg.Commands.Add(new UICommand("Ок"));
-                    await dlg.ShowAsync();
-                    return;
-                }
-                CaptchaQueryResult?.Invoke(this, new CaptchaQueryResultEventArgs(new DvachCaptchaPostingData()
-                {
-                    Key = key,
-                    CaptchaEntry = v
-                }));
-            }
-            catch (Exception ex)
-            {
-                await AppHelpers.ShowError(ex);
-            }
+            Accept();
         }
     }
 }

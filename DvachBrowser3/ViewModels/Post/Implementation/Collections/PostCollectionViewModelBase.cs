@@ -165,7 +165,7 @@ namespace DvachBrowser3.ViewModels
                     a => a.Link,
                     a => a.Link,
                     CreatePostViewModel,
-                    (a, b) => true,
+                    (a, b) => a.PostStamp == b.PostStamp,
                     (a, b) => { },
                     newPosts,
                     Posts

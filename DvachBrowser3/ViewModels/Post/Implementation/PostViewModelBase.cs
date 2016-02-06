@@ -158,6 +158,11 @@ namespace DvachBrowser3.ViewModels
         public IStyleManager StyleManager => Shell.StyleManager;
 
         /// <summary>
+        /// Штамп поста.
+        /// </summary>
+        public string PostStamp => PostData?.PostStamp;
+
+        /// <summary>
         /// Заголовок.
         /// </summary>
         public string Subject => PostData?.Subject ?? "";

@@ -27,10 +27,6 @@
                     </InputScope>
                 </TextBox.InputScope>
             </TextBox>
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="LoadButton" Margin="4" IsEnabled="{x:Bind CanLoad, Mode=OneWay}" Click="LoadButton_OnClick">Обновить</Button>
-                <Button x:Name="OkButton" Margin="4" Click="OkButton_OnClick">Далее</Button>
-            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

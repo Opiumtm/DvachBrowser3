@@ -106,5 +106,10 @@ namespace DvachBrowser3.ViewModels
         /// Менеджер стилей.
         /// </summary>
         IStyleManager StyleManager { get; }
+
+        /// <summary>
+        /// Штамп поста.
+        /// </summary>
+        string PostStamp { get; }
     }
 }

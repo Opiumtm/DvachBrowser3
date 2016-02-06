@@ -88,5 +88,19 @@ namespace DvachBrowser3.Posts
         /// </summary>
         [DataMember]
         public List<PostTreeExtension> Extensions { get; set; }
+
+        /// <summary>
+        /// Штамп поста.
+        /// </summary>
+        [DataMember]
+        public string PostStamp { get; set; }
+
+        /// <summary>
+        /// Генерировать штамп.
+        /// </summary>
+        public void GeneratePostStamp()
+        {
+            PostStamp = Guid.NewGuid().ToString();
+        }
     }
 }

@@ -56,6 +56,7 @@ namespace DvachBrowser3.Logic
             var hashService = Services.GetServiceOrThrow<ILinkHashService>();
             var transformService = Services.GetServiceOrThrow<ILinkTransformService>();
             var postLinks = src.Posts.DeduplicateToDictionary(p => p.Link, hashService.GetComparer());
+            var oldQuoteCounts = src.Posts.Select(p => new {p.Link, Count = p.Quotes?.Count ?? 0}).DeduplicateToDictionary(p => p.Link, hashService.GetComparer());
             foreach (var post in src.Posts)
             {
                 if (post.Quotes == null)
@@ -91,6 +92,15 @@ namespace DvachBrowser3.Logic
             foreach (var post in src.Posts.Where(p => p.Quotes.Count > 1))
             {
                 post.Quotes = post.Quotes.Distinct(hashService.GetComparer()).OrderBy(l => l, transformService.GetLinkComparer()).ToList();
+            }
+
+            foreach (var post in src.Posts)
+            {
+                var oldCount = oldQuoteCounts.ContainsKey(post.Link) ? oldQuoteCounts[post.Link].Count : 0;
+                if (oldCount != post.Quotes.Count)
+                {
+                    post.GeneratePostStamp();
+                }
             }
         }
 
