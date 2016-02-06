@@ -182,6 +182,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
             postCount.LastChange = gotUpdateDate ?? (lastPost1 != null ? lastPost1.Date : DateTime.MinValue);
             postCount.LoadedPostCount = gotPostCount ?? (lastPost1 != null ? lastPost1.Counter : 0);
             postCount.PostCount = postCount.LoadedPostCount;
+            postCount.ViewedPostCount = postCount.LoadedPostCount;
+            postCount.LastView = DateTime.Now;
 
             var threadHash = linkHashService.GetLinkHash(threadLink);
             await storage.ThreadData.SavePostCountInfo(postCount);

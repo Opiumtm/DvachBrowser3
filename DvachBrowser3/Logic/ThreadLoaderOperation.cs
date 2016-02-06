@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
+using DvachBrowser3.Links;
 using DvachBrowser3.Logic.NetworkLogic;
 using DvachBrowser3.Posts;
 using DvachBrowser3.Storage;
@@ -96,14 +97,6 @@ namespace DvachBrowser3.Logic
 
             request.Progress += (sender, e) => OnProgress(e);
             var data = await request.Complete(token);
-
-            var pc = await storage.ThreadData.LoadPostCountInfo(Parameter.ThreadLink);
-            if (pc != null)
-            {
-                pc.ViewedPostCount = pc.LoadedPostCount;
-                pc.LastView = DateTime.Now;
-                await storage.ThreadData.SavePostCountInfo(pc);
-            }
 
             return new OperaiontResult() { Data = data, IsUpdated = false };
         }

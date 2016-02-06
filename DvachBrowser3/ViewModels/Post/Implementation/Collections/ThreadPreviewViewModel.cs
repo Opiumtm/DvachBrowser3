@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DvachBrowser3.Links;
+using DvachBrowser3.Logic;
 using DvachBrowser3.Other;
 using DvachBrowser3.Posts;
 using DvachBrowser3.Storage;
@@ -168,11 +169,30 @@ namespace DvachBrowser3.ViewModels
             {
                 var store = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
                 var data = await store.ThreadData.LoadPostCountInfo(CollectionData.Link);
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 if (data != null)
                 {
                     data.LastView = DateTime.Now;
                     data.ViewedPostCount = PostCount;
                     await store.ThreadData.SavePostCountInfo(data);
+                    var favorites = await store.ThreadData.FavoriteThreads.LoadLinkCollection();
+                    var threadHash = linkHash.GetLinkHash(CollectionData.Link);
+                    if (favorites != null && favorites.Links != null && favorites is ThreadLinkCollection)
+                    {
+                        var fav2 = favorites as ThreadLinkCollection;
+                        if (fav2.ThreadInfo.ContainsKey(threadHash))
+                        {
+                            var favData = fav2.ThreadInfo[threadHash];
+                            if (favData is FavoriteThreadInfo)
+                            {
+                                var favData2 = favData as FavoriteThreadInfo;
+                                favData2.CountInfo.LastView = DateTime.Now;
+                                favData2.CountInfo.ViewedPostCount = PostCount;
+                                await store.ThreadData.FavoriteThreads.SaveLinkCollection(favorites);
+                            }
+                        }
+                        await ServiceLocator.Current.GetServiceOrThrow<ILiveTileService>().UpdateFavoritesTile(favorites);
+                    }
                     AppHelpers.DispatchAction(UpdatePostCount);
                 }
             }
