@@ -242,6 +242,9 @@
     <Compile Include="ViewModels\Images\Implementation\YoutubeThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModelWithResume.cs" />
+    <Compile Include="ViewModels\Main\IMainGroupViewModel.cs" />
+    <Compile Include="ViewModels\Main\IMainTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\IThreadTileViewModel.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />
     <Compile Include="ViewModels\Operations\IOperationViewModel.cs" />
@@ -624,9 +627,7 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Main\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
