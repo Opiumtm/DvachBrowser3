@@ -133,7 +133,7 @@
                                      Text="{x:Bind ViewModel.Fields.ThreadTag.Value, Mode=OneWay}" 
                                      Tag="{x:Bind ViewModel.Fields.ThreadTag, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      />
-                            <TextBox Header="Комментарий" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="280" MaxHeight="640"
+                            <TextBox Header="Комментарий" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="200" MaxHeight="480"
                                      Visibility="{x:Bind ViewModel.Fields.Comment.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
                                      Text="{x:Bind ViewModel.Fields.Comment.Value, Mode=OneWay}"
                                      Tag="{x:Bind ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"

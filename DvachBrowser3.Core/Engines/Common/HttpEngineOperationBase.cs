@@ -207,7 +207,8 @@ namespace DvachBrowser3.Engines
             {
                 return string.Format("{0:F1} Кб", (double)bytes / (double)Kb);
             }
-            return bytes.ToString(CultureInfo.InvariantCulture);
+            //return bytes.ToString(CultureInfo.InvariantCulture);
+            return string.Format("{0:F1} байт", (double)bytes / (double)Kb);
         }
     }
 }

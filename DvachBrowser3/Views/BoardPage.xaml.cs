@@ -156,6 +156,22 @@ namespace DvachBrowser3.Views
         {
             var appBar = new CommandBar();
 
+            var catalog = new AppBarButton()
+            {
+                Label = "Каталог"
+            };
+            catalog.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.CanInvokeCatalog"), Mode = BindingMode.OneWay, FallbackValue = false });
+
+            catalog.Click += (sender, e) =>
+            {
+                var p = ViewModel?.PageLink;
+                if (p != null)
+                {
+                    var catLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetCatalogLinkFromAnyLink(p, BoardCatalogSort.Bump);
+                    ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardCatalogNavigationTarget(catLink));
+                }
+            };
+
             if (currentPageView == PageView.Default)
             {
                 var nextButton = new AppBarButton()
@@ -219,22 +235,6 @@ namespace DvachBrowser3.Views
                     }
                 };
 
-                var catalog = new AppBarButton()
-                {
-                    Label = "Каталог"
-                };
-                catalog.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.CanInvokeCatalog"), Mode = BindingMode.OneWay, FallbackValue = false });
-
-                catalog.Click += (sender, e) =>
-                {
-                    var p = ViewModel?.PageLink;
-                    if (p != null)
-                    {
-                        var catLink = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetCatalogLinkFromAnyLink(p, BoardCatalogSort.Bump);
-                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new BoardCatalogNavigationTarget(catLink));
-                    }
-                };
-
                 var posting = new AppBarButton()
                 {
                     Label = "Новый тред",
@@ -257,6 +257,20 @@ namespace DvachBrowser3.Views
                 appBar.SecondaryCommands.Add(catalog);
             } else if (currentPageView == PageView.Thread)
             {
+                var goButton = new AppBarButton()
+                {
+                    Label = "Перейти",
+                    Icon = new SymbolIcon(Symbol.Go)
+                };
+                goButton.Click += (sender, e) =>
+                {
+                    var tm = ThreadPreview?.ViewModel as IThreadPreviewViewModel;
+                    if (tm != null)
+                    {
+                        ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new ThreadNavigationTarget(tm.ThreadLink));
+                    }
+                };
+
                 var readButton = new AppBarButton()
                 {
                     Label = "Прочитано",
@@ -284,6 +298,8 @@ namespace DvachBrowser3.Views
 
                 appBar.PrimaryCommands.Add(posting);
                 appBar.PrimaryCommands.Add(readButton);
+                appBar.PrimaryCommands.Add(goButton);
+                appBar.SecondaryCommands.Add(catalog);
             }
 
             var syncButton = new AppBarButton()
