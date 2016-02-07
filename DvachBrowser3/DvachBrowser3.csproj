@@ -138,6 +138,7 @@
     <Compile Include="Core\NavigationHelper.cs" />
     <Compile Include="Core\SizeChangeDelayHelper.cs" />
     <Compile Include="Core\StatusBarHelper.cs" />
+    <Compile Include="Core\ThreadLinkListHelper.cs" />
     <Compile Include="Core\VisualTreeHelperExtensions.cs" />
     <Compile Include="Core\WeakEventArgs.cs" />
     <Compile Include="Core\WeakEventCallback.cs" />
@@ -244,6 +245,19 @@
     <Compile Include="ViewModels\IStartableViewModelWithResume.cs" />
     <Compile Include="ViewModels\Main\IMainGroupViewModel.cs" />
     <Compile Include="ViewModels\Main\IMainTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\IMainViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\FavoriteBoardMainGroupViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\FavoriteBoardMainTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\FavoriteMainGroupViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\FavoriteMainTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\FavoriteThreadTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\IMainTileUpdater.cs" />
+    <Compile Include="ViewModels\Main\Implementation\IThreadTileUpdater.cs" />
+    <Compile Include="ViewModels\Main\Implementation\ThreadTileViewModelBase.cs" />
+    <Compile Include="ViewModels\Main\Implementation\ThreadListUpdateId.cs" />
+    <Compile Include="ViewModels\Main\Implementation\VisitedMainGroupViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\VisitedMainTileViewModel.cs" />
+    <Compile Include="ViewModels\Main\Implementation\VisitedThreadTileViewModel.cs" />
     <Compile Include="ViewModels\Main\IThreadTileViewModel.cs" />
     <Compile Include="ViewModels\Operations\EngineOperationWrapper.cs" />
     <Compile Include="ViewModels\Operations\IOperationProgressViewModel.cs" />

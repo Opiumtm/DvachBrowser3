@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -22,5 +23,10 @@ namespace DvachBrowser3.ViewModels
         /// Есть элементы.
         /// </summary>
         bool HasItems { get; }
+
+        /// <summary>
+        /// Обновить информацию.
+        /// </summary>
+        Task UpdateInfo();
     }
 }

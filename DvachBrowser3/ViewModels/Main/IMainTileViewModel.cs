@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -50,7 +52,21 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Удалить.
         /// </summary>
-        /// <returns></returns>
-        bool Delete();
+        void Delete();
+
+        /// <summary>
+        /// Можно копировать ссылку.
+        /// </summary>
+        bool CanCopyLink { get; }
+
+        /// <summary>
+        /// Копировать ссылку в клипборд.
+        /// </summary>
+        void CopyLink();
+
+        /// <summary>
+        /// Идентификатор апдейта.
+        /// </summary>
+        ThreadListUpdateId UpdateId { get; }
     }
 }

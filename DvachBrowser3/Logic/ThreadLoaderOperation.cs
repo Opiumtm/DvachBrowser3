@@ -7,6 +7,7 @@ using DvachBrowser3.Links;
 using DvachBrowser3.Logic.NetworkLogic;
 using DvachBrowser3.Posts;
 using DvachBrowser3.Storage;
+using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Logic
 {
@@ -97,6 +98,9 @@ namespace DvachBrowser3.Logic
 
             request.Progress += (sender, e) => OnProgress(e);
             var data = await request.Complete(token);
+
+            ViewModelEvents.VisitedListRefreshed.RaiseEvent(this, null);
+            ViewModelEvents.FavoritesListRefreshed.RaiseEvent(this, null);
 
             return new OperaiontResult() { Data = data, IsUpdated = false };
         }

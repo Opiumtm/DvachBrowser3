@@ -238,6 +238,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 {
                     threadInfo.AddedDate = DateTime.Now;
                 }
+                threadInfo.ViewDate = DateTime.Now;
                 visited2.ThreadInfo[threadHash] = threadInfo;
                 var newLinks = visited2.Links
                     .WithKeys(linkHashService.GetLinkHash)
