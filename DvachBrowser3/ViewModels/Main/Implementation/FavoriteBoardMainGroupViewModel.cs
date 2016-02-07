@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
@@ -12,18 +13,13 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Группа избранных досок.
     /// </summary>
-    public class FavoriteBoardMainGroupViewModel : ViewModelBase, IMainGroupViewModel
+    public class FavoriteBoardMainGroupViewModel : ObservableCollection<IMainTileViewModel>, IMainGroupViewModel
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         public FavoriteBoardMainGroupViewModel()
         {
-            ((ObservableCollection<IMainTileViewModel>)Tiles).CollectionChanged += (sender, e) =>
-            {
-                // ReSharper disable once ExplicitCallerInfoArgument
-                RaisePropertyChanged(nameof(HasItems));
-            };
             AppHelpers.DispatchAction(UpdateInfo);
         }
 
@@ -31,16 +27,6 @@ namespace DvachBrowser3.ViewModels
         /// Имя.
         /// </summary>
         public string Name => "Избранные доски";
-
-        /// <summary>
-        /// Тайлы.
-        /// </summary>
-        public IList<IMainTileViewModel> Tiles { get; } = new ObservableCollection<IMainTileViewModel>();
-
-        /// <summary>
-        /// Есть элементы.
-        /// </summary>
-        public bool HasItems => Tiles.Count > 0;
 
         /// <summary>
         /// Обновить информацию.
@@ -62,7 +48,7 @@ namespace DvachBrowser3.ViewModels
                     (a, b) => true,
                     null,
                     favorites.Links ?? new List<BoardLinkBase>(),
-                    Tiles
+                    this
                 );
                 var update = updateHelper.GetUpdate();
                 update.Update();

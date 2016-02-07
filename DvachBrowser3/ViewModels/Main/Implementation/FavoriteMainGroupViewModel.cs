@@ -13,18 +13,13 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Группа избранных тредов.
     /// </summary>
-    public sealed class FavoriteMainGroupViewModel : ViewModelBase, IMainGroupViewModel, IWeakEventCallback
+    public sealed class FavoriteMainGroupViewModel : ObservableCollection<IMainTileViewModel>, IMainGroupViewModel, IWeakEventCallback
     {
         /// <summary>
         /// Конструктор.
         /// </summary>
         public FavoriteMainGroupViewModel()
         {
-            ((ObservableCollection<IMainTileViewModel>)Tiles).CollectionChanged += (sender, e) =>
-            {
-                // ReSharper disable once ExplicitCallerInfoArgument
-                RaisePropertyChanged(nameof(HasItems));
-            };
             ViewModelEvents.VisitedListRefreshed.AddCallback(this);
             ViewModelEvents.FavoritesListRefreshed.AddCallback(this);
             AppHelpers.DispatchAction(UpdateInfo);
@@ -34,16 +29,6 @@ namespace DvachBrowser3.ViewModels
         /// Имя.
         /// </summary>
         public string Name => "Избранные";
-
-        /// <summary>
-        /// Тайлы.
-        /// </summary>
-        public IList<IMainTileViewModel> Tiles { get; } = new ObservableCollection<IMainTileViewModel>();
-
-        /// <summary>
-        /// Есть элементы.
-        /// </summary>
-        public bool HasItems => Tiles.Count > 0;
 
         /// <summary>
         /// Обновить информацию.
@@ -75,11 +60,11 @@ namespace DvachBrowser3.ViewModels
                     (a, b) => true,
                     null,
                     newItems,
-                    Tiles
+                    this
                 );
                 var update = updateHelper.GetUpdate();
                 update.Update();
-                foreach (var item in Tiles.OfType<IMainTileUpdater>())
+                foreach (var item in this.OfType<IMainTileUpdater>())
                 {
                     item.VisitedChanged(visited);
                     item.FavoritesChanged(favorites);

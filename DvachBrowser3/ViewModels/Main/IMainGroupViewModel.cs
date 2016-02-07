@@ -7,22 +7,12 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Группа тайлов основной модели.
     /// </summary>
-    public interface IMainGroupViewModel : INotifyPropertyChanged
+    public interface IMainGroupViewModel : IList<IMainTileViewModel>, INotifyPropertyChanged
     {
         /// <summary>
         /// Имя.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        /// Тайлы.
-        /// </summary>
-        IList<IMainTileViewModel> Tiles { get; }
-
-        /// <summary>
-        /// Есть элементы.
-        /// </summary>
-        bool HasItems { get; }
 
         /// <summary>
         /// Обновить информацию.
