@@ -46,11 +46,11 @@ namespace DvachBrowser3.ViewModels
                     var hash = linkHash.GetLinkHash(l);
                     if (visited?.ThreadInfo?.ContainsKey(hash) ?? false)
                     {
-                        var obj = visited.ThreadInfo[hash];
+                        var obj = favorites.ThreadInfo[hash];
                         return new ThreadListUpdateId() { LinkHash = hash, SortDate = obj.AddedDate, Link = l };
                     }
                     return new ThreadListUpdateId() { LinkHash = hash, SortDate = DateTime.MinValue, Link = l };
-                }).ToArray();
+                }).OrderBy(l => l, ThreadListUpdateId.Comparer).ToArray();
                 var updateHelper = new SortedCollectionUpdateHelper<IMainTileViewModel, ThreadListUpdateId, ThreadListUpdateId>(
                     ThreadListUpdateId.EqualityComparer,
                     ThreadListUpdateId.Comparer,

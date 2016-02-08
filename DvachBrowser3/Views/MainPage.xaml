@@ -11,6 +11,7 @@
       xmlns:views="using:DvachBrowser3.Views"
       xmlns:partial="using:DvachBrowser3.Views.Partial"
       xmlns:viewModels="using:DvachBrowser3.ViewModels"
+      xmlns:behaviors1="using:DvachBrowser3.Behaviors"
       x:Name="ThisPage"
       mc:Ignorable="d">
 
@@ -19,13 +20,37 @@
         <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
             <views:MainTileTemplateSelector.BoardTemplate>
                 <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:BoardTile ViewModel="{Binding Path=TileData}">
+                    <partial:BoardTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}">
+                        <Interactivity:Interaction.Behaviors>
+                            <behaviors1:PopupMenuBehavior>
+                                <behaviors1:PopupMenuBehavior.MenuFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Удалить" Visibility="{x:Bind CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="DeleteItem_OnClick" />
+                                        <MenuFlyoutItem Text="В избранное" Visibility="{x:Bind CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Из избранного" Visibility="{x:Bind CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{x:Bind CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
+                                    </MenuFlyout>
+                                </behaviors1:PopupMenuBehavior.MenuFlyout>
+                            </behaviors1:PopupMenuBehavior>
+                        </Interactivity:Interaction.Behaviors>
                     </partial:BoardTile>
                 </DataTemplate>
             </views:MainTileTemplateSelector.BoardTemplate>
             <views:MainTileTemplateSelector.ThreadTemplate>
                 <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:ThreadTile ViewModel="{Binding Path=TileData}">
+                    <partial:ThreadTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}">
+                        <Interactivity:Interaction.Behaviors>
+                            <behaviors1:PopupMenuBehavior>
+                                <behaviors1:PopupMenuBehavior.MenuFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Удалить" Visibility="{x:Bind CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="DeleteItem_OnClick" />
+                                        <MenuFlyoutItem Text="В избранное" Visibility="{x:Bind CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Из избранного" Visibility="{x:Bind CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{x:Bind CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
+                                    </MenuFlyout>
+                                </behaviors1:PopupMenuBehavior.MenuFlyout>
+                            </behaviors1:PopupMenuBehavior>
+                        </Interactivity:Interaction.Behaviors>
                     </partial:ThreadTile>
                 </DataTemplate>
             </views:MainTileTemplateSelector.ThreadTemplate>

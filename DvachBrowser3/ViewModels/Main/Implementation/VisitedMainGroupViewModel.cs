@@ -47,7 +47,7 @@ namespace DvachBrowser3.ViewModels
                         return new ThreadListUpdateId() { LinkHash = hash, SortDate = obj.ViewDate, Link = l};
                     }
                     return new ThreadListUpdateId() { LinkHash = hash, SortDate = DateTime.MinValue, Link = l };
-                }).ToArray();
+                }).OrderBy(l => l, ThreadListUpdateId.Comparer).ToArray();
                 var updateHelper = new SortedCollectionUpdateHelper<IMainTileViewModel, ThreadListUpdateId, ThreadListUpdateId>(
                     ThreadListUpdateId.EqualityComparer,
                     ThreadListUpdateId.Comparer,

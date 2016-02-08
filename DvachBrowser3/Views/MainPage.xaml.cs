@@ -1,6 +1,8 @@
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
@@ -56,7 +58,19 @@ namespace DvachBrowser3.Views
 
         public AppBar GetBottomAppBar()
         {
-            return null;
+            var appBar = new CommandBar();
+            
+            var syncButton = new AppBarButton()
+            {
+                Label = "Обновить",
+                Icon = new SymbolIcon(Symbol.Sync),                
+            };            
+            syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("CheckForUpdates.CanStart"), Mode = BindingMode.OneWay });
+            syncButton.Click += (sender, e) => ViewModel.CheckForUpdates.Start();
+
+            appBar.PrimaryCommands.Add(syncButton);
+
+            return appBar;
         }
 
         /// <summary>
@@ -88,6 +102,36 @@ namespace DvachBrowser3.Views
                 }
             };
             MainSource.Source = ViewModel.Groups;
+        }
+
+        private void DeleteItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
+            t?.Delete();
+        }
+
+        private void AddToFavoritesItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
+            t?.AddToFavorites();
+        }
+
+        private void RemoveFromFavoritesItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
+            t?.RemoveFromFavorites();
+        }
+
+        private void CopyLinkItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
+            t?.CopyLink();
+        }
+
+        private void Tile_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
+            t?.Navigate();
         }
     }
 

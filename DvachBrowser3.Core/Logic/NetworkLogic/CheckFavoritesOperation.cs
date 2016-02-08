@@ -58,21 +58,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 SignalProgress(-1, totalCount);
                 if (asyncCheck)
                 {
-                    Parallel.ForEach(linkWithData,
-                        new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = token },
-                        new Action<CheckData>(async item =>
-                        {
-                            var d = await CheckForUpdate(item.Link, item.Info, token);
-                            if (d != null)
-                            {
-                                lock (result)
-                                {
-                                    result[item.Key] = d;
-                                }
-                            }
-                            var newCount = Interlocked.Add(ref counter, 1);
-                            SignalProgressAsync(newCount, totalCount);
-                        }));
+                    var checks = linkWithData.Select(l => CheckForUpdateMp(l.Link, l.Info, l.Key, token, result)).ToArray();
+                    await Task.WhenAll(checks);
                 }
                 else
                 {
@@ -192,6 +179,14 @@ namespace DvachBrowser3.Logic.NetworkLogic
         private class CheckResult
         {
             public PostCountInfo Data;
+        }
+
+        private static readonly IConcurrenctyDispatcher<CheckResult> MaxParallel = new MaxConcurrencyAccessManager<CheckResult>(3);
+
+        private async Task CheckForUpdateMp(BoardLinkBase link, FavoriteThreadInfo info, string key, CancellationToken token, Dictionary<string, CheckResult> result)
+        {
+            var d = await MaxParallel.QueueAction(async () => await CheckForUpdate(link, info, token));
+            result[key] = d;
         }
 
         private async Task<CheckResult> CheckForUpdate(BoardLinkBase link, FavoriteThreadInfo info, CancellationToken token)

@@ -62,6 +62,13 @@ namespace DvachBrowser3.Logic.NetworkLogic
                         newEtag = newEtagObj.LastModified;
                         if (etag == newEtag)
                         {
+                            if (saveToCache)
+                            {
+                                if (updateVisit)
+                                {
+                                    await UpdateVisitedDb(oldData, storage, threadLink, linkHashService, threadProcessService);
+                                }
+                            }
                             return oldData;
                         }
                     }
@@ -165,6 +172,83 @@ namespace DvachBrowser3.Logic.NetworkLogic
             return result;
         }
 
+        private async Task UpdateVisitedDb(ThreadTree result, IStorageService storage, BoardLinkBase threadLink, ILinkHashService linkHashService, IThreadTreeProcessService threadProcessService)
+        {
+            var threadHash = linkHashService.GetLinkHash(threadLink);
+
+            var favorites = await storage.ThreadData.FavoriteThreads.LoadLinkCollection();
+            if (favorites != null && favorites.Links != null && favorites is ThreadLinkCollection)
+            {
+                var fav2 = favorites as ThreadLinkCollection;
+                if (fav2.ThreadInfo.ContainsKey(threadHash))
+                {
+                    var favData = fav2.ThreadInfo[threadHash];
+                    if (favData is FavoriteThreadInfo)
+                    {
+                        var favData2 = favData as FavoriteThreadInfo;
+                        favData2.ViewDate = DateTime.Now;
+                        await storage.ThreadData.FavoriteThreads.SaveLinkCollection(favorites);
+                    }
+                }
+            }
+
+            var visited = await storage.ThreadData.VisitedThreads.LoadLinkCollection();
+            if (visited == null)
+            {
+                visited = new ThreadLinkCollection()
+                {
+                    Links = new List<BoardLinkBase>(),
+                    ThreadInfo = new Dictionary<string, ShortThreadInfo>(),
+                };
+            }
+            var threadInfo = threadProcessService.GetShortInfo(result);
+            if (visited is ThreadLinkCollection && threadInfo != null)
+            {
+                var visited2 = visited as ThreadLinkCollection;
+                if (visited2.ThreadInfo == null)
+                {
+                    visited2.ThreadInfo = new Dictionary<string, ShortThreadInfo>();
+                }
+                if (visited2.Links == null)
+                {
+                    visited2.Links = new List<BoardLinkBase>();
+                }
+                visited2.Links.Add(threadLink);
+                if (visited2.ThreadInfo.ContainsKey(threadHash))
+                {
+                    var oldInfo = visited2.ThreadInfo[threadHash];
+                    threadInfo.AddedDate = oldInfo.AddedDate;
+                    threadInfo.UpdatedDate = oldInfo.UpdatedDate;
+                }
+                else
+                {
+                    threadInfo.AddedDate = DateTime.Now;
+                    var lastPost1 = result.Posts.LastOrDefault();
+                    threadInfo.UpdatedDate = lastPost1 != null ? lastPost1.Date : DateTime.MinValue;
+                }
+                threadInfo.ViewDate = DateTime.Now;
+                visited2.ThreadInfo[threadHash] = threadInfo;
+                var newLinks = visited2.Links
+                    .Deduplicate(a => a, linkHashService.GetComparer())
+                    .WithKeys(linkHashService.GetLinkHash)
+                    .Where(a => visited2.ThreadInfo.ContainsKey(a.Key))
+                    .Select(a => new { link = a.Value, info = visited2.ThreadInfo[a.Key], hash = a.Key })
+                    .Where(a => a.info != null)
+                    .OrderByDescending(a => a.info.ViewDate)
+                    .Take(CoreConstants.MaxVisitedThreads).ToList();
+                visited2.Links = newLinks.Select(a => a.link).ToList();
+                var newLinksHash = new HashSet<string>(newLinks.Select(a => a.hash));
+                foreach (var h in visited2.ThreadInfo.Keys.ToArray())
+                {
+                    if (!newLinksHash.Contains(h))
+                    {
+                        visited2.ThreadInfo.Remove(h);
+                    }
+                }
+                await storage.ThreadData.VisitedThreads.SaveLinkCollection(visited2);
+            }
+        }
+
         private async Task UpdateVisitedDb(ThreadTree result, IStorageService storage, BoardLinkBase threadLink,
             DateTime? gotUpdateDate, int? gotPostCount, ILinkHashService linkHashService,
             IThreadTreeProcessService threadProcessService)
@@ -199,6 +283,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                         var favData2 = favData as FavoriteThreadInfo;
                         favData2.CountInfo = postCount;
                         favData2.UpdatedDate = postCount.LastChange;
+                        favData2.ViewDate = DateTime.Now;
                         await storage.ThreadData.FavoriteThreads.SaveLinkCollection(favorites);
                     }
                 }
@@ -227,7 +312,6 @@ namespace DvachBrowser3.Logic.NetworkLogic
                     visited2.Links = new List<BoardLinkBase>();
                 }
                 threadInfo.UpdatedDate = postCount.LastChange;
-                threadInfo.ViewDate = DateTime.Now;
                 visited2.Links.Add(threadLink);
                 if (visited2.ThreadInfo.ContainsKey(threadHash))
                 {
@@ -241,6 +325,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 threadInfo.ViewDate = DateTime.Now;
                 visited2.ThreadInfo[threadHash] = threadInfo;
                 var newLinks = visited2.Links
+                    .Deduplicate(a => a, linkHashService.GetComparer())
                     .WithKeys(linkHashService.GetLinkHash)
                     .Where(a => visited2.ThreadInfo.ContainsKey(a.Key))
                     .Select(a => new { link = a.Value, info = visited2.ThreadInfo[a.Key], hash = a.Key })
@@ -257,7 +342,6 @@ namespace DvachBrowser3.Logic.NetworkLogic
                     }
                 }
                 await storage.ThreadData.VisitedThreads.SaveLinkCollection(visited2);
-                await Services.GetServiceOrThrow<ILiveTileService>().UpdateFavoritesTile(visited2);
             }
         }
     }

@@ -38,11 +38,11 @@
                     <TranslateTransform x:Name="TileImageTransform" />
                 </Image.RenderTransform>
             </Image>
-            <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="2" Visibility="{x:Bind ViewModel.HasNewPosts, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}">
+            <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="8, 2, 8, 2" Visibility="{x:Bind ViewModel.HasNewPosts, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}">
                 <Border.Background>
                     <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
                 </Border.Background>
-                <TextBlock FontWeight="Bold" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.NewPosts, Mode=OneWay}">
+                <TextBlock FontWeight="Bold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.NewPosts, Mode=OneWay}" Foreground="White">
                 </TextBlock>
             </Border>
         </Grid>
