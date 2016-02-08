@@ -28,6 +28,9 @@ namespace DvachBrowser3.ViewModels
             {
                 ViewModelEvents.FavoritesListRefreshed.RaiseEvent(this, null);
             };
+            Groups.Add(new FavoriteMainGroupViewModel());
+            Groups.Add(new VisitedMainGroupViewModel());
+            Groups.Add(new FavoriteBoardMainGroupViewModel());
             AppHelpers.DispatchAction(Initialize);
         }
 

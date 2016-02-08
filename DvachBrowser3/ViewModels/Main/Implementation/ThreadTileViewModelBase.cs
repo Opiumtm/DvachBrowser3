@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Xaml.Media;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using Template10.Mvvm;
@@ -79,6 +80,7 @@ namespace DvachBrowser3.ViewModels
                 if (needUpdate)
                 {
                     Image = new ImageSourceViewModel(data.SmallImage.Link);
+                    Image.Load.Start();
                 }
             }
             lastImage = data.SmallImage?.Link;
@@ -180,5 +182,20 @@ namespace DvachBrowser3.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Логотип ресурса.
+        /// </summary>
+        public ImageSource ResourceLogo => BoardListBoardViewModelsHelper.GetLogo(Link?.Engine);
+
+        /// <summary>
+        /// Движок.
+        /// </summary>
+        public string Engine => BoardListBoardViewModelsHelper.GetEngineName(Link?.Engine);
+
+        /// <summary>
+        /// Ресурс.
+        /// </summary>
+        public string Resource => BoardListBoardViewModelsHelper.GetResourceName(Link?.Engine);
     }
 }

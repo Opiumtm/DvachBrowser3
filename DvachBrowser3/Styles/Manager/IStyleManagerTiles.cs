@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace DvachBrowser3.Styles
 {
@@ -82,5 +86,10 @@ namespace DvachBrowser3.Styles
         /// Ширина тайла изображения постинга.
         /// </summary>
         double PostingMediaTileWidth { get; }
+
+        /// <summary>
+        /// Обрезка тайла.
+        /// </summary>
+        RectangleGeometry BoardTileClip { get; }
     }
 }

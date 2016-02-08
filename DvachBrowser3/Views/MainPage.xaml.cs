@@ -1,13 +1,16 @@
 using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
+using DvachBrowser3.Styles;
+using DvachBrowser3.ViewModels;
 using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
-    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback
+    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource
     {
         private object lifetimeToken;
 
@@ -16,6 +19,7 @@ namespace DvachBrowser3.Views
             NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
             lifetimeToken = this.BindAppLifetimeEvents();
+            InitViewModel();
         }
 
         /// <summary>
@@ -59,5 +63,56 @@ namespace DvachBrowser3.Views
         /// Получить роль навигации.
         /// </summary>
         public NavigationRole? NavigationRole => Navigation.NavigationRole.Main;
+
+        public IMainViewModel ViewModel => DataContext as IMainViewModel;
+
+        /// <summary>
+        /// Получить модель представления.
+        /// </summary>
+        /// <returns>Модель представления.</returns>
+        public object GetViewModel()
+        {
+            return ViewModel;
+        }
+
+        public IStyleManager StyleManager => Shell.StyleManager;
+
+        private void InitViewModel()
+        {
+            DataContext = new MainViewModel();
+            ViewModel.PropertyChanged += (sender, e) =>
+            {
+                if ("Groups".Equals(e.PropertyName))
+                {
+                    MainSource.Source = ViewModel.Groups;
+                }
+            };
+            MainSource.Source = ViewModel.Groups;
+        }
+    }
+
+    public class MainTileTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate BoardTemplate { get; set; }
+
+        public DataTemplate ThreadTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+        {
+            var itemObj = item as IMainTileViewModel;
+            if (itemObj?.TileData != null)
+            {
+                var item2 = itemObj.TileData;
+                if (item2 is IThreadTileViewModel)
+                {
+                    return ThreadTemplate;
+                }
+                if (item2 is IBoardListBoardViewModel)
+                {
+                    return BoardTemplate;
+                }
+            }
+            return base.SelectTemplateCore(item, container);
+        }
     }
 }

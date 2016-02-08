@@ -36,7 +36,7 @@ namespace DvachBrowser3.ViewModels
             try
             {
                 var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
-                BoardLinkCollection favorites = (await storage.ThreadData.FavoriteThreads.LoadLinkCollectionForReadOnly() as BoardLinkCollection) ?? new BoardLinkCollection() { Links = new List<BoardLinkBase>(), BoardInfo = new Dictionary<string, FavoriteBoardInfo>() };
+                BoardLinkCollection favorites = (await storage.ThreadData.FavoriteBoards.LoadLinkCollectionForReadOnly() as BoardLinkCollection) ?? new BoardLinkCollection() { Links = new List<BoardLinkBase>(), BoardInfo = new Dictionary<string, FavoriteBoardInfo>() };
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
                 var updateHelper = new SortedCollectionUpdateHelper<IMainTileViewModel, BoardLinkBase, BoardLinkBase>(

@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace DvachBrowser3.Styles
 {
@@ -48,6 +50,10 @@ namespace DvachBrowser3.Styles
                 PostingMediaTileHeight = 240;
                 PostingMediaTileWidth = 320;
             }
+            BoardTileClip = new RectangleGeometry()
+            {
+                Rect = new Rect(new Point(0, 0), new Size(BoardTileWidth, BoardTileHeight))
+            };
         }
 
         private double imagePreviewHeight;
@@ -274,6 +280,21 @@ namespace DvachBrowser3.Styles
             private set
             {
                 postingMediaTileWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private RectangleGeometry boardTileClip;
+
+        /// <summary>
+        /// Обрезка тайла.
+        /// </summary>
+        public RectangleGeometry BoardTileClip
+        {
+            get { return boardTileClip; }
+            private set
+            {
+                boardTileClip = value;
                 OnPropertyChanged();
             }
         }

@@ -1,11 +1,13 @@
-﻿using DvachBrowser3.Links;
+﻿using System.ComponentModel;
+using Windows.UI.Xaml.Media;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
     /// <summary>
     /// Модель треда.
     /// </summary>
-    public interface IThreadTileViewModel
+    public interface IThreadTileViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Ссылка.
@@ -41,5 +43,20 @@ namespace DvachBrowser3.ViewModels
         /// Новые посты.
         /// </summary>
         int NewPosts { get; }
+
+        /// <summary>
+        /// Логотип ресурса.
+        /// </summary>
+        ImageSource ResourceLogo { get; }
+
+        /// <summary>
+        /// Движок.
+        /// </summary>
+        string Engine { get; }
+
+        /// <summary>
+        /// Ресурс.
+        /// </summary>
+        string Resource { get; }
     }
 }

@@ -7,7 +7,39 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:behaviors="using:Template10.Behaviors"
+      xmlns:pageServices="using:DvachBrowser3.PageServices"
+      xmlns:views="using:DvachBrowser3.Views"
+      xmlns:partial="using:DvachBrowser3.Views.Partial"
+      xmlns:viewModels="using:DvachBrowser3.ViewModels"
+      x:Name="ThisPage"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="MainSource" IsSourceGrouped="True"></CollectionViewSource>
+        <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
+            <views:MainTileTemplateSelector.BoardTemplate>
+                <DataTemplate x:DataType="viewModels:IMainTileViewModel">
+                    <partial:BoardTile ViewModel="{Binding Path=TileData}">
+                    </partial:BoardTile>
+                </DataTemplate>
+            </views:MainTileTemplateSelector.BoardTemplate>
+            <views:MainTileTemplateSelector.ThreadTemplate>
+                <DataTemplate x:DataType="viewModels:IMainTileViewModel">
+                    <partial:ThreadTile ViewModel="{Binding Path=TileData}">
+                    </partial:ThreadTile>
+                </DataTemplate>
+            </views:MainTileTemplateSelector.ThreadTemplate>
+        </views:MainTileTemplateSelector>
+    </Page.Resources>
+
+    <pageServices:PageServices.Services>
+        <pageServices:PageServiceCollection>
+            <pageServices:ShellAppBarPageService />
+            <pageServices:ViewModelLifetimePageService />
+            <pageServices:NoStatusBarProgressPageService />
+        </pageServices:PageServiceCollection>
+    </pageServices:PageServices.Services>
+
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -18,15 +50,41 @@
 
         <!--  header  -->
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
-                             Content="Main Page">
+                             Content="ГЛАВНАЯ" FontWeight="Bold">
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </Interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="4,4,4,0">
-            <StackPanel></StackPanel>
+            <SemanticZoom>
+                <SemanticZoom.ZoomedInView>
+                    <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource MainSource}}" SelectionMode="None"
+                              ItemTemplateSelector="{StaticResource MainTileTemplateSelector}">
+                        <GridView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="{Binding ElementName=ThisPage, Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </GridView.GroupStyle>
+                    </GridView>
+                </SemanticZoom.ZoomedInView>
+                <SemanticZoom.ZoomedOutView>
+                    <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="10" FontSize="{Binding ElementName=ThisPage, Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Group.Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </SemanticZoom.ZoomedOutView>
+            </SemanticZoom>
         </Grid>
     </Grid>
 </Page>
+
+
 

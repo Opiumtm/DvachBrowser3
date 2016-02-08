@@ -157,4 +157,19 @@ namespace DvachBrowser3
             throw new NotImplementedException();
         }
     }
+
+    public class DoubleToNullableDoubleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var nd = new double?((double) value);
+            return nd;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            var nd = (double?) value;
+            return nd ?? 0.0;
+        }
+    }
 }
