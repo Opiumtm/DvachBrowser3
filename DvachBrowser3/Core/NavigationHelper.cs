@@ -59,11 +59,12 @@ namespace DvachBrowser3
             {
                 return null;
             }
-            var str = SerializationService.Json.Deserialize<ExtendedPageParam>(str1);
-            if (str == null)
+            var str2 = SerializationService.Json.Deserialize<string>(str1);
+            if (str2 == null)
             {
                 return null;
             }
+            var str = ExtendedPageParam.FromJson(str2);
             var key = ServiceLocator.Current.GetServiceOrThrow<INavigationKeyService>().Deserialize(str.LinkParam);            
             return new ExtendedPageParam2() { Link = key?.LinkData as BoardLinkBase, CustomDataId = str.CustomDataId };
         }

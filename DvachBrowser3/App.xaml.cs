@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -47,6 +49,7 @@ namespace DvachBrowser3
             {
                 AppEvents.AppSuspend.RaiseEvent(this, e);
             };
+            UnhandledException += OnUnhandledException;
         }
 
         private async Task CleanTempFiles()
@@ -83,6 +86,7 @@ namespace DvachBrowser3
         {
             if (!isCoreInitialized)
             {
+                var d = await ApplicationData.Current.LocalFolder.CreateFolderAsync("errorlog", CreationCollisionOption.OpenIfExists);
                 await CleanTempFiles();
                 isCoreInitialized = true;
                 await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
@@ -155,6 +159,13 @@ namespace DvachBrowser3
         {
             await Task.Delay(50);
             await TryInitialize();
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var name = DateTime.Now.Ticks.ToString();
+            var p = Path.Combine(ApplicationData.Current.LocalFolder.Path, "errorlog", name + ".txt");
+            File.WriteAllText(p, e.Exception.ToString());
         }
     }
 }

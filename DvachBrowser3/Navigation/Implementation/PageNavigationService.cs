@@ -186,7 +186,8 @@ namespace DvachBrowser3.Navigation
                     }
                     data["IsQuotePost"] = target.QuotePost;
                     await storage.CustomData.SaveCustomData(id, data);
-                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), new ExtendedPageParam() { CustomDataId = id, LinkParam = nkey });
+                    var extPar = new ExtendedPageParam() {CustomDataId = id, LinkParam = nkey};
+                    Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), extPar.ToJson());
                 }
             }
             else

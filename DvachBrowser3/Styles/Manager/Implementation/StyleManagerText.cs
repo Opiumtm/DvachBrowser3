@@ -22,13 +22,13 @@
             }
             else
             {
-                NormalFontSize = 12.5;
-                SmallFontSize = 11;
+                NormalFontSize = 13.5;
+                SmallFontSize = 11.5;
                 TitleFontSize = 16;
-                PostFontSize = 12.5;
+                PostFontSize = 13.5;
                 ThreadPreviewPostLines = 7;
                 ListHeaderFontSize = 18;
-                ProgressFontSize = 12.5;
+                ProgressFontSize = 13.5;
             }
         }
 

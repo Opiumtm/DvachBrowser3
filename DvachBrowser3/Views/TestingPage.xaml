@@ -8,6 +8,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:behaviors="using:Template10.Behaviors"
       xmlns:partial="using:DvachBrowser3.Views.Partial"
+      xmlns:system="using:System"
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -30,12 +31,45 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <partial:ProgressIndicatorControl x:Name="ProgressControl" ShowMessage="True" />
-                <Button x:Name="LoadBoardDataButton" HorizontalAlignment="Center" Click="LoadBoardDataButton_OnClick">Загрузить</Button>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Margin="2" Click="InvokeError_OnClick">Вызвать ошибу</Button>
+                <Button Margin="2" Click="RefreshBase_OnClick">Обновить</Button>
             </StackPanel>
-            <partial:BoardThreadRefList Grid.Row="1" x:Name="BoardThreadList" />
+            <ListView Grid.Row="1" Margin="2" ItemsSource="{x:Bind Files, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="system:String">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Tapped="LogItem_OnTapped" Tag="{x:Bind Mode=OneWay}">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{x:Bind Mode=OneWay}" />
+                            </Grid>
+                            <Button Grid.Column="1" Tag="{x:Bind}" Click="DeleteFile_OnClick" Margin="10, 0, 0, 0">
+                                <Viewbox Height="16" Width="16">
+                                    <SymbolIcon Symbol="Delete" />
+                                </Viewbox>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Visibility="Collapsed" Grid.Row="1" x:Name="ViewGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Margin="2" Click="CloseButton_OnClick">Закрыть</Button>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1" Margin="2">
+                <TextBlock x:Name="ErrorText" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>
+
+
 
