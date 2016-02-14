@@ -2,6 +2,8 @@
 using Windows.UI.Xaml.Media;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Styles;
+using DvachBrowser3.Views;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -56,7 +58,7 @@ namespace DvachBrowser3.ViewModels
         protected virtual void SetData(T data)
         {
             var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
-            Name = data.Title;
+            DisplayName = data.Title;
             if (data.SmallImage?.Link == null)
             {
                 Image = null;
@@ -121,17 +123,17 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private string name;
+        private string displayName;
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public string Name
+        public string DisplayName
         {
-            get { return name; }
+            get { return displayName; }
             protected set
             {
-                name = value;
+                displayName = value;
                 RaisePropertyChanged();
             }
         }
@@ -197,5 +199,10 @@ namespace DvachBrowser3.ViewModels
         /// Ресурс.
         /// </summary>
         public string Resource => BoardListBoardViewModelsHelper.GetResourceName(Link?.Engine);
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => Shell.StyleManager;
     }
 }

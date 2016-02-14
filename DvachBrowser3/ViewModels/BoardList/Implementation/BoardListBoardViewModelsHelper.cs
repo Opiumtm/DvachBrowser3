@@ -42,7 +42,7 @@ namespace DvachBrowser3.ViewModels
                 return true;
             }
             filter = filter.Trim().ToLower();
-            return (board?.ShortName ?? "").ToLower().Contains(filter) || (board?.DisplayName ?? "").ToLower().Contains(filter);
+            return (board?.Board ?? "").ToLower().Contains(filter) || (board?.DisplayName ?? "").ToLower().Contains(filter);
         }
 
         /// <summary>

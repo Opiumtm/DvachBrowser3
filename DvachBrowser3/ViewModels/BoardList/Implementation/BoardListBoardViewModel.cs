@@ -34,14 +34,29 @@ namespace DvachBrowser3.ViewModels
         public BoardLinkBase Link => boardRef.Link;
 
         /// <summary>
-        /// Короткое имя.
+        /// Борда.
         /// </summary>
-        public string ShortName => boardRef.ShortName;
+        public string Board => boardRef.ShortName;
 
         /// <summary>
         /// Отображаемое имя.
         /// </summary>
         public string DisplayName => boardRef.DisplayName;
+
+        /// <summary>
+        /// Изображение.
+        /// </summary>
+        public IImageSourceViewModel Image => null;
+
+        /// <summary>
+        /// Есть новые посты.
+        /// </summary>
+        public bool HasNewPosts => false;
+
+        /// <summary>
+        /// Новые посты.
+        /// </summary>
+        public int NewPosts => 0;
 
         /// <summary>
         /// Движок.
@@ -92,5 +107,10 @@ namespace DvachBrowser3.ViewModels
         /// Менеджер стилей.
         /// </summary>
         public IStyleManager StyleManager => Shell.StyleManager;
+
+        /// <summary>
+        /// Номер треда.
+        /// </summary>
+        public int ThreadNumber => 0;
     }
 }

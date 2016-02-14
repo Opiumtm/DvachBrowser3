@@ -338,6 +338,7 @@
     <Compile Include="ViewModels\Post\Search\LinkPostCollectionSearchQuery.cs" />
     <Compile Include="ViewModels\Post\Search\PostNumPostCollectionSearchQuery.cs" />
     <Compile Include="ViewModels\Post\Search\TextPostCollectionSearchQuery.cs" />
+    <Compile Include="ViewModels\Tiles\ICommonTileViewModel.cs" />
     <Compile Include="ViewModels\ViewModelAdapter.cs" />
     <Compile Include="Views\AddBoardDialog.xaml.cs">
       <DependentUpon>AddBoardDialog.xaml</DependentUpon>
@@ -654,9 +655,7 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Tiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

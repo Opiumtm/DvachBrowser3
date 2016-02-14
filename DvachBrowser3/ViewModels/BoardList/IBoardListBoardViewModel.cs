@@ -9,37 +9,12 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Модель представления борды.
     /// </summary>
-    public interface IBoardListBoardViewModel : INotifyPropertyChanged
+    public interface IBoardListBoardViewModel : ICommonTileViewModel, INotifyPropertyChanged
     {
         /// <summary>
         /// Этот элемент.
         /// </summary>
         IBoardListBoardViewModel This { get; }
-
-        /// <summary>
-        /// Ссылка.
-        /// </summary>
-        BoardLinkBase Link { get; }
-
-        /// <summary>
-        /// Короткое имя.
-        /// </summary>
-        string ShortName { get; }
-
-        /// <summary>
-        /// Отображаемое имя.
-        /// </summary>
-        string DisplayName { get; }
-
-        /// <summary>
-        /// Движок.
-        /// </summary>
-        string Engine { get; }
-
-        /// <summary>
-        /// Ресурс.
-        /// </summary>
-        string Resource { get; }
 
         /// <summary>
         /// Категория.
@@ -50,11 +25,6 @@ namespace DvachBrowser3.ViewModels
         /// Цвет плитки.
         /// </summary>
         Color TileBackgroundColor { get; }
-
-        /// <summary>
-        /// Логотип.
-        /// </summary>
-        ImageSource ResourceLogo { get; }
 
         /// <summary>
         /// Фильтровать.
@@ -72,10 +42,5 @@ namespace DvachBrowser3.ViewModels
         /// Для взрослых.
         /// </summary>
         bool IsAdult { get; }
-
-        /// <summary>
-        /// Менеджер стилей.
-        /// </summary>
-        IStyleManager StyleManager { get; }
     }
 }

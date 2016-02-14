@@ -62,16 +62,16 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IThreadTileViewModel ViewModel
+        public ICommonTileViewModel ViewModel
         {
-            get { return (IThreadTileViewModel) GetValue(ViewModelProperty); }
+            get { return (ICommonTileViewModel) GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IThreadTileViewModel), typeof (ThreadTile), new PropertyMetadata(null));
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null));
 
         public IStyleManager StyleManager = Shell.StyleManager;
 

@@ -28,16 +28,16 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IBoardListBoardViewModel ViewModel
+        public ICommonTileViewModel ViewModel
         {
-            get { return (IBoardListBoardViewModel) GetValue(ViewModelProperty); }
+            get { return (ICommonTileViewModel) GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBoardListBoardViewModel), typeof (BoardTile),
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (BoardTile),
             new PropertyMetadata(null));
     }
 }

@@ -42,7 +42,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Данные тайла.
         /// </summary>
-        public object TileData { get; }
+        public ICommonTileViewModel TileData { get; }
 
         private ShortThreadInfo threadInfo;
 

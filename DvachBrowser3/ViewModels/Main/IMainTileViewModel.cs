@@ -12,7 +12,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Данные тайла.
         /// </summary>
-        object TileData { get; }
+        ICommonTileViewModel TileData { get; }
 
         /// <summary>
         /// Можно добавлять в избранные.
