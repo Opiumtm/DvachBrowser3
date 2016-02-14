@@ -8,6 +8,7 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Makaba;
+using DvachBrowser3.Markup;
 using DvachBrowser3.Posting;
 using DvachBrowser3.Storage;
 using Template10.Mvvm;
@@ -111,6 +112,15 @@ namespace DvachBrowser3.ViewModels
             if (ccap != null)
             {
                 MarkupType = ccap.MarkupType;
+                if (MarkupType != null)
+                {
+                    var markupService = ServiceLocator.Current.GetServiceOrThrow<IMarkupService>();
+                    MarkupProvider = markupService.GetProvider(MarkupType.Value);
+                }
+                else
+                {
+                    MarkupProvider = null;
+                }
             }
 
             Initialized?.Invoke(this, EventArgs.Empty);
@@ -377,6 +387,21 @@ namespace DvachBrowser3.ViewModels
             private set
             {
                 markupType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private IMarkupProvider markupProvider;
+
+        /// <summary>
+        /// Провайдер 
+        /// </summary>
+        public IMarkupProvider MarkupProvider
+        {
+            get { return markupProvider; }
+            private set
+            {
+                markupProvider = value;
                 RaisePropertyChanged();
             }
         }

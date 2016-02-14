@@ -34,6 +34,10 @@ namespace DvachBrowser3.Views.Partial
 
         private Task IsNarrowViewChanged()
         {
+            if (double.IsNaN(MainGrid.ActualWidth) || double.IsInfinity(MainGrid.ActualWidth))
+            {
+                return Task.CompletedTask;
+            }
             bool isNarrow;
             bool isChange;
             if (MainGrid.ActualWidth >= 680)
@@ -93,6 +97,16 @@ namespace DvachBrowser3.Views.Partial
                     vm.UpdateValueInternal(tb.Text);
                 }
             }
+        }
+
+        private void MarkupControl_OnApplyMarkup(object sender, ApplyMarkupEventArgs e)
+        {
+            e.ApplyToTextBox(CommentBox);
+        }
+
+        private void MarkupControl2_OnApplyMarkup(object sender, ApplyMarkupEventArgs e)
+        {
+            e.ApplyToTextBox(CommentBox2);
         }
     }
 }

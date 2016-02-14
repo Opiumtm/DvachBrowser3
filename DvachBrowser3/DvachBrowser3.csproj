@@ -363,6 +363,7 @@
     <Compile Include="Views\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Partial\Additional\ApplyMarkupEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\BannerTappedEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\BannerTappedEventHandler.cs" />
     <Compile Include="Views\Partial\Additional\CaptchaQueryResultEventArgs.cs" />
@@ -653,7 +654,9 @@
       <Name>DvachBrowser3.TextRender</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Tiles\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

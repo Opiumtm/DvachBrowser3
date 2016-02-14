@@ -141,6 +141,8 @@ namespace DvachBrowser3.Storage.Files
             });
         }
 
+        //private const int XmlReadBufferSize = 64*1024;
+
         /// <summary>
         /// Читать строку из файла.
         /// </summary>
@@ -194,7 +196,7 @@ namespace DvachBrowser3.Storage.Files
                 {
                     using (var comp = new Decompressor(str))
                     {
-                        using (var rd = new StreamReader(comp.AsStreamForRead(), Encoding.UTF8))
+                        using (var rd = new StreamReader(comp.AsStreamForRead(/*XmlReadBufferSize*/), Encoding.UTF8))
                         {
                             using (var xml = XmlReader.Create(rd))
                             {

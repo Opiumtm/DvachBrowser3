@@ -96,7 +96,7 @@ namespace DvachBrowser3.Views
         private BoardLinkBase link;
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
+        {            
             base.OnNavigatedTo(e);
             var linkTransform = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>();
             var extParam = NavigationHelper.GetExtLinkFromParameter(e.Parameter);
@@ -168,7 +168,7 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private string headerText;
+        private string headerText = "";
 
         public string HeaderText
         {

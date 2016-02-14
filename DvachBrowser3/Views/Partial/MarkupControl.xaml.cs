@@ -27,42 +27,17 @@ namespace DvachBrowser3.Views.Partial
             MarkupChanged();
         }
 
-        private IMarkupProvider markupProvider = null;
-
-        private async void MarkupChanged()
+        private void MarkupChanged()
         {
-            try
-            {
-                try
-                {
-                    if (MarkupType != null)
-                    {
-                        markupProvider = ServiceLocator.Current.GetServiceOrThrow<IMarkupService>().GetProvider(MarkupType.Value);
-                    }
-                    else
-                    {
-                        markupProvider = null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                    markupProvider = null;
-                }
-                UpdateButtons();
-            }
-            catch (Exception ex)
-            {
-                await AppHelpers.ShowError(ex);
-            }
+            UpdateButtons();
         }
 
         private void UpdateButtons()
         {
             ISet<MarkupTag> tags = new HashSet<MarkupTag>();
-            if (markupProvider != null)
+            if (MarkupProvider != null)
             {
-                tags = markupProvider.SupportedTags;
+                tags = MarkupProvider.SupportedTags;
             }
             BoldButton.Visibility = tags.Contains(MarkupTag.Bold) ? Visibility.Visible : Visibility.Collapsed;
             ItalicButton.Visibility = tags.Contains(MarkupTag.Italic) ? Visibility.Visible : Visibility.Collapsed;
@@ -78,9 +53,9 @@ namespace DvachBrowser3.Views.Partial
         {
             try
             {
-                if (markupProvider != null && For != null)
+                if (MarkupProvider != null)
                 {
-                    For.Text = markupProvider.SetMarkup(For.Text, tag, For.SelectionStart, For.SelectionLength);
+                    ApplyMarkup?.Invoke(this, new ApplyMarkupEventArgs(MarkupProvider, tag));
                 }
             }
             catch (Exception ex)
@@ -90,18 +65,9 @@ namespace DvachBrowser3.Views.Partial
         }
 
         /// <summary>
-        /// Для какого контрола ввода.
+        /// Применить разметку.
         /// </summary>
-        public TextBox For
-        {
-            get { return (TextBox) GetValue(ForProperty); }
-            set { SetValue(ForProperty, value); }
-        }
-
-        /// <summary>
-        /// Для какого контрола ввода.
-        /// </summary>
-        public static readonly DependencyProperty ForProperty = DependencyProperty.Register("For", typeof (TextBox), typeof (MarkupControl), new PropertyMetadata(null));
+        public event ApplyMarkupEventHandler ApplyMarkup;
 
         /// <summary>
         /// Ориентация.
@@ -118,18 +84,18 @@ namespace DvachBrowser3.Views.Partial
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof (Orientation), typeof (MarkupControl), new PropertyMetadata(Orientation.Horizontal));
 
         /// <summary>
-        /// Тип разметки.
+        /// Провайдер разметки.
         /// </summary>
-        public PostingMarkupType? MarkupType
+        public IMarkupProvider MarkupProvider
         {
-            get { return (PostingMarkupType?) GetValue(MarkupTypeProperty); }
-            set { SetValue(MarkupTypeProperty, value); }
+            get { return (IMarkupProvider) GetValue(MarkupProviderProperty); }
+            set { SetValue(MarkupProviderProperty, value); }
         }
 
         /// <summary>
-        /// Тип разметки.
+        /// Провайдер разметки.
         /// </summary>
-        public static readonly DependencyProperty MarkupTypeProperty = DependencyProperty.Register("MarkupType", typeof (PostingMarkupType?), typeof (MarkupControl), new PropertyMetadata(new PostingMarkupType?(), MarkupTypePropertyChangedCallback));
+        public static readonly DependencyProperty MarkupProviderProperty = DependencyProperty.Register("MarkupProvider", typeof (IMarkupProvider), typeof (MarkupControl), new PropertyMetadata(null, MarkupTypePropertyChangedCallback));
 
         private static void MarkupTypePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

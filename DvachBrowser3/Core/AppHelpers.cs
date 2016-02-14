@@ -185,5 +185,15 @@ namespace DvachBrowser3
             var disp = Dispatcher;
             return disp?.HasThreadAccess() ?? false;
         }
+
+        /// <summary>
+        /// Показать сообщение.
+        /// </summary>
+        /// <param name="message">Сообщение.</param>
+        public static async Task ShowMessage(string message)
+        {
+            var dlg = new MessageDialog(message, "Внимание!");
+            await dlg.ShowAsync();
+        }
     }
 }

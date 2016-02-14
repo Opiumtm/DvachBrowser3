@@ -101,7 +101,7 @@
                                  Text="{x:Bind ViewModel.Fields.Comment.Value, Mode=OneWay}"
                                  Tag="{x:Bind ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                  x:Name="CommentBox"/>
-                            <local:MarkupControl Grid.Column="1" For="{Binding ElementName=CommentBox}" MarkupType="{x:Bind ViewModel.Fields.MarkupType, Mode=OneWay}" Orientation="Vertical" VerticalAlignment="Bottom" />
+                            <local:MarkupControl Grid.Column="1" MarkupProvider="{x:Bind ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Vertical" VerticalAlignment="Bottom" ApplyMarkup="MarkupControl_OnApplyMarkup" />
                         </Grid>
                         <Grid Visibility="{x:Bind ViewModel.Fields.Media.AsBaseIntf.IsSupported, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
                             <Grid.ColumnDefinitions>
@@ -138,7 +138,7 @@
                                      Text="{x:Bind ViewModel.Fields.Comment.Value, Mode=OneWay}"
                                      Tag="{x:Bind ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      x:Name="CommentBox2"/>
-                            <local:MarkupControl For="{Binding ElementName=CommentBox2}" MarkupType="{x:Bind ViewModel.Fields.MarkupType, Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left" />
+                            <local:MarkupControl MarkupProvider="{x:Bind ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left" ApplyMarkup="MarkupControl2_OnApplyMarkup" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>

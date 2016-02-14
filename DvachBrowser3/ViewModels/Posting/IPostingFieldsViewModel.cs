@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using DvachBrowser3.Markup;
 using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.ViewModels
@@ -125,6 +126,11 @@ namespace DvachBrowser3.ViewModels
         /// Тип разметки.
         /// </summary>
         PostingMarkupType? MarkupType { get; }
+
+        /// <summary>
+        /// Провайдер 
+        /// </summary>
+        IMarkupProvider MarkupProvider { get; }
 
         /// <summary>
         /// Инициализировано.
