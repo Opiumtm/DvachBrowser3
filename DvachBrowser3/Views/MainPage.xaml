@@ -20,7 +20,7 @@
         <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
             <views:MainTileTemplateSelector.BoardTemplate>
                 <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:BoardTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}">
+                    <partial:BoardTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}" Margin="4">
                         <Interactivity:Interaction.Behaviors>
                             <behaviors1:PopupMenuBehavior>
                                 <behaviors1:PopupMenuBehavior.MenuFlyout>
@@ -38,7 +38,7 @@
             </views:MainTileTemplateSelector.BoardTemplate>
             <views:MainTileTemplateSelector.ThreadTemplate>
                 <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:ThreadTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}">
+                    <partial:ThreadTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}" Margin="4">
                         <Interactivity:Interaction.Behaviors>
                             <behaviors1:PopupMenuBehavior>
                                 <behaviors1:PopupMenuBehavior.MenuFlyout>

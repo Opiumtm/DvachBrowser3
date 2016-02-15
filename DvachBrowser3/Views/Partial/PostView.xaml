@@ -90,9 +90,14 @@
         </RelativePanel>
         <TextBlock Grid.Row="1" Margin="3" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" FontSize="{x:Bind ViewModel.StyleManager.Text.TitleFontSize, Mode=OneWay}" TextWrapping="Wrap" FontWeight="SemiBold"
                    MaxLines="3" Visibility="{x:Bind ViewModel.Subject, Mode=OneWay, Converter={StaticResource EmptyStringVisibilityConverter}, ConverterParameter=false}" />
-        <GridView Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                  ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}" SelectionMode="None" ShowsScrollingPlaceholders="False">
-            <GridView.ItemTemplate>
+        <ItemsControl Grid.Row="2" Margin="3, 0, 3, 0" Visibility="{x:Bind ViewModel.Media.HasMedia, FallbackValue=Collapsed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                  ItemsSource="{x:Bind ViewModel.Media.Files, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:IPostMediaFileViewModel">
                     <StackPanel Margin="2" ToolTipService.ToolTip="{x:Bind Name}">
                         <Border Margin="2" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1" x:Name="ImageBorder" Tapped="ImageBorder_OnTapped" Tag="{x:Bind}">
@@ -116,8 +121,8 @@
                                    MaxLines="2"/>
                     </StackPanel>
                 </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <local:PostText2 Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Border Margin="3, 0, 3, 0" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
             <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="[Показана часть текста]" FontWeight="SemiBold"
@@ -131,32 +136,24 @@
             <Border.BorderBrush>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.1"/>
             </Border.BorderBrush>
-            <GridView ItemsSource="{x:Bind ViewModel.Text.Quotes, Mode=OneWay}" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                      SelectionMode="None" ShowsScrollingPlaceholders="False">
-                <GridView.Header>
-                    <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="3, 0, 5, 0">
-                        <Run>Ответы:</Run>
-                    </TextBlock>
-                </GridView.Header>
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="MinHeight" Value="0"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="GridViewItem">
-                                    <ContentPresenter />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </GridView.ItemContainerStyle>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:IPostQuoteViewModel">
-                        <TextBlock Margin="3, 0, 3, 0" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Tag="{x:Bind Mode=OneWay}" Tapped="Quote_OnTapped"><Underline><Run Text="{x:Bind Name, Mode=OneWay}"></Run></Underline></TextBlock>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+            
+            <StackPanel>
+                <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="3, 0, 5, 0">
+                    <Run>Ответы:</Run>
+                </TextBlock>
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Text.Quotes, Mode=OneWay}" Visibility="{x:Bind ViewModel.Text.HasQuotes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:IPostQuoteViewModel">
+                            <TextBlock Margin="3, 0, 3, 0" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Tag="{x:Bind Mode=OneWay}" Tapped="Quote_OnTapped"><Underline><Run Text="{x:Bind Name, Mode=OneWay}"></Run></Underline></TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </Border>
         <Border Grid.Row="6" Height="10" />
         <Border Grid.Row="7" Margin="3, 0, 3, 0" Visibility="{x:Bind ShowPreviewSeparator, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">
