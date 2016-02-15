@@ -30,11 +30,5 @@ namespace DvachBrowser3.Storage
         /// <param name="key">Ключ.</param>
         /// <returns>Данне.</returns>
         Task DeleteCustomData(string key);
-
-        /// <summary>
-        /// Зарегистрировать тип.
-        /// </summary>
-        /// <param name="type">Тип.</param>
-        void RegisterType(Type type);
     }
 }

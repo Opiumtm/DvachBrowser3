@@ -70,9 +70,18 @@
     <Compile Include="Markup\MarkupService.cs" />
     <Compile Include="Markup\MarkupTag.cs" />
     <Compile Include="Models\Posts\PostNodeBoardLinkAttribute.cs" />
+    <Compile Include="Serialization\BinarySerializerWrapper.cs" />
+    <Compile Include="Serialization\BsonNetSerializerWrapper.cs" />
+    <Compile Include="Serialization\DataContractSerializerWrapperBase.cs" />
+    <Compile Include="Serialization\DefaultSerializerWrapper.cs" />
+    <Compile Include="Serialization\IObjectSerializer.cs" />
+    <Compile Include="Serialization\JsonNetSerializerWrapper.cs" />
+    <Compile Include="Serialization\JsonSerializerWrapper.cs" />
+    <Compile Include="Serialization\XmlSerializerWrapper.cs" />
     <Compile Include="StdReplace\HtmlToText.cs" />
     <Compile Include="StdReplace\WebUtility.cs" />
     <Compile Include="Storage\Files\CacheRecycleConfig.cs" />
+    <Compile Include="Storage\IBoardReferencesStore.cs" />
     <Compile Include="Storage\ILocalFolderProvider.cs" />
     <Compile Include="Threading\AsyncConcurrencySemaphore.cs" />
     <Compile Include="Threading\AsyncLazy.cs" />
@@ -84,7 +93,7 @@
     <Compile Include="Common\IDateService.cs" />
     <Compile Include="Common\IJsonService.cs" />
     <Compile Include="Common\IRegexCacheService.cs" />
-    <Compile Include="Common\ISerializerCacheService.cs" />
+    <Compile Include="Serialization\ISerializerCacheService.cs" />
     <Compile Include="Threading\IThreadExecutionContext.cs" />
     <Compile Include="Common\ITreeWalkContextBreak.cs" />
     <Compile Include="Common\JsonService.cs" />
@@ -93,7 +102,7 @@
     <Compile Include="Common\RegexCacheService.cs" />
     <Compile Include="Common\SemiBufferedStream.cs" />
     <Compile Include="Threading\SerializedAccessManager.cs" />
-    <Compile Include="Common\SerializerCacheService.cs" />
+    <Compile Include="Serialization\SerializerCacheService.cs" />
     <Compile Include="Common\ServiceDependencyInfoAttribute.cs" />
     <Compile Include="Common\StreamHelpers.cs" />
     <Compile Include="Threading\ThreadExecutionContext.cs" />

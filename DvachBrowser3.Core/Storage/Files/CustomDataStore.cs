@@ -86,15 +86,6 @@ namespace DvachBrowser3.Storage.Files
             }
         }
 
-        /// <summary>
-        /// Зарегистрировать тип.
-        /// </summary>
-        /// <param name="type">Тип.</param>
-        public void RegisterType(Type type)
-        {
-            Services.GetServiceOrThrow<ISerializerCacheService>().RegisterCustomDataType(type);
-        }
-
         private readonly Dictionary<string, string> hashIdCache = new Dictionary<string, string>();
 
         private string GetFileName(string key)

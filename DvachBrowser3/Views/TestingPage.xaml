@@ -9,7 +9,15 @@
       xmlns:behaviors="using:Template10.Behaviors"
       xmlns:partial="using:DvachBrowser3.Views.Partial"
       xmlns:system="using:System"
+      xmlns:pageServices="using:DvachBrowser3.PageServices"
       mc:Ignorable="d">
+    
+    <pageServices:PageServices.Services>
+        <pageServices:PageServiceCollection>
+            <pageServices:ShellAppBarPageService />
+            <pageServices:NoStatusBarProgressPageService />
+        </pageServices:PageServiceCollection>
+    </pageServices:PageServices.Services>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -70,6 +78,10 @@
         </Grid>
     </Grid>
 </Page>
+
+
+
+
 
 
 

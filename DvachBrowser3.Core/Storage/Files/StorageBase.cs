@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using System.Xml;
 using Windows.Storage;
 using Windows.Storage.Compression;
 using Windows.Storage.Streams;
+using Windows.UI.Popups;
 
 namespace DvachBrowser3.Storage.Files
 {
@@ -117,31 +119,17 @@ namespace DvachBrowser3.Storage.Files
                 {
                     using (var comp = new Compressor(str, CompressAlgorithm.Mszip, 0))
                     {
-                        using (var wr = new StreamWriter(comp.AsStreamForWrite(), Encoding.UTF8))
-                        {
-                            using (var xml = XmlWriter.Create(wr))
-                            {
-                                await serializer.WriteObjectAsync(xml, obj);
-                            }
-                            await wr.FlushAsync();
-                        }
+                        await serializer.WriteObjectAsync(comp, obj);
                     }
                 }
                 else
                 {
-                    using (var wr = new StreamWriter(str.AsStream(), Encoding.UTF8))
-                    {
-                        using (var xml = XmlWriter.Create(wr))
-                        {
-                            await serializer.WriteObjectAsync(xml, obj);
-                        }
-                        await wr.FlushAsync();
-                    }
+                    await serializer.WriteObjectAsync(str, obj);
                 }
             });
         }
 
-        //private const int XmlReadBufferSize = 64*1024;
+        private const int XmlReadBufferSize = 64*1024;
 
         /// <summary>
         /// Читать строку из файла.
@@ -189,6 +177,7 @@ namespace DvachBrowser3.Storage.Files
                 return null;
             }
             var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
+
             return await file.PoliteRead(async str =>
             {
                 if (str.Size == 0) return null;
@@ -196,22 +185,10 @@ namespace DvachBrowser3.Storage.Files
                 {
                     using (var comp = new Decompressor(str))
                     {
-                        using (var rd = new StreamReader(comp.AsStreamForRead(/*XmlReadBufferSize*/), Encoding.UTF8))
-                        {
-                            using (var xml = XmlReader.Create(rd))
-                            {
-                                return (T)await serializer.ReadObjectAsync(xml);
-                            }
-                        }
+                        return (T)await serializer.ReadObjectAsync(comp);
                     }
                 }
-                using (var rd = new StreamReader(str.AsStream(), Encoding.UTF8))
-                {
-                    using (var xml = XmlReader.Create(rd))
-                    {
-                        return (T)await serializer.ReadObjectAsync(xml);
-                    }
-                }
+                return (T)await serializer.ReadObjectAsync(str);
             }, TimeSpan.FromSeconds(2));
         }
 
@@ -256,17 +233,12 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Результат.</returns>
         public async Task<T> DeepCloneObject<T>(T src) where T: class
         {
-            return await Task.Factory.StartNew(() =>
+            if (src == null)
             {
-                if (src == null) return null;
-                var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
-                using (var str = new MemoryStream())
-                {
-                    serializer.WriteObject(str, src);
-                    str.Position = 0;
-                    return (T)serializer.ReadObject(str);
-                }
-            });
+                return null;
+            }
+            var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
+            return (T)await serializer.DeepClone(src);
         }
     }
 }

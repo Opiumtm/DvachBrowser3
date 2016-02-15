@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,6 +21,8 @@ using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
 using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
+using DvachBrowser3.PageServices;
+using DvachBrowser3.Storage;
 using DvachBrowser3.ViewModels;
 using DvachBrowser3.Views.Partial;
 
@@ -30,7 +33,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TestingPage : Page, INavigationRolePage
+    public sealed partial class TestingPage : Page, INavigationRolePage, IShellAppBarProvider, IPageLifetimeCallback
     {
         public TestingPage()
         {
@@ -44,6 +47,7 @@ namespace DvachBrowser3.Views
             base.OnNavigatedTo(e);
             await RefreshList();
             Shell.Instance.BottomAppBar = null;
+            NavigatedTo?.Invoke(this, e);
         }
 
         private async Task RefreshList()
@@ -60,6 +64,7 @@ namespace DvachBrowser3.Views
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+            NavigatedFrom?.Invoke(this, e);
         }
 
         /// <summary>
@@ -112,5 +117,49 @@ namespace DvachBrowser3.Views
         {
             ViewGrid.Visibility = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Получить нижнюю строку команд.
+        /// </summary>
+        /// <returns>Строка команд.</returns>
+        public AppBar GetBottomAppBar()
+        {
+            var appBar = new CommandBar();
+            var b = new AppBarButton()
+            {
+                Icon = new SymbolIcon(Symbol.Flag),
+                Label = "Тест скорости"
+            };
+            b.Click += BOnClick;
+            appBar.PrimaryCommands.Add(b);
+            return appBar;
+        }
+
+        private void BOnClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            AppHelpers.DispatchAction(SpeedTest, true);
+        }
+
+        private async Task SpeedTest()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
+            var engine = engines.GetEngineById(CoreConstants.Engine.Makaba);
+
+            for (var i = 0; i < 100; i++)
+            {
+                await storage.ThreadData.LoadBoardReferences(engine.RootLink);
+            }
+
+            sw.Stop();
+            await AppHelpers.ShowMessage($"{sw.Elapsed}");
+        }
+
+        public event EventHandler<NavigationEventArgs> NavigatedTo;
+        public event EventHandler<NavigationEventArgs> NavigatedFrom;
+        public event EventHandler<object> AppResume;
     }
 }
