@@ -70,6 +70,12 @@ namespace DvachBrowser3.Storage
         Task<BoardReferences> LoadBoardReferences(BoardLinkBase rootLink);
 
         /// <summary>
+        /// Предварительная загрузка ссылок на борды.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        Task PreloadBoardReferences();
+
+        /// <summary>
         /// Сохранить информацию о количестве постов.
         /// </summary>
         /// <param name="data">Данные.</param>

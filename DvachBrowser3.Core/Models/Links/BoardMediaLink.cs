@@ -41,5 +41,14 @@ namespace DvachBrowser3.Links
         {
             return BoardLinkKind.Media;
         }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public override BoardLinkBase DeepClone()
+        {
+            return new BoardMediaLink() { Board = Board, KnownMediaType = KnownMediaType, Engine = Engine, MediaType = MediaType, RelativeUri = RelativeUri };
+        }
     }
 }

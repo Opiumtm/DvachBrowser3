@@ -28,5 +28,14 @@ namespace DvachBrowser3.Links
         {
             return BoardLinkKind.Thread;
         }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public override BoardLinkBase DeepClone()
+        {
+            return new ThreadLink() { Board = Board, Engine = Engine, Thread = Thread };
+        }
     }
 }

@@ -22,5 +22,14 @@ namespace DvachBrowser3.Links
         {
             return BoardLinkKind.BoardPage;
         }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public override BoardLinkBase DeepClone()
+        {
+            return new BoardLink() { Board = Board, Engine = Engine };
+        }
     }
 }

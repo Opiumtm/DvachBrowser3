@@ -6,7 +6,7 @@ namespace DvachBrowser3.Links
     /// Информация об изображении.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    public class ThreadPictureInfo
+    public class ThreadPictureInfo : IDeepCloneable<ThreadPictureInfo>
     {
         /// <summary>
         /// Ссылка.
@@ -22,5 +22,19 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public int Width { get; set; }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public ThreadPictureInfo DeepClone()
+        {
+            return new ThreadPictureInfo()
+            {
+                Link = Link.DeepClone(),
+                Width = Width,
+                Height = Height
+            };
+        }
     }
 }

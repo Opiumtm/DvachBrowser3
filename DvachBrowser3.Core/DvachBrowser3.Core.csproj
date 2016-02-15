@@ -74,6 +74,7 @@
     <Compile Include="Serialization\BsonNetSerializerWrapper.cs" />
     <Compile Include="Serialization\DataContractSerializerWrapperBase.cs" />
     <Compile Include="Serialization\DefaultSerializerWrapper.cs" />
+    <Compile Include="Serialization\IDeepCloneable.cs" />
     <Compile Include="Serialization\IObjectSerializer.cs" />
     <Compile Include="Serialization\JsonNetSerializerWrapper.cs" />
     <Compile Include="Serialization\JsonSerializerWrapper.cs" />

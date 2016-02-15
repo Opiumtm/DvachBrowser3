@@ -33,5 +33,11 @@ namespace DvachBrowser3.Storage
         /// </summary>
         /// <returns>Коллекция ссылок.</returns>
         Task<LinkCollection> LoadLinkCollectionForReadOnly();
+
+        /// <summary>
+        /// Заранее загрузить.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        Task Preload();
     }
 }

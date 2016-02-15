@@ -80,5 +80,14 @@ namespace DvachBrowser3.Storage.Files
         {
             return await CachedFile.LoadForReadOnly();
         }
+
+        /// <summary>
+        /// Заранее загрузить.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public async Task Preload()
+        {
+            await CachedFile.LoadForReadOnly();
+        }
     }
 }

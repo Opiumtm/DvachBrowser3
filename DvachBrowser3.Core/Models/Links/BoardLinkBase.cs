@@ -23,7 +23,7 @@ namespace DvachBrowser3.Links
 
     [ServiceDependencyInfo(typeof(ILinkHashService))]
     [ServiceDependencyInfo(typeof(ILinkTransformService))]
-    public abstract class BoardLinkBase
+    public abstract class BoardLinkBase : IDeepCloneable<BoardLinkBase>
     {
         /// <summary>
         /// Движок.
@@ -45,5 +45,11 @@ namespace DvachBrowser3.Links
         /// </summary>
         /// <returns>Тип ссылки.</returns>
         protected abstract BoardLinkKind GetLinkKind();
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public abstract BoardLinkBase DeepClone();
     }
 }

@@ -8,7 +8,7 @@ namespace DvachBrowser3.Other
     /// Информация о количестве постов.
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
-    public class PostCountInfo
+    public class PostCountInfo : IDeepCloneable<PostCountInfo>
     {
         /// <summary>
         /// Ссылка.
@@ -87,6 +87,15 @@ namespace DvachBrowser3.Other
                 PostCount = 0,
                 ViewedPostCount = 0
             };
+        }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public PostCountInfo DeepClone()
+        {
+            return Clone();
         }
     }
 }

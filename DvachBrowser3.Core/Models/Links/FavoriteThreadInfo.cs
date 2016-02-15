@@ -14,5 +14,23 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public PostCountInfo CountInfo { get; set; }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public override ShortThreadInfo DeepClone()
+        {
+            return new FavoriteThreadInfo()
+            {
+                CountInfo = CountInfo?.DeepClone(),
+                ViewDate = ViewDate,
+                Title = Title,
+                CreatedDate = CreatedDate,
+                UpdatedDate = UpdatedDate,
+                AddedDate = AddedDate,
+                SmallImage = SmallImage?.DeepClone()
+            };
+        }
     }
 }

@@ -237,6 +237,11 @@ namespace DvachBrowser3.Storage.Files
             {
                 return null;
             }
+            var cloneable = src as IDeepCloneable<T>;
+            if (cloneable != null)
+            {
+                return cloneable.DeepClone();
+            }
             var serializer = Services.GetServiceOrThrow<ISerializerCacheService>().GetSerializer<T>();
             return (T)await serializer.DeepClone(src);
         }

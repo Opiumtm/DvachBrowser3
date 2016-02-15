@@ -22,5 +22,14 @@ namespace DvachBrowser3.Links
         {
             return BoardLinkKind.Youtube;
         }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public override BoardLinkBase DeepClone()
+        {
+            return new YoutubeLink() { YoutubeId = YoutubeId, Engine = Engine };
+        }
     }
 }

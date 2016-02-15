@@ -111,6 +111,8 @@ namespace DvachBrowser3.Storage.Files
             }
         }
 
+        private ConcurrentDictionary<string, BoardReferences> boardReferenceses = new ConcurrentDictionary<string, BoardReferences>();
+
         /// <summary>
         /// Сохранить ссылки на борды.
         /// </summary>
@@ -118,10 +120,13 @@ namespace DvachBrowser3.Storage.Files
         /// <returns>Таск.</returns>
         public async Task SaveBoardReferences(BoardReferences data)
         {
+            var linkHash = Services.GetServiceOrThrow<ILinkHashService>();
+            var hash = linkHash.GetLinkHash(data.RootLink);
             var folder = await GetBoardReferencesFolder();
-            var fileName = string.Format("{0}.dat", Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(data.RootLink));
+            var fileName = string.Format("{0}.dat", hash);
             var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
             await WriteXmlObject(file, folder, data, true);
+            boardReferenceses[hash] = data;
         }
 
         /// <summary>
@@ -134,16 +139,37 @@ namespace DvachBrowser3.Storage.Files
             try
             {
                 if (rootLink == null) return null;
+                var linkHash = Services.GetServiceOrThrow<ILinkHashService>();
+                var hash = linkHash.GetLinkHash(rootLink);
+                BoardReferences existing;
+                if (boardReferenceses.TryGetValue(hash, out existing))
+                {
+                    return existing;
+                }
                 var folder = await GetBoardReferencesFolder();
                 var fileName = string.Format("{0}.dat", Services.GetServiceOrThrow<ILinkHashService>().GetLinkHash(rootLink));
                 var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                return await ReadXmlObject<BoardReferences>(file, true);
+                var result = await ReadXmlObject<BoardReferences>(file, true);
+                boardReferenceses[hash] = result;
+                return result;
             }
             catch (Exception ex)
             {
                 DebugHelper.BreakOnError(ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Предварительная загрузка ссылок на борды.
+        /// </summary>
+        /// <returns>Таск.</returns>
+        public async Task PreloadBoardReferences()
+        {
+            var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
+            var toLoad = engines.ListEngines().Select(id => engines.GetEngineById(id)).Where(e => (e.Capability & EngineCapability.BoardsListRequest) != 0).Select(e => e.RootLink);
+            var tasks = toLoad.Select(LoadBoardReferences);
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>

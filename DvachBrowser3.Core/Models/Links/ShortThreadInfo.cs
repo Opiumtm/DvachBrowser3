@@ -8,7 +8,7 @@ namespace DvachBrowser3.Links
     /// </summary>
     [DataContract(Namespace = CoreConstants.DvachBrowserNamespace)]
     [KnownType(typeof(FavoriteThreadInfo))]
-    public class ShortThreadInfo
+    public class ShortThreadInfo : IDeepCloneable<ShortThreadInfo>
     {
         /// <summary>
         /// Заголовок.
@@ -45,5 +45,22 @@ namespace DvachBrowser3.Links
         /// </summary>
         [DataMember]
         public ThreadPictureInfo SmallImage { get; set; }
+
+        /// <summary>
+        /// Клонировать.
+        /// </summary>
+        /// <returns>Клон.</returns>
+        public virtual ShortThreadInfo DeepClone()
+        {
+            return new ShortThreadInfo()
+            {
+                Title = Title,
+                AddedDate = AddedDate,
+                CreatedDate = CreatedDate,
+                SmallImage = SmallImage?.DeepClone(),
+                UpdatedDate = UpdatedDate,
+                ViewDate = ViewDate
+            };
+        }
     }
 }

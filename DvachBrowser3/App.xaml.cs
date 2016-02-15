@@ -82,12 +82,24 @@ namespace DvachBrowser3
 
         private bool isCoreInitialized;
 
+        private async Task PreloadCaches()
+        {
+            var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
+            await Task.WhenAll(
+                storage.ThreadData.FavoriteBoards.Preload(),
+                storage.ThreadData.FavoriteThreads.Preload(),
+                storage.ThreadData.VisitedThreads.Preload(),
+                storage.ThreadData.PreloadBoardReferences()
+            );
+        }
+
         private async Task TryCoreInitialize()
         {
             if (!isCoreInitialized)
             {
                 var d = await ApplicationData.Current.LocalFolder.CreateFolderAsync("errorlog", CreationCollisionOption.OpenIfExists);
                 await CleanTempFiles();
+                await PreloadCaches();
                 isCoreInitialized = true;
                 await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
