@@ -386,7 +386,7 @@ namespace DvachBrowser3.Views
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private bool isNarrowView;
 

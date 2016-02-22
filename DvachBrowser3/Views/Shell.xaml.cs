@@ -102,11 +102,6 @@ namespace DvachBrowser3.Views
         public static readonly IWeakEventChannel IsNarrowViewChanged;
 
         /// <summary>
-        /// Менеджер стилей.
-        /// </summary>
-        public static readonly IStyleManager StyleManager;
-
-        /// <summary>
         /// Менеджер навигации.
         /// </summary>
         public static readonly LinkNavigationManager LinkNavigationManager;
@@ -115,7 +110,6 @@ namespace DvachBrowser3.Views
         {
             IsNarrowViewChangedId = new Guid("{B87399B2-75DB-4F41-BE66-4B14ACCB295A}");
             IsNarrowViewChanged = new WeakEventChannel(IsNarrowViewChangedId);
-            StyleManager = new StyleManager();
             LinkNavigationManager = new LinkNavigationManager();
         }
     }

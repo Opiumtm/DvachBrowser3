@@ -108,7 +108,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         /// <summary>
         /// Запуск.

@@ -262,7 +262,7 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public event EventHandler GoButtonClick;
 
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private async void CopyTextFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {

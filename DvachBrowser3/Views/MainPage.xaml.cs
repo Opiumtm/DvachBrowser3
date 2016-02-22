@@ -89,7 +89,7 @@ namespace DvachBrowser3.Views
             return ViewModel;
         }
 
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private void InitViewModel()
         {

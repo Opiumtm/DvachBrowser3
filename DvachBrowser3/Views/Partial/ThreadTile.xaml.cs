@@ -73,7 +73,7 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null));
 
-        public IStyleManager StyleManager = Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private bool isImageSlided = false;
 

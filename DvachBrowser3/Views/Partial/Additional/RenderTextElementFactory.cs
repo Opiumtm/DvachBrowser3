@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media;
 using DvachBrowser3.Behaviors;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Links;
+using DvachBrowser3.Styles;
 using DvachBrowser3.TextRender;
 using DvachBrowser3.ViewModels;
 using Microsoft.Xaml.Interactivity;
@@ -53,6 +54,8 @@ namespace DvachBrowser3.Views.Partial
             return count;
         }
 
+        public IStyleManager StyleManager { get; } = new StyleManager();
+
         /// <summary>
         /// Создать элемент.
         /// </summary>
@@ -76,7 +79,7 @@ namespace DvachBrowser3.Views.Partial
                 Foreground = Application.Current.Resources["PostNormalTextBrush"] as Brush,
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.None,
-                FontSize = Shell.StyleManager.Text.PostFontSize,
+                FontSize = StyleManager.Text.PostFontSize,
                 TextLineBounds = TextLineBounds.Full,
                 IsTextSelectionEnabled = false,
                 TextAlignment = TextAlignment.Left

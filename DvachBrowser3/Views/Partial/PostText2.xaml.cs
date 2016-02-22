@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DvachBrowser3.Styles;
 using DvachBrowser3.TextRender;
 using DvachBrowser3.ViewModels;
 
@@ -50,10 +51,12 @@ namespace DvachBrowser3.Views.Partial
             }
         }
 
+        public IStyleManager StyleManager { get; } = new StyleManager();
+
         /// <summary>
         /// Размер шрифта.
         /// </summary>
-        double ITextRender2RenderCallback.PostFontSize => Shell.StyleManager.Text.PostFontSize;
+        double ITextRender2RenderCallback.PostFontSize => StyleManager.Text.PostFontSize;
 
         /// <summary>
         /// Нормальный текст.

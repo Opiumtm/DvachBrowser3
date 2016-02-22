@@ -310,7 +310,7 @@ namespace DvachBrowser3.Views
             OpenInBrowser
         }
 
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private bool isLoaded;
 

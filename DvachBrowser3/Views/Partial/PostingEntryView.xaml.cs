@@ -84,7 +84,7 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {

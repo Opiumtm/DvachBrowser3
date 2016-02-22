@@ -708,7 +708,7 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => Shell.StyleManager;
+        public IStyleManager StyleManager { get; } = new StyleManager();
 
         private void NewPostsIndicator_OnTapped(object sender, TappedRoutedEventArgs e)
         {
