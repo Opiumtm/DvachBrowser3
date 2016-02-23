@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -27,14 +28,6 @@ namespace DvachBrowser3.TextRender
             return result;
         }
 
-        private void TriggerRender()
-        {
-            MainGrid.Children.Clear();
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Dispatcher.RunAsync(CoreDispatcherPriority.High, RenderText);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        }
-
         private Size DoMeasureOverride(Size availableSize, out bool isChanged)
         {
             SetCachedMap(availableSize.Width, out isChanged);
@@ -45,13 +38,20 @@ namespace DvachBrowser3.TextRender
             return new Size(cachedMap.Bounds.Width, cachedMap.Bounds.Height);
         }
 
+        private void TriggerRender()
+        {
+            MainGrid.Visibility = Visibility.Collapsed;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, RenderText);
+        }
+
         private void RenderText()
         {
             try
             {
                 var map = cachedMap;
-                if (map != null)
+                if (lastMapId != mapId && map != null)
                 {
+                    lastMapId = mapId;
                     var renderer = new XamlCanvasTextRender2Renderer(ControlCallback);
                     var textRender = renderer.Render(map);
                     textRender.HorizontalAlignment = HorizontalAlignment.Left;
@@ -63,6 +63,10 @@ namespace DvachBrowser3.TextRender
             catch
             {
                 // ignored
+            }
+            finally
+            {
+                MainGrid.Visibility = Visibility.Visible;
             }
         }
 
@@ -104,6 +108,7 @@ namespace DvachBrowser3.TextRender
             if (needRedraw)
             {
                 cachedMap = DoMeasure(width, program);
+                mapId = Guid.NewGuid();
                 ExceedLines = cachedMap.ExceedLines;
                 isChanged = true;
             }
@@ -120,6 +125,8 @@ namespace DvachBrowser3.TextRender
         private int? lastMaxLines;
         private ITextRender2MeasureMap cachedMap;
         private Guid? lastId;
+        private Guid mapId;
+        private Guid? lastMapId;
 
         public void InvalidateRenderedState()
         {

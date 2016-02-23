@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -59,7 +60,7 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private async void LoadImplOnResultGot(object sender, EventArgs e)
+        private async Task DoLoadImplOnResultGot(object sender, EventArgs e)
         {
             try
             {
@@ -83,7 +84,9 @@ namespace DvachBrowser3.ViewModels
                     }
                     else
                     {
-                        Image = new BitmapImage(cacheUri);
+                        var imgSource = new BitmapImage();
+                        imgSource.UriSource = cacheUri;
+                        Image = imgSource;
                     }
                 }
                 else
@@ -102,6 +105,11 @@ namespace DvachBrowser3.ViewModels
             {
                 DebugHelper.BreakOnError(ex);
             }
+        }
+
+        private void LoadImplOnResultGot(object sender, EventArgs e)
+        {
+            AppHelpers.DispatchAction(() => DoLoadImplOnResultGot(sender, e));
         }
 
         /// <summary>
