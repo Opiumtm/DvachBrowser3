@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -64,9 +65,19 @@ namespace DvachBrowser3.Views.Partial
         Brush ITextRender2RenderCallback.PostNormalTextBrush => Application.Current.Resources["PostNormalTextBrush"] as Brush;
 
         /// <summary>
+        /// Нормальный текст.
+        /// </summary>
+        Color ITextRender2RenderCallback.PostNormalTextColor => (Application.Current.Resources["PostNormalTextBrush"] as SolidColorBrush)?.Color ?? Colors.Black;
+
+        /// <summary>
         /// Задний фон спойлера.
         /// </summary>
         Brush ITextRender2RenderCallback.PostSpoilerBackgroundBrush => Application.Current.Resources["PostSpoilerBackgroundBrush"] as Brush;
+
+        /// <summary>
+        /// Задний фон спойлера.
+        /// </summary>
+        Color ITextRender2RenderCallback.PostSpoilerBackgroundColor => (Application.Current.Resources["PostSpoilerBackgroundBrush"] as SolidColorBrush)?.Color ?? Colors.Black;
 
         /// <summary>
         /// Передний фон спойлера.
@@ -74,14 +85,34 @@ namespace DvachBrowser3.Views.Partial
         Brush ITextRender2RenderCallback.PostSpoilerTextBrush => Application.Current.Resources["PostSpoilerTextBrush"] as Brush;
 
         /// <summary>
+        /// Передний фон спойлера.
+        /// </summary>
+        Color ITextRender2RenderCallback.PostSpoilerTextColor => (Application.Current.Resources["PostSpoilerTextBrush"] as SolidColorBrush)?.Color ?? Colors.Black;
+
+        /// <summary>
         /// Цвет квоты.
         /// </summary>
         Brush ITextRender2RenderCallback.PostQuoteTextBrush => Application.Current.Resources["PostQuoteTextBrush"] as Brush;
 
         /// <summary>
+        /// Цвет квоты.
+        /// </summary>
+        Color ITextRender2RenderCallback.PostQuoteTextColor => (Application.Current.Resources["PostQuoteTextBrush"] as SolidColorBrush)?.Color ?? Colors.Black;
+
+        /// <summary>
         /// Цвет ссылки.
         /// </summary>
         Brush ITextRender2RenderCallback.PostLinkTextBrush => Application.Current.Resources["PostLinkTextBrush"] as Brush;
+
+        /// <summary>
+        /// Цвет ссылки.
+        /// </summary>
+        Color ITextRender2RenderCallback.PostLinkTextColor => (Application.Current.Resources["PostQuoteTextBrush"] as SolidColorBrush)?.Color ?? Colors.Black;
+
+        /// <summary>
+        /// Идентификатор программы.
+        /// </summary>
+        public Guid ProgramId => ViewModel?.UniqueId ?? Guid.Empty;
 
         private ITextRender2RenderProgram program;
 

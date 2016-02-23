@@ -107,7 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\ColorsCacheCallback.cs" />
     <Compile Include="Implementation\Direct2dTextRender2MeasureMapper.cs" />
+    <Compile Include="Implementation\Direct2DTextRender2Renderer.cs" />
     <Compile Include="Implementation\XamlCanvasTextRender2Renderer.cs" />
     <Compile Include="Implementation\TextRender2ProgramFormer.cs" />
     <Compile Include="ITextRender2ControlCallback.cs" />
@@ -118,11 +120,15 @@
     <Compile Include="ITextRender2Renderer.cs" />
     <Compile Include="ITextRender2RenderProgram.cs" />
     <Compile Include="ITextRender2MeasureMap.cs" />
+    <Compile Include="ITextRender2VirtualRenderer.cs" />
     <Compile Include="TextRender2Control.xaml.cs">
       <DependentUpon>TextRender2Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextRender2MeasureMapElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextRender2VirtualControl.xaml.cs">
+      <DependentUpon>TextRender2VirtualControl.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\DvachBrowser3.TextRender2.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +139,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="TextRender2Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextRender2VirtualControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

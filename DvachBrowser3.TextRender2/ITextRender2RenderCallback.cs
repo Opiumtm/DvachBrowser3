@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace DvachBrowser3.TextRender
@@ -26,9 +28,19 @@ namespace DvachBrowser3.TextRender
         Brush PostNormalTextBrush { get; }
 
         /// <summary>
+        /// Нормальный текст.
+        /// </summary>
+        Color PostNormalTextColor { get; }
+
+        /// <summary>
         /// Задний фон спойлера.
         /// </summary>
         Brush PostSpoilerBackgroundBrush { get; }
+
+        /// <summary>
+        /// Задний фон спойлера.
+        /// </summary>
+        Color PostSpoilerBackgroundColor { get; }
 
         /// <summary>
         /// Передний фон спойлера.
@@ -36,13 +48,33 @@ namespace DvachBrowser3.TextRender
         Brush PostSpoilerTextBrush { get; }
 
         /// <summary>
+        /// Передний фон спойлера.
+        /// </summary>
+        Color PostSpoilerTextColor { get; }
+
+        /// <summary>
         /// Цвет квоты.
         /// </summary>
         Brush PostQuoteTextBrush { get; }
 
         /// <summary>
+        /// Цвет квоты.
+        /// </summary>
+        Color PostQuoteTextColor { get; }
+
+        /// <summary>
         /// Цвет ссылки.
         /// </summary>
         Brush PostLinkTextBrush { get; }
+
+        /// <summary>
+        /// Цвет ссылки.
+        /// </summary>
+        Color PostLinkTextColor { get; }
+
+        /// <summary>
+        /// Идентификатор программы.
+        /// </summary>
+        Guid ProgramId { get; }
     }
 }

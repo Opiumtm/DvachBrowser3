@@ -1,12 +1,12 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.Foundation;
+using Microsoft.Graphics.Canvas;
 
 namespace DvachBrowser3.TextRender
 {
     /// <summary>
-    /// Средство рендеринга разметки.
+    /// Средство виртуального рендеринга разметки.
     /// </summary>
-    public interface ITextRender2Renderer
+    public interface ITextRender2VirtualRenderer
     {
         /// <summary>
         /// Обратный вызов.
@@ -17,7 +17,9 @@ namespace DvachBrowser3.TextRender
         /// Отрисовать.
         /// </summary>
         /// <param name="map">Карта расположений.</param>
+        /// <param name="session">Сессия.</param>
+        /// <param name="region">Регион.</param>
         /// <returns>Результат.</returns>
-        FrameworkElement Render(ITextRender2MeasureMap map);
+        void Render(ITextRender2MeasureMap map, CanvasDrawingSession session, Rect region);
     }
 }

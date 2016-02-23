@@ -19,7 +19,7 @@ namespace DvachBrowser3.TextRender
         public XamlCanvasTextRender2Renderer(ITextRender2RenderCallback callback)
         {
             if (callback == null) throw new ArgumentNullException(nameof(callback));
-            Callback = callback;
+            Callback = new ColorsCacheCallback(callback);
         }
 
         /// <summary>
@@ -67,6 +67,8 @@ namespace DvachBrowser3.TextRender
             }
         }
 
+        private static readonly FontFamily SegoeUi = new FontFamily("Segoe UI");
+
         private void DoRenderElement(Canvas canvas, ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
         {
             var command = el.Command;
@@ -83,7 +85,7 @@ namespace DvachBrowser3.TextRender
             }
             var r = new TextBlock()
             {
-                FontFamily = new FontFamily("Segoe UI"),
+                FontFamily = SegoeUi,
                 Foreground = Callback.PostNormalTextBrush,
                 TextWrapping = TextWrapping.NoWrap,
                 TextTrimming = TextTrimming.None,
