@@ -38,6 +38,11 @@ namespace DvachBrowser3.ViewModels
                     }
                     await AppHelpers.ShowError(e.Error);
                 });
+                OnUpdateFinihsed(true);
+            }
+            else
+            {
+                OnUpdateFinihsed(false);
             }
         }
 
@@ -147,6 +152,14 @@ namespace DvachBrowser3.ViewModels
                 Update.Start();
             }
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Обновление завершено.
+        /// </summary>
+        /// <param name="isError">Ошибка.</param>
+        protected virtual void OnUpdateFinihsed(bool isError)
+        {
         }
     }
 }

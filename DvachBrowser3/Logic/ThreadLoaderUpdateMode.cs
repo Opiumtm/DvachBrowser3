@@ -28,6 +28,11 @@
         /// <summary>
         /// Полная пересинхронизация.
         /// </summary>
-        ResyncFull
+        ResyncFull,
+
+        /// <summary>
+        /// Получить из кэша в режиме оффлайн.
+        /// </summary>
+        GetFromCacheOffline
     }
 }

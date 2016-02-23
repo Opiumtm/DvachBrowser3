@@ -26,11 +26,7 @@ namespace DvachBrowser3.PageServices
         /// <param name="page">Страница.</param>
         public virtual void Attach(Page page)
         {
-            if (LifetimeCallback != null)
-            {
-                LifetimeCallback.NavigatedTo -= OnNavigatedToCall;
-                LifetimeCallback.NavigatedFrom -= OnNavigatedFromCall;
-            }
+            DetachEvents();
             Page = page;
             LifetimeCallback = page as IPageLifetimeCallback;
             if (LifetimeCallback != null)
@@ -38,6 +34,19 @@ namespace DvachBrowser3.PageServices
                 LifetimeCallback.NavigatedTo += OnNavigatedToCall;
                 LifetimeCallback.NavigatedFrom += OnNavigatedFromCall;
                 LifetimeCallback.AppResume += OnAppResumeCall;
+            }
+        }
+
+        /// <summary>
+        /// Отсоединить события.
+        /// </summary>
+        protected void DetachEvents()
+        {
+            if (LifetimeCallback != null)
+            {
+                LifetimeCallback.NavigatedTo -= OnNavigatedToCall;
+                LifetimeCallback.NavigatedFrom -= OnNavigatedFromCall;
+                LifetimeCallback.AppResume -= OnAppResumeCall;
             }
         }
 
@@ -54,6 +63,13 @@ namespace DvachBrowser3.PageServices
         private void OnNavigatedFromCall(object sender, NavigationEventArgs e)
         {
             OnNavigatedFrom(sender as Page, e);
+            if (e != null)
+            {
+                if (e.NavigationMode == NavigationMode.Back || e.NavigationMode == NavigationMode.New)
+                {
+                    OnPageLeave();
+                }
+            }
         }
 
         /// <summary>
@@ -81,6 +97,14 @@ namespace DvachBrowser3.PageServices
         /// <param name="o">Объект.</param>
         protected virtual void OnResume(Page sender, object o)
         {            
+        }
+
+        /// <summary>
+        /// Событие по выходу со страницы (намигация Back или New).
+        /// </summary>
+        protected virtual void OnPageLeave()
+        {
+            DetachEvents();
         }
     }
 }

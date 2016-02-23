@@ -313,6 +313,14 @@ namespace DvachBrowser3.Views
                 }
             };
 
+            var syncButton = new AppBarButton()
+            {
+                Icon = new SymbolIcon(Symbol.Sync),
+                Label = "Обновить"
+            };
+            syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
+            syncButton.Click += (sender, e) => ViewModel?.Synchronize();
+
             appBar.PrimaryCommands.Add(postButton);
 
             if (currentContentView == PageContentViews.Default)
@@ -360,13 +368,6 @@ namespace DvachBrowser3.Views
             }
 
 
-            var syncButton = new AppBarButton()
-            {
-                Icon = new SymbolIcon(Symbol.Sync),
-                Label = "Обновить"
-            };
-            syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
-            syncButton.Click += (sender, e) => ViewModel?.Synchronize();
             appBar.PrimaryCommands.Add(syncButton);
 
             var loadAllButton = new AppBarButton()

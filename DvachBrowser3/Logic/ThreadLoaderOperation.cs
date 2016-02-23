@@ -36,7 +36,7 @@ namespace DvachBrowser3.Logic
             var engine = engines.FindEngine(Parameter.ThreadLink?.Engine);
             var networkLogic = Services.GetServiceOrThrow<INetworkLogic>();
             var storage = Services.GetServiceOrThrow<IStorageService>();
-            if (Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCache)
+            if (Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCache || Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCacheOffline)
             {
                 var tree = await storage.ThreadData.LoadThread(Parameter.ThreadLink);
                 if (tree != null)
@@ -47,7 +47,7 @@ namespace DvachBrowser3.Logic
                         {
                             return new OperaiontResult() { IsUpdated = false, Data = tree };
                         }
-                        if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0)
+                        if ((engine.Capability & EngineCapability.LastModifiedRequest) == 0 || Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCacheOffline)
                         {
                             return new OperaiontResult() { IsUpdated = false, Data = tree };
                         }

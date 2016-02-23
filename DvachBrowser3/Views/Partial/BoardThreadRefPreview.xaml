@@ -98,7 +98,7 @@
                 <FontIcon FontFamily="Segoe UI Symbol" Glyph="⚡" Height="32" Width="32" Margin="-7" />
             </Viewbox>
         </StackPanel>
-        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="2, 2, 2, 2" VerticalAlignment="Top" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0">
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Padding="7, 2, 2, 2" VerticalAlignment="Top" BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1, 0, 0, 0">
             <local:PostText2 x:Name="PostText" ViewModel="{x:Bind PostCollectionViewModel.OpPost.Text, Mode=OneWay}" MaxLines="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Text.ThreadPreviewPostLines, Mode=OneWay}" />
         </Border>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="2, 5, 2, 2">

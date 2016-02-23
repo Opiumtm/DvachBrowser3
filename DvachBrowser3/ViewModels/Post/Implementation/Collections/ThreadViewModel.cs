@@ -84,9 +84,32 @@ namespace DvachBrowser3.ViewModels
         {
             if (!(resume && HasData))
             {
-                DefaultLoadThread(resume);
+                //DefaultLoadThread(resume);
+                isFirstLoading = true;
+                firstLoadingResume = resume;
+                Update.Start2(ThreadLoaderUpdateMode.GetFromCacheOffline);
             }
             SetupTimerTime();
+        }
+
+        private bool isFirstLoading;
+        private bool firstLoadingResume;
+
+        /// <summary>
+        /// Обновление завершено.
+        /// </summary>
+        /// <param name="isError">Ошибка.</param>
+        protected override void OnUpdateFinihsed(bool isError)
+        {
+            base.OnUpdateFinihsed(isError);
+            if (isFirstLoading)
+            {
+                isFirstLoading = false;
+                if (!isError)
+                {
+                    DefaultLoadThread(firstLoadingResume);
+                }
+            }
         }
 
         private void DefaultLoadThread(bool resume)
