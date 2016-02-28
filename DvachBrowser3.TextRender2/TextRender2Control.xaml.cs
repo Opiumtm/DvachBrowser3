@@ -17,13 +17,16 @@ namespace DvachBrowser3.TextRender
             InitializeComponent();
         }
 
+        private Guid renderId = Guid.Empty;
+        private Guid renderedId = Guid.Empty;
+
         protected override Size MeasureOverride(Size availableSize)
         {
             bool isChanged;
             var result = DoMeasureOverride(availableSize, out isChanged);
             if (isChanged)
             {
-                TriggerRender();
+                renderId = Guid.NewGuid();
             }
             return result;
         }
@@ -38,10 +41,14 @@ namespace DvachBrowser3.TextRender
             return new Size(cachedMap.Bounds.Width, cachedMap.Bounds.Height);
         }
 
-        private void TriggerRender()
+        protected override Size ArrangeOverride(Size finalSize)
         {
-            MainGrid.Visibility = Visibility.Collapsed;
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, RenderText);
+            if (renderedId != renderId)
+            {
+                renderedId = renderId;
+                RenderText();
+            }
+            return base.ArrangeOverride(finalSize);
         }
 
         private void RenderText()
@@ -63,10 +70,6 @@ namespace DvachBrowser3.TextRender
             catch
             {
                 // ignored
-            }
-            finally
-            {
-                MainGrid.Visibility = Visibility.Visible;
             }
         }
 

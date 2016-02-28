@@ -23,7 +23,7 @@ namespace DvachBrowser3.Views.Partial
 {
     public sealed partial class ThreadTile : UserControl, IWeakEventCallback
     {
-        private readonly DispatcherTimer timer;
+        private DispatcherTimer timer;
 
         private DoubleAnimation imageSlideInAnimation;
         private DoubleAnimation imageSlideOutAnimation;
@@ -31,16 +31,22 @@ namespace DvachBrowser3.Views.Partial
         public ThreadTile()
         {
             this.InitializeComponent();
-            TileImageTransform.Y = StyleManager.Tiles.BoardTileHeight;
+            Shell.IsNarrowViewChanged.AddCallback(this);
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             timer = new DispatcherTimer();
             SetTimePeriod();
             timer.Tick += TimerOnTick;
             timer.Start();
+            TileImageTransform.Y = StyleManager.Tiles.BoardTileHeight;
             imageSlideInAnimation = new DoubleAnimation()
             {
                 From = 0,
                 To = 0,
-                Duration = new Duration(TimeSpan.FromSeconds(1.0/2)),
+                Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
                 EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn },
             };
             Storyboard.SetTargetName(imageSlideInAnimation, "TileImageTransform");
@@ -49,8 +55,8 @@ namespace DvachBrowser3.Views.Partial
             {
                 From = 0,
                 To = 0,
-                Duration = new Duration(TimeSpan.FromSeconds(1.0/2)),
-                EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseOut},
+                Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
+                EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseOut },
             };
             Storyboard.SetTargetName(imageSlideOutAnimation, "TileImageTransform");
             Storyboard.SetTargetProperty(imageSlideOutAnimation, "Y");

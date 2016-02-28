@@ -25,6 +25,11 @@ namespace DvachBrowser3.Views.Partial
         public BoardThreadRefPreview()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             Shell.IsNarrowViewChanged.AddCallback(this);
             SizeStateChanged();
         }

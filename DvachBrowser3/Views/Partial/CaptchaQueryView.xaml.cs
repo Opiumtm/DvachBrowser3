@@ -26,6 +26,11 @@ namespace DvachBrowser3.Views.Partial
         public CaptchaQueryView()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             UpdateCaptchaData();
         }
 

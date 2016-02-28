@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -12,7 +14,7 @@ using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
-    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource
+    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource, INotifyPropertyChanged
     {
         private object lifetimeToken;
 
@@ -21,6 +23,11 @@ namespace DvachBrowser3.Views
             NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
             lifetimeToken = this.BindAppLifetimeEvents();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             InitViewModel();
         }
 
@@ -94,6 +101,7 @@ namespace DvachBrowser3.Views
         private void InitViewModel()
         {
             DataContext = new MainViewModel();
+            OnPropertyChanged(nameof(ViewModel));
             ViewModel.PropertyChanged += (sender, e) =>
             {
                 if ("Groups".Equals(e.PropertyName))
@@ -132,6 +140,13 @@ namespace DvachBrowser3.Views
         {
             var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
             t?.Navigate();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

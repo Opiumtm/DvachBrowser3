@@ -21,7 +21,6 @@ namespace DvachBrowser3.Views.Partial
                 e.Handled = true;
                 linkClickCallback?.OnLinkClick(linkAttribute);
             };
-            var bc = new BehaviorCollection();
             var mf = new MenuFlyout();
             var mfi = new MenuFlyoutItem()
             {
@@ -29,11 +28,6 @@ namespace DvachBrowser3.Views.Partial
             };
             mfi.Click += MfiOnClick(linkAttribute);
             mf.Items?.Add(mfi);
-            bc.Add(new PopupMenuBehavior()
-            {
-                MenuFlyout = mf
-            });
-            Interaction.SetBehaviors(result, bc);
             var youtubeLink = linkAttribute.CustomData as YoutubeLink;
             if (youtubeLink != null)
             {
@@ -52,6 +46,7 @@ namespace DvachBrowser3.Views.Partial
                 yl.Click += YlOnClick(youtubeLink);
                 mf.Items?.Add(yl);
             }
+            PopupLogicHelper.Attach(result, mf);
         }
 
         private static RoutedEventHandler YlOnClick(YoutubeLink link)

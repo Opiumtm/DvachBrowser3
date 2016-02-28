@@ -28,6 +28,11 @@ namespace DvachBrowser3.Views.Partial
         public PostView()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             PostLinesUpdated(MaxLines);
             PostTextView.TextRendered += PostTextViewOnTextRendered;
             PostTextViewOnTextRendered(PostTextView, EventArgs.Empty);

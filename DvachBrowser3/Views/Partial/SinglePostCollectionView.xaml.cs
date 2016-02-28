@@ -28,7 +28,23 @@ namespace DvachBrowser3.Views.Partial
         public SinglePostCollectionView()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
         }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            SetCollectionViewSource(ViewModel);
+        }
+
+        private void SetCollectionViewSource(IPostCollectionViewModel viewModel)
+        {
+            if (CollectionView != null)
+            {
+                CollectionView.Source = viewModel?.Posts;
+            }
+        }
+
+        private CollectionViewSource CollectionView => Resources["CollectionView"] as CollectionViewSource;
 
         /// <summary>
         /// Модель представления.
@@ -43,7 +59,7 @@ namespace DvachBrowser3.Views.Partial
         /// Модель представления.
         /// </summary>
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IPostCollectionViewModel), typeof(SinglePostCollectionView),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, (d, e) => ((SinglePostCollectionView)d).SetCollectionViewSource(e.NewValue as IPostCollectionViewModel)));
 
         /// <summary>
         /// Максимальное количество строк.
@@ -240,7 +256,41 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Выбранный элемент.
         /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof (object), typeof (SinglePostCollectionView), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof (object), typeof (SinglePostCollectionView), new PropertyMetadata(null, SelectedItemPropertyChangedCallback));
+
+        private static void SelectedItemPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as SinglePostCollectionView;
+            if (obj != null)
+            {
+                obj.SelectedItemChanged?.Invoke(obj, EventArgs.Empty);
+                if (e.NewValue != null)
+                {
+                    if (e.NewValue != obj.CollectionView?.View?.CurrentItem)
+                    {
+                        obj.CollectionView?.View?.MoveCurrentTo(e.NewValue);
+                    }
+                }
+            }
+        }
+
+        private void ViewOnCurrentChanged(object sender, object o)
+        {
+        }
+
+        private void MainList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CollectionView?.View?.CurrentItem != null)
+            {
+                if (SelectedItem != CollectionView.View.CurrentItem)
+                {
+                    SelectedItem = CollectionView.View.CurrentItem;
+                }
+            }
+        }
+
+
+        public event EventHandler SelectedItemChanged; 
 
         private void BackButton_OnClick(object sender, RoutedEventArgs e)
         {

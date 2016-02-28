@@ -255,12 +255,16 @@ namespace DvachBrowser3.Views
                     if (el != null)
                     {
                         SingleSelectedItem = el;
-                        SinglePostViewPopup.IsContentVisible = true;
+                        AppHelpers.DispatchAction(() =>
+                        {
+                            SinglePostViewPopup.IsContentVisible = true;
+                            return Task.CompletedTask;
+                        });
                     }
                 }
                 restoredView = null;
                 restoredSinglePostHash = null;
-                return Task.FromResult(true);
+                return Task.CompletedTask;
             });
         }
 
@@ -507,11 +511,19 @@ namespace DvachBrowser3.Views
         /// </summary>
         public IPostCollectionViewModel PostCollection => DataContext as IPostCollectionViewModel;
 
-        private void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
+        private async void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
         {
-            singleNavigationStack.Clear();
-            SingleSelectedItem = e.Post;
-            SinglePostViewPopup.IsContentVisible = true;
+            try
+            {
+                singleNavigationStack.Clear();
+                SingleSelectedItem = e.Post;
+                await Task.Yield();
+                SinglePostViewPopup.IsContentVisible = true;
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
         }
 
         private enum PageContentViews
@@ -568,14 +580,18 @@ namespace DvachBrowser3.Views
         /// </summary>
         public object SingleSelectedItem
         {
-            get { return (object) GetValue(SingleSelectedItemProperty); }
-            set { SetValue(SingleSelectedItemProperty, value); }
+            get
+            {
+                return SingleList?.SelectedItem;
+            }
+            set
+            {
+                if (SingleList != null)
+                {
+                    SingleList.SelectedItem = value;
+                }
+            }
         }
-
-        /// <summary>
-        /// Выбранный элемент.
-        /// </summary>
-        public static readonly DependencyProperty SingleSelectedItemProperty = DependencyProperty.Register("SingleSelectedItem", typeof (object), typeof (ThreadPage), new PropertyMetadata(null));
 
         private void PushCurrentLink(BoardLinkBase l)
         {
@@ -643,7 +659,11 @@ namespace DvachBrowser3.Views
                                 PushCurrentLink(l);
                             }
                             SingleSelectedItem = p;
-                            SinglePostViewPopup.IsContentVisible = true;
+                            AppHelpers.DispatchAction(() =>
+                            {
+                                SinglePostViewPopup.IsContentVisible = true;
+                                return Task.CompletedTask;
+                            });
                             return true;
                         }
                     }
@@ -714,6 +734,11 @@ namespace DvachBrowser3.Views
         private void NewPostsIndicator_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             ViewModel?.CleanUpdated();
+        }
+
+        private void SingleList_OnSelectedItemChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(SingleSelectedItem));
         }
     }
 }

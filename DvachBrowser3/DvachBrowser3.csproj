@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Behaviors\CleanListContentMarginBehavior.cs" />
     <Compile Include="Behaviors\DvachBrowserBehaviorBase.cs" />
+    <Compile Include="Behaviors\PopupLogicHelper.cs" />
     <Compile Include="Behaviors\PopupMenuBehavior.cs" />
     <Compile Include="Behaviors\TextBoxChangeDelayBehavior.cs" />
     <Compile Include="Configuration\Implementation\AppDataNetworkProfile.cs" />

@@ -91,8 +91,8 @@
         <pa:ContentPopup Grid.Row="1" Grid.RowSpan="2" x:Name="SinglePostViewPopup" IsContentVisibleChanged="ContentPopup_OnIsContentVisibleChanged">
             <pa:ContentPopup.ViewContent>
                 <pa:SinglePostCollectionView ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="0" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="False"
-                                             x:Name="SingleList" SelectedItem="{x:Bind SingleSelectedItem, Mode=TwoWay}"
-                                             BackButtonClick="SingleList_OnBackButtonClick" GoButtonClick="SingleList_OnGoButtonClick"/>
+                                             x:Name="SingleList"
+                                             BackButtonClick="SingleList_OnBackButtonClick" GoButtonClick="SingleList_OnGoButtonClick" SelectedItemChanged="SingleList_OnSelectedItemChanged" />
             </pa:ContentPopup.ViewContent>
         </pa:ContentPopup>
     </Grid>

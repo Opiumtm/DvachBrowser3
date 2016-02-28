@@ -24,6 +24,11 @@ namespace DvachBrowser3.Views.Partial
         public MarkupControl()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             MarkupChanged();
         }
 

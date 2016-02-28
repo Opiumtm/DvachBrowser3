@@ -25,11 +25,16 @@ namespace DvachBrowser3.Views.Partial
         public PostingEntryView()
         {
             this.InitializeComponent();
-            AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
+            this.Loaded += OnLoaded;
             MainGrid.SizeChanged += (sender, e) =>
             {
                 AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
             };
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
         }
 
         private Task IsNarrowViewChanged()

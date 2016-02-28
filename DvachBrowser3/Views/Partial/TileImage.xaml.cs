@@ -28,6 +28,11 @@ namespace DvachBrowser3.Views.Partial
         public TileImage()
         {
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             UpdateState(null);
         }
 

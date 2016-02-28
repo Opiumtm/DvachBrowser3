@@ -40,8 +40,13 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.Loaded += OnLoaded;
             lifetimeToken = this.BindAppLifetimeEvents();
             Shell.IsNarrowViewChanged.AddCallback(this);
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             SetNarrowStyle();
         }
 

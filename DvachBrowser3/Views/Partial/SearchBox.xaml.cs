@@ -24,6 +24,11 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             Shell.IsNarrowViewChanged.AddCallback(this);
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
             UpdateNarrowLayout();
             RegisterPropertyChangedCallback(VisibilityProperty, VisibilityChangedCallback);
             RegisterPropertyChangedCallback(AnimatedVisibilityProperty, AnimatedVisibilityChangedCallback);

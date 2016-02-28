@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;

@@ -10,7 +10,12 @@
     xmlns:behaviors="using:DvachBrowser3.Behaviors"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="ThisControl">
+    
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="CollectionView" />
+    </UserControl.Resources>
 
     <Grid>
         <Grid>
@@ -20,7 +25,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ContentPresenter Grid.Row="0" Content="{x:Bind Header, Mode=OneWay}" ContentTemplate="{x:Bind HeaderTemplate, Mode=OneWay}" />
-            <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" Background="Transparent" SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}">
+            <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{Binding Source={StaticResource CollectionView}}" Background="Transparent" SelectionChanged="MainList_OnSelectionChanged" UseTouchAnimationsForAllNavigation="False">
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="vm:IPostViewModel">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">

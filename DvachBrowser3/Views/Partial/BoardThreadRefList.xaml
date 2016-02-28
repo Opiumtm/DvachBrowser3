@@ -19,11 +19,13 @@
 
     <Grid>
         <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Threads, Mode=OneWay}" SelectionMode="None" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <!--
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel CacheLength="14" />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
+            -->
             <ListView.Header>
                 <StackPanel>
                     <local:BannerView ViewModel="{x:Bind ViewModel.Banner, Mode=OneWay}" x:Name="Banner" HorizontalAlignment="Center" Margin="5" 
