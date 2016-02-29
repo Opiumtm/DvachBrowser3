@@ -110,6 +110,9 @@
     <Compile Include="Implementation\ColorsCacheCallback.cs" />
     <Compile Include="Implementation\Direct2dTextRender2MeasureMapper.cs" />
     <Compile Include="Implementation\Direct2DTextRender2Renderer.cs" />
+    <Compile Include="Implementation\LinkDataWrapper.cs" />
+    <Compile Include="Implementation\NativeRenderArgument.cs" />
+    <Compile Include="Implementation\RenderCallbackWrapper.cs" />
     <Compile Include="Implementation\XamlCanvasTextRender2Renderer.cs" />
     <Compile Include="Implementation\TextRender2ProgramFormer.cs" />
     <Compile Include="ITextRender2ControlCallback.cs" />

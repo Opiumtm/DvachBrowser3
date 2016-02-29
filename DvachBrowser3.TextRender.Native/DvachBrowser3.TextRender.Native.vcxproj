@@ -207,11 +207,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ILinkData.h" />
+    <ClInclude Include="IRenderArgument.h" />
+    <ClInclude Include="IRenderCallback.h" />
     <ClInclude Include="MappingHelper.h" />
     <ClInclude Include="MappingHelperArg.h" />
     <ClInclude Include="MassChildUpdateHelper.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TextAttributeFlags.h" />
+    <ClInclude Include="XamlRenderHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MappingHelper.cpp" />
@@ -224,6 +228,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="XamlRenderHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

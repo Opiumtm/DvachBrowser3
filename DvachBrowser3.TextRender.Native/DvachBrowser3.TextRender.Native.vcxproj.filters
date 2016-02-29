@@ -10,6 +10,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="MappingHelper.cpp" />
     <ClCompile Include="MassChildUpdateHelper.cpp" />
+    <ClCompile Include="XamlRenderHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -17,6 +18,10 @@
     <ClInclude Include="TextAttributeFlags.h" />
     <ClInclude Include="MappingHelperArg.h" />
     <ClInclude Include="MassChildUpdateHelper.h" />
+    <ClInclude Include="ILinkData.h" />
+    <ClInclude Include="IRenderCallback.h" />
+    <ClInclude Include="IRenderArgument.h" />
+    <ClInclude Include="XamlRenderHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -4,6 +4,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using DvachBrowser3_TextRender_Native;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -67,6 +68,8 @@ namespace DvachBrowser3.TextRender
             }
         }
 
+        private static readonly MassChildUpdateHelper ChildUpdateHelper = new MassChildUpdateHelper();
+
         private void DoRenderText()
         {
             try
@@ -79,8 +82,9 @@ namespace DvachBrowser3.TextRender
                     var textRender = renderer.Render(map);
                     textRender.HorizontalAlignment = HorizontalAlignment.Left;
                     textRender.VerticalAlignment = VerticalAlignment.Top;
-                    MainGrid.Children.Clear();
-                    MainGrid.Children.Add(textRender);
+                    var a = new UIElement[1];
+                    a[0] = textRender;
+                    ChildUpdateHelper.UpdateChildren(MainGrid.Children, a);
                 }
             }
             catch
