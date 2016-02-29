@@ -5,6 +5,7 @@ using System.Text;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Text;
+using DvachBrowser3_TextRender_Native;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -20,6 +21,8 @@ namespace DvachBrowser3.TextRender
         /// Коэффициент для зачёркнутого текста, шрифт Segoe UI.
         /// </summary>
         public const double StrikethrougKoef = 0.6;
+
+        private readonly MappingHelper mappingHelper = new MappingHelper();
 
         /// <summary>
         /// Создать карту.
@@ -44,10 +47,8 @@ namespace DvachBrowser3.TextRender
 
                 using (var tl = new CanvasTextLayout(CanvasDevice.GetSharedDevice(), allText, tf, (float)width, 10f))
                 {
-                    foreach (var item in interProgram)
-                    {
-                        ApplyAttributes(tl, item, fontSize);
-                    }
+                    var helperArgs = interProgram.OfType<MappingHelperArg>().ToList();
+                    mappingHelper.ApplyAttributes(tl, helperArgs, fontSize);
                     var map = AnalyzeMap(tl, allText).ToArray();
                     var result = new MeasureMap(map, width, maxLines, StrikethrougKoef);
                     return result;
@@ -152,28 +153,6 @@ namespace DvachBrowser3.TextRender
             }
         }
 
-        private void ApplyAttributes(CanvasTextLayout tl, IntermediateElement item, double fontSize)
-        {
-            var command = item.Command;
-            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Bold))
-            {
-                tl.SetFontWeight(item.Index, item.RenderString.Length, FontWeights.Bold);
-            }
-            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Italic))
-            {
-                tl.SetFontStyle(item.Index, item.RenderString.Length, FontStyle.Italic);
-            }
-            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Fixed))
-            {
-                tl.SetFontFamily(item.Index, item.RenderString.Length, "Courier New");
-            }
-            if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Subscript) || command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Superscript))
-            {
-                tl.SetFontSize(item.Index, item.RenderString.Length, (float)(fontSize * 2.0 / 3.0));
-            }
-            tl.SetCustomBrush(item.Index, item.RenderString.Length, item.Command.Attributes);
-        }
-
         private IEnumerable<IntermediateElement> CreateIntermediateProgram(ITextRender2RenderProgram program)
         {
             var idx = 0;
@@ -197,13 +176,55 @@ namespace DvachBrowser3.TextRender
             }
         }
 
-        private struct IntermediateElement
+        private class IntermediateElement : MappingHelperArg
         {
-            public int Index;
+            private ITextRenderCommand command;
 
-            public string RenderString;
+            public int Index { get; set; }
 
-            public ITextRenderCommand Command;
+            public string RenderString { get; set; }
+
+            public ITextRenderCommand Command
+            {
+                get { return command; }
+                set
+                {
+                    command = value;
+                    TextAttributeFlags flags = 0;
+                    var attr = command?.Attributes?.Attributes;
+                    if (attr != null)
+                    {
+                        if (attr.ContainsKey(CommonTextRenderAttributes.Bold))
+                        {
+                            flags = flags | TextAttributeFlags.Bold;
+                        }
+                        if (attr.ContainsKey(CommonTextRenderAttributes.Italic))
+                        {
+                            flags = flags | TextAttributeFlags.Italic;
+                        }
+                        if (attr.ContainsKey(CommonTextRenderAttributes.Fixed))
+                        {
+                            flags = flags | TextAttributeFlags.Fixed;
+                        }
+                        if (attr.ContainsKey(CommonTextRenderAttributes.Subscript))
+                        {
+                            flags = flags | TextAttributeFlags.Subscript;
+                        }
+                        if (attr.ContainsKey(CommonTextRenderAttributes.Superscript))
+                        {
+                            flags = flags | TextAttributeFlags.Superscript;
+                        }
+                    }
+                    Flags = flags;
+                    attributes = command?.Attributes?.GetReadonlyCopy();
+                }
+            }
+
+            private ITextRenderAttributeState attributes;
+
+            object MappingHelperArg.Command => attributes;
+
+            public TextAttributeFlags Flags { get; private set; }
         }
 
         private sealed class MeasureMapLine : ITextRender2MeasureMapLine

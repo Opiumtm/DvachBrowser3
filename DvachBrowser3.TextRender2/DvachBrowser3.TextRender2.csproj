@@ -132,6 +132,10 @@
     <EmbeddedResource Include="Properties\DvachBrowser3.TextRender2.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DvachBrowser3.TextRender.Native\DvachBrowser3.TextRender.Native.vcxproj">
+      <Project>{c26fd241-e580-4aea-8c34-a6ff9db42d80}</Project>
+      <Name>DvachBrowser3.TextRender.Native</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DvachBrowser3.TextRender\DvachBrowser3.TextRender.csproj">
       <Project>{eaa28772-59f6-490d-b680-c2b8dfae8421}</Project>
       <Name>DvachBrowser3.TextRender</Name>

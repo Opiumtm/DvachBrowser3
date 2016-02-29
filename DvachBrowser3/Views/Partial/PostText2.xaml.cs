@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -46,10 +47,15 @@ namespace DvachBrowser3.Views.Partial
         /// <param name="linkAttribute">Ссылка.</param>
         void ITextRender2RenderCallback.RenderLinkCallback(FrameworkElement result, ITextRenderLinkAttribute linkAttribute)
         {
-            if (ViewModel != null && result != null && linkAttribute != null)
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RenderLinkClickHelper.SetupLinkActions(result, linkAttribute, ViewModel);
-            }
+                if (ViewModel != null && result != null && linkAttribute != null)
+                {
+                    RenderLinkClickHelper.SetupLinkActions(result, linkAttribute, ViewModel);
+                }
+            });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         public IStyleManager StyleManager { get; } = new StyleManager();

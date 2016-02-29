@@ -38,20 +38,36 @@ namespace DvachBrowser3.TextRender
             {
                 return base.MeasureOverride(availableSize);
             }
+            //DispatchRenderText(Dispatcher, this);
             return new Size(cachedMap.Bounds.Width, cachedMap.Bounds.Height);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (renderedId != renderId)
-            {
-                renderedId = renderId;
-                RenderText();
-            }
+            RenderText();
             return base.ArrangeOverride(finalSize);
         }
 
+        private static void DispatchRenderText(CoreDispatcher dispatcher, TextRender2Control control)
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                control.RenderText();
+            });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
         private void RenderText()
+        {
+            if (renderedId != renderId)
+            {
+                renderedId = renderId;
+                DoRenderText();
+            }
+        }
+
+        private void DoRenderText()
         {
             try
             {

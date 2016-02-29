@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using DvachBrowser3_TextRender_Native;
 
 namespace DvachBrowser3.TextRender
 {
@@ -12,6 +15,8 @@ namespace DvachBrowser3.TextRender
     /// </summary>
     public sealed class XamlCanvasTextRender2Renderer : ITextRender2Renderer
     {
+        private static readonly MassChildUpdateHelper UpdateHelper = new MassChildUpdateHelper();
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -46,6 +51,12 @@ namespace DvachBrowser3.TextRender
 
         private void DoRender(Canvas canvas, ITextRender2MeasureMap map)
         {
+            var elements = DoRenderLines(map).ToArray();
+            UpdateHelper.UpdateChildren(canvas.Children, elements);
+        }
+
+        private IEnumerable<UIElement> DoRenderLines(ITextRender2MeasureMap map)
+        {
             foreach (var line in map.GetMeasureMapLines())
             {
                 if (map.MaxLines.HasValue)
@@ -55,21 +66,24 @@ namespace DvachBrowser3.TextRender
                         break;
                     }
                 }
-                DoRenderLine(canvas, map, line);
+                foreach (var el in DoRenderLine(map, line))
+                {
+                    yield return el;
+                }
             }
         }
 
-        private void DoRenderLine(Canvas canvas, ITextRender2MeasureMap map, ITextRender2MeasureMapLine line)
+        private IEnumerable<UIElement> DoRenderLine(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line)
         {
             foreach (var el in line.GetMeasureMap())
             {
-                DoRenderElement(canvas, map, line, el);
+                yield return DoRenderElement(map, line, el);
             }
         }
 
         private static readonly FontFamily SegoeUi = new FontFamily("Segoe UI");
 
-        private void DoRenderElement(Canvas canvas, ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
+        private UIElement DoRenderElement(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
         {
             var command = el.Command;
 
@@ -209,8 +223,6 @@ namespace DvachBrowser3.TextRender
             Canvas.SetLeft(result, el.Placement.X);
             Canvas.SetTop(result, el.Placement.Y);
 
-            canvas.Children.Add(result);
-
             if (command.Attributes.Attributes.ContainsKey(CommonTextRenderAttributes.Link))
             {
                 var linkAttribute = command.Attributes.Attributes[CommonTextRenderAttributes.Link] as ITextRenderLinkAttribute;
@@ -219,6 +231,8 @@ namespace DvachBrowser3.TextRender
                     Callback.RenderLinkCallback(result, linkAttribute);
                 }
             }
+
+            return result;
         }
     }
 }
