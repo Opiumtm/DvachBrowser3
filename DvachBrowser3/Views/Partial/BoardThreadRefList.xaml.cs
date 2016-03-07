@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views.Partial
         public BoardThreadRefList()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
         }
 
         private void ViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -134,7 +135,12 @@ namespace DvachBrowser3.Views.Partial
         public static readonly DependencyProperty ListTitleProperty = DependencyProperty.Register("ListTitle", typeof (string), typeof (BoardThreadRefList),
             new PropertyMetadata(null));
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private async void MarkAsReadFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {

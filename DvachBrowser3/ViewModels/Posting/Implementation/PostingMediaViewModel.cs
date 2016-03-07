@@ -229,10 +229,12 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         private async Task Initialize()
         {

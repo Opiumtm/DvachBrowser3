@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using DvachBrowser3.Styles;
 using DvachBrowser3.Views;
 using Template10.Mvvm;
@@ -8,7 +9,7 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Часть поста.
     /// </summary>
-    public abstract class PostPartViewModelBase : ViewModelBase, IPostPartViewModel
+    public abstract class PostPartViewModelBase : ViewModelBase
     {
         /// <summary>
         /// Конструктор.
@@ -21,9 +22,11 @@ namespace DvachBrowser3.ViewModels
 
         public IPostViewModel Parent { get; }
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
     }
 }

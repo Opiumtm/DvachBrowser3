@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace DvachBrowser3
 {
@@ -34,6 +35,7 @@ namespace DvachBrowser3
         {
             var token = Guid.NewGuid();
             callbacks.TryAdd(token, new WeakReference<IWeakEventCallback>(callback));
+            CleanupReferences();
             return token;
         }
 
@@ -63,11 +65,6 @@ namespace DvachBrowser3
                 {
                     toCall.Add(callback);
                 }
-                else
-                {
-                    WeakReference<IWeakEventCallback> wk;
-                    callbacks.TryRemove(r.Key, out wk);
-                }
             }
             foreach (var callback in toCall)
             {
@@ -78,6 +75,41 @@ namespace DvachBrowser3
                 catch (Exception ex)
                 {
                     DebugHelper.BreakOnError(ex);
+                }
+            }
+        }
+
+        private int MaxCount = 50;
+
+        private void CleanupReferences()
+        {
+            try
+            {
+                var cnt = callbacks.Count;
+                var maxCnt = Interlocked.CompareExchange(ref MaxCount, 0, 0);
+                if (cnt > maxCnt)
+                {
+                    DoCleanupReferences();
+                    cnt = callbacks.Count;
+                    Interlocked.Exchange(ref MaxCount, cnt + 50);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugHelper.BreakOnError(ex);
+            }
+        }
+
+        private void DoCleanupReferences()
+        {
+            var references = callbacks.ToArray();
+            foreach (var r in references)
+            {
+                IWeakEventCallback callback;
+                if (!r.Value.TryGetTarget(out callback))
+                {
+                    WeakReference<IWeakEventCallback> wk;
+                    callbacks.TryRemove(r.Key, out wk);
                 }
             }
         }

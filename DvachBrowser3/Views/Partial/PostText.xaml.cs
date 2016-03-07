@@ -30,6 +30,7 @@ namespace DvachBrowser3.Views.Partial
         public PostText()
         {
             this.InitializeComponent();
+            MainGrid.DataContext = this;
             MainGrid.SizeChanged += sizeChangeDelay.OnSizeChanged;
             sizeChangeDelay.SizeUpdated += SizeChangeDelayOnSizeUpdated;
             RefreshView();

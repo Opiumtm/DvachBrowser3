@@ -10,15 +10,39 @@ namespace DvachBrowser3.PageServices
     /// </summary>
     public abstract class PageLifetimeServiceBase : DependencyObject, IPageService
     {
+        private WeakReference<Page> pageHandle;
+
+        protected PageLifetimeServiceBase()
+        {
+            OnNavigatedToCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnNavigatedToCallStatic);
+            OnNavigatedFromCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnNavigatedFromCallStatic);
+            OnAppResumeCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnAppResumeCallStatic);
+        }
+
         /// <summary>
         /// Страница.
         /// </summary>
-        protected Page Page { get; private set; }
+        protected Page Page
+        {
+            get
+            {
+                if (pageHandle == null)
+                {
+                    return null;
+                }
+                Page obj;
+                if (pageHandle.TryGetTarget(out obj))
+                {
+                    return obj;
+                }
+                return null;
+            }
+        }
 
         /// <summary>
         /// Обратный вызов.
         /// </summary>
-        protected IPageLifetimeCallback LifetimeCallback { get; private set; }
+        protected IPageLifetimeCallback LifetimeCallback => Page as IPageLifetimeCallback;
 
         /// <summary>
         /// Прикрепиться к странице.
@@ -27,13 +51,13 @@ namespace DvachBrowser3.PageServices
         public virtual void Attach(Page page)
         {
             DetachEvents();
-            Page = page;
-            LifetimeCallback = page as IPageLifetimeCallback;
-            if (LifetimeCallback != null)
+            pageHandle = page != null ? new WeakReference<Page>(page) : null;
+            var lifetimeCallback = LifetimeCallback;
+            if (lifetimeCallback != null)
             {
-                LifetimeCallback.NavigatedTo += OnNavigatedToCall;
-                LifetimeCallback.NavigatedFrom += OnNavigatedFromCall;
-                LifetimeCallback.AppResume += OnAppResumeCall;
+                lifetimeCallback.NavigatedTo += OnNavigatedToCall;
+                lifetimeCallback.NavigatedFrom += OnNavigatedFromCall;
+                lifetimeCallback.AppResume += OnAppResumeCall;
             }
         }
 
@@ -42,32 +66,63 @@ namespace DvachBrowser3.PageServices
         /// </summary>
         protected void DetachEvents()
         {
-            if (LifetimeCallback != null)
+            var lifetimeCallback = LifetimeCallback;
+            if (lifetimeCallback != null)
             {
-                LifetimeCallback.NavigatedTo -= OnNavigatedToCall;
-                LifetimeCallback.NavigatedFrom -= OnNavigatedFromCall;
-                LifetimeCallback.AppResume -= OnAppResumeCall;
+                lifetimeCallback.NavigatedTo -= OnNavigatedToCall;
+                lifetimeCallback.NavigatedFrom -= OnNavigatedFromCall;
+                lifetimeCallback.AppResume -= OnAppResumeCall;
             }
         }
 
-        private void OnAppResumeCall(object sender, object o)
+        private readonly EventHandler<NavigationEventArgs> OnNavigatedToCall;
+
+        private readonly EventHandler<NavigationEventArgs> OnNavigatedFromCall;
+
+        private readonly EventHandler<object> OnAppResumeCall;
+
+        private static EventHandler<NavigationEventArgs> CreateCallback(WeakReference<PageLifetimeServiceBase> weakRef, Action<PageLifetimeServiceBase, object, NavigationEventArgs> callback)
         {
-            OnResume(sender as Page, o);
+            return (sender, e) =>
+            {
+                PageLifetimeServiceBase obj;
+                if (weakRef.TryGetTarget(out obj))
+                {
+                    callback(obj, sender, e);
+                }
+            };
         }
 
-        private void OnNavigatedToCall(object sender, NavigationEventArgs e)
+        private static EventHandler<object> CreateCallback(WeakReference<PageLifetimeServiceBase> weakRef, Action<PageLifetimeServiceBase, object, object> callback)
         {
-            OnNavigatedTo(sender as Page, e);
+            return (sender, e) =>
+            {
+                PageLifetimeServiceBase obj;
+                if (weakRef.TryGetTarget(out obj))
+                {
+                    callback(obj, sender, e);
+                }
+            };
         }
 
-        private void OnNavigatedFromCall(object sender, NavigationEventArgs e)
+        private static void OnAppResumeCallStatic(PageLifetimeServiceBase obj, object sender, object o)
         {
-            OnNavigatedFrom(sender as Page, e);
+            obj.OnResume(sender as Page, o);
+        }
+
+        private static void OnNavigatedToCallStatic(PageLifetimeServiceBase obj, object sender, NavigationEventArgs e)
+        {
+            obj.OnNavigatedTo(sender as Page, e);
+        }
+
+        private static void OnNavigatedFromCallStatic(PageLifetimeServiceBase obj, object sender, NavigationEventArgs e)
+        {
+            obj.OnNavigatedFrom(sender as Page, e);
             if (e != null)
             {
                 if (e.NavigationMode == NavigationMode.Back || e.NavigationMode == NavigationMode.New)
                 {
-                    OnPageLeave();
+                    obj.OnPageLeave();
                 }
             }
         }

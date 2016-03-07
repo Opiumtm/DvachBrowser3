@@ -33,6 +33,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
             InitViewModel();
         }
@@ -53,7 +54,7 @@ namespace DvachBrowser3.Views
 
         private void InitViewModel()
         {
-            DataContext = new BoardListViewModel();
+            ViewModel = new BoardListViewModel();
             ViewModel.PropertyChanged += (sender, e) =>
             {
                 if ("Groups".Equals(e.PropertyName))
@@ -76,7 +77,20 @@ namespace DvachBrowser3.Views
             NavigatedFrom?.Invoke(this, e);
         }
 
-        public IBoardListViewModel ViewModel => DataContext as IBoardListViewModel;
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IBoardListViewModel ViewModel
+        {
+            get { return (IBoardListViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBoardListViewModel), typeof (BoardsPage), new PropertyMetadata(null));
+
 
         /// <summary>
         /// Заход на страницу.

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Storage;
+using DvachBrowser3.Styles;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -29,6 +30,13 @@ namespace DvachBrowser3.ViewModels
         /// Имя.
         /// </summary>
         public string Name => "Избранные";
+
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         /// <summary>
         /// Обновить информацию.

@@ -10,8 +10,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <GridView ItemsSource="{x:Bind ViewModel.Media, Mode=OneWay}">
+    <Grid x:Name="BindingRoot">
+        <GridView ItemsSource="{Binding ViewModel.Media, Mode=OneWay}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Padding" Value="0" />
@@ -33,36 +33,36 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0" Margin="0, 0, 0, 4" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Padding="2" 
-                                Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" Height="{x:Bind StyleManager.Tiles.PostingMediaTileHeight, Mode=OneWay}">
+                                Width="{Binding StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" Height="{Binding StyleManager.Tiles.PostingMediaTileHeight, Mode=OneWay}">
                             <Grid>
-                                <Image Visibility="{x:Bind CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                   Stretch="Uniform" Source="{x:Bind Image, Mode=OneWay}">
+                                <Image Visibility="{Binding CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                   Stretch="Uniform" Source="{Binding Image, Mode=OneWay}">
                                 </Image>
-                                <SymbolIcon Visibility="{x:Bind CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" Symbol="Document" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" />
+                                <SymbolIcon Visibility="{Binding CanResize, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" Symbol="Document" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}" />
                             </Grid>
                         </Border>
-                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}"
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Width="{Binding StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}"
                                    TextAlignment="Left" Margin="0, 2, 0, 2"
-                                   FontSize="{x:Bind StyleManager.Text.SmallFontSize, Mode=OneWay}">
-                            <Run Text="{x:Bind SizeStr, Mode=OneWay}" />, <Run Text="{x:Bind OriginalName, Mode=OneWay}" />
+                                   FontSize="{Binding StyleManager.Text.SmallFontSize, Mode=OneWay}">
+                            <Run Text="{Binding SizeStr, Mode=OneWay}" />, <Run Text="{Binding OriginalName, Mode=OneWay}" />
                         </TextBlock>
-                        <Grid Grid.Row="2" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}">
+                        <Grid Grid.Row="2" Width="{Binding StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="25*" />
                                 <ColumnDefinition Width="25*" />
                                 <ColumnDefinition Width="50*" />
                             </Grid.ColumnDefinitions>
-                            <ToggleButton Grid.Column="0" Margin="0" HorizontalAlignment="Stretch" IsChecked="{x:Bind AddUniqueId, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}" ToolTipService.ToolTip="Уникальный хэш">
+                            <ToggleButton Grid.Column="0" Margin="0" HorizontalAlignment="Stretch" IsChecked="{Binding AddUniqueId, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}" ToolTipService.ToolTip="Уникальный хэш">
                                 <Viewbox Height="16" Width="16">
                                     <SymbolIcon Symbol="Shuffle" />
                                 </Viewbox>
                             </ToggleButton>
-                            <ToggleButton Grid.Column="1" Margin="2, 0, 0, 0" HorizontalAlignment="Stretch" IsChecked="{x:Bind Resize, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}" IsEnabled="{x:Bind CanResize, Mode=OneWay}" ToolTipService.ToolTip="Уменьшить">
+                            <ToggleButton Grid.Column="1" Margin="2, 0, 0, 0" HorizontalAlignment="Stretch" IsChecked="{Binding Resize, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}" IsEnabled="{Binding CanResize, Mode=OneWay}" ToolTipService.ToolTip="Уменьшить">
                                 <Viewbox Height="16" Width="16">
                                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1D8;" />
                                 </Viewbox>
                             </ToggleButton>
-                            <Button Grid.Column="2" Margin="2, 0, 0, 0" HorizontalAlignment="Stretch" Tag="{x:Bind}" Click="DeleteButton_OnClick" ToolTipService.ToolTip="Удалить">
+                            <Button Grid.Column="2" Margin="2, 0, 0, 0" HorizontalAlignment="Stretch" Tag="{Binding}" Click="DeleteButton_OnClick" ToolTipService.ToolTip="Удалить">
                                 <Viewbox Height="16" Width="16">
                                     <SymbolIcon Symbol="Delete" />
                                 </Viewbox>
@@ -73,7 +73,7 @@
             </GridView.ItemTemplate>
             <GridView.Footer>
                 <Grid Margin="0, 4, 0, 0">
-                    <Button IsEnabled="{x:Bind ViewModel.CanAdd, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" ToolTipService.ToolTip="Добавить" Click="AddButton_OnClick">
+                    <Button IsEnabled="{Binding ViewModel.CanAdd, Mode=OneWay}" Width="{Binding StyleManager.Tiles.PostingMediaTileWidth, Mode=OneWay}" ToolTipService.ToolTip="Добавить" Click="AddButton_OnClick">
                         <Viewbox Height="16" Width="16">
                             <SymbolIcon Symbol="Add" />
                         </Viewbox>

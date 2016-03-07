@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks.Dataflow;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
@@ -14,7 +16,7 @@ using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
-    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource, INotifyPropertyChanged
+    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource
     {
         private object lifetimeToken;
 
@@ -22,6 +24,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
             this.Loaded += OnLoaded;
         }
@@ -85,7 +88,21 @@ namespace DvachBrowser3.Views
         /// </summary>
         public NavigationRole? NavigationRole => Navigation.NavigationRole.Main;
 
-        public IMainViewModel ViewModel => DataContext as IMainViewModel;
+        //public IMainViewModel ViewModel => DataContext as IMainViewModel;
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IMainViewModel ViewModel
+        {
+            get { return (IMainViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IMainViewModel), typeof (MainPage), new PropertyMetadata(null));
 
         /// <summary>
         /// Получить модель представления.
@@ -96,20 +113,33 @@ namespace DvachBrowser3.Views
             return ViewModel;
         }
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private void InitViewModel()
         {
-            DataContext = new MainViewModel();
-            OnPropertyChanged(nameof(ViewModel));
-            ViewModel.PropertyChanged += (sender, e) =>
+            ViewModel = new MainViewModel();
+            ViewModel.PropertyChanged += CreatePropertyChangedHandler(new WeakReference<MainPage>(this));
+            MainSource.Source = ViewModel.Groups;
+        }
+
+        private static PropertyChangedEventHandler CreatePropertyChangedHandler(WeakReference<MainPage> pageHandle)
+        {
+            return (sender, e) =>
             {
-                if ("Groups".Equals(e.PropertyName))
+                MainPage page;
+                if (pageHandle.TryGetTarget(out page))
                 {
-                    MainSource.Source = ViewModel.Groups;
+                    if ("Groups".Equals(e.PropertyName))
+                    {
+                        page.MainSource.Source = page.ViewModel.Groups;
+                    }
                 }
             };
-            MainSource.Source = ViewModel.Groups;
         }
 
         private void DeleteItem_OnClick(object sender, RoutedEventArgs e)
@@ -140,13 +170,6 @@ namespace DvachBrowser3.Views
         {
             var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
             t?.Navigate();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

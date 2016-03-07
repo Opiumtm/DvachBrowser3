@@ -26,6 +26,7 @@ namespace DvachBrowser3.Views.Partial
         public PreviewImage()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.SizeChanged += OnSizeChanged;
         }
 

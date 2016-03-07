@@ -290,10 +290,12 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public ICommand RemoveFromFavorites { get; }
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         private static IEngineOperationsWithProgress<ICollection<IBoardListBoardViewModel>, EngineProgress> RefreshOperationFactory(object o)
         {

@@ -13,12 +13,12 @@
         <dvachBrowser3:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     
-    <Grid>
-        <Border x:Name="Loading" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{x:Bind ImageHeight, Mode=OneWay}" Width="{x:Bind ImageWidth, Mode=OneWay}" Visibility="{x:Bind IsLoadingVisible, Mode=OneWay}">
-            <ProgressRing x:Name="LoadingRing" Height="48" Width="48" IsActive="True" Visibility="{x:Bind IsLoadingRingVisible, Mode=OneWay}" />
+    <Grid x:Name="BindingRoot">
+        <Border x:Name="Loading" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{Binding ImageHeight, Mode=OneWay}" Width="{Binding ImageWidth, Mode=OneWay}" Visibility="{Binding IsLoadingVisible, Mode=OneWay}">
+            <ProgressRing x:Name="LoadingRing" Height="48" Width="48" IsActive="True" Visibility="{Binding IsLoadingRingVisible, Mode=OneWay}" />
         </Border>
-        <Image x:Name="MainImage" Height="{x:Bind ImageHeight, Mode=OneWay}" Width="{x:Bind ImageWidth, Mode=OneWay}" Visibility="{x:Bind IsImageVisible, Mode=OneWay}" Source="{x:Bind ImageData, Mode=OneWay}" Stretch="Fill" />
-        <Border x:Name="ErrorSymbol" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{x:Bind ImageHeight, Mode=OneWay}" Width="{x:Bind ImageWidth, Mode=OneWay}" Visibility="{x:Bind IsErrorVisible, Mode=OneWay}" Tapped="ErrorSymbol_OnTapped">
+        <Image x:Name="MainImage" Height="{Binding ImageHeight, Mode=OneWay}" Width="{Binding ImageWidth, Mode=OneWay}" Visibility="{Binding IsImageVisible, Mode=OneWay}" Source="{Binding ImageData, Mode=OneWay}" Stretch="Fill" />
+        <Border x:Name="ErrorSymbol" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{Binding ImageHeight, Mode=OneWay}" Width="{Binding ImageWidth, Mode=OneWay}" Visibility="{Binding IsErrorVisible, Mode=OneWay}" Tapped="ErrorSymbol_OnTapped">
             <SymbolIcon Symbol="Clear" Foreground="Red" Height="48" Width="48" />
         </Border>
     </Grid>

@@ -17,10 +17,10 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="BindingRoot">
         <Border x:Name="BackgroundBorder" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <Grid>
-                <Image x:Name="MainImage" Source="{x:Bind ImageData, Mode=OneWay}" Stretch="UniformToFill" Visibility="Collapsed" />
+                <Image x:Name="MainImage" Source="{Binding ImageData, Mode=OneWay}" Stretch="UniformToFill" Visibility="Collapsed" />
                 <SymbolIcon x:Name="ErrorIcon" Symbol="Clear" Foreground="Red" Height="48" Width="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <SymbolIcon x:Name="NoIcon" Symbol="Document" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Height="48" Width="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>

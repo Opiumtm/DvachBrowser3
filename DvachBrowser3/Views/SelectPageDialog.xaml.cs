@@ -24,6 +24,7 @@ namespace DvachBrowser3.Views
         public SelectPageDialog()
         {
             this.InitializeComponent();
+            this.DataContext = this;
             ValidateEntry();
         }
 

@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Links;
+﻿using System.ComponentModel;
+using DvachBrowser3.Links;
 using DvachBrowser3.Styles;
 
 namespace DvachBrowser3.ViewModels
@@ -6,8 +7,13 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Медиа файлпоста.
     /// </summary>
-    public interface IPostMediaFileViewModel : IPostPartViewModel
+    public interface IPostMediaFileViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Родительская модель.
+        /// </summary>
+        IPostViewModel Parent { get; }
+
         /// <summary>
         /// Ссылка.
         /// </summary>

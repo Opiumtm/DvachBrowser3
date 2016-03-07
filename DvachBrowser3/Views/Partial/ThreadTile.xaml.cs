@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -21,7 +23,7 @@ using DvachBrowser3.ViewModels;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class ThreadTile : UserControl, IWeakEventCallback
+    public sealed partial class ThreadTile : UserControl, IWeakEventCallback, INotifyPropertyChanged
     {
         private DispatcherTimer timer;
 
@@ -31,15 +33,20 @@ namespace DvachBrowser3.Views.Partial
         public ThreadTile()
         {
             this.InitializeComponent();
+            MainBorder.DataContext = this;
             Shell.IsNarrowViewChanged.AddCallback(this);
+            this.timerOnClick = CreateTimerOnTick(new WeakReference<ThreadTile>(this));
             this.Loaded += OnLoaded;
+            this.Unloaded += OnUnloaded;
         }
+
+        private readonly EventHandler<object> timerOnClick;
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             timer = new DispatcherTimer();
             SetTimePeriod();
-            timer.Tick += TimerOnTick;
+            timer.Tick += timerOnClick;
             timer.Start();
             TileImageTransform.Y = StyleManager.Tiles.BoardTileHeight;
             imageSlideInAnimation = new DoubleAnimation()
@@ -65,6 +72,16 @@ namespace DvachBrowser3.Views.Partial
             UpdateAnimationData();
         }
 
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var t = timer;
+            if (t != null)
+            {
+                t.Stop();
+                t.Tick -= timerOnClick;
+            }
+        }
+
         /// <summary>
         /// Модель представления.
         /// </summary>
@@ -77,9 +94,21 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null));
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null, PropertyChangedCallback));
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == ViewModelProperty)
+            {
+            }
+        }
+
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private bool isImageSlided = false;
 
@@ -87,19 +116,35 @@ namespace DvachBrowser3.Views.Partial
 
         private void SetTimePeriod()
         {
-            double sec;
-            if (isImageSlided)
+            var t = timer;
+            if (t != null)
             {
-                sec = (Rnd.NextDouble() * 3.5 + 1.5)*1.5;
+                double sec;
+                if (isImageSlided)
+                {
+                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 1.5;
+                }
+                else
+                {
+                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 2.5;
+                }
+                t.Interval = TimeSpan.FromSeconds(sec);
             }
-            else
-            {
-                sec = (Rnd.NextDouble() * 3.5 + 1.5)*2.5;
-            }
-            timer.Interval = TimeSpan.FromSeconds(sec);
         }
 
-        private void TimerOnTick(object sender, object o)
+        private static EventHandler<object> CreateTimerOnTick(WeakReference<ThreadTile> handle)
+        {
+            return (sender, o) =>
+            {
+                ThreadTile obj;
+                if (handle.TryGetTarget(out obj))
+                {
+                    obj.TimerOnTickHandler(sender, o);
+                }
+            };
+        }
+
+        private void TimerOnTickHandler(object sender, object o)
         {
             if (isImageSlided)
             {
@@ -137,6 +182,13 @@ namespace DvachBrowser3.Views.Partial
             {
                 Rect = new Rect(0, 0, StyleManager.Tiles.BoardTileWidth, StyleManager.Tiles.BoardTileHeight)
             };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

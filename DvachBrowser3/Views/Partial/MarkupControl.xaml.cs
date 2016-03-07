@@ -24,6 +24,7 @@ namespace DvachBrowser3.Views.Partial
         public MarkupControl()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
         }
 

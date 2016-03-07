@@ -51,15 +51,15 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneWay}" FontWeight="Bold"
                              Content="ДОСКА">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
-        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <pa:BoardThreadRefList x:Name="MainList" Grid.Row="2" ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}" ThreadTapped="MainList_OnThreadTapped" Margin="4, 4, 4, 0" 
-                               ListTitle="{x:Bind ViewModel.TitleWithPage, Mode=OneWay}"/> 
+        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{Binding ViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
+        <pa:BoardThreadRefList x:Name="MainList" Grid.Row="2" ViewModel="{Binding ViewModel.Page, Mode=OneWay}" ThreadTapped="MainList_OnThreadTapped" Margin="4, 4, 4, 0" 
+                               ListTitle="{Binding ViewModel.TitleWithPage, Mode=OneWay}"/> 
         <pa:ContentPopup Grid.Row="1" x:Name="ThreadPreviewPopup" Grid.RowSpan="2" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged">
             <pa:ContentPopup.ViewContent>
                 <pa:PostCollectionView x:Name="ThreadPreview" MaxLines="20" ShowCounter="False" ShowPreviewSeparator="True" ShowFullThreadText="Перейти в тред"

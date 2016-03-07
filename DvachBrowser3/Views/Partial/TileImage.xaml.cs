@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views.Partial
         public TileImage()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
         }
 

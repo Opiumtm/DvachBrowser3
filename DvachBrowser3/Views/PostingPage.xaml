@@ -17,7 +17,7 @@
     
     <Page.Resources>
         <DataTemplate x:DataType="x:String" x:Key="PostingPivotHeaderTemplate">
-            <TextBlock FontWeight="Bold" Margin="3, 3, 3, 7" Text="{x:Bind}" FontSize="14.5"/>
+            <TextBlock FontWeight="Bold" Margin="3, 3, 3, 7" Text="{Binding}" FontSize="14.5"/>
         </DataTemplate>
     </Page.Resources>
 
@@ -35,19 +35,19 @@
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
-                             Content="{x:Bind HeaderText, Mode=OneWay}">
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneWay}" FontWeight="Bold"
+                             Content="{Binding HeaderText, Mode=OneWay}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
-        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Posting.Progress, Mode=OneWay}" ShowMessage="True" />
+        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{Binding ViewModel.Posting.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <Grid Grid.Row="2" x:Name="MainGrid">
-            <pa:PostingEntryView ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            <pa:PostingEntryView ViewModel="{Binding ViewModel, Mode=OneWay}" />
         </Grid>
-        <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="True" IsContentVisible="{x:Bind ShowQuote, Mode=OneWay}">
+        <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="True" IsContentVisible="{Binding ShowQuote, Mode=OneWay}">
             <pa:ContentPopup.ViewContent>
                 <Grid Margin="4">
                     <Grid.RowDefinitions>
@@ -55,10 +55,10 @@
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" Margin="0, 0, 0, 4" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}" BorderThickness="0, 0, 0, 1">
-                        <TextBlock FontSize="{x:Bind StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Цитата</TextBlock>
+                        <TextBlock FontSize="{Binding StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Цитата</TextBlock>
                     </Border>
                     <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <TextBlock FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="4" TextWrapping="Wrap" Text="{x:Bind ViewModel.Quote, Mode=OneWay}" IsTextSelectionEnabled="True">
+                        <TextBlock FontSize="{Binding StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="4" TextWrapping="Wrap" Text="{Binding ViewModel.Quote, Mode=OneWay}" IsTextSelectionEnabled="True">
                             <interactivity:Interaction.Behaviors>
                                 <localBehaviors:CleanListContentMarginBehavior NormalThickness="{StaticResource CleanListPadding}" NarrowThickness="{StaticResource CleanListPaddingNarrow}" />
                             </interactivity:Interaction.Behaviors>
@@ -76,7 +76,7 @@
                         <RowDefinition Height="100*"/>
                     </Grid.RowDefinitions>
                     <Border Grid.Row="0" Margin="0, 0, 0, 4" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}" BorderThickness="0, 0, 0, 1">
-                        <TextBlock FontSize="{x:Bind StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Капча</TextBlock>
+                        <TextBlock FontSize="{Binding StyleManager.Text.ListHeaderFontSize, Mode=OneWay}">Капча</TextBlock>
                     </Border>
                     <pa:CaptchaQueryView Grid.Row="1" x:Name="CaptchaQueryView" CaptchaQueryResult="CaptchaQueryView_OnCaptchaQueryResult">
                     </pa:CaptchaQueryView>

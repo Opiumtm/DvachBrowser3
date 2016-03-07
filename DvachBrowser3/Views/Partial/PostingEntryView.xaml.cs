@@ -25,6 +25,7 @@ namespace DvachBrowser3.Views.Partial
         public PostingEntryView()
         {
             this.InitializeComponent();
+            MainGrid.DataContext = this;
             this.Loaded += OnLoaded;
             MainGrid.SizeChanged += (sender, e) =>
             {
@@ -86,10 +87,12 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IPostingViewModel), typeof (PostingEntryView), new PropertyMetadata(null));
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {

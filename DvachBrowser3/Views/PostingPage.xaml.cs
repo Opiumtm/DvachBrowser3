@@ -40,6 +40,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             this.Loaded += OnLoaded;
             lifetimeToken = this.BindAppLifetimeEvents();
             Shell.IsNarrowViewChanged.AddCallback(this);
@@ -131,8 +132,7 @@ namespace DvachBrowser3.Views
             {
                 HeaderText = "ОТПРАВИТЬ ПОСТ";
             }
-            DataContext = vm;
-            OnPropertyChanged(nameof(ViewModel));
+            ViewModel = vm;
             OnPropertyChanged(nameof(ShowQuote));
             NavigatedTo?.Invoke(this, e);
         }
@@ -384,14 +384,31 @@ namespace DvachBrowser3.Views
         /// </summary>
         public NavigationRole? NavigationRole => Navigation.NavigationRole.Posting;
 
-        public IPostingViewModel ViewModel => DataContext as IPostingViewModel;
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IPostingViewModel ViewModel
+        {
+            get { return (IPostingViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IPostingViewModel), typeof (PostingPage), new PropertyMetadata(null));
 
         /// <summary>
         /// Возникает при смене значения свойства.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private bool isNarrowView;
 

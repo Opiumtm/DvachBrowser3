@@ -24,10 +24,23 @@ namespace DvachBrowser3.Views
         public AddBoardDialog()
         {
             this.InitializeComponent();
-            DataContext = new AddBoardViewModel();
+            this.DataContext = this;
+            ViewModel = new AddBoardViewModel();
         }
 
-        public IAddBoardViewModel ViewModel => DataContext as IAddBoardViewModel;
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IAddBoardViewModel ViewModel
+        {
+            get { return (IAddBoardViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IAddBoardViewModel), typeof (AddBoardDialog), new PropertyMetadata(null));
 
         public AddBoardDialog This => this;
 

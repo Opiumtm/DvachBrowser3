@@ -39,6 +39,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
         }
 
@@ -59,7 +60,17 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IBoardPageLoaderViewModel ViewModel => DataContext as IBoardPageLoaderViewModel;
+        public IBoardPageLoaderViewModel ViewModel
+        {
+            get { return (IBoardPageLoaderViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBoardPageLoaderViewModel), typeof (BoardPage), new PropertyMetadata(null));
+    
 
         /// <summary>
         /// Заход на страницу.
@@ -94,9 +105,8 @@ namespace DvachBrowser3.Views
             vm.IsBackNavigatedToViewModel = isBackNavigated;
             vm.PageLoaded += BoardOnPageLoaded;
             vm.PageLoadStarted += BoardOnPageLoadStarted;
-            DataContext = vm;
+            ViewModel = vm;
             // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(nameof(ViewModel));
             NavigatedTo?.Invoke(this, e);
         }
 

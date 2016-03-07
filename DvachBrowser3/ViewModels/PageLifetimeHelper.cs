@@ -25,6 +25,7 @@ namespace DvachBrowser3.ViewModels
             {
                 return;
             }
+            page.NavigatedFrom += CreateCallback(new WeakReference<ICancellableViewModel>(viewModel), new WeakReference<IPageLifetimeCallback>(page));
             EventHandler<NavigationEventArgs> callback = null;
             callback = (sender, e) =>
             {
@@ -32,6 +33,25 @@ namespace DvachBrowser3.ViewModels
                 if (callback != null) page.NavigatedFrom -= callback;
             };
             page.NavigatedFrom += callback;
+        }
+
+        private static EventHandler<NavigationEventArgs> CreateCallback(WeakReference<ICancellableViewModel> viewModelHandle, WeakReference<IPageLifetimeCallback> pageHandle)
+        {
+            EventHandler<NavigationEventArgs> callback = null;
+            callback = (sender, e) =>
+            {
+                ICancellableViewModel viewModel;
+                IPageLifetimeCallback page;
+                if (pageHandle.TryGetTarget(out page))
+                {
+                    page.NavigatedFrom -= callback;
+                }
+                if (viewModelHandle.TryGetTarget(out viewModel))
+                {
+                    viewModel.Cancel();
+                }
+            };
+            return callback;
         }
     }
 }

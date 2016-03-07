@@ -30,6 +30,7 @@ namespace DvachBrowser3.Views.Partial
         public BannerView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
         }
 
         private void ViewModelChanged(DependencyPropertyChangedEventArgs e)

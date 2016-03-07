@@ -103,10 +103,12 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public bool IsAdult => boardRef.IsAdult;
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         /// <summary>
         /// Номер треда.

@@ -36,6 +36,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
         }
 
@@ -56,9 +57,8 @@ namespace DvachBrowser3.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            DataContext = new BoardInfoViewModel(NavigationHelper.GetLinkFromParameter(e.Parameter));
+            ViewModel = new BoardInfoViewModel(NavigationHelper.GetLinkFromParameter(e.Parameter));
             // ReSharper disable once ExplicitCallerInfoArgument
-            OnPropertyChanged(nameof(ViewModel));
             NavigatedTo?.Invoke(this, e);
         }
 
@@ -86,7 +86,16 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IBoardInfoViewModel ViewModel => DataContext as BoardInfoViewModel;
+        public IBoardInfoViewModel ViewModel
+        {
+            get { return (IBoardInfoViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBoardInfoViewModel), typeof (BoardInfoPage), new PropertyMetadata(null));
 
         /// <summary>
         /// Возникает при смене значения свойства.

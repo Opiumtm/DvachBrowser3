@@ -51,7 +51,7 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneWay}" FontWeight="Bold"
                              Content="СПИСОК ДОСОК">
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
@@ -65,11 +65,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*" />
             </Grid.RowDefinitions>
-            <pa:ProgressIndicatorControl Grid.Row="0" ShowMessage="True" ViewModel="{x:Bind ViewModel.Refresh.Progress, Mode=OneWay}" />
-            <TextBox x:Name="SearchBox" Grid.Row="1" PlaceholderText="Поиск доски" Margin="8, 2, 8, 2" Text="{x:Bind ViewModel.Filter, Mode=OneWay}">
+            <pa:ProgressIndicatorControl Grid.Row="0" ShowMessage="True" ViewModel="{Binding ViewModel.Refresh.Progress, Mode=OneWay}" />
+            <TextBox x:Name="SearchBox" Grid.Row="1" PlaceholderText="Поиск доски" Margin="8, 2, 8, 2" Text="{Binding ViewModel.Filter, Mode=OneWay}">
                 <Interactivity:Interaction.Behaviors>
                     <localBehaviors:TextBoxChangeDelayBehavior>
-                        <Core:CallMethodAction TargetObject="{x:Bind}" MethodName="ApplyFilter" />
+                        <Core:CallMethodAction TargetObject="{Binding}" MethodName="ApplyFilter" />
                     </localBehaviors:TextBoxChangeDelayBehavior>
                 </Interactivity:Interaction.Behaviors>
             </TextBox>
@@ -77,15 +77,15 @@
                 <SemanticZoom.ZoomedInView>
                     <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource BoardSource}}" SelectionMode="None">
                         <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:IBoardListBoardViewModel">
-                                <pa:BoardTile ViewModel="{x:Bind This}" Margin="4" Tapped="BoardTile_OnTapped">
+                            <DataTemplate>
+                                <pa:BoardTile ViewModel="{Binding}" Margin="4" Tapped="BoardTile_OnTapped">
                                     <Interactivity:Interaction.Behaviors>
                                         <localBehaviors:PopupMenuBehavior>
                                             <localBehaviors:PopupMenuBehavior.MenuFlyout>
                                                 <MenuFlyout>
-                                                    <MenuFlyoutItem Text="В избранное" Click="AddToFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-                                                    <MenuFlyoutItem Text="Удалить" Click="RemoveFromFavorites_OnClick" Tag="{x:Bind This}" Visibility="{x:Bind Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
-                                                    <MenuFlyoutItem Text="Информация" Click="BoardInfo_OnClick" Tag="{x:Bind This}"/>
+                                                    <MenuFlyoutItem Text="В избранное" Click="AddToFavorites_OnClick" Tag="{Binding}" Visibility="{Binding Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                                                    <MenuFlyoutItem Text="Удалить" Click="RemoveFromFavorites_OnClick" Tag="{Binding}" Visibility="{Binding Path=IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
+                                                    <MenuFlyoutItem Text="Информация" Click="BoardInfo_OnClick" Tag="{Binding}"/>
                                                 </MenuFlyout>
                                             </localBehaviors:PopupMenuBehavior.MenuFlyout>
                                         </localBehaviors:PopupMenuBehavior>

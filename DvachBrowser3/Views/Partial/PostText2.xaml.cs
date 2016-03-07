@@ -27,6 +27,7 @@ namespace DvachBrowser3.Views.Partial
         public PostText2()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             RenderControl.TextRendered += (sender, e) =>
             {
                 ExceedLines = RenderControl.ExceedLines;
@@ -58,7 +59,12 @@ namespace DvachBrowser3.Views.Partial
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         /// <summary>
         /// Размер шрифта.

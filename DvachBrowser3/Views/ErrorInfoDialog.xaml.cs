@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views
         public ErrorInfoDialog()
         {
             this.InitializeComponent();
+            this.DataContext = this;
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace DvachBrowser3.Views.Partial
         public ContentPopup()
         {
             this.InitializeComponent();
+            MainView.DataContext = this;
             Loaded += (sender, e) => SetContentMargin();
             Shell.IsNarrowViewChanged.AddCallback(this);
             OnPropertyChanged(nameof(IsShowCloseButton));

@@ -25,6 +25,7 @@ namespace DvachBrowser3.Views.Partial
         public BoardThreadRefPreview()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
         }
 

@@ -277,9 +277,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public bool CanInvokeCatalog { get; }
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
     }
 }

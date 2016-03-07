@@ -133,6 +133,7 @@
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\EventDelayHelper.cs" />
     <Compile Include="Core\ExtendedPageParam.cs" />
+    <Compile Include="Core\IBindingControlCallback.cs" />
     <Compile Include="Core\InterlockedFlagContainer.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
@@ -192,11 +193,13 @@
     <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Styles\Manager\Implementation\StyleManager.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerFactory.cs" />
     <Compile Include="Styles\Manager\Implementation\StyleManagerIcons.cs" />
     <Compile Include="Styles\Manager\Implementation\StyleManagerObjectBase.cs" />
     <Compile Include="Styles\Manager\Implementation\StyleManagerText.cs" />
     <Compile Include="Styles\Manager\Implementation\StyleManagerTiles.cs" />
     <Compile Include="Styles\Manager\IStyleManager.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerFactory.cs" />
     <Compile Include="Styles\Manager\IStyleManagerIcons.cs" />
     <Compile Include="Styles\Manager\IStyleManagerText.cs" />
     <Compile Include="Styles\Manager\IStyleManagerTiles.cs" />
@@ -325,7 +328,6 @@
     <Compile Include="ViewModels\Post\IPostCollectionViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostMediaFileViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostMediaViewModel.cs" />
-    <Compile Include="ViewModels\Post\IPostPartViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostTextViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostViewModel.cs" />
     <Compile Include="ViewModels\Post\IThreadViewModel.cs" />
@@ -377,6 +379,7 @@
     <Compile Include="Views\Partial\Additional\ShowFullPostEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\ShowFullPostEventHandler.cs" />
     <Compile Include="Views\Partial\Additional\TextRenderCommandKeyHelper.cs" />
+    <Compile Include="Views\Partial\Additional\ViewModelWrapper.cs" />
     <Compile Include="Views\Partial\BannerView.xaml.cs">
       <DependentUpon>BannerView.xaml</DependentUpon>
     </Compile>

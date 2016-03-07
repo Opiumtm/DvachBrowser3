@@ -9,13 +9,13 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
+    <Grid x:Name="BindingRoot">
         <StackPanel>
             <Border Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" HorizontalAlignment="Center" Margin="4">
                 <Grid Height="80" Width="220">
-                    <Image Height="80" Width="220" Visibility="{x:Bind HasImage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Source="{x:Bind Image, Mode=OneWay}" Stretch="Uniform" />
-                    <TextBlock Visibility="{x:Bind NotNeeded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center" VerticalAlignment="Center">НЕ НУЖНО</TextBlock>
-                    <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}" />
+                    <Image Height="80" Width="220" Visibility="{Binding HasImage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Source="{Binding Image, Mode=OneWay}" Stretch="Uniform" />
+                    <TextBlock Visibility="{Binding NotNeeded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" HorizontalAlignment="Center" VerticalAlignment="Center">НЕ НУЖНО</TextBlock>
+                    <ProgressRing IsActive="{Binding IsLoading, Mode=OneWay}" />
                 </Grid>
             </Border>
             <TextBox x:Name="EntryBox" Margin="4">

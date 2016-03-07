@@ -15,15 +15,15 @@
         <local:BoardTileShortNameConverter x:Key="ShortNameConverter" />
     </UserControl.Resources>
           
-    <Border Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileWidth, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileHeight, Mode=OneWay}">
+    <Border Width="{Binding ViewModel.StyleManager.Tiles.BoardTileWidth, Mode=OneWay}" Height="{Binding ViewModel.StyleManager.Tiles.BoardTileHeight, Mode=OneWay}" x:Name="BindingRoot">
         <Border.Background>
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Border.Background>
         <RelativePanel Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileBoardFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Board, Converter={StaticResource ShortNameConverter}, Mode=OneWay}" />
-            <Image x:Name="Logo" Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
-            <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" Visibility="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameVisibility, Mode=OneWay}" />
-            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="WrapWholeWords" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileDescFontSize, Mode=OneWay}" Margin="4, 0, 4, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
+            <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="{Binding ViewModel.StyleManager.Tiles.BoardTileBoardFontSize, Mode=OneWay}" Text="{Binding ViewModel.Board, Converter={StaticResource ShortNameConverter}, Mode=OneWay}" />
+            <Image x:Name="Logo" Width="{Binding ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Height="{Binding ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Stretch="Uniform" Source="{Binding ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
+            <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="{Binding ViewModel.StyleManager.Tiles.BoardTileEngineNameFontSize, Mode=OneWay}" Text="{Binding ViewModel.Resource, Mode=OneWay}" Visibility="{Binding ViewModel.StyleManager.Tiles.BoardTileEngineNameVisibility, Mode=OneWay}" />
+            <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="WrapWholeWords" FontSize="{Binding ViewModel.StyleManager.Tiles.BoardTileDescFontSize, Mode=OneWay}" Margin="4, 0, 4, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{Binding ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
         </RelativePanel>
     </Border>
 </UserControl>

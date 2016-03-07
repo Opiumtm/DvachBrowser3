@@ -46,6 +46,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
         }
 
@@ -100,12 +101,26 @@ namespace DvachBrowser3.Views
             vm.PostsUpdated += OnPostsUpdated;
             isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
-            DataContext = vm;
-            OnPropertyChanged(nameof(ViewModel));
+            ViewModel = vm;
             savedTopPostHash = await GetStoredCurrentPostHash(navigatedLink);
             vm.PropertyChanged += ViewModelOnPropertyChanged;
             ViewModelOnPropertyChanged(vm, new PropertyChangedEventArgs(null));
             NavigatedTo?.Invoke(this, e);
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if (e.NavigationMode == NavigationMode.New || e.NavigationMode == NavigationMode.Back)
+            {
+                var element = MainList.GetTopViewIndex();
+                if (element?.Link != null)
+                {
+                    await SetStoredCurrentPost(navigatedLink, element.Link);
+                }
+                //ViewModel = null;
+            }
+            NavigatedFrom?.Invoke(this, e);
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -166,20 +181,6 @@ namespace DvachBrowser3.Views
             {
                 DebugHelper.BreakOnError(ex);
             }
-        }
-
-        protected override async void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-            if (e.NavigationMode == NavigationMode.New || e.NavigationMode == NavigationMode.Back)
-            {
-                var element = MainList.GetTopViewIndex();
-                if (element?.Link != null)
-                {
-                    await SetStoredCurrentPost(navigatedLink, element.Link);
-                }
-            }
-            NavigatedFrom?.Invoke(this, e);
         }
 
         private async void OnSuspending(SuspendingEventArgs e)
@@ -504,12 +505,39 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IThreadViewModel ViewModel => DataContext as IThreadViewModel;
+        public IThreadViewModel ViewModel
+        {
+            get { return (IThreadViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IThreadViewModel), typeof (ThreadPage), new PropertyMetadata(null, ViewModelPropertyChangedCallback));
+
+        private static void ViewModelPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as ThreadPage;
+            if (obj != null)
+            {
+                obj.PostCollection = e.NewValue as IPostCollectionViewModel;
+            }
+        }
 
         /// <summary>
         /// Коллекция постов.
         /// </summary>
-        public IPostCollectionViewModel PostCollection => DataContext as IPostCollectionViewModel;
+        public IPostCollectionViewModel PostCollection
+        {
+            get { return (IPostCollectionViewModel) GetValue(PostCollectionProperty); }
+            set { SetValue(PostCollectionProperty, value); }
+        }
+
+        /// <summary>
+        /// Коллекция постов.
+        /// </summary>
+        public static readonly DependencyProperty PostCollectionProperty = DependencyProperty.Register("PostCollection", typeof (IPostCollectionViewModel), typeof (ThreadPage), new PropertyMetadata(null));
 
         private async void MainList_OnShowFullPost(object sender, ShowFullPostEventArgs e)
         {
@@ -726,10 +754,12 @@ namespace DvachBrowser3.Views
         /// </summary>
         public event EventHandler AppBarChange;
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         private void NewPostsIndicator_OnTapped(object sender, TappedRoutedEventArgs e)
         {

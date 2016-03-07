@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views.Partial
         public PostView()
         {
             this.InitializeComponent();
+            MainGrid.DataContext = this;
             this.Loaded += OnLoaded;
         }
 

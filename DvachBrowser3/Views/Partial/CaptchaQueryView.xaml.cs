@@ -26,6 +26,7 @@ namespace DvachBrowser3.Views.Partial
         public CaptchaQueryView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
         }
 

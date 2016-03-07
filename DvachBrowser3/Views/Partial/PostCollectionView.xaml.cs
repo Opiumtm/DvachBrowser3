@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views.Partial
         public PostCollectionView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
         }
 
         /// <summary>

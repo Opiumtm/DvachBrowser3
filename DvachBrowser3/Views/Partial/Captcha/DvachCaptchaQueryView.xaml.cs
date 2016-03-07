@@ -31,6 +31,7 @@ namespace DvachBrowser3.Views.Partial.Captcha
         public DvachCaptchaQueryView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
         }
 
         public event CaptchaQueryResultEventHandler CaptchaQueryResult;

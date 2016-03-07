@@ -23,6 +23,7 @@ namespace DvachBrowser3.Views.Partial
         public BoardTile()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
         }
 
         /// <summary>

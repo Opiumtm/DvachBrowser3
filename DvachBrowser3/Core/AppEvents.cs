@@ -3,6 +3,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.PageServices;
 using DvachBrowser3.Views;
+using Template10.Services.NavigationService;
 
 namespace DvachBrowser3
 {
@@ -71,7 +72,7 @@ namespace DvachBrowser3
                 var page = Shell.HamburgerMenu?.NavigationService?.FrameFacade?.Content as IPageLifetimeCallback;
                 if (page != null)
                 {
-                    page.NavigatedFrom += PageLifetimeOnNavigatedFrom;
+                    BindNavigatedFrom(page);
                     BindCallbacks();
                 }
             }
@@ -82,8 +83,8 @@ namespace DvachBrowser3
             public PageAppEventsToken(IWeakEventCallback eventCallback, IPageLifetimeCallback pageLifetime, AppEventsBindFlags flags)
                 : base(eventCallback, flags)
             {
-                pageLifetime.NavigatedTo += PageLifetimeOnNavigatedTo;
-                pageLifetime.NavigatedFrom += PageLifetimeOnNavigatedFrom;
+                BindNavigatedTo(pageLifetime);
+                BindNavigatedFrom(pageLifetime);
             }
         }
 
@@ -92,33 +93,77 @@ namespace DvachBrowser3
             private Guid? resumeId;
             private Guid? suspendId;
 
-            private readonly IWeakEventCallback eventCallback;
+            private readonly WeakReference<IWeakEventCallback> eventCallback;
             private readonly AppEventsBindFlags flags;
 
             protected AppEventsTokenBase(IWeakEventCallback eventCallback, AppEventsBindFlags flags)
             {
-                this.eventCallback = eventCallback;
+                this.eventCallback = new WeakReference<IWeakEventCallback>(eventCallback);
                 this.flags = flags;
             }
 
             protected void BindCallbacks()
             {
-                if ((flags & AppEventsBindFlags.Resume) != 0)
+                IWeakEventCallback callbackObj;
+                if (eventCallback.TryGetTarget(out callbackObj))
                 {
-                    resumeId = AppResume.AddCallback(eventCallback);
-                }
-                if ((flags & AppEventsBindFlags.Suspend) != 0)
-                {
-                    suspendId = AppSuspend.AddCallback(eventCallback);
+                    if ((flags & AppEventsBindFlags.Resume) != 0)
+                    {
+                        resumeId = AppResume.AddCallback(callbackObj);
+                    }
+                    if ((flags & AppEventsBindFlags.Suspend) != 0)
+                    {
+                        suspendId = AppSuspend.AddCallback(callbackObj);
+                    }
                 }
             }
 
-            protected void PageLifetimeOnNavigatedTo(object sender, NavigationEventArgs e)
+            protected void BindNavigatedTo(IPageLifetimeCallback lifetimeCallback)
+            {
+                if (lifetimeCallback != null)
+                {
+                    lifetimeCallback.NavigatedTo += BindNavigatedTo(new WeakReference<AppEventsTokenBase>(this));
+                }
+            }
+
+            protected void BindNavigatedFrom(IPageLifetimeCallback lifetimeCallback)
+            {
+                if (lifetimeCallback != null)
+                {
+                    lifetimeCallback.NavigatedTo += BindNavigatedFrom(new WeakReference<AppEventsTokenBase>(this));
+                }
+            }
+
+            private static EventHandler<NavigationEventArgs> BindNavigatedTo(WeakReference<AppEventsTokenBase> token)
+            {
+                return (sender, e) =>
+                {
+                    AppEventsTokenBase obj;
+                    if (token.TryGetTarget(out obj))
+                    {
+                        obj.PageLifetimeOnNavigatedTo(sender, e);
+                    }
+                };
+            }
+
+            private static EventHandler<NavigationEventArgs> BindNavigatedFrom(WeakReference<AppEventsTokenBase> token)
+            {
+                return (sender, e) =>
+                {
+                    AppEventsTokenBase obj;
+                    if (token.TryGetTarget(out obj))
+                    {
+                        obj.PageLifetimeOnNavigatedTo(sender, e);
+                    }
+                };
+            }
+
+            private void PageLifetimeOnNavigatedTo(object sender, NavigationEventArgs e)
             {
                 BindCallbacks();
             }
 
-            protected void PageLifetimeOnNavigatedFrom(object sender, NavigationEventArgs e)
+            private void PageLifetimeOnNavigatedFrom(object sender, NavigationEventArgs e)
             {
                 if (e.NavigationMode == NavigationMode.New || e.NavigationMode == NavigationMode.Back)
                 {

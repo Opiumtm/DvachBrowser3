@@ -25,6 +25,7 @@ namespace DvachBrowser3.Views.Partial
         public PostingMediaCollectionView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = DataContext;
         }
 
         /// <summary>
@@ -41,10 +42,12 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IPostingMediaCollectionViewModel), typeof (PostingMediaCollectionView), new PropertyMetadata(null));
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
 
         private async void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {

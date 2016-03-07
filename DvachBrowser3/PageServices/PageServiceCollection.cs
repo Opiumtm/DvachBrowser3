@@ -25,6 +25,7 @@ namespace DvachBrowser3.PageServices
 
         private void ServicesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var setPage = SetPageObj;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -50,7 +51,25 @@ namespace DvachBrowser3.PageServices
             }
         }
 
-        private Page setPage;
+        private WeakReference<Page> setPageHandle;
+
+        private Page SetPageObj
+        {
+            get
+            {
+                if (setPageHandle == null)
+                {
+                    return null;
+                }
+                Page obj;
+                if (setPageHandle.TryGetTarget(out obj))
+                {
+                    return obj;
+                }
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// Прикрепиться к странице.
@@ -58,7 +77,8 @@ namespace DvachBrowser3.PageServices
         /// <param name="page">Страница.</param>
         public void Attach(Page page)
         {
-            setPage = page;
+            setPageHandle = page != null ? new WeakReference<Page>(page) : null;
+            var setPage = SetPageObj;
             foreach (var s in Services)
             {
                 s.Attach(setPage);

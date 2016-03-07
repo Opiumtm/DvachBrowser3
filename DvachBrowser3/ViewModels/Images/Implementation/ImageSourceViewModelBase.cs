@@ -60,6 +60,25 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
+        /// <summary>
+        /// Добавлять в памяти (null - автоматическое решение).
+        /// </summary>
+        protected virtual bool? UpdateInMem => null;
+
+        private async Task<bool> CheckUpdateInMem(StorageFile file)
+        {
+            if (UpdateInMem != null)
+            {
+                return UpdateInMem.Value;
+            }
+            var prop = await file.GetBasicPropertiesAsync();
+            if (prop.Size >= 256*1024)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private async Task DoLoadImplOnResultGot(object sender, EventArgs e)
         {
             try
@@ -73,7 +92,7 @@ namespace DvachBrowser3.ViewModels
                 var cacheUri = GetImageCacheUri();
                 if (SetImageSource)
                 {
-                    if (cacheUri == null)
+                    if (cacheUri == null || await CheckUpdateInMem(result))
                     {
                         var imgSource = new BitmapImage();
                         using (var f = await result.OpenReadAsync())

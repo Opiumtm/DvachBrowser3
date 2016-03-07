@@ -23,6 +23,7 @@ namespace DvachBrowser3.Views.Partial
         public SearchBox()
         {
             this.InitializeComponent();
+            MainBorder.DataContext = this;
             Shell.IsNarrowViewChanged.AddCallback(this);
             this.Loaded += OnLoaded;
         }

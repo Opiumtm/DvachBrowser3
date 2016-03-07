@@ -15,7 +15,6 @@ namespace DvachBrowser3.ViewModels
     /// </summary>
     public sealed class ThreadViewModel : UpdateablePostCollectionViewModelBase<IThreadLoaderResult>, IThreadViewModel
     {
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly DispatcherTimer updateCheckTimer;
 
         /// <summary>
@@ -26,10 +25,24 @@ namespace DvachBrowser3.ViewModels
             if (link == null) throw new ArgumentNullException(nameof(link));
             Link = link;
             updateCheckTimer = new DispatcherTimer() { Interval = TimeSpan.FromMinutes(1) };
-            updateCheckTimer.Tick += UpdateCheckTimerOnTick;
+            updateCheckTimerOnTick = CreateUpdateCheckTimerOnTickHandler(new WeakReference<ThreadViewModel>(this));
         }
 
-        private void UpdateCheckTimerOnTick(object sender, object o)
+        private static EventHandler<object> CreateUpdateCheckTimerOnTickHandler(WeakReference<ThreadViewModel> handle)
+        {
+            return (sender, e) =>
+            {
+                ThreadViewModel obj;
+                if (handle.TryGetTarget(out obj))
+                {
+                    obj.UpdateCheckTimerOnTickHandler(sender, e);
+                }
+            };
+        }
+
+        private readonly EventHandler<object> updateCheckTimerOnTick;
+
+        private void UpdateCheckTimerOnTickHandler(object sender, object o)
         {
             var profile = NetworkProfileHelper.CurrentProfile;
             var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
@@ -70,6 +83,8 @@ namespace DvachBrowser3.ViewModels
             return Task.FromResult(true);
         }
 
+        private bool updateHandlerAdded;
+
         /// <summary>
         /// Останов.
         /// </summary>
@@ -77,7 +92,12 @@ namespace DvachBrowser3.ViewModels
         public override async Task Stop()
         {
             await base.Stop();
-            updateCheckTimer.Stop();
+            if (updateHandlerAdded)
+            {
+                updateCheckTimer.Tick -= updateCheckTimerOnTick;
+                updateHandlerAdded = false;
+                updateCheckTimer.Stop();
+            }
         }
 
         private void DoStart(bool resume)
@@ -133,6 +153,8 @@ namespace DvachBrowser3.ViewModels
             if (profile.CheckThreadForUpdatesSec != null && engine != null && ((engine.Capability & EngineCapability.LastModifiedRequest) != 0))
             {
                 updateCheckTimer.Interval = TimeSpan.FromSeconds(profile.CheckThreadForUpdatesSec.Value);
+                updateCheckTimer.Tick += updateCheckTimerOnTick;
+                updateHandlerAdded = true;
                 updateCheckTimer.Start();
             }
         }

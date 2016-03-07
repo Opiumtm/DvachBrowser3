@@ -54,7 +54,12 @@ namespace DvachBrowser3.Views.Partial
             return count;
         }
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         /// <summary>
         /// Создать элемент.

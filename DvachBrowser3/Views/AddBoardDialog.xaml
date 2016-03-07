@@ -20,16 +20,16 @@
     </ContentDialog.Resources>
     
     <StackPanel>
-        <ComboBox HorizontalAlignment="Stretch" Header="Ресурс" ItemsSource="{x:Bind ViewModel.Engines, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedEngine, Mode=TwoWay, Converter={StaticResource SeConverter}}"
+        <ComboBox HorizontalAlignment="Stretch" Header="Ресурс" ItemsSource="{Binding ViewModel.Engines, Mode=OneWay}" SelectedItem="{Binding ViewModel.SelectedEngine, Mode=TwoWay, Converter={StaticResource SeConverter}}"
                   DisplayMemberPath="ResourceName" x:Name="EngineBox"/>
-        <TextBox x:Name="ShortNameBox" Text="{x:Bind ViewModel.ShortName, Mode=OneWay}" Header="Доска">
+        <TextBox x:Name="ShortNameBox" Text="{Binding ViewModel.ShortName, Mode=OneWay}" Header="Доска">
             <inter:Interaction.Behaviors>
                 <beh:TextBoxChangeDelayBehavior>
-                    <interCore:CallMethodAction TargetObject="{x:Bind This}" MethodName="ApplyShortName" />
+                    <interCore:CallMethodAction TargetObject="{Binding This}" MethodName="ApplyShortName" />
                 </beh:TextBoxChangeDelayBehavior>
             </inter:Interaction.Behaviors>
         </TextBox>
-        <TextBox x:Name="DescBox" Text="{x:Bind ViewModel.Description, Mode=TwoWay}" Header="Описание">
+        <TextBox x:Name="DescBox" Text="{Binding ViewModel.Description, Mode=TwoWay}" Header="Описание">
         </TextBox>
     </StackPanel>
 </ContentDialog>

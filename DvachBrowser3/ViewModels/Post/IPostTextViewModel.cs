@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using DvachBrowser3.TextRender;
 
@@ -8,8 +9,13 @@ namespace DvachBrowser3.ViewModels
     /// <summary>
     /// Текст поста.
     /// </summary>
-    public interface IPostTextViewModel : IPostPartViewModel, ILinkClickCallback
+    public interface IPostTextViewModel : INotifyPropertyChanged, ILinkClickCallback
     {
+        /// <summary>
+        /// Родительская модель.
+        /// </summary>
+        IPostViewModel Parent { get; }
+
         /// <summary>
         /// Уникальный идентификатор.
         /// </summary>

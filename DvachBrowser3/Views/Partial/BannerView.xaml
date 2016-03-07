@@ -13,15 +13,15 @@
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     
-    <Grid Tapped="BannerElement_OnTapped">
-        <Border Margin="0" Padding="0" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}">
+    <Grid Tapped="BannerElement_OnTapped" x:Name="BindingRoot">
+        <Border Margin="0" Padding="0" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Height="{Binding ViewModel.Height, Mode=OneWay}" Width="{Binding ViewModel.Width, Mode=OneWay}">
             <Grid>
-                <Image x:Name="BannerImage" Visibility="Collapsed" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}"
+                <Image x:Name="BannerImage" Visibility="Collapsed" Height="{Binding ViewModel.Height, Mode=OneWay}" Width="{Binding ViewModel.Width, Mode=OneWay}"
                    Stretch="UniformToFill"/>
-                <Image x:Name="GifBannerImage" Visibility="Collapsed" Height="{x:Bind ViewModel.Height, Mode=OneWay}" Width="{x:Bind ViewModel.Width, Mode=OneWay}"
+                <Image x:Name="GifBannerImage" Visibility="Collapsed" Height="{Binding ViewModel.Height, Mode=OneWay}" Width="{Binding ViewModel.Width, Mode=OneWay}"
                    Stretch="UniformToFill"/>
-                <ProgressRing IsActive="True" Height="32" Width="32" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}"></ProgressRing>
-                <SymbolIcon x:Name="ErrorSymbol" Symbol="Clear" Foreground="Red" Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}" Height="48" Width="48" Tapped="ErrorSymbol_OnTapped" />
+                <ProgressRing IsActive="True" Height="32" Width="32" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}"></ProgressRing>
+                <SymbolIcon x:Name="ErrorSymbol" Symbol="Clear" Foreground="Red" Visibility="{Binding ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false, Mode=OneWay}" Height="48" Width="48" Tapped="ErrorSymbol_OnTapped" />
             </Grid>
         </Border>
     </Grid>

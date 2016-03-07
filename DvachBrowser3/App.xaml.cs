@@ -132,6 +132,7 @@ namespace DvachBrowser3
             if (!isInitialized)
             {
                 isInitialized = true;
+                NavigationService.Frame.CacheSize = 0;
                 NavigationService.Navigate(typeof(Views.MainPage));
             }
         }

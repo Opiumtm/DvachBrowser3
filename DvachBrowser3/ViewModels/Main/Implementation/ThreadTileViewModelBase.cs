@@ -200,9 +200,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public string Resource => BoardListBoardViewModelsHelper.GetResourceName(Link?.Engine);
 
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        public IStyleManager StyleManager => styleManager.Value;
     }
 }

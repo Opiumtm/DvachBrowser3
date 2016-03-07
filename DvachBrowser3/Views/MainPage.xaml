@@ -12,23 +12,22 @@
       xmlns:partial="using:DvachBrowser3.Views.Partial"
       xmlns:viewModels="using:DvachBrowser3.ViewModels"
       xmlns:behaviors1="using:DvachBrowser3.Behaviors"
-      x:Name="ThisPage"
       mc:Ignorable="d">
 
     <Page.Resources>
         <CollectionViewSource x:Name="MainSource" IsSourceGrouped="True"></CollectionViewSource>
         <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
             <views:MainTileTemplateSelector.BoardTemplate>
-                <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:BoardTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}" Margin="4">
+                <DataTemplate>
+                    <partial:BoardTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{Binding Mode=OneWay}" Margin="4">
                         <Interactivity:Interaction.Behaviors>
                             <behaviors1:PopupMenuBehavior>
                                 <behaviors1:PopupMenuBehavior.MenuFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="Удалить" Visibility="{x:Bind CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="DeleteItem_OnClick" />
-                                        <MenuFlyoutItem Text="В избранное" Visibility="{x:Bind CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
-                                        <MenuFlyoutItem Text="Из избранного" Visibility="{x:Bind CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
-                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{x:Bind CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
+                                        <MenuFlyoutItem Text="Удалить" Visibility="{Binding CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="DeleteItem_OnClick" />
+                                        <MenuFlyoutItem Text="В избранное" Visibility="{Binding CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Из избранного" Visibility="{Binding CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{Binding CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
                                     </MenuFlyout>
                                 </behaviors1:PopupMenuBehavior.MenuFlyout>
                             </behaviors1:PopupMenuBehavior>
@@ -37,16 +36,16 @@
                 </DataTemplate>
             </views:MainTileTemplateSelector.BoardTemplate>
             <views:MainTileTemplateSelector.ThreadTemplate>
-                <DataTemplate x:DataType="viewModels:IMainTileViewModel">
-                    <partial:ThreadTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{x:Bind Mode=OneWay}" Margin="4">
+                <DataTemplate>
+                    <partial:ThreadTile ViewModel="{Binding Path=TileData, Mode=OneWay}" Tapped="Tile_OnTapped" Tag="{Binding Mode=OneWay}" Margin="4">
                         <Interactivity:Interaction.Behaviors>
                             <behaviors1:PopupMenuBehavior>
                                 <behaviors1:PopupMenuBehavior.MenuFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="Удалить" Visibility="{x:Bind CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="DeleteItem_OnClick" />
-                                        <MenuFlyoutItem Text="В избранное" Visibility="{x:Bind CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
-                                        <MenuFlyoutItem Text="Из избранного" Visibility="{x:Bind CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
-                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{x:Bind CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{x:Bind Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
+                                        <MenuFlyoutItem Text="Удалить" Visibility="{Binding CanDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="DeleteItem_OnClick" />
+                                        <MenuFlyoutItem Text="В избранное" Visibility="{Binding CanAddToFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="AddToFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Из избранного" Visibility="{Binding CanRemoveFromFavorites, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}" Click="RemoveFromFavoritesItem_OnClick" />
+                                        <MenuFlyoutItem Text="Копировать ссылку" Visibility="{Binding CanCopyLink, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Tag="{Binding Mode=OneWay}"  Click="CopyLinkItem_OnClick" />
                                     </MenuFlyout>
                                 </behaviors1:PopupMenuBehavior.MenuFlyout>
                             </behaviors1:PopupMenuBehavior>
@@ -74,7 +73,7 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneTime}"
                              Content="ГЛАВНАЯ" FontWeight="Bold">
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
@@ -90,7 +89,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock FontSize="{Binding ElementName=ThisPage, Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
+                                        <TextBlock FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -101,7 +100,7 @@
                     <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="10" FontSize="{Binding ElementName=ThisPage, Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Group.Name}" />
+                                <TextBlock Margin="10" FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

@@ -38,6 +38,7 @@ namespace DvachBrowser3.Views
         public TestingPage()
         {
             this.InitializeComponent();
+            //this.Unloaded += (sender, e) => Bindings.StopTracking();
         }
 
         public ObservableCollection<string> Files { get; }= new ObservableCollection<string>();

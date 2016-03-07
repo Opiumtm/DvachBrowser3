@@ -53,13 +53,13 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneWay}" FontWeight="Bold"
                              Content="КАТАЛОГ">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
             <controls:PageHeader.PrimaryCommands>
-                <AppBarToggleButton Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" x:Name="FilterButton" RequestedTheme="Dark" Style="{StaticResource HeaderAppBarToggleButtonStyle}">
+                <AppBarToggleButton Label="Поиск" IsEnabled="{Binding ColViewModel.HasData, Mode=OneWay}" x:Name="FilterButton" RequestedTheme="Dark" Style="{StaticResource HeaderAppBarToggleButtonStyle}">
                     <AppBarToggleButton.Icon>
                         <SymbolIcon Symbol="Find" />
                     </AppBarToggleButton.Icon>
@@ -67,22 +67,22 @@
             </controls:PageHeader.PrimaryCommands>
         </controls:PageHeader>
         <pa:SearchBox Grid.Row="1" x:Name="FilterBox" FilterUpdated="FilterBox_OnFilterUpdated" VerticalAlignment="Top" AnimatedVisibility="{Binding ElementName=FilterButton, Path=IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
-        <pa:ProgressIndicatorControl Grid.Row="2" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
-        <GridView x:Name="MainList" Grid.Row="3" SelectionMode="None" ItemsSource="{x:Bind FilteredPosts.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
+        <pa:ProgressIndicatorControl Grid.Row="2" ViewModel="{Binding ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />
+        <GridView x:Name="MainList" Grid.Row="3" SelectionMode="None" ItemsSource="{Binding FilteredPosts.Posts, Mode=OneWay}" Margin="4, 4, 4, 0"
                   >
             <GridView.Header>
-                <TextBlock Text="{x:Bind ViewModel.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="{x:Bind ViewModel.StyleManager.Text.TitleFontSize, Mode=OneWay}" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ViewModel.Title, Mode=OneWay}" FontWeight="SemiBold" FontSize="{Binding ViewModel.StyleManager.Text.TitleFontSize, Mode=OneWay}" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
             </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IPostViewModel">
-                    <Grid Width="{x:Bind StyleManager.Tiles.CatalogTileWidth, Mode=OneWay}" Margin="0, 0, 0, 7.5" ToolTipService.ToolTip="{x:Bind Subject}" Tapped="CatalogElement_OnTapped"
-                          Tag="{x:Bind Mode=OneWay}">
+                    <Grid Width="{Binding StyleManager.Tiles.CatalogTileWidth, Mode=OneWay}" Margin="0, 0, 0, 7.5" ToolTipService.ToolTip="{Binding Subject}" Tapped="CatalogElement_OnTapped"
+                          Tag="{Binding Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" FontSize="{x:Bind StyleManager.Text.SmallFontSize, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" Margin="2" Text="{x:Bind Subject, Mode=OneWay}" />
-                        <pa:TileImage Grid.Row="1" ViewModel="{x:Bind Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" Height="{x:Bind StyleManager.Tiles.CatalogTileHeight, Mode=OneWay}" HorizontalAlignment="Stretch" />
+                        <TextBlock Grid.Row="0" FontSize="{Binding StyleManager.Text.SmallFontSize, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" Margin="2" Text="{Binding Subject, Mode=OneWay}" />
+                        <pa:TileImage Grid.Row="1" ViewModel="{Binding Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" Height="{Binding StyleManager.Tiles.CatalogTileHeight, Mode=OneWay}" HorizontalAlignment="Stretch" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

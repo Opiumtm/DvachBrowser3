@@ -39,6 +39,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
         }
 
@@ -66,9 +67,43 @@ namespace DvachBrowser3.Views
             PostPreview.IsContentVisible = false;
         }
 
-        public IBoardCatalogViewModel ViewModel => DataContext as IBoardCatalogViewModel;
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IBoardCatalogViewModel ViewModel
+        {
+            get { return (IBoardCatalogViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
 
-        public IPostCollectionViewModel ColViewModel => ViewModel;
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBoardCatalogViewModel), typeof (CatalogPage), new PropertyMetadata(null, ViewModelPropertyChangedCallback));
+
+        private static void ViewModelPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as CatalogPage;
+            if (obj != null)
+            {
+                obj.ColViewModel = e.NewValue as IPostCollectionViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IPostCollectionViewModel ColViewModel
+        {
+            get { return (IPostCollectionViewModel) GetValue(ColViewModelProperty); }
+            set { SetValue(ColViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ColViewModelProperty = DependencyProperty.Register("ColViewModel", typeof (IPostCollectionViewModel), typeof (CatalogPage), new PropertyMetadata(null));
+
 
         /// <summary>
         /// Заход на страницу.
@@ -101,9 +136,7 @@ namespace DvachBrowser3.Views
             vm.IsBackNavigatedToViewModel = isBackNavigated;
             vm.Update.Progress.Started += OnDownloadStarted;
             vm.Update.Progress.Finished += OnDownloadFinished;
-            DataContext = vm;
-            OnPropertyChanged(nameof(ViewModel));
-            OnPropertyChanged(nameof(ColViewModel));
+            ViewModel = vm;
             FilteredPosts = vm;
             NavigatedTo?.Invoke(this, e);
         }
@@ -187,20 +220,20 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private IPostCollectionViewModel filteredPosts;
-
         /// <summary>
         /// Фильтрованные посты.
         /// </summary>
         public IPostCollectionViewModel FilteredPosts
         {
-            get { return filteredPosts; }
-            private set
-            {
-                filteredPosts = value;
-                OnPropertyChanged(nameof(FilteredPosts));
-            }
+            get { return (IPostCollectionViewModel) GetValue(FilteredPostsProperty); }
+            set { SetValue(FilteredPostsProperty, value); }
         }
+
+        /// <summary>
+        /// Фильтрованные посты.
+        /// </summary>
+        public static readonly DependencyProperty FilteredPostsProperty = DependencyProperty.Register("FilteredPosts", typeof (IPostCollectionViewModel), typeof (CatalogPage), new PropertyMetadata(null));
+
 
         private void SetFilter(string filter)
         {

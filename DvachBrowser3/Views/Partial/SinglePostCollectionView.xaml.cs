@@ -28,6 +28,7 @@ namespace DvachBrowser3.Views.Partial
         public SinglePostCollectionView()
         {
             this.InitializeComponent();
+            BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
         }
 
@@ -312,7 +313,12 @@ namespace DvachBrowser3.Views.Partial
         /// </summary>
         public event EventHandler GoButtonClick;
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private async void CopyTextFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {

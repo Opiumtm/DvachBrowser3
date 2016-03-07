@@ -186,12 +186,7 @@ namespace DvachBrowser3.TextRender
 
         private void InvokeTextRendered()
         {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                TextRendered?.Invoke(this, EventArgs.Empty);
-            });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            TextRendered?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

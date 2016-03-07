@@ -42,6 +42,7 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
         }
 
@@ -79,9 +80,7 @@ namespace DvachBrowser3.Views
             vm.Load.Progress.Finished += ProgressOnFinished;
             vm.Load.Progress.Started += ProgressOnStarted;
             vm.ImageSourceGot += ViewModelOnImageSourceGot;
-            DataContext = vm;
-            OnPropertyChanged(nameof(ViewModel));
-            OnPropertyChanged(nameof(ImageViewModel));
+            ViewModel = vm;
             NavigatedTo?.Invoke(this, e);
             var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
             var engine = engines.FindEngine(link.Engine);
@@ -266,13 +265,40 @@ namespace DvachBrowser3.Views
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public IBigMediaSourceViewModel ViewModel => DataContext as IBigMediaSourceViewModel;
+        public IBigMediaSourceViewModel ViewModel
+        {
+            get { return (IBigMediaSourceViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
 
         /// <summary>
-        /// Модель изображения.
+        /// Модель представления.
         /// </summary>
-        public IImageSourceViewModel ImageViewModel => DataContext as IImageSourceViewModel;
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IBigMediaSourceViewModel), typeof (MediaPage), new PropertyMetadata(null, ViewModelPropertyChangedCallback));
 
+        private static void ViewModelPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = d as MediaPage;
+            if (obj != null)
+            {
+                obj.ImageViewModel = e.NewValue as IImageSourceViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public IImageSourceViewModel ImageViewModel
+        {
+            get { return (IImageSourceViewModel) GetValue(ImageViewModelProperty); }
+            set { SetValue(ImageViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Модель представления.
+        /// </summary>
+        public static readonly DependencyProperty ImageViewModelProperty = DependencyProperty.Register("ImageViewModel", typeof (IImageSourceViewModel), typeof (MediaPage), new PropertyMetadata(null));
+            
         private PageView viewKind;
 
         private PageView ViewKind
@@ -310,7 +336,12 @@ namespace DvachBrowser3.Views
             OpenInBrowser
         }
 
-        public IStyleManager StyleManager { get; } = new StyleManager();
+        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
+
+        /// <summary>
+        /// Менеджер стилей.
+        /// </summary>
+        public IStyleManager StyleManager => styleManager.Value;
 
         private bool isLoaded;
 
