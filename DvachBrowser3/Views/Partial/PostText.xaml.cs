@@ -35,6 +35,10 @@ namespace DvachBrowser3.Views.Partial
             sizeChangeDelay.SizeUpdated += SizeChangeDelayOnSizeUpdated;
             RefreshView();
             this.Loaded += OnLoaded;
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

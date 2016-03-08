@@ -34,6 +34,10 @@ namespace DvachBrowser3.Views.Partial
                 TextRendered?.Invoke(this, e);
             };
             Shell.IsNarrowViewChanged.AddCallback(this);
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private void RefreshView()

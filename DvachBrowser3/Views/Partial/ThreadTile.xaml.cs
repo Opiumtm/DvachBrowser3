@@ -38,6 +38,10 @@ namespace DvachBrowser3.Views.Partial
             this.timerOnClick = CreateTimerOnTick(new WeakReference<ThreadTile>(this));
             this.Loaded += OnLoaded;
             this.Unloaded += OnUnloaded;
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private readonly EventHandler<object> timerOnClick;

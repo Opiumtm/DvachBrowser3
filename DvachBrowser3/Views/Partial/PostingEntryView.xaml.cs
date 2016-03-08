@@ -31,6 +31,10 @@ namespace DvachBrowser3.Views.Partial
             {
                 AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
             };
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

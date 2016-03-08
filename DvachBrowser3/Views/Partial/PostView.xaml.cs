@@ -30,6 +30,10 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             MainGrid.DataContext = this;
             this.Loaded += OnLoaded;
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

@@ -26,6 +26,10 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             BindingRoot.DataContext = DataContext;
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         /// <summary>
