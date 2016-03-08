@@ -72,8 +72,7 @@ namespace DvachBrowser3.Engines
         /// </summary>
         protected virtual void SignalProcessingJson()
         {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "PARSE";
+            var otherData = new HttpEngineProgressOtherData() { Kind = "PARSE" };
             OnProgress(new EngineProgress("Чтение JSON...", null, otherData));
         }
 

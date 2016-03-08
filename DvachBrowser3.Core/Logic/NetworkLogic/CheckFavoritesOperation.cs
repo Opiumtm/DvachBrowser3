@@ -143,9 +143,8 @@ namespace DvachBrowser3.Logic.NetworkLogic
             {
                 var msg = string.Format("Проверка {0}/{1}", count + 1, totalCount);
                 var percent = totalCount > 0 ? (double) (count + 1)/totalCount * 100.0 : 0.0;
-                dynamic other = new ExpandoObject();
-                other.Kind = "THREAD STATUS";
-                OnProgress(new EngineProgress(msg, percent, other));
+                var otherData = new EngineProgressOtherData() { Kind = "THREAD STATUS" };
+                OnProgress(new EngineProgress(msg, percent, otherData));
             }
             catch (Exception ex)
             {

@@ -27,8 +27,8 @@ namespace DvachBrowser3.Views.Partial
     {
         private DispatcherTimer timer;
 
-        private DoubleAnimation imageSlideInAnimation;
-        private DoubleAnimation imageSlideOutAnimation;
+        private WeakReference<DoubleAnimation> imageSlideInAnimationHandle;
+        private WeakReference<DoubleAnimation> imageSlideOutAnimationHandle;
 
         public ThreadTile()
         {
@@ -38,10 +38,6 @@ namespace DvachBrowser3.Views.Partial
             this.timerOnClick = CreateTimerOnTick(new WeakReference<ThreadTile>(this));
             this.Loaded += OnLoaded;
             this.Unloaded += OnUnloaded;
-            this.Unloaded += (sender, e) =>
-            {
-                ViewModel = null;
-            };
         }
 
         private readonly EventHandler<object> timerOnClick;
@@ -52,23 +48,25 @@ namespace DvachBrowser3.Views.Partial
             SetTimePeriod();
             timer.Tick += timerOnClick;
             timer.Start();
-            TileImageTransform.Y = StyleManager.Tiles.BoardTileHeight;
-            imageSlideInAnimation = new DoubleAnimation()
+            TileImageTransform.Y = styleManager.Tiles.BoardTileHeight;
+            var imageSlideInAnimation = new DoubleAnimation()
             {
                 From = 0,
                 To = 0,
                 Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
                 EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn },
             };
+            imageSlideInAnimationHandle = new WeakReference<DoubleAnimation>(imageSlideInAnimation);
             Storyboard.SetTargetName(imageSlideInAnimation, "TileImageTransform");
             Storyboard.SetTargetProperty(imageSlideInAnimation, "Y");
-            imageSlideOutAnimation = new DoubleAnimation()
+            var imageSlideOutAnimation = new DoubleAnimation()
             {
                 From = 0,
                 To = 0,
                 Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
                 EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseOut },
             };
+            imageSlideOutAnimationHandle = new WeakReference<DoubleAnimation>(imageSlideOutAnimation);
             Storyboard.SetTargetName(imageSlideOutAnimation, "TileImageTransform");
             Storyboard.SetTargetProperty(imageSlideOutAnimation, "Y");
             ((Storyboard)Resources["ImageSlideIn"]).Children.Add(imageSlideInAnimation);
@@ -78,6 +76,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            ViewModel = null;
             var t = timer;
             if (t != null)
             {
@@ -98,25 +97,13 @@ namespace DvachBrowser3.Views.Partial
         /// <summary>
         /// Модель представления.
         /// </summary>
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null, PropertyChangedCallback));
-
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == ViewModelProperty)
-            {
-            }
-        }
-
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
-        /// <summary>
-        /// Менеджер стилей.
-        /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (ICommonTileViewModel), typeof (ThreadTile), new PropertyMetadata(null));
 
         private bool isImageSlided = false;
 
         private static readonly Random Rnd = new Random();
+
+        private IStyleManager styleManager = StyleManagerFactory.Current.GetManager();
 
         private void SetTimePeriod()
         {
@@ -180,11 +167,19 @@ namespace DvachBrowser3.Views.Partial
 
         private void UpdateAnimationData()
         {
-            imageSlideInAnimation.From = -1*StyleManager.Tiles.BoardTileHeight;
-            imageSlideOutAnimation.To = StyleManager.Tiles.BoardTileHeight;
+            DoubleAnimation imageSlideInAnimation;
+            if (imageSlideInAnimationHandle.TryGetTarget(out imageSlideInAnimation))
+            {
+                imageSlideInAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
+            }
+            DoubleAnimation imageSlideOutAnimation;
+            if (imageSlideOutAnimationHandle.TryGetTarget(out imageSlideOutAnimation))
+            {
+                imageSlideOutAnimation.To = styleManager.Tiles.BoardTileHeight;
+            }
             MainBorder.Clip = new RectangleGeometry()
             {
-                Rect = new Rect(0, 0, StyleManager.Tiles.BoardTileWidth, StyleManager.Tiles.BoardTileHeight)
+                Rect = new Rect(0, 0, styleManager.Tiles.BoardTileWidth, styleManager.Tiles.BoardTileHeight)
             };
         }
 

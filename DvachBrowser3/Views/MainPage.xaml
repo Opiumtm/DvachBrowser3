@@ -15,7 +15,7 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="MainSource" IsSourceGrouped="True"></CollectionViewSource>
+        <CollectionViewSource x:Key="MainSource" IsSourceGrouped="True"></CollectionViewSource>
         <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
             <views:MainTileTemplateSelector.BoardTemplate>
                 <DataTemplate x:DataType="viewModels:IMainTileViewModel">
@@ -88,7 +88,7 @@
                         <GridView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
-                                    <DataTemplate x:DataType="viewModels:IMainGroupViewModel">
+                                    <DataTemplate>
                                         <TextBlock FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
@@ -97,9 +97,9 @@
                     </GridView>
                 </SemanticZoom.ZoomedInView>
                 <SemanticZoom.ZoomedOutView>
-                    <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
+                    <ListView ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:IMainGroupViewModel">
+                            <DataTemplate>
                                 <TextBlock Margin="10" FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>

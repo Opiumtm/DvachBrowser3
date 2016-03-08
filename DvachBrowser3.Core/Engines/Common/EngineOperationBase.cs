@@ -61,8 +61,7 @@ namespace DvachBrowser3.Engines
         /// </summary>
         protected virtual void SignalProcessing()
         {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "PARSE";
+            var otherData = new EngineProgressOtherData() { Kind = "PARSE" };
             OnProgress(new EngineProgress("Обработка данных...", null, otherData));            
         }
 

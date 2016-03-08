@@ -48,7 +48,7 @@ namespace DvachBrowser3.ViewModels
         {
             try
             {
-                return progress.OtherData.Kind == "WAIT";
+                return progress.OtherData?.Kind == "WAIT";
             }
             catch
             {

@@ -45,7 +45,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             {
                 throw new ArgumentException("Неправильный тип ссылки");
             }
-            dynamic other1 = new ExpandoObject();
+            var other1 = new EngineProgressOtherData();
             other1.Kind = "ARCHIVE";
             OnProgress(new EngineProgress(engine.EngineUriService.GetBrowserLink(threadLink).ToString(), 0.0, other1));
             token.ThrowIfCancellationRequested();
@@ -88,7 +88,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
             int counter = 0;
             foreach (var t in thumbnails)
             {
-                dynamic other = new ExpandoObject();
+                var other = new EngineProgressOtherData();
                 other.Kind = "ARCHIVE";
                 var percent = ((double) counter + 1)/thumbnails.Length*100.0;
                 OnProgress(new EngineProgress(engine.EngineUriService.GetBrowserLink(t).ToString(), percent, other));

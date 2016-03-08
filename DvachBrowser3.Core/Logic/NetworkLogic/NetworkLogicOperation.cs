@@ -74,7 +74,7 @@ namespace DvachBrowser3.Logic.NetworkLogic
         /// <param name="kind">Тип операции.</param>
         protected virtual void SignalProcessing(string msg, string kind)
         {
-            dynamic otherData = new ExpandoObject();
+            var otherData = new EngineProgressOtherData();
             otherData.Kind = kind;
             OnProgress(new EngineProgress(msg, null, otherData));
         }

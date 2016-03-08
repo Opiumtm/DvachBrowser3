@@ -12,7 +12,7 @@
     xmlns:behaviors="using:DvachBrowser3.Behaviors"
     d:DesignHeight="800"
     d:DesignWidth="400"
-    x:Name="MainControl">
+    >
 
     <UserControl.Resources>
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

@@ -387,5 +387,15 @@ namespace DvachBrowser3.Views.Partial
                 await AppHelpers.ShowError(ex);
             }
         }
+
+        private void PostView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var postView = sender as PostView;
+            postView?.SetBinding(PostView.MaxLinesProperty, new Binding() { Source = this, Path = new PropertyPath("MaxLines") });
+            postView?.SetBinding(PostView.ShowCounterProperty, new Binding() { Source = this, Path = new PropertyPath("ShowCounter") });
+            postView?.SetBinding(PostView.ShowPreviewSeparatorProperty, new Binding() { Source = this, Path = new PropertyPath("ShowPreviewSeparator") });
+            postView?.SetBinding(PostView.ShowFullThreadTextProperty, new Binding() { Source = this, Path = new PropertyPath("ShowFullThreadText") });
+            postView?.SetBinding(PostView.ShowFullPostButtonProperty, new Binding() { Source = this, Path = new PropertyPath("ShowFullPostButton") });
+        }
     }
 }

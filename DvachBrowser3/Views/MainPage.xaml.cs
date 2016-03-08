@@ -124,6 +124,8 @@ namespace DvachBrowser3.Views
         /// </summary>
         public IStyleManager StyleManager => styleManager.Value;
 
+        private CollectionViewSource MainSource => Resources["MainSource"] as CollectionViewSource;
+
         private void InitViewModel()
         {
             ViewModel = new MainViewModel();

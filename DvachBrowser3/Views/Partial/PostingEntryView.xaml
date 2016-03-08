@@ -14,7 +14,7 @@
     mc:Ignorable="d"
     d:DesignHeight="768"
     d:DesignWidth="1024"
-    x:Name="ThisControl">
+    >
     
     <UserControl.Resources>
         <DataTemplate x:DataType="x:String" x:Key="PostingPivotHeaderTemplate">
@@ -78,7 +78,7 @@
                         </Grid>
                         <Grid>
                             <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{x:Bind ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
+                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" Loaded="IconBox_OnLoaded">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IPostingIconElement">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
@@ -172,7 +172,7 @@
                                          />
                             </Grid>
                             <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{x:Bind ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
+                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" Loaded="IconBox_OnLoaded">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IPostingIconElement">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">

@@ -11,10 +11,10 @@
       xmlns:behaviors="using:Template10.Behaviors"
       xmlns:ps="using:DvachBrowser3.PageServices"
       xmlns:localBehaviors="using:DvachBrowser3.Behaviors"
-      mc:Ignorable="d" x:Name="ThisPage">
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
+        <CollectionViewSource x:Key="BoardSource" IsSourceGrouped="True"></CollectionViewSource>
     </Page.Resources>
     
     <ps:PageServices.Services>
@@ -97,7 +97,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock FontSize="{Binding ElementName=ThisPage, Path=ViewModel.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
+                                        <TextBlock FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -108,7 +108,7 @@
                     <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource BoardSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="10" FontSize="{Binding ElementName=ThisPage, Path=ViewModel.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Group.Name}" />
+                                <TextBlock Margin="10" FontSize="{Binding Path=Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

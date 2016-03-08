@@ -120,5 +120,11 @@ namespace DvachBrowser3.Views.Partial
         {
             e.ApplyToTextBox(CommentBox2);
         }
+
+        private void IconBox_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            cb?.SetBinding(ComboBox.SelectedItemProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Fields.Icon.AsBaseIntf.Value"), Mode = BindingMode.TwoWay});
+        }
     }
 }

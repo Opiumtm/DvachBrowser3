@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
+using DvachBrowser3.Styles;
 using Template10.Mvvm;
 
 namespace DvachBrowser3.ViewModels
@@ -40,5 +41,7 @@ namespace DvachBrowser3.ViewModels
         /// Есть элементы.
         /// </summary>
         public bool HasItems => this.Count > 0;
-   }
+
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
+    }
 }

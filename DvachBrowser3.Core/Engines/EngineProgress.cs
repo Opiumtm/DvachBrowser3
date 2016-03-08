@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DvachBrowser3.Engines
 {
@@ -20,7 +21,7 @@ namespace DvachBrowser3.Engines
         /// <summary>
         /// Дополнительные данные.
         /// </summary>
-        public dynamic OtherData { get; private set; }
+        public EngineProgressOtherData OtherData { get; private set; }
 
         /// <summary>
         /// Конструктор.
@@ -28,11 +29,22 @@ namespace DvachBrowser3.Engines
         /// <param name="message">Сообщение.</param>
         /// <param name="percent">Прогресс в процентах.</param>
         /// <param name="otherData">Дополнительные данные.</param>
-        public EngineProgress(string message, double? percent, dynamic otherData = null)
+        public EngineProgress(string message, double? percent, EngineProgressOtherData otherData = null)
         {
             Message = message;
             Percent = percent;
             OtherData = otherData;
         }
+    }
+
+    /// <summary>
+    /// Дополнительные данные.
+    /// </summary>
+    public class EngineProgressOtherData
+    {
+        /// <summary>
+        /// Тип операции.
+        /// </summary>
+        public string Kind { get; set; }        
     }
 }

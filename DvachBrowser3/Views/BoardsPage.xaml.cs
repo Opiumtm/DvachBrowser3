@@ -56,6 +56,8 @@ namespace DvachBrowser3.Views
             }
         }
 
+        private CollectionViewSource BoardSource => Resources["BoardSource"] as CollectionViewSource;
+
         private void InitViewModel()
         {
             ViewModel = new BoardListViewModel();

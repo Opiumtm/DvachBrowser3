@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -137,9 +136,11 @@ namespace DvachBrowser3.Engines
         /// <param name="progressInfo">Прогресс.</param>
         protected virtual void HttpOperationProgress(HttpProgress progressInfo)
         {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "HTTP";
-            otherData.HttpProgress = progressInfo;
+            var otherData = new HttpEngineProgressOtherData()
+            {
+                Kind = "HTTP",
+                Progress = progressInfo
+            };
             if (progressInfo.Stage == HttpProgressStage.ReceivingContent)
             {
                 if (progressInfo.TotalBytesToReceive != null && progressInfo.TotalBytesToReceive > 0)
@@ -176,8 +177,10 @@ namespace DvachBrowser3.Engines
         /// <param name="progressInfo">Загружено.</param>
         protected virtual void DownloadProgress(ulong? total, ulong progressInfo)
         {
-            dynamic otherData = new ExpandoObject();
-            otherData.Kind = "DOWNLOAD";
+            var otherData = new EngineProgressOtherData()
+            {
+                Kind = "DOWNLOAD"
+            };
             if (total != null && total > 0)
             {
                 OnProgress(new EngineProgress(string.Format("Получено {0}/{1}", BytesToStr(progressInfo), BytesToStr(total.Value)), (double)progressInfo / (double)(total.Value) * 100.0, otherData));
@@ -210,5 +213,16 @@ namespace DvachBrowser3.Engines
             //return bytes.ToString(CultureInfo.InvariantCulture);
             return string.Format("{0:F1} байт", (double)bytes / (double)Kb);
         }
+    }
+
+    /// <summary>
+    /// Прогресс HTTP орперации.
+    /// </summary>
+    public class HttpEngineProgressOtherData : EngineProgressOtherData
+    {
+        /// <summary>
+        /// Прогресс.
+        /// </summary>
+        public HttpProgress Progress { get; set; }
     }
 }

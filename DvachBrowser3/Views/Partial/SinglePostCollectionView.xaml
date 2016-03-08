@@ -11,7 +11,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    x:Name="ThisControl">
+    >
     
     <UserControl.Resources>
         <CollectionViewSource x:Key="CollectionView" />
@@ -29,12 +29,9 @@
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="vm:IPostViewModel">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-                            <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
-                                    ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
-                                    ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
-                                    ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
-                                    ShowFullPostButton="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Mode=OneWay}"
+                            <local:PostView ViewModel="{x:Bind}" 
                                     ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"
+                                    Loaded="PostView_OnLoaded"                                    
                                     VerticalAlignment="Top">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
