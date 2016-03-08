@@ -108,7 +108,7 @@
                     <ListView x:Name="ZoomOutView" ItemsSource="{Binding Source={StaticResource BoardSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="10" FontSize="{Binding Path=Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Name}" />
+                                <TextBlock Margin="10" FontSize="{Binding Path=Group.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Group.Name}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

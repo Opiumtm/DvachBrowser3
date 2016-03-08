@@ -136,7 +136,7 @@ namespace DvachBrowser3.ViewModels
         /// <param name="arg">Аргумент.</param>
         public void Start2(object arg)
         {
-            AppHelpers.DispatchAction(async () =>
+            AppHelpers.ActionOnUiThread(async () =>
             {
                 if (!CanStart)
                 {
@@ -161,7 +161,7 @@ namespace DvachBrowser3.ViewModels
                     await DoOperation(operation, arg);
                 };
                 await action();
-            }, false, 0);
+            });
         }
 
         public void Start()
@@ -171,7 +171,7 @@ namespace DvachBrowser3.ViewModels
 
         private void OperationOnProgress(object sender, TProgress p)
         {
-            BootStrapper.Current.NavigationService.Dispatcher.Dispatch(() =>
+            AppHelpers.ActionOnUiThread(() =>
             {
                 var progressValue = GetProgress(p);
                 var messageValue = GetMessage(p);
@@ -187,6 +187,7 @@ namespace DvachBrowser3.ViewModels
                 }
                 Message = messageValue;
                 IsWaiting = GetIsWaiting(p);
+                return Task.CompletedTask;
             });
         }
 
@@ -414,27 +415,14 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public event OperationProgressFinishedEventHandler Finished;
 
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
 
         /// <summary>
         /// Получен результат.
         /// </summary>
         public event EventHandler<TResult> ResultGot;
-    }
-
-    /// <summary>
-    /// Диспетчер асинхронных операций.
-    /// </summary>
-    public static class EngineOperationWrapperDispatcher
-    {
-        /// <summary>
-        /// Диспетчер.
-        /// </summary>
-        public static readonly AsyncOperationDispatcher Dispatcher = new AsyncOperationDispatcher(100);
     }
 }

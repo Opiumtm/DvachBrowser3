@@ -100,7 +100,7 @@
                     <ListView ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Margin="10" FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
+                                <TextBlock Margin="10" FontSize="{Binding Path=Group.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Group.Name, Mode=OneWay}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

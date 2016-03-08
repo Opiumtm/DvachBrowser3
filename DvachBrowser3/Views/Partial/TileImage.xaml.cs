@@ -43,7 +43,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void ViewModelChanged(IImageSourceViewModel oldValue, IImageSourceViewModel newValue)
         {
-            AppHelpers.ActionOnUiThread(() =>
+            AppHelpers.DispatchAction(() =>
             {
                 if (oldValue != null)
                 {
@@ -70,7 +70,7 @@ namespace DvachBrowser3.Views.Partial
                     }
                 }
                 return Task.CompletedTask;
-            });
+            }, false, 10);
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
