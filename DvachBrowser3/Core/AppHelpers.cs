@@ -119,7 +119,7 @@ namespace DvachBrowser3
             disp?.DispatchAsync(async () =>
             {
                 await RunAction(a, reportError);
-            });
+            }, 25);
         }
 
         private static async Task RunAction(Func<Task> a, bool reportError = false)

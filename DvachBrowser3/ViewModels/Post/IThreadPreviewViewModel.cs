@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Links;
+﻿using System.Threading.Tasks;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {

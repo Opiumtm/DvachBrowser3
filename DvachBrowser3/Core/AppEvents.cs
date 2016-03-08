@@ -153,7 +153,7 @@ namespace DvachBrowser3
                     AppEventsTokenBase obj;
                     if (token.TryGetTarget(out obj))
                     {
-                        obj.PageLifetimeOnNavigatedTo(sender, e);
+                        obj.PageLifetimeOnNavigatedFrom(sender, e);
                     }
                 };
             }
