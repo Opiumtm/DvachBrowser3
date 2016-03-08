@@ -14,7 +14,7 @@
     x:Name="ThisControl">
 
     <Grid x:Name="BindingRoot">
-        <ListView x:Name="MainList" ItemsSource="{Binding ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{Binding Header, Mode=OneWay}" Footer="{Binding Footer, Mode=OneWay}">
+        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{x:Bind Header, Mode=OneWay}" Footer="{x:Bind Footer, Mode=OneWay}">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection />
             </ListView.ItemContainerTransitions>
@@ -34,7 +34,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IPostViewModel">
-                    <local:PostView ViewModel="{Binding}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
+                    <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
                                     ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
@@ -44,11 +44,11 @@
                             <behaviors:PopupMenuBehavior>
                                 <behaviors:PopupMenuBehavior.MenuFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="Копировать текст" Tag="{Binding}" Click="CopyTextFlyoutItem_OnClick"/>
-                                        <MenuFlyoutItem Text="Копировать ссылку" Tag="{Binding}" Click="CopyLinkFlyoutItem_OnClick" />
-                                        <MenuFlyoutItem Text="Во весь экран" Tag="{Binding}" Click="ShowFullScreenFlyoutItem_OnClick"
+                                        <MenuFlyoutItem Text="Копировать текст" Tag="{x:Bind}" Click="CopyTextFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="Во весь экран" Tag="{x:Bind}" Click="ShowFullScreenFlyoutItem_OnClick"
                                                         Visibility="{Binding ElementName=ThisControl, Path=ShowFullPostButton, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>
-                                        <MenuFlyoutItem Text="Ответить" Tag="{Binding}" Click="PostQuoteFlyoutItem_OnClick"/>
+                                        <MenuFlyoutItem Text="Ответить" Tag="{x:Bind}" Click="PostQuoteFlyoutItem_OnClick"/>
                                     </MenuFlyout>
                                 </behaviors:PopupMenuBehavior.MenuFlyout>
                             </behaviors:PopupMenuBehavior>

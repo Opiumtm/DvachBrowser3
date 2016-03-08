@@ -37,7 +37,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame}" FontWeight="Bold"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" FontWeight="Bold"
                              Content="ИНФОРМАЦИЯ О ДОСКЕ">
             <Interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
@@ -51,12 +51,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="100*" />
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0" Margin="4" IsIndeterminate="True" Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}" />
-            <TextBlock Grid.Row="1" Margin="4" Visibility="{Binding ViewModel.InFavorites, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">Доска находится в избранных</TextBlock>
-            <Grid Grid.Row="2" Visibility="{Binding ViewModel.NoInfoAvailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
+            <ProgressBar Grid.Row="0" Margin="4" IsIndeterminate="True" Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}" />
+            <TextBlock Grid.Row="1" Margin="4" Visibility="{x:Bind ViewModel.InFavorites, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">Доска находится в избранных</TextBlock>
+            <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.NoInfoAvailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
                 <TextBlock FontSize="24" TextWrapping="Wrap">Нет доступной информации</TextBlock>
             </Grid>
-            <Grid Grid.Row="2" Visibility="{Binding ViewModel.InfoAvailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
+            <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.InfoAvailable, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
                 <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch">
                     <StackPanel HorizontalAlignment="Stretch">
                         <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 0, 0, 8">
@@ -83,15 +83,15 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" TextWrapping="Wrap">Ресурс:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.Resource, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.Resource, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" TextWrapping="Wrap">Имя:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.ShortName, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.ShortName, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" TextWrapping="Wrap">Описание:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="2" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.DisplayName, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.DisplayName, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="3" FontWeight="Bold" TextWrapping="Wrap">Категория:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="3" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.Category, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.Category, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="4" FontWeight="Bold" TextWrapping="Wrap">Not Safe For Work:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="4" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.NotSafeForWork, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.NotSafeForWork, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
                         </Grid>
                         <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 12, 0, 8">
                             <Border.BorderBrush>
@@ -114,23 +114,23 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" TextWrapping="Wrap">Имя движка:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.Engine, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.Engine, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" TextWrapping="Wrap">Возможности:</TextBlock>
-                            <ItemsControl Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" ItemsSource="{Binding ViewModel.BoardInfo.EngineCapabilities, Mode=OneWay}">
+                            <ItemsControl Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" ItemsSource="{x:Bind ViewModel.BoardInfo.EngineCapabilities, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IBoadInfoString">
-                                        <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" Text="{Binding Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
+                                        <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Grid>
-                        <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 12, 0, 8" Visibility="{Binding ViewModel.BoardInfo.MakabaInfo, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
+                        <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 12, 0, 8" Visibility="{x:Bind ViewModel.BoardInfo.MakabaInfo, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
                             <Border.BorderBrush>
                                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.33"></SolidColorBrush>
                             </Border.BorderBrush>
                             <TextBlock FontSize="{ThemeResource GridViewHeaderItemThemeFontSize}" FontWeight="SemiBold" Margin="0, 0, 0, 8">Информация Makaba</TextBlock>
                         </Border>
-                        <Grid Visibility="{Binding ViewModel.BoardInfo.MakabaInfo, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
+                        <Grid Visibility="{x:Bind ViewModel.BoardInfo.MakabaInfo, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
                             <Grid.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontSize" Value="{StaticResource InfoFontSize}"></Setter>
@@ -150,40 +150,40 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" TextWrapping="Wrap">Имя по умолчанию:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.DefaultName, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.DefaultName, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" TextWrapping="Wrap">Бамплимит:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.BumpLimit, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.BumpLimit, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
                             <TextBlock Grid.Column="0" Grid.Row="2" FontWeight="Bold" TextWrapping="Wrap">Страниц:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="2" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.Pages, Mode=OneWay}" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.Pages, Mode=OneWay}" />
                             <TextBlock Grid.Column="0" Grid.Row="3" FontWeight="Bold" TextWrapping="Wrap">Сажа:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="3" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.Sage, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.Sage, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
                             <TextBlock Grid.Column="0" Grid.Row="4" FontWeight="Bold" TextWrapping="Wrap">Трипкоды:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="4" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.TripCodes, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.TripCodes, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" />
                             <TextBlock Grid.Column="0" Grid.Row="5" FontWeight="Bold" TextWrapping="Wrap">Максимальный размер поста:</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="5" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{Binding ViewModel.BoardInfo.MakabaInfo.MaxCommentSize, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
-                            <TextBlock Grid.Column="0" Grid.Row="6" FontWeight="Bold" TextWrapping="Wrap" Visibility="{Binding ViewModel.BoardInfo.MakabaInfo.HasIcons, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">Иконки:</TextBlock>
-                            <ItemsControl Grid.Column="1" Grid.Row="6" Margin="16, 0, 0, 0" Visibility="{Binding ViewModel.BoardInfo.MakabaInfo.HasIcons, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                          ItemsSource="{Binding ViewModel.BoardInfo.MakabaInfo.Icons, Mode=OneWay}">
+                            <TextBlock Grid.Column="1" Grid.Row="5" Margin="16, 0, 0, 0" TextWrapping="Wrap" Text="{x:Bind ViewModel.BoardInfo.MakabaInfo.MaxCommentSize, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
+                            <TextBlock Grid.Column="0" Grid.Row="6" FontWeight="Bold" TextWrapping="Wrap" Visibility="{x:Bind ViewModel.BoardInfo.MakabaInfo.HasIcons, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}">Иконки:</TextBlock>
+                            <ItemsControl Grid.Column="1" Grid.Row="6" Margin="16, 0, 0, 0" Visibility="{x:Bind ViewModel.BoardInfo.MakabaInfo.HasIcons, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                          ItemsSource="{x:Bind ViewModel.BoardInfo.MakabaInfo.Icons, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IBoardInfoIcon">
                                         <StackPanel Orientation="Horizontal">
                                             <Border Margin="0, 0, 8, 0" Padding="2" Background="DarkGray">
-                                                <Image Source="{Binding Icon.Image, Mode=OneWay}" Width="16" Height="16" VerticalAlignment="Center" />
+                                                <Image Source="{x:Bind Icon.Image, Mode=OneWay}" Width="16" Height="16" VerticalAlignment="Center" />
                                             </Border>
-                                            <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding Name, Mode=OneWay}" />
+                                            <TextBlock FontSize="{StaticResource InfoFontSize}" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{x:Bind Name, Mode=OneWay}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Grid>
-                        <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 12, 0, 8" Visibility="{Binding ViewModel.BoardInfo.Posting, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
+                        <Border HorizontalAlignment="Stretch" BorderThickness="0, 0, 0, 1" Margin="0, 12, 0, 8" Visibility="{x:Bind ViewModel.BoardInfo.Posting, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}">
                             <Border.BorderBrush>
                                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.33"></SolidColorBrush>
                             </Border.BorderBrush>
                             <TextBlock FontSize="{ThemeResource GridViewHeaderItemThemeFontSize}" FontWeight="SemiBold" Margin="0, 0, 0, 8">Возможности постинга</TextBlock>
                         </Border>
-                        <ItemsControl Visibility="{Binding ViewModel.BoardInfo.Posting, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
-                                      ItemsSource="{Binding ViewModel.BoardInfo.Posting.Capabilities, Mode=OneWay}">
+                        <ItemsControl Visibility="{x:Bind ViewModel.BoardInfo.Posting, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
+                                      ItemsSource="{x:Bind ViewModel.BoardInfo.Posting.Capabilities, Mode=OneWay}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:IBoardInfoPostingCapability">
                                     <Grid>
@@ -196,30 +196,30 @@
                                             <ColumnDefinition Width="33*" />
                                             <ColumnDefinition Width="66*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" TextWrapping="Wrap" Text="{Binding Path=Role, Mode=OneWay}" />
+                                        <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind Path=Role, Mode=OneWay}" />
                                         <StackPanel Grid.Column="1" Grid.Row="0">
-                                            <StackPanel Visibility="{Binding IsMediaCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
+                                            <StackPanel Visibility="{x:Bind IsMediaCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
                                                 <TextBlock TextWrapping="Wrap">
                                                     <Run>Максимальное количество файлов: </Run>
-                                                    <Run Text="{Binding MaxMediaFileCount, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
+                                                    <Run Text="{x:Bind MaxMediaFileCount, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
                                                 </TextBlock>
                                             </StackPanel>
-                                            <StackPanel Visibility="{Binding IsCommentCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
+                                            <StackPanel Visibility="{x:Bind IsCommentCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
                                                 <TextBlock TextWrapping="Wrap">
                                                     <Run>Максимальное количество символов: </Run>
-                                                    <Run Text="{Binding MaxCommentLength, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
+                                                    <Run Text="{x:Bind MaxCommentLength, Mode=OneWay, Converter={StaticResource NullableIntStringConverter}}" />
                                                 </TextBlock>
                                                 <TextBlock TextWrapping="Wrap">
                                                     <Run>Тип разметки: </Run>
-                                                    <Run Text="{Binding CommentMarkup, Mode=OneWay}" />
+                                                    <Run Text="{x:Bind CommentMarkup, Mode=OneWay}" />
                                                 </TextBlock>
                                             </StackPanel>
-                                            <StackPanel Visibility="{Binding IsCaptchaCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
+                                            <StackPanel Visibility="{x:Bind IsCaptchaCapability, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="16, 0, 0, 0">
                                                 <TextBlock TextWrapping="Wrap">Поддерживаемые типы капчи:</TextBlock>
-                                                <ItemsControl ItemsSource="{Binding CaptchaTypes, Mode=OneWay}">
+                                                <ItemsControl ItemsSource="{x:Bind CaptchaTypes, Mode=OneWay}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate x:DataType="vm:IBoadInfoString">
-                                                            <TextBlock FontSize="{StaticResource InfoFontSize}" Text="{Binding Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
+                                                            <TextBlock FontSize="{StaticResource InfoFontSize}" Text="{x:Bind Value, Mode=OneWay, Converter={StaticResource ListBulletConverter}}" />
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>

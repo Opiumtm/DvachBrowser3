@@ -79,11 +79,10 @@ namespace DvachBrowser3.ViewModels
             return true;
         }
 
-        private async Task DoLoadImplOnResultGot(object sender, EventArgs e)
+        private async Task DoLoadImplOnResultGot(object sender, StorageFile result)
         {
             try
             {
-                var result = LoadImpl.Result;
                 if (result == null)
                 {
                     Image = null;
@@ -126,9 +125,9 @@ namespace DvachBrowser3.ViewModels
             }
         }
 
-        private void LoadImplOnResultGot(object sender, EventArgs e)
+        private void LoadImplOnResultGot(object sender, StorageFile result)
         {
-            AppHelpers.DispatchAction(() => DoLoadImplOnResultGot(sender, e));
+            AppHelpers.DispatchAction(() => DoLoadImplOnResultGot(sender, result));
         }
 
         /// <summary>

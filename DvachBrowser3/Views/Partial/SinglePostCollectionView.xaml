@@ -24,12 +24,12 @@
                 <RowDefinition Height="100*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ContentPresenter Grid.Row="0" Content="{Binding Header, Mode=OneWay}" ContentTemplate="{Binding HeaderTemplate, Mode=OneWay}" />
+            <ContentPresenter Grid.Row="0" Content="{x:Bind Header, Mode=OneWay}" ContentTemplate="{x:Bind HeaderTemplate, Mode=OneWay}" />
             <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{Binding Source={StaticResource CollectionView}}" Background="Transparent" SelectionChanged="MainList_OnSelectionChanged" UseTouchAnimationsForAllNavigation="False">
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="vm:IPostViewModel">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-                            <local:PostView ViewModel="{Binding}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
+                            <local:PostView ViewModel="{x:Bind}" MaxLines="{Binding ElementName=ThisControl, Path=MaxLines, Mode=OneWay}"
                                     ShowCounter="{Binding ElementName=ThisControl, Path=ShowCounter, Mode=OneWay}" 
                                     ShowPreviewSeparator="{Binding ElementName=ThisControl, Path=ShowPreviewSeparator, Mode=OneWay}"
                                     ShowFullThreadText="{Binding ElementName=ThisControl, Path=ShowFullThreadText, Mode=OneWay}"
@@ -41,9 +41,9 @@
                                     <behaviors:PopupMenuBehavior>
                                         <behaviors:PopupMenuBehavior.MenuFlyout>
                                             <MenuFlyout>
-                                                <MenuFlyoutItem Text="Копировать текст" Tag="{Binding}" Click="CopyTextFlyoutItem_OnClick"/>
-                                                <MenuFlyoutItem Text="Копировать ссылку" Tag="{Binding}" Click="CopyLinkFlyoutItem_OnClick" />
-                                                <MenuFlyoutItem Text="Ответить" Tag="{Binding}" Click="PostQuoteFlyoutItem_OnClick"/>
+                                                <MenuFlyoutItem Text="Копировать текст" Tag="{x:Bind}" Click="CopyTextFlyoutItem_OnClick"/>
+                                                <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
+                                                <MenuFlyoutItem Text="Ответить" Tag="{x:Bind}" Click="PostQuoteFlyoutItem_OnClick"/>
                                             </MenuFlyout>
                                         </behaviors:PopupMenuBehavior.MenuFlyout>
                                     </behaviors:PopupMenuBehavior>
@@ -53,7 +53,7 @@
                     </DataTemplate>
                 </FlipView.ItemTemplate>
             </FlipView>
-            <ContentPresenter Grid.Row="2" Content="{Binding Footer, Mode=OneWay}" ContentTemplate="{Binding FooterTemplate, Mode=OneWay}" />
+            <ContentPresenter Grid.Row="2" Content="{x:Bind Footer, Mode=OneWay}" ContentTemplate="{x:Bind FooterTemplate, Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>

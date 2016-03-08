@@ -14,12 +14,12 @@
         <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid Visibility="{Binding IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" x:Name="BindingRoot">
+    <Grid Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" x:Name="BindingRoot">
         <Border Padding="4" Margin="4">
             <StackPanel>
-                <ProgressBar IsIndeterminate="{Binding IsIndeterminate, Mode=OneWay}" Minimum="0" Maximum="100" Margin="2" Value="{Binding Progress, Mode=OneWay}" />
-                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Visibility="{Binding IsShowMessage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                   Text="{Binding Message, Mode=OneWay}" FontSize="{Binding ViewModel.StyleManager.Text.PostFontSize, Mode=OneWay}" Margin="2"/>
+                <ProgressBar IsIndeterminate="{x:Bind IsIndeterminate, Mode=OneWay}" Minimum="0" Maximum="100" Margin="2" Value="{x:Bind Progress, Mode=OneWay}" />
+                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Visibility="{x:Bind IsShowMessage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                   Text="{x:Bind Message, Mode=OneWay}" FontSize="{x:Bind ViewModel.StyleManager.Text.PostFontSize, Mode=OneWay}" Margin="2"/>
             </StackPanel>
         </Border>
     </Grid>

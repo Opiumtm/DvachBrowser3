@@ -11,6 +11,6 @@
     d:DesignWidth="400">
 
     <Grid x:Name="BindingRoot">
-        <tr:TextRender2Control x:Name="RenderControl" MaxLines="{Binding MaxLines, Mode=OneWay}" ControlCallback="{Binding RenderCallback, Mode=OneTime}" />
+        <tr:TextRender2Control x:Name="RenderControl" MaxLines="{x:Bind MaxLines, Mode=OneWay}" ControlCallback="{x:Bind RenderCallback, Mode=OneTime}" />
     </Grid>
 </UserControl>

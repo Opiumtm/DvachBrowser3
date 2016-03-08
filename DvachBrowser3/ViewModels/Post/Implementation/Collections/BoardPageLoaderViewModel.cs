@@ -51,9 +51,8 @@ namespace DvachBrowser3.ViewModels
             PageLoadStarted?.Invoke(this, EventArgs.Empty);
         }
 
-        private void UpdateOnResultGot(object sender, EventArgs e)
+        private void UpdateOnResultGot(object sender, IBoardPageLoaderResult result)
         {
-            var result = update.Result;
 #pragma warning disable 4014
             AppHelpers.DispatchAction(async () =>
 #pragma warning restore 4014

@@ -111,9 +111,8 @@ namespace DvachBrowser3.ViewModels
 
         private readonly StdEngineOperationWrapper<Logic.IPostingResult> operation;
 
-        private void OperationOnResultGot(object sender, EventArgs e)
+        private void OperationOnResultGot(object sender, Logic.IPostingResult result)
         {
-            var result = operation.Result;
             AppHelpers.ActionOnUiThread(async () =>
             {
                 if (result != null)

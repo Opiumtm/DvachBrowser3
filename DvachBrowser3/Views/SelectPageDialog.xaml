@@ -15,9 +15,9 @@
     <StackPanel>
         <TextBlock TextWrapping="Wrap">
             <Run>Введите номер страницы (</Run>
-            <Run Text="{Binding MinPage}" />
+            <Run Text="{x:Bind MinPage}" />
             <Run> - </Run>
-            <Run Text="{Binding MaxPage}" />
+            <Run Text="{x:Bind MaxPage}" />
             <Run>)</Run>
         </TextBlock>
         <TextBox x:Name="PageBox" TextChanged="PageBox_OnTextChanged">

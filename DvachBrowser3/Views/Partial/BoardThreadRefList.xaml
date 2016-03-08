@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="BindingRoot">
-        <ListView x:Name="MainList" ItemsSource="{Binding ViewModel.Threads, Mode=OneWay}" SelectionMode="None" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Threads, Mode=OneWay}" SelectionMode="None" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <!--
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -28,11 +28,11 @@
             -->
             <ListView.Header>
                 <StackPanel>
-                    <local:BannerView ViewModel="{Binding ViewModel.Banner, Mode=OneWay}" x:Name="Banner" HorizontalAlignment="Center" Margin="5" 
-                                      Visibility="{Binding ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ToolTipService.ToolTip="{Binding ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"
+                    <local:BannerView ViewModel="{x:Bind ViewModel.Banner, Mode=OneWay}" x:Name="Banner" HorizontalAlignment="Center" Margin="5" 
+                                      Visibility="{x:Bind ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                      ToolTipService.ToolTip="{x:Bind ViewModel.Banner.BannerLinkTitle, Mode=OneWay}"
                                       BannerTapped="Banner_OnBannerTapped"/>
-                    <TextBlock Text="{Binding ListTitle, Mode=OneWay}" FontWeight="SemiBold" FontSize="{Binding StyleManager.Text.TitleFontSize, Mode=OneWay}" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                    <TextBlock Text="{x:Bind ListTitle, Mode=OneWay}" FontWeight="SemiBold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" MaxLines="2" Margin="0, 0, 0, 10" HorizontalAlignment="Center" TextWrapping="Wrap" />
                 </StackPanel>
             </ListView.Header>
             <ListView.ItemContainerStyle>
@@ -44,17 +44,17 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:IThreadPreviewViewModel">
-                    <Border Tag="{Binding}" Tapped="ThreadElement_OnTapped" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                    <Border Tag="{x:Bind}" Tapped="ThreadElement_OnTapped" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                         <Border.Background>
                             <SolidColorBrush Opacity="0" />
                         </Border.Background>
-                        <local:BoardThreadRefPreview ViewModel="{Binding Mode=OneWay}" Margin="0, 5, 10, 5" />
+                        <local:BoardThreadRefPreview ViewModel="{x:Bind Mode=OneWay}" Margin="0, 5, 10, 5" />
                         <interactivity:Interaction.Behaviors>
                             <behaviors:PopupMenuBehavior>
                                 <behaviors:PopupMenuBehavior.MenuFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="Открыть тред" Tag="{Binding}" Click="OpenThreadFlyoutItem_OnClick" />
-                                        <MenuFlyoutItem Text="Прочитано" Tag="{Binding}" Click="MarkAsReadFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="Открыть тред" Tag="{x:Bind}" Click="OpenThreadFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="Прочитано" Tag="{x:Bind}" Click="MarkAsReadFlyoutItem_OnClick" />
                                     </MenuFlyout>
                                 </behaviors:PopupMenuBehavior.MenuFlyout>
                             </behaviors:PopupMenuBehavior>
@@ -65,9 +65,9 @@
             <ListView.Footer>
                 <Border Margin="0, 15, 0, 0">
                     <StackPanel>
-                        <TextBlock Margin="5" FontSize="{Binding StyleManager.Text.NormalFontSize, Mode=OneWay}">
+                        <TextBlock Margin="5" FontSize="{x:Bind StyleManager.Text.NormalFontSize, Mode=OneWay}">
                             <Run>Скорость доски: </Run>
-                            <Run Text="{Binding ViewModel.BoardSpeed, Mode=OneWay}" FontWeight="SemiBold" />
+                            <Run Text="{x:Bind ViewModel.BoardSpeed, Mode=OneWay}" FontWeight="SemiBold" />
                         </TextBlock>
                     </StackPanel>
                 </Border>

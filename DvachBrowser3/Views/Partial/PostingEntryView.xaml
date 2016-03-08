@@ -18,7 +18,7 @@
     
     <UserControl.Resources>
         <DataTemplate x:DataType="x:String" x:Key="PostingPivotHeaderTemplate">
-            <TextBlock FontWeight="Bold" Margin="3, 3, 3, 7" Text="{Binding}" FontSize="14.5"/>
+            <TextBlock FontWeight="Bold" Margin="3, 3, 3, 7" Text="{x:Bind}" FontSize="14.5"/>
         </DataTemplate>
     </UserControl.Resources>
     
@@ -35,13 +35,13 @@
                                 <ColumnDefinition Width="100*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Visibility="{Binding ViewModel.Fields.Title.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Заголовок"
-                                 Text="{Binding ViewModel.Fields.Title.Value, Mode=OneWay}"
-                                 Tag="{Binding ViewModel.Fields.Title, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Grid.Column="0" Visibility="{x:Bind ViewModel.Fields.Title.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Заголовок"
+                                 Text="{x:Bind ViewModel.Fields.Title.Value, Mode=OneWay}"
+                                 Tag="{x:Bind ViewModel.Fields.Title, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                  />
-                            <TextBox Grid.Column="1" Margin="8, 0, 0, 0" Visibility="{Binding ViewModel.Fields.ThreadTag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Тэги"
-                                 Text="{Binding ViewModel.Fields.ThreadTag.Value, Mode=OneWay}" 
-                                 Tag="{Binding ViewModel.Fields.ThreadTag, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Width="250"
+                            <TextBox Grid.Column="1" Margin="8, 0, 0, 0" Visibility="{x:Bind ViewModel.Fields.ThreadTag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Тэги"
+                                 Text="{x:Bind ViewModel.Fields.ThreadTag.Value, Mode=OneWay}" 
+                                 Tag="{x:Bind ViewModel.Fields.ThreadTag, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Width="250"
                                  />
                         </Grid>
                         <Grid>
@@ -50,12 +50,12 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Visibility="{Binding ViewModel.Fields.Email.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Адрес почты"
-                                 Text="{Binding ViewModel.Fields.Email.Value, Mode=OneWay}" 
-                                 Tag="{Binding ViewModel.Fields.Email, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Grid.Column="0" Visibility="{x:Bind ViewModel.Fields.Email.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Адрес почты"
+                                 Text="{x:Bind ViewModel.Fields.Email.Value, Mode=OneWay}" 
+                                 Tag="{x:Bind ViewModel.Fields.Email, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                  />
-                            <CheckBox Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{Binding ViewModel.Fields.SageFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.SageFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Не поднимать тред (SAGE)</CheckBox>
-                            <CheckBox Grid.Column="2" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{Binding ViewModel.Fields.OpFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.OpFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Оригинальный постер (OP)</CheckBox>
+                            <CheckBox Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{x:Bind ViewModel.Fields.SageFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.SageFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Не поднимать тред (SAGE)</CheckBox>
+                            <CheckBox Grid.Column="2" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{x:Bind ViewModel.Fields.OpFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.OpFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Оригинальный постер (OP)</CheckBox>
                         </Grid>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -63,29 +63,29 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Visibility="{Binding ViewModel.Fields.PosterName.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Подписаться именем"
-                                 Text="{Binding ViewModel.Fields.PosterName.Value, Mode=OneWay}"
-                                 Tag="{Binding ViewModel.Fields.PosterName, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Grid.Column="0" Visibility="{x:Bind ViewModel.Fields.PosterName.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Подписаться именем"
+                                 Text="{x:Bind ViewModel.Fields.PosterName.Value, Mode=OneWay}"
+                                 Tag="{x:Bind ViewModel.Fields.PosterName, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                  />
-                            <TextBox Grid.Column="1" Width="250" Visibility="{Binding ViewModel.Fields.PosterTrip1.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 1)"
-                                 Text="{Binding ViewModel.Fields.PosterTrip1.Value, Mode=OneWay}"
-                                 Tag="{Binding ViewModel.Fields.PosterTrip1, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Margin="8, 0, 0, 0"
+                            <TextBox Grid.Column="1" Width="250" Visibility="{x:Bind ViewModel.Fields.PosterTrip1.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 1)"
+                                 Text="{x:Bind ViewModel.Fields.PosterTrip1.Value, Mode=OneWay}"
+                                 Tag="{x:Bind ViewModel.Fields.PosterTrip1, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Margin="8, 0, 0, 0"
                                  />
-                            <TextBox Grid.Column="2" Width="250" Visibility="{Binding ViewModel.Fields.PosterTrip2.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 2)"
-                                 Text="{Binding ViewModel.Fields.PosterTrip2.Value, Mode=OneWay}" 
-                                 Tag="{Binding ViewModel.Fields.PosterTrip2, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Margin="8, 0, 0, 0"
+                            <TextBox Grid.Column="2" Width="250" Visibility="{x:Bind ViewModel.Fields.PosterTrip2.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 2)"
+                                 Text="{x:Bind ViewModel.Fields.PosterTrip2.Value, Mode=OneWay}" 
+                                 Tag="{x:Bind ViewModel.Fields.PosterTrip2, Mode=OneWay}" TextChanged="TextBox_OnTextChanged" Margin="8, 0, 0, 0"
                                  />
                         </Grid>
                         <Grid>
-                            <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{Binding ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ItemsSource="{Binding ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
+                            <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{x:Bind ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IPostingIconElement">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
                                             <Border Background="DarkGray" Padding="2" Margin="0, 0, 4, 0">
-                                                <Image Height="16" Width="16" Stretch="Uniform" Source="{Binding Image.Image, Mode=OneWay}" />
+                                                <Image Height="16" Width="16" Stretch="Uniform" Source="{x:Bind Image.Image, Mode=OneWay}" />
                                             </Border>
-                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Text="{x:Bind Name}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -97,13 +97,13 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" Header="Комментарий" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="280" MaxHeight="640"
-                                 Visibility="{Binding ViewModel.Fields.Comment.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                 Text="{Binding ViewModel.Fields.Comment.Value, Mode=OneWay}"
-                                 Tag="{Binding ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                                 Visibility="{x:Bind ViewModel.Fields.Comment.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                 Text="{x:Bind ViewModel.Fields.Comment.Value, Mode=OneWay}"
+                                 Tag="{x:Bind ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                  x:Name="CommentBox"/>
-                            <local:MarkupControl Grid.Column="1" MarkupProvider="{Binding ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Vertical" VerticalAlignment="Bottom" ApplyMarkup="MarkupControl_OnApplyMarkup" />
+                            <local:MarkupControl Grid.Column="1" MarkupProvider="{x:Bind ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Vertical" VerticalAlignment="Bottom" ApplyMarkup="MarkupControl_OnApplyMarkup" />
                         </Grid>
-                        <Grid Visibility="{Binding ViewModel.Fields.Media.AsBaseIntf.IsSupported, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
+                        <Grid Visibility="{x:Bind ViewModel.Fields.Media.AsBaseIntf.IsSupported, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay, ConverterParameter=false}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100*" />
                                 <ColumnDefinition Width="Auto" />
@@ -113,8 +113,8 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom">Медиа файлы</TextBlock>
-                            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{Binding ViewModel.Fields.WatermarkFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.WatermarkFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Ватермарка</CheckBox>
-                            <local:PostingMediaCollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ViewModel="{Binding ViewModel.Fields.Media, Mode=OneWay}" />
+                            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Margin="8, 0, 0, 0" Visibility="{x:Bind ViewModel.Fields.WatermarkFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.WatermarkFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Ватермарка</CheckBox>
+                            <local:PostingMediaCollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ViewModel="{x:Bind ViewModel.Fields.Media, Mode=OneWay}" />
                         </Grid>
                     </StackPanel>
                 </Grid>
@@ -125,61 +125,61 @@
                 <PivotItem Header="ТЕКСТ">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
                         <StackPanel>
-                            <TextBox Visibility="{Binding ViewModel.Fields.Title.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Заголовок"
-                                     Text="{Binding ViewModel.Fields.Title.Value, Mode=OneWay}"
-                                     Tag="{Binding ViewModel.Fields.Title, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Visibility="{x:Bind ViewModel.Fields.Title.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Заголовок"
+                                     Text="{x:Bind ViewModel.Fields.Title.Value, Mode=OneWay}"
+                                     Tag="{x:Bind ViewModel.Fields.Title, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      />
-                            <TextBox Visibility="{Binding ViewModel.Fields.ThreadTag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Тэги"
-                                     Text="{Binding ViewModel.Fields.ThreadTag.Value, Mode=OneWay}" 
-                                     Tag="{Binding ViewModel.Fields.ThreadTag, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Visibility="{x:Bind ViewModel.Fields.ThreadTag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Тэги"
+                                     Text="{x:Bind ViewModel.Fields.ThreadTag.Value, Mode=OneWay}" 
+                                     Tag="{x:Bind ViewModel.Fields.ThreadTag, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      />
                             <TextBox Header="Комментарий" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="200" MaxHeight="480"
-                                     Visibility="{Binding ViewModel.Fields.Comment.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                     Text="{Binding ViewModel.Fields.Comment.Value, Mode=OneWay}"
-                                     Tag="{Binding ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                                     Visibility="{x:Bind ViewModel.Fields.Comment.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                     Text="{x:Bind ViewModel.Fields.Comment.Value, Mode=OneWay}"
+                                     Tag="{x:Bind ViewModel.Fields.Comment, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      x:Name="CommentBox2"/>
-                            <local:MarkupControl MarkupProvider="{Binding ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left" ApplyMarkup="MarkupControl2_OnApplyMarkup" />
+                            <local:MarkupControl MarkupProvider="{x:Bind ViewModel.Fields.MarkupProvider, Mode=OneWay}" Orientation="Horizontal" HorizontalAlignment="Left" ApplyMarkup="MarkupControl2_OnApplyMarkup" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
                 <PivotItem Header="ОПЦИИ">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
                         <StackPanel>
-                            <TextBox Visibility="{Binding ViewModel.Fields.Email.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Адрес почты"
-                                     Text="{Binding ViewModel.Fields.Email.Value, Mode=OneWay}" 
-                                     Tag="{Binding ViewModel.Fields.Email, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <TextBox Visibility="{x:Bind ViewModel.Fields.Email.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Адрес почты"
+                                     Text="{x:Bind ViewModel.Fields.Email.Value, Mode=OneWay}" 
+                                     Tag="{x:Bind ViewModel.Fields.Email, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      />
-                            <CheckBox VerticalAlignment="Bottom" Visibility="{Binding ViewModel.Fields.SageFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.SageFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Не поднимать тред (SAGE)</CheckBox>
-                            <CheckBox VerticalAlignment="Bottom" Visibility="{Binding ViewModel.Fields.OpFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.OpFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Оригинальный постер (OP)</CheckBox>
-                            <TextBox Visibility="{Binding ViewModel.Fields.PosterName.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Подписаться именем"
-                                     Text="{Binding ViewModel.Fields.PosterName.Value, Mode=OneWay}"
-                                     Tag="{Binding ViewModel.Fields.PosterName, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                            <CheckBox VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.Fields.SageFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.SageFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Не поднимать тред (SAGE)</CheckBox>
+                            <CheckBox VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.Fields.OpFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.OpFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Оригинальный постер (OP)</CheckBox>
+                            <TextBox Visibility="{x:Bind ViewModel.Fields.PosterName.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Подписаться именем"
+                                     Text="{x:Bind ViewModel.Fields.PosterName.Value, Mode=OneWay}"
+                                     Tag="{x:Bind ViewModel.Fields.PosterName, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                      />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50*" />
                                     <ColumnDefinition Width="50*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Visibility="{Binding ViewModel.Fields.PosterTrip1.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 1)"
-                                         Text="{Binding ViewModel.Fields.PosterTrip1.Value, Mode=OneWay}"
-                                         Tag="{Binding ViewModel.Fields.PosterTrip1, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                                <TextBox Grid.Column="0" Visibility="{x:Bind ViewModel.Fields.PosterTrip1.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 1)"
+                                         Text="{x:Bind ViewModel.Fields.PosterTrip1.Value, Mode=OneWay}"
+                                         Tag="{x:Bind ViewModel.Fields.PosterTrip1, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                          Margin="0, 0, 4, 0"
                                          />
-                                <TextBox Grid.Column="1" Visibility="{Binding ViewModel.Fields.PosterTrip2.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 2)"
-                                         Text="{Binding ViewModel.Fields.PosterTrip2.Value, Mode=OneWay}" 
-                                         Tag="{Binding ViewModel.Fields.PosterTrip2, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
+                                <TextBox Grid.Column="1" Visibility="{x:Bind ViewModel.Fields.PosterTrip2.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Header="Трипкод (часть 2)"
+                                         Text="{x:Bind ViewModel.Fields.PosterTrip2.Value, Mode=OneWay}" 
+                                         Tag="{x:Bind ViewModel.Fields.PosterTrip2, Mode=OneWay}" TextChanged="TextBox_OnTextChanged"
                                          Margin="4, 0, 0, 0"
                                          />
                             </Grid>
-                            <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{Binding ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
-                                      ItemsSource="{Binding ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
+                            <ComboBox HorizontalAlignment="Stretch" Header="Иконка" Visibility="{x:Bind ViewModel.Fields.Icon.AsBaseIntf.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"
+                                      ItemsSource="{x:Bind ViewModel.Fields.Icon.Icons, Mode=OneWay}" SelectedItem="{Binding ElementName=ThisControl, Path=ViewModel.Fields.Icon.AsBaseIntf.Value, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="vm:IPostingIconElement">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
                                             <Border Background="DarkGray" Padding="2" Margin="0, 0, 4, 0">
-                                                <Image Height="16" Width="16" Stretch="Uniform" Source="{Binding Image.Image, Mode=OneWay}" />
+                                                <Image Height="16" Width="16" Stretch="Uniform" Source="{x:Bind Image.Image, Mode=OneWay}" />
                                             </Border>
-                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Text="{x:Bind Name}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -190,8 +190,8 @@
                 <PivotItem Header="МЕДИА">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch">
                         <StackPanel>
-                            <CheckBox VerticalAlignment="Bottom" Visibility="{Binding ViewModel.Fields.WatermarkFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{Binding ViewModel.Fields.WatermarkFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Ватермарка</CheckBox>
-                            <local:PostingMediaCollectionView ViewModel="{Binding ViewModel.Fields.Media, Mode=OneWay}" />
+                            <CheckBox VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.Fields.WatermarkFlag.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" IsChecked="{x:Bind ViewModel.Fields.WatermarkFlag.Value, Mode=TwoWay, Converter={StaticResource BoolToNullableConverter}}">Ватермарка</CheckBox>
+                            <local:PostingMediaCollectionView ViewModel="{x:Bind ViewModel.Fields.Media, Mode=OneWay}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>

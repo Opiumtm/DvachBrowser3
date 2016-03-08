@@ -48,6 +48,10 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         /// <summary>
@@ -210,6 +214,11 @@ namespace DvachBrowser3.Views
 
         private void OnPostsUpdated(object sender, EventArgs eventArgs)
         {
+            var vm = ViewModel;
+            if (vm == null)
+            {
+                return;
+            }
             AppHelpers.ActionOnUiThread(() =>
             {
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
@@ -228,7 +237,7 @@ namespace DvachBrowser3.Views
                     {
                         checkHash = saveTopHashVal;
                     }
-                    var el = ViewModel.Posts.FirstOrDefault(t =>
+                    var el = vm.Posts.FirstOrDefault(t =>
                     {
                         var o = t?.Link;
                         if (o == null)
@@ -244,7 +253,7 @@ namespace DvachBrowser3.Views
                 }
                 if (restoredView == PageContentViews.SinglePostView && restoredSinglePostHash != null)
                 {
-                    var el = ViewModel.Posts.FirstOrDefault(t =>
+                    var el = vm.Posts.FirstOrDefault(t =>
                     {
                         var o = t?.Link;
                         if (o == null)
@@ -391,7 +400,7 @@ namespace DvachBrowser3.Views
 
         private void Down()
         {
-            var vm = ViewModel?.Posts.LastOrDefault();
+            var vm = ViewModel?.Posts?.LastOrDefault();
             if (vm != null)
             {
                 MainList.ScrollIntoView(vm);
@@ -401,7 +410,7 @@ namespace DvachBrowser3.Views
 
         private void Up()
         {
-            var vm = ViewModel?.Posts.FirstOrDefault();
+            var vm = ViewModel?.Posts?.FirstOrDefault();
             if (vm != null)
             {
                 MainList.ScrollIntoView(vm);
@@ -657,15 +666,20 @@ namespace DvachBrowser3.Views
         /// <returns>true, если обработка произведена и действий по умолчанию не требуется.</returns>
         public bool HandleNavigationLinkClick(object sender, LinkClickEventArgs e)
         {
+            var vm = ViewModel;
+            if (vm == null)
+            {
+                return false;
+            }
             var l0 = e?.Link?.CustomData as BoardLinkBase;
             if (l0 != null)
             {
                 var l = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetPostLinkFromAnyLink(l0);
                 if (l != null)
                 {
-                    if (ViewModel.PostsByLink.ContainsKey(l))
+                    if (vm.PostsByLink.ContainsKey(l))
                     {
-                        var p = ViewModel.PostsByLink[l];
+                        var p = vm.PostsByLink[l];
                         if (p != null)
                         {
                             if (!SinglePostViewPopup.IsContentVisible)
@@ -711,12 +725,17 @@ namespace DvachBrowser3.Views
 
         private void SingleListBack()
         {
+            var vm = ViewModel;
+            if (vm == null)
+            {
+                return;
+            }
             if (SinglePostViewPopup.IsContentVisible)
             {
                 if (singleNavigationStack.Count > 0)
                 {
                     var hash = singleNavigationStack.Pop();
-                    var p = ViewModel.FindPost(new LinkHashPostCollectionSearchQuery(hash));
+                    var p = vm.FindPost(new LinkHashPostCollectionSearchQuery(hash));
                     if (p != null)
                     {
                         SingleSelectedItem = p;

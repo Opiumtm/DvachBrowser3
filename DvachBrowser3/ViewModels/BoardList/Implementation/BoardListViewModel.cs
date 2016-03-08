@@ -46,11 +46,11 @@ namespace DvachBrowser3.ViewModels
             RemoveFromFavorites = new DelegateCommand<IBoardListBoardViewModel>(Remove);
         }
 
-        private void RefreshCommandOnResultGot(object sender, EventArgs eventArgs)
+        private void RefreshCommandOnResultGot(object sender, ICollection<IBoardListBoardViewModel> result)
         {
             try
             {
-                BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdateList(refreshCommand.Result, cachedFavorites));
+                BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdateList(result, cachedFavorites));
             }
             catch (Exception ex)
             {

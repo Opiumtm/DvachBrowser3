@@ -39,7 +39,7 @@
             <TextBox x:Name="EntryBox" PlaceholderText="Поиск">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:TextBoxChangeDelayBehavior>
-                        <core:CallMethodAction TargetObject="{Binding}" MethodName="ApplyFilter" />
+                        <core:CallMethodAction TargetObject="{x:Bind}" MethodName="ApplyFilter" />
                     </behaviors:TextBoxChangeDelayBehavior>
                 </interactivity:Interaction.Behaviors>
             </TextBox>

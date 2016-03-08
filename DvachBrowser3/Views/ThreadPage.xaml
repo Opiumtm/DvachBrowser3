@@ -67,16 +67,16 @@
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
 
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{Binding Frame, Mode=OneWay}" FontWeight="Bold"
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
                              Content="ТРЕД">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
         </controls:PageHeader>
 
-        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{Binding PostCollection.Update.Progress, Mode=OneWay}" ShowMessage="True" />
+        <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind PostCollection.Update.Progress, Mode=OneWay}" ShowMessage="True" />
 
-        <pa:PostCollectionView Grid.Row="2" Margin="4, 4, 4, 0" ViewModel="{Binding ViewModel, Mode=OneWay}" MaxLines="20" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="True"
+        <pa:PostCollectionView Grid.Row="2" Margin="4, 4, 4, 0" ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="20" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="True"
                                x:Name="MainList" ShowFullPost="MainList_OnShowFullPost" ShowFullScreen="MainList_OnShowFullPost">
         </pa:PostCollectionView>
 
@@ -85,12 +85,12 @@
             <Border.RenderTransform>
                 <TranslateTransform x:Name="NewPostsIndicatorTransform" />
             </Border.RenderTransform>
-            <TextBlock FontWeight="SemiBold" FontSize="{Binding StyleManager.Text.TitleFontSize, Mode=OneWay}" Foreground="White">НОВЫЕ ПОСТЫ</TextBlock>
+            <TextBlock FontWeight="SemiBold" FontSize="{x:Bind StyleManager.Text.TitleFontSize, Mode=OneWay}" Foreground="White">НОВЫЕ ПОСТЫ</TextBlock>
         </Border>
 
         <pa:ContentPopup Grid.Row="1" Grid.RowSpan="2" x:Name="SinglePostViewPopup" IsContentVisibleChanged="ContentPopup_OnIsContentVisibleChanged">
             <pa:ContentPopup.ViewContent>
-                <pa:SinglePostCollectionView ViewModel="{Binding ViewModel, Mode=OneWay}" MaxLines="0" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="False"
+                <pa:SinglePostCollectionView ViewModel="{x:Bind ViewModel, Mode=OneWay}" MaxLines="0" ShowCounter="True" ShowPreviewSeparator="False" ShowFullPostButton="False"
                                              x:Name="SingleList"
                                              BackButtonClick="SingleList_OnBackButtonClick" GoButtonClick="SingleList_OnGoButtonClick" SelectedItemChanged="SingleList_OnSelectedItemChanged" />
             </pa:ContentPopup.ViewContent>

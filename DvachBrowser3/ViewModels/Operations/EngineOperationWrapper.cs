@@ -34,21 +34,6 @@ namespace DvachBrowser3.ViewModels
             UpdateCanStart();
         }
 
-        private TResult result;
-
-        /// <summary>
-        /// Результат.
-        /// </summary>
-        public TResult Result
-        {
-            get { return result; }
-            set
-            {
-                result = value;
-                RaisePropertyChanged();
-            }
-        }
-
         /// <summary>
         /// Фабрика операций.
         /// </summary>
@@ -101,9 +86,9 @@ namespace DvachBrowser3.ViewModels
                         try
                         {
                             Started?.Invoke(this, EventArgs.Empty);
-                            Result = await operation.Complete(tokenSource.Token);
+                            var result = await operation.Complete(tokenSource.Token);
                             finishArgs = new OperationProgressFinishedEventArgs(arg);
-                            ResultGot?.Invoke(this, EventArgs.Empty);
+                            ResultGot?.Invoke(this, result);
                         }
                         catch (Exception ex)
                         {
@@ -439,7 +424,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Получен результат.
         /// </summary>
-        public event EventHandler ResultGot;
+        public event EventHandler<TResult> ResultGot;
     }
 
     /// <summary>

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -15,7 +14,6 @@ using DvachBrowser3.Services;
 using DvachBrowser3.Storage;
 using DvachBrowser3.Storage.Files;
 using DvachBrowser3.SystemInformation;
-using DvachBrowser3.Views;
 
 namespace DvachBrowser3
 {

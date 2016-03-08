@@ -68,10 +68,9 @@ namespace DvachBrowser3.ViewModels
         /// Данные получены.
         /// </summary>
         /// <param name="sender">Источник события.</param>
-        /// <param name="e">Cобытие.</param>
-        protected virtual void UpdateOperationOnResultGot(object sender, EventArgs e)
+        /// <param name="result">Cобытие.</param>
+        protected virtual void UpdateOperationOnResultGot(object sender, T result)
         {
-            var result = UpdateOperation.Result;
             UpdateOperationOnResultGot(result);
         }
 

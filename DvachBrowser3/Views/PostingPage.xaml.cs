@@ -44,6 +44,10 @@ namespace DvachBrowser3.Views
             this.Loaded += OnLoaded;
             lifetimeToken = this.BindAppLifetimeEvents();
             Shell.IsNarrowViewChanged.AddCallback(this);
+            this.Unloaded += (sender, e) =>
+            {
+                ViewModel = null;
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
