@@ -37,10 +37,10 @@ namespace DvachBrowser3
         {
             if (Interlocked.Exchange(ref isFirst, 1) == 0)
             {
-                AppHelpers.DispatchAction(OnSizeUpdated);
+                AppHelpers.DispatchAction(OnSizeUpdated, false, 0);
                 return;
             }
-            AppHelpers.DispatchAction(DelayAction);
+            AppHelpers.DispatchAction(DelayAction, false, 0);
         }
 
         private bool isWaiting;

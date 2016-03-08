@@ -348,7 +348,7 @@ namespace DvachBrowser3.Views
                 {
                     await ViewModel.Fields.Clear();
                 }
-            }, true);
+            }, true, 0);
         }
 
         private void PostCommandOnClick(object sender, RoutedEventArgs e)
@@ -375,7 +375,7 @@ namespace DvachBrowser3.Views
                     if (ViewModel != null) ViewModel.Captcha = null;
                     ViewModel?.Post();
                 }
-            }, true);
+            }, true, 0);
         }
 
         /// <summary>

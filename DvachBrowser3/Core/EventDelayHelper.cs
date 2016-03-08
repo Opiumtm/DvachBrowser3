@@ -24,7 +24,7 @@ namespace DvachBrowser3
         /// </summary>
         public void Trigger()
         {
-            AppHelpers.DispatchAction(DelayAction);
+            AppHelpers.DispatchAction(DelayAction, false, 0);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace DvachBrowser3
             {
                 isWaiting = false;
             }
-            AppHelpers.DispatchAction(FireEvent);
+            AppHelpers.DispatchAction(FireEvent, false, 0);
         }
 
         private Task FireEvent()

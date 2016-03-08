@@ -109,7 +109,8 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="a">Действие.</param>
         /// <param name="reportError">Показать ошибку.</param>
-        public static void DispatchAction(Func<Task> a, bool reportError = false)
+        /// <param name="msec">Задержка в миллисекундах.</param>
+        public static void DispatchAction(Func<Task> a, bool reportError = false, int msec = 25)
         {
             if (a == null)
             {
@@ -119,7 +120,7 @@ namespace DvachBrowser3
             disp?.DispatchAsync(async () =>
             {
                 await RunAction(a, reportError);
-            }, 25);
+            }, msec);
         }
 
         private static async Task RunAction(Func<Task> a, bool reportError = false)
@@ -172,7 +173,7 @@ namespace DvachBrowser3
             }
             else
             {
-                DispatchAction(a, reportError);
+                DispatchAction(a, reportError, 0);
             }
         }
 

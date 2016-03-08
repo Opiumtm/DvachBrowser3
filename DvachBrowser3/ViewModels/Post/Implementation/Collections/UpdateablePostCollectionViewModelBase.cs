@@ -37,7 +37,7 @@ namespace DvachBrowser3.ViewModels
                         await GetDataFallback();
                     }
                     await AppHelpers.ShowError(e.Error);
-                });
+                }, false, 0);
                 OnUpdateFinihsed(true);
             }
             else

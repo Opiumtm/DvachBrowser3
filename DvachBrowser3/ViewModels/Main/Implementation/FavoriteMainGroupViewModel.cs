@@ -23,7 +23,7 @@ namespace DvachBrowser3.ViewModels
         {
             ViewModelEvents.VisitedListRefreshed.AddCallback(this);
             ViewModelEvents.FavoritesListRefreshed.AddCallback(this);
-            AppHelpers.DispatchAction(UpdateInfo);
+            AppHelpers.DispatchAction(UpdateInfo, false, 0);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace DvachBrowser3.ViewModels
         {
             if (channel?.Id == ViewModelEvents.VisitedListRefreshedId || channel?.Id == ViewModelEvents.FavoritesListRefreshedId)
             {
-                AppHelpers.DispatchAction(UpdateInfo);
+                AppHelpers.DispatchAction(UpdateInfo, false, 0);
             }
         }
     }

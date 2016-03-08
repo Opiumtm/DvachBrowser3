@@ -21,7 +21,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public FavoriteBoardMainGroupViewModel()
         {
-            AppHelpers.DispatchAction(UpdateInfo);
+            AppHelpers.DispatchAction(UpdateInfo, false, 0);
         }
 
         /// <summary>

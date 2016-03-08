@@ -161,7 +161,7 @@ namespace DvachBrowser3.ViewModels
                     await DoOperation(operation, arg);
                 };
                 await action();
-            });
+            }, false, 0);
         }
 
         public void Start()

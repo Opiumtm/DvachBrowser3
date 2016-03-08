@@ -29,7 +29,7 @@ namespace DvachBrowser3.ViewModels
             Parent = parent;
             Id = file.MediaFileId;
             OriginalName = file.OriginalName ?? "file.tmp";
-            AppHelpers.DispatchAction(Initialize);
+            AppHelpers.DispatchAction(Initialize, false, 5);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace DvachBrowser3.ViewModels
                 AppHelpers.DispatchAction(async () =>
                 {
                     await Parent.Parent.Flush(false);
-                });
+                }, false, 0);
             }
         }
 

@@ -67,7 +67,7 @@ namespace DvachBrowser3.Views.Partial
                 {
                     GifBannerImage.Visibility = Visibility.Collapsed;
                     BannerImage.Visibility = Visibility.Collapsed;
-                    AppHelpers.DispatchAction(ViewModel.TryLoadBanner);
+                    AppHelpers.DispatchAction(ViewModel.TryLoadBanner, false, 5);
                 }
             }
             else if (ViewModel?.IsLoaded == true)

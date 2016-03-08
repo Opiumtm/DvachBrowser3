@@ -79,7 +79,7 @@ namespace DvachBrowser3.ViewModels
                 {
                     await AppHelpers.ShowError(ex);
                 }
-            });
+            }, false, 0);
         }
 
         private void UpdateOnFinished(object sender, OperationProgressFinishedEventArgs e)
@@ -93,7 +93,7 @@ namespace DvachBrowser3.ViewModels
                         Update.Start2(BoardPageLoaderUpdateMode.GetFromCache);
                     }
                     await AppHelpers.ShowError(e.Error);
-                });
+                }, false, 5);
             }
         }
 

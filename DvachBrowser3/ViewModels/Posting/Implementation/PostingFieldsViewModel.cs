@@ -416,7 +416,7 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public void Initialize()
         {
-            AppHelpers.DispatchAction(InitializeData, true);
+            AppHelpers.DispatchAction(InitializeData, true, 0);
         }
     }
 }

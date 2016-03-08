@@ -31,7 +31,7 @@ namespace DvachBrowser3.ViewModels
             Groups.Add(new FavoriteMainGroupViewModel());
             Groups.Add(new VisitedMainGroupViewModel());
             Groups.Add(new FavoriteBoardMainGroupViewModel());
-            AppHelpers.DispatchAction(Initialize);
+            AppHelpers.DispatchAction(Initialize, false, 0);
         }
 
         private IEngineOperationsWithProgress<LinkCollection, EngineProgress> OperationFactory(object o)

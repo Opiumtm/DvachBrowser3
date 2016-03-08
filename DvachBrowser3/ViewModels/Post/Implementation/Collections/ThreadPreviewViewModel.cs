@@ -152,7 +152,7 @@ namespace DvachBrowser3.ViewModels
                 };
                 data.IsHidden = true;
                 await store.ThreadData.SavePostCountInfo(data);
-                AppHelpers.DispatchAction(UpdatePostCount);
+                AppHelpers.DispatchAction(UpdatePostCount, false, 0);
             }
             catch (Exception ex)
             {
@@ -193,7 +193,7 @@ namespace DvachBrowser3.ViewModels
                         }
                         await ServiceLocator.Current.GetServiceOrThrow<ILiveTileService>().UpdateFavoritesTile(favorites);
                     }
-                    AppHelpers.DispatchAction(UpdatePostCount);
+                    AppHelpers.DispatchAction(UpdatePostCount, false, 0);
                 }
             }
             catch (Exception ex)

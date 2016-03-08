@@ -48,7 +48,7 @@ namespace DvachBrowser3.Behaviors
             {
                 return;
             }
-            AppHelpers.DispatchAction(DelayAction);
+            AppHelpers.DispatchAction(DelayAction, false, 0);
         }
 
         private async Task DelayAction()

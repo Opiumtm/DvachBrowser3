@@ -40,7 +40,7 @@ namespace DvachBrowser3.ViewModels
             Fields.Flushed += FieldsOnFlushed;
             Fields.Initialized += FieldsOnInitialized;
             Fields.Initialize();
-            AppHelpers.DispatchAction(GetQuote);
+            AppHelpers.DispatchAction(GetQuote, false, 5);
         }
 
         private bool quotesGot = false;

@@ -207,7 +207,7 @@ namespace DvachBrowser3.Navigation
             AppHelpers.DispatchAction(async () =>
             {
                 await DoNavigate(target);
-            }, reportError);
+            }, reportError, 0);
         }
     }
 }

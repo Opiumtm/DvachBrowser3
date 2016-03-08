@@ -143,7 +143,7 @@ namespace DvachBrowser3.Views
                         MainList.ScrollIntoView(el);
                     }
                     return Task.CompletedTask;
-                });
+                }, false, 0);
             }
         }
 
