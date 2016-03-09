@@ -16,6 +16,7 @@
         <pageServices:PageServiceCollection>
             <pageServices:ShellAppBarPageService />
             <pageServices:NoStatusBarProgressPageService />
+            <pageServices:GcInvokePageService />
         </pageServices:PageServiceCollection>
     </pageServices:PageServices.Services>
 

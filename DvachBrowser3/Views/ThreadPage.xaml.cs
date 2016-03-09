@@ -773,12 +773,10 @@ namespace DvachBrowser3.Views
         /// </summary>
         public event EventHandler AppBarChange;
 
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
 
         private void NewPostsIndicator_OnTapped(object sender, TappedRoutedEventArgs e)
         {

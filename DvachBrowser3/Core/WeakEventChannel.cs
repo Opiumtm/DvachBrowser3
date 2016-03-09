@@ -79,7 +79,7 @@ namespace DvachBrowser3
             }
         }
 
-        private int MaxCount = 50;
+        private int MaxCount = 100;
 
         private void CleanupReferences()
         {
@@ -91,7 +91,7 @@ namespace DvachBrowser3
                 {
                     DoCleanupReferences();
                     cnt = callbacks.Count;
-                    Interlocked.Exchange(ref MaxCount, cnt + 50);
+                    Interlocked.Exchange(ref MaxCount, cnt + 100);
                 }
             }
             catch (Exception ex)

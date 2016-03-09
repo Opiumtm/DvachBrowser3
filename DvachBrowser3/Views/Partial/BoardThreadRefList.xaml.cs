@@ -139,12 +139,10 @@ namespace DvachBrowser3.Views.Partial
         public static readonly DependencyProperty ListTitleProperty = DependencyProperty.Register("ListTitle", typeof (string), typeof (BoardThreadRefList),
             new PropertyMetadata(null));
 
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
 
         private async void MarkAsReadFlyoutItem_OnClick(object sender, RoutedEventArgs e)
         {

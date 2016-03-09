@@ -127,7 +127,7 @@ namespace DvachBrowser3.ViewModels
 
         private void LoadImplOnResultGot(object sender, StorageFile result)
         {
-            AppHelpers.DispatchAction(() => DoLoadImplOnResultGot(sender, result));
+            AppHelpers.DispatchAction(() => DoLoadImplOnResultGot(sender, result), false, 10);
         }
 
         /// <summary>

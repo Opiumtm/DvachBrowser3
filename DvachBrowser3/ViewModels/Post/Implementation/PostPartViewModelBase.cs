@@ -22,11 +22,9 @@ namespace DvachBrowser3.ViewModels
 
         public IPostViewModel Parent { get; }
 
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
     }
 }

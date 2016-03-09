@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Styles;
 using DvachBrowser3.Views;
@@ -138,30 +140,48 @@ namespace DvachBrowser3.ViewModels
         {
             AppHelpers.ActionOnUiThread(async () =>
             {
-                if (!CanStart)
+                if (HighPriority)
                 {
-                    return;
+                    await Start2Async(arg);
                 }
-                var operation = OperationFactory(arg);
-                if (operation == null)
+                else
                 {
-                    return;
-                }
-                var cancelFlag = new InterlockedFlagContainer();
-                cancelAction = () =>
-                {
-                    cancelFlag.Flag = true;
-                };
-                Func<Task> action = async () =>
-                {
-                    if (cancelFlag.Flag)
+                    await Task.Yield();
+                    using (await OperationSemaphore.Lock())
                     {
-                        return;
+                        await Start2Async(arg);
                     }
-                    await DoOperation(operation, arg);
-                };
-                await action();
+                }
             });
+        }
+
+        private static readonly AsyncConcurrencySemaphore OperationSemaphore = new AsyncConcurrencySemaphore(10);
+
+        private async Task Start2Async(object arg)
+        {
+            if (!CanStart)
+            {
+                return;
+            }
+            var operation = OperationFactory(arg);
+            if (operation == null)
+            {
+                return;
+            }
+            var cancelFlag = new InterlockedFlagContainer();
+            cancelAction = () =>
+            {
+                cancelFlag.Flag = true;
+            };
+            Func<Task> action = async () =>
+            {
+                if (cancelFlag.Flag)
+                {
+                    return;
+                }
+                await DoOperation(operation, arg);
+            };
+            await action();
         }
 
         public void Start()

@@ -29,12 +29,10 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         public string Name => "Избранные доски";
 
-        private readonly Lazy<IStyleManager> styleManager = new Lazy<IStyleManager>(() => StyleManagerFactory.Current.GetManager());
-
         /// <summary>
         /// Менеджер стилей.
         /// </summary>
-        public IStyleManager StyleManager => styleManager.Value;
+        public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
 
         /// <summary>
         /// Обновить информацию.

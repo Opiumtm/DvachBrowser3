@@ -20,6 +20,7 @@
             <ps:ShellAppBarPageService />
             <ps:ViewModelLifetimePageService />
             <ps:StoreNavigationDataPageService MinutesToStore="60" Version="1.0.0"/>
+            <ps:GcInvokePageService />
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
     

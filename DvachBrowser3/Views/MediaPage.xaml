@@ -19,6 +19,7 @@
         <ps:PageServiceCollection>
             <ps:ShellAppBarPageService />
             <ps:ViewModelLifetimePageService />
+            <ps:GcInvokePageService />
         </ps:PageServiceCollection>
     </ps:PageServices.Services>
 

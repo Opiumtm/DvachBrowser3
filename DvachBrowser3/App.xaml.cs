@@ -6,6 +6,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 using DvachBrowser3.Configuration;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Engines.Makaba;
@@ -42,6 +43,7 @@ namespace DvachBrowser3
             Resuming += (sender, o) =>
             {
                 AppEvents.AppResume.RaiseEvent(this, o);
+                GC.Collect();
             };
             Suspending += (sender, e) =>
             {

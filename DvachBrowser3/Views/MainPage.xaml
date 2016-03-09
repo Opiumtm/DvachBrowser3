@@ -61,6 +61,7 @@
             <pageServices:ShellAppBarPageService />
             <pageServices:ViewModelLifetimePageService />
             <pageServices:NoStatusBarProgressPageService />
+            <pageServices:GcInvokePageService />
         </pageServices:PageServiceCollection>
     </pageServices:PageServices.Services>
 

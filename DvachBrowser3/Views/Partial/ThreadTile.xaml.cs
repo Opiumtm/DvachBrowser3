@@ -71,7 +71,7 @@ namespace DvachBrowser3.Views.Partial
             Storyboard.SetTargetProperty(imageSlideOutAnimation, "Y");
             ((Storyboard)Resources["ImageSlideIn"]).Children.Add(imageSlideInAnimation);
             ((Storyboard)Resources["ImageSlideOut"]).Children.Add(imageSlideOutAnimation);
-            UpdateAnimationData();
+            UpdateAnimationData(imageSlideInAnimation, imageSlideOutAnimation);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
@@ -117,7 +117,7 @@ namespace DvachBrowser3.Views.Partial
                 }
                 else
                 {
-                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 2.5;
+                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 3.5;
                 }
                 t.Interval = TimeSpan.FromSeconds(sec);
             }
@@ -161,21 +161,35 @@ namespace DvachBrowser3.Views.Partial
         {
             if (channel?.Id == Shell.IsNarrowViewChangedId)
             {
-                UpdateAnimationData();
+                UpdateAnimationData(null, null);
             }
         }
 
-        private void UpdateAnimationData()
+        private void UpdateAnimationData(DoubleAnimation inAnimation, DoubleAnimation outAnimation)
         {
-            DoubleAnimation imageSlideInAnimation;
-            if (imageSlideInAnimationHandle.TryGetTarget(out imageSlideInAnimation))
+            if (inAnimation != null)
             {
-                imageSlideInAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
+                inAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
             }
-            DoubleAnimation imageSlideOutAnimation;
-            if (imageSlideOutAnimationHandle.TryGetTarget(out imageSlideOutAnimation))
+            else
             {
-                imageSlideOutAnimation.To = styleManager.Tiles.BoardTileHeight;
+                DoubleAnimation imageSlideInAnimation;
+                if (imageSlideInAnimationHandle.TryGetTarget(out imageSlideInAnimation))
+                {
+                    imageSlideInAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
+                }
+            }
+            if (outAnimation != null)
+            {
+                outAnimation.To = styleManager.Tiles.BoardTileHeight;
+            }
+            else
+            {
+                DoubleAnimation imageSlideOutAnimation;
+                if (imageSlideOutAnimationHandle.TryGetTarget(out imageSlideOutAnimation))
+                {
+                    imageSlideOutAnimation.To = styleManager.Tiles.BoardTileHeight;
+                }
             }
             MainBorder.Clip = new RectangleGeometry()
             {
