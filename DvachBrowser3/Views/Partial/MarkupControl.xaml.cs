@@ -19,7 +19,7 @@ using DvachBrowser3.Posting;
 
 namespace DvachBrowser3.Views.Partial
 {
-    public sealed partial class MarkupControl : UserControl
+    public sealed partial class MarkupControl : UserControl, ICommandBarElement
     {
         public MarkupControl()
         {
@@ -152,5 +152,34 @@ namespace DvachBrowser3.Views.Partial
         {
             ApplyTag(MarkupTag.Sub);
         }
+
+        /// <summary>
+        /// Компактное представление.
+        /// </summary>
+        public bool IsCompact
+        {
+            get { return (bool) GetValue(IsCompactProperty); }
+            set { SetValue(IsCompactProperty, value); }
+        }
+
+        /// <summary>
+        /// Компактное представление.
+        /// </summary>
+        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register("IsCompact", typeof (bool), typeof (MarkupControl), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Отступ.
+        /// </summary>
+        public Thickness MarkupPadding
+        {
+            get { return (Thickness) GetValue(MarkupPaddingProperty); }
+            set { SetValue(MarkupPaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Отступ.
+        /// </summary>
+        public static readonly DependencyProperty MarkupPaddingProperty = DependencyProperty.Register("MarkupPadding", typeof (Thickness), typeof (MarkupControl), new PropertyMetadata(new Thickness(2)));
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -9,6 +10,13 @@ namespace DvachBrowser3.PageServices
     /// </summary>
     public sealed class ShellAppBarPageService : PageLifetimeServiceBase
     {
+        private readonly Guid instanceId;
+
+        public ShellAppBarPageService()
+        {
+            instanceId = Guid.NewGuid();
+        }
+
         /// <summary>
         /// Произошёл заход на страницу.
         /// </summary>
@@ -22,13 +30,13 @@ namespace DvachBrowser3.PageServices
             {
                 dynProvider.AppBarChange += DynProviderOnAppBarChange;
             }
-            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar());
+            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar(), instanceId);
         }
 
         private void DynProviderOnAppBarChange(object sender, EventArgs eventArgs)
         {
             var provider = sender as IShellAppBarProvider;
-            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar());
+            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar(), instanceId);
         }
 
         /// <summary>
@@ -48,7 +56,17 @@ namespace DvachBrowser3.PageServices
         protected override void OnResume(Page sender, object o)
         {
             var provider = sender as IShellAppBarProvider;
-            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar());
+            Views.Shell.Instance?.SetBottomAppBar(provider?.GetBottomAppBar(), instanceId);
+        }
+
+        /// <summary>
+        /// Страница выгружена.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="e">Событие.</param>
+        protected override void OnUnloaded(Page sender, RoutedEventArgs e)
+        {
+            Views.Shell.Instance?.ClearAppBar(instanceId);
         }
     }
 }

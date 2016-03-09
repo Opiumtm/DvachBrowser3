@@ -222,99 +222,106 @@ namespace DvachBrowser3.Views
             oldToolbar = toolbar;
             var appBar = new CommandBar();
 
-            if (toolbar == ToolbarType.Default)
+            if (EntryView.IsNarrowEditFocused)
             {
-                var postCommand = new AppBarButton()
-                {
-                    Label = "Оправить",
-                    Icon = new SymbolIcon(Symbol.Send),
-                };
-                postCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.Posting.CanStart"), Mode = BindingMode.OneWay });
-                postCommand.Click += PostCommandOnClick;
-
-                var clearCommand = new AppBarButton()
-                {
-                    Label = "Очистить",
-                    Icon = new SymbolIcon(Symbol.Clear)
-                };
-                clearCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.Posting.CanStart"), Mode = BindingMode.OneWay });
-                clearCommand.Click += ClearCommandOnClick;
-
-                char quoteChar;
-
-                unchecked
-                {
-                    var symbol = (short)0xE134;
-                    quoteChar = (char)symbol;
-                }
-
-                AppBarToggleButton quoteCommand = null;
-
-                if (ViewModel.HasQuote)
-                {
-                    quoteCommand = new AppBarToggleButton()
-                    {
-                        Label = "Цитата",
-                        Icon = new FontIcon() { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(quoteChar, 1) },
-                        IsChecked = ShowQuote
-                    };
-                    quoteCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.HasQuote"), Mode = BindingMode.OneWay });
-                    showQuoteFunc = (v) =>
-                    {
-                        if (v != null && v != quoteCommand.IsChecked)
-                        {
-                            quoteCommand.IsChecked = v.Value;
-                        }
-                        return quoteCommand.IsChecked ?? false;
-                    };
-                    quoteCommand.Checked += (sender, e) =>
-                    {
-                        OnPropertyChanged(nameof(ShowQuote));
-                    };
-                    quoteCommand.Unchecked += (sender, e) =>
-                    {
-                        OnPropertyChanged(nameof(ShowQuote));
-                    };
-                }
-                else
-                {
-                    showQuoteFunc = null;
-                }
-
-                if (quoteCommand != null)
-                {
-                    appBar.PrimaryCommands.Add(quoteCommand);
-                }
-                appBar.PrimaryCommands.Add(clearCommand);
-                appBar.PrimaryCommands.Add(postCommand);
+                appBar.PrimaryCommands.Add(EntryView.CreateAppBarMarkupForNarrowView());
+                SetQuoteCommand(appBar);
             }
-
-            if (toolbar == ToolbarType.Captcha)
+            else
             {
-                var refreshCommand = new AppBarButton()
+                if (toolbar == ToolbarType.Default)
                 {
-                    Label = "Обновить",
-                    Icon = new SymbolIcon(Symbol.Refresh)
-                };                
-                refreshCommand.Click += (sender, e) => CaptchaQueryView.Refresh();
-                refreshCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding()
-                {
-                    Source = CaptchaQueryView,
-                    Mode = BindingMode.OneWay,
-                    Path = new PropertyPath("CanLoad")
-                });
+                    var postCommand = new AppBarButton()
+                    {
+                        Label = "Оправить",
+                        Icon = new SymbolIcon(Symbol.Send),
+                    };
+                    postCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.Posting.CanStart"), Mode = BindingMode.OneWay });
+                    postCommand.Click += PostCommandOnClick;
 
-                var acceptCommand = new AppBarButton()
+                    var clearCommand = new AppBarButton()
+                    {
+                        Label = "Очистить",
+                        Icon = new SymbolIcon(Symbol.Clear)
+                    };
+                    clearCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = ViewModel, Path = new PropertyPath("ViewModel.Posting.CanStart"), Mode = BindingMode.OneWay });
+                    clearCommand.Click += ClearCommandOnClick;
+
+                    SetQuoteCommand(appBar);
+                    appBar.PrimaryCommands.Add(clearCommand);
+                    appBar.PrimaryCommands.Add(postCommand);
+                }
+
+                if (toolbar == ToolbarType.Captcha)
                 {
-                    Label = "Принять",
-                    Icon = new SymbolIcon(Symbol.Accept)
-                };
-                acceptCommand.Click += (sender, e) => CaptchaQueryView.Accept();
-                appBar.PrimaryCommands.Add(acceptCommand);
-                appBar.PrimaryCommands.Add(refreshCommand);
+                    var refreshCommand = new AppBarButton()
+                    {
+                        Label = "Обновить",
+                        Icon = new SymbolIcon(Symbol.Refresh)
+                    };
+                    refreshCommand.Click += (sender, e) => CaptchaQueryView.Refresh();
+                    refreshCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding()
+                    {
+                        Source = CaptchaQueryView,
+                        Mode = BindingMode.OneWay,
+                        Path = new PropertyPath("CanLoad")
+                    });
+
+                    var acceptCommand = new AppBarButton()
+                    {
+                        Label = "Принять",
+                        Icon = new SymbolIcon(Symbol.Accept)
+                    };
+                    acceptCommand.Click += (sender, e) => CaptchaQueryView.Accept();
+                    appBar.PrimaryCommands.Add(acceptCommand);
+                    appBar.PrimaryCommands.Add(refreshCommand);
+                }
             }
 
             return appBar;
+        }
+
+        private void SetQuoteCommand(CommandBar appBar)
+        {
+            char quoteChar;
+
+            unchecked
+            {
+                var symbol = (short) 0xE134;
+                quoteChar = (char) symbol;
+            }
+
+            AppBarToggleButton quoteCommand = null;
+
+            if (ViewModel.HasQuote)
+            {
+                quoteCommand = new AppBarToggleButton()
+                {
+                    Label = "Цитата",
+                    Icon = new FontIcon() {FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = new string(quoteChar, 1)},
+                    IsChecked = ShowQuote
+                };
+                quoteCommand.SetBinding(AppBarButton.IsEnabledProperty, new Binding() {Source = ViewModel, Path = new PropertyPath("ViewModel.HasQuote"), Mode = BindingMode.OneWay});
+                showQuoteFunc = (v) =>
+                {
+                    if (v != null && v != quoteCommand.IsChecked)
+                    {
+                        quoteCommand.IsChecked = v.Value;
+                    }
+                    return quoteCommand.IsChecked ?? false;
+                };
+                quoteCommand.Checked += (sender, e) => { OnPropertyChanged(nameof(ShowQuote)); };
+                quoteCommand.Unchecked += (sender, e) => { OnPropertyChanged(nameof(ShowQuote)); };
+            }
+            else
+            {
+                showQuoteFunc = null;
+            }
+
+            if (quoteCommand != null)
+            {
+                appBar.PrimaryCommands.Add(quoteCommand);
+            }
         }
 
         private Func<bool?, bool> showQuoteFunc = null;
@@ -479,6 +486,15 @@ namespace DvachBrowser3.Views
                 ViewModel.Captcha = e.Data;
                 ViewModel.Post();
             }
+        }
+
+        private void EntryView_OnIsNarrowEditFocusedChanged(object sender, EventArgs e)
+        {
+            AppHelpers.DispatchAction(() =>
+            {
+                AppBarChange?.Invoke(this, EventArgs.Empty);
+                return Task.CompletedTask;
+            }, false, !EntryView.IsNarrowEditFocused ? 2000 : 250);
         }
     }
 }

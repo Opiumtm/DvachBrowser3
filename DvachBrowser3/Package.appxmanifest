@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="71e91320-25de-4bc5-a315-43951cfe67f2" Publisher="CN=Ipatov Eugeny" Version="1.0.77.0" />
+  <Identity Name="71e91320-25de-4bc5-a315-43951cfe67f2" Publisher="CN=Ipatov Eugeny" Version="1.0.80.0" />
   <mp:PhoneIdentity PhoneProductId="71e91320-25de-4bc5-a315-43951cfe67f2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>DvachBrowser3</DisplayName>

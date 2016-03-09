@@ -119,10 +119,65 @@ namespace DvachBrowser3.Views.Partial
             e.ApplyToTextBox(CommentBox2);
         }
 
+        private static ApplyMarkupEventHandler CreateBottomBarHandler(WeakReference<TextBox> handler)
+        {
+            return (sender, e) =>
+            {
+                TextBox obj;
+                if (handler.TryGetTarget(out obj))
+                {
+                    e.ApplyToTextBox(obj);
+                }
+            };
+        }
+
         private void IconBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             var cb = sender as ComboBox;
             cb?.SetBinding(ComboBox.SelectedItemProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Fields.Icon.AsBaseIntf.Value"), Mode = BindingMode.TwoWay});
+        }
+
+        public MarkupControl CreateAppBarMarkupForNarrowView()
+        {
+            var mc = new MarkupControl()
+            {
+                Orientation = Orientation.Horizontal,
+                MarkupPadding = new Thickness(2, 6, 2, 6)
+            };
+            mc.ApplyMarkup += CreateBottomBarHandler(new WeakReference<TextBox>(CommentBox2));
+            mc.SetBinding(MarkupControl.MarkupProviderProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Fields.MarkupProvider"), Mode = BindingMode.OneWay});
+            return mc;
+        }
+
+        /// <summary>
+        /// Поле ввода выбрано.
+        /// </summary>
+        public bool IsNarrowEditFocused
+        {
+            get { return (bool) GetValue(IsNarrowEditFocusedProperty); }
+            set { SetValue(IsNarrowEditFocusedProperty, value); }
+        }
+
+        /// <summary>
+        /// Поле ввода выбрано.
+        /// </summary>
+        public static readonly DependencyProperty IsNarrowEditFocusedProperty = DependencyProperty.Register("IsNarrowEditFocused", typeof (bool), typeof (PostingEntryView), new PropertyMetadata(false, PropertyChangedCallback));
+
+        public event EventHandler IsNarrowEditFocusedChanged;
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((PostingEntryView)d).IsNarrowEditFocusedChanged?.Invoke(d, EventArgs.Empty);
+        }
+
+        private void CommentBox2_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            IsNarrowEditFocused = true;
+        }
+
+        private void CommentBox2_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            IsNarrowEditFocused = false;
         }
     }
 }

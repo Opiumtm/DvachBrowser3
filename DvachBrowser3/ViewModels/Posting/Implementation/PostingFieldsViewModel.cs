@@ -39,7 +39,7 @@ namespace DvachBrowser3.ViewModels
                 throw new ArgumentException("Ссылка для постинга должна содержать информацию о доске");
             }
             Parent = parent;
-            flushDelay = new EventDelayHelper(TimeSpan.FromSeconds(0.5));
+            flushDelay = new EventDelayHelper(TimeSpan.FromSeconds(1.5));
             flushDelay.EventFired += FlushDelayOnEventFired;
         }
 

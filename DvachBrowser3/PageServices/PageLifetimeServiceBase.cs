@@ -17,6 +17,7 @@ namespace DvachBrowser3.PageServices
             OnNavigatedToCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnNavigatedToCallStatic);
             OnNavigatedFromCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnNavigatedFromCallStatic);
             OnAppResumeCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnAppResumeCallStatic);
+            OnUnloadedCall = CreateCallback(new WeakReference<PageLifetimeServiceBase>(this), OnUnloadedCallStatic);
         }
 
         /// <summary>
@@ -59,6 +60,10 @@ namespace DvachBrowser3.PageServices
                 lifetimeCallback.NavigatedFrom += OnNavigatedFromCall;
                 lifetimeCallback.AppResume += OnAppResumeCall;
             }
+            if (page != null)
+            {
+                page.Unloaded += OnUnloadedCall;
+            }
         }
 
         /// <summary>
@@ -73,6 +78,11 @@ namespace DvachBrowser3.PageServices
                 lifetimeCallback.NavigatedFrom -= OnNavigatedFromCall;
                 lifetimeCallback.AppResume -= OnAppResumeCall;
             }
+            var page = Page;
+            if (page != null)
+            {
+                page.Unloaded -= OnUnloadedCall;
+            }
         }
 
         private readonly EventHandler<NavigationEventArgs> OnNavigatedToCall;
@@ -80,6 +90,8 @@ namespace DvachBrowser3.PageServices
         private readonly EventHandler<NavigationEventArgs> OnNavigatedFromCall;
 
         private readonly EventHandler<object> OnAppResumeCall;
+
+        private readonly RoutedEventHandler OnUnloadedCall;
 
         private static EventHandler<NavigationEventArgs> CreateCallback(WeakReference<PageLifetimeServiceBase> weakRef, Action<PageLifetimeServiceBase, object, NavigationEventArgs> callback)
         {
@@ -94,6 +106,18 @@ namespace DvachBrowser3.PageServices
         }
 
         private static EventHandler<object> CreateCallback(WeakReference<PageLifetimeServiceBase> weakRef, Action<PageLifetimeServiceBase, object, object> callback)
+        {
+            return (sender, e) =>
+            {
+                PageLifetimeServiceBase obj;
+                if (weakRef.TryGetTarget(out obj))
+                {
+                    callback(obj, sender, e);
+                }
+            };
+        }
+
+        private static RoutedEventHandler CreateCallback(WeakReference<PageLifetimeServiceBase> weakRef, Action<PageLifetimeServiceBase, object, RoutedEventArgs> callback)
         {
             return (sender, e) =>
             {
@@ -125,6 +149,21 @@ namespace DvachBrowser3.PageServices
                     obj.OnPageLeave();
                 }
             }
+        }
+
+        private static void OnUnloadedCallStatic(PageLifetimeServiceBase obj, object sender, RoutedEventArgs e)
+        {
+            obj.DetachEvents();
+            obj.OnUnloaded(obj.Page, e);
+        }
+
+        /// <summary>
+        /// Страница выгружена.
+        /// </summary>
+        /// <param name="sender">Страница.</param>
+        /// <param name="e">Событие.</param>
+        protected virtual void OnUnloaded(Page sender, RoutedEventArgs e)
+        {            
         }
 
         /// <summary>
@@ -159,7 +198,6 @@ namespace DvachBrowser3.PageServices
         /// </summary>
         protected virtual void OnPageLeave()
         {
-            DetachEvents();
         }
     }
 }

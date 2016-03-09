@@ -66,9 +66,20 @@ namespace DvachBrowser3.Views
             });
         }
 
-        public void SetBottomAppBar(AppBar bar)
+        private Guid curPageId = Guid.Empty;
+
+        public void SetBottomAppBar(AppBar bar, Guid pageId)
         {
             BottomAppBar = bar;
+            curPageId = pageId;
+        }
+
+        public void ClearAppBar(Guid pageId)
+        {
+            if (pageId == curPageId)
+            {
+                BottomAppBar = null;
+            }
         }
 
         /// <summary>

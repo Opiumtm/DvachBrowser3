@@ -9,43 +9,43 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel Orientation="{x:Bind Orientation, Mode=OneWay}" x:Name="BindingRoot">
-        <Button x:Name="BoldButton" Margin="2" Padding="2" ToolTipService.ToolTip="Жирный" Click="BoldButton_OnClick">
+    <StackPanel Orientation="{x:Bind Orientation, Mode=OneWay}" x:Name="BindingRoot" VerticalAlignment="Center">
+        <Button x:Name="BoldButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Жирный" Click="BoldButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <SymbolIcon Symbol="Bold" />
             </Viewbox>
         </Button>
-        <Button x:Name="ItalicButton" Margin="2" Padding="2" ToolTipService.ToolTip="Наклонный" Click="ItalicButton_OnClick">
+        <Button x:Name="ItalicButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Наклонный" Click="ItalicButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <SymbolIcon Symbol="Italic" />
             </Viewbox>
         </Button>
-        <Button x:Name="SpoilerButton" Margin="2" Padding="2" ToolTipService.ToolTip="Спойлер" Click="SpoilerButton_OnClick">
+        <Button x:Name="SpoilerButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Спойлер" Click="SpoilerButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE727;" />
             </Viewbox>
         </Button>
-        <Button x:Name="StrikeoutButton" Margin="2" Padding="2" ToolTipService.ToolTip="Зачёркнутый" Click="StrikeoutButton_OnClick">
+        <Button x:Name="StrikeoutButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Зачёркнутый" Click="StrikeoutButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE738;" />
             </Viewbox>
         </Button>
-        <Button x:Name="MonospaceButton" Margin="2" Padding="2" ToolTipService.ToolTip="Моноширинный" Click="MonospaceButton_OnClick">
+        <Button x:Name="MonospaceButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Моноширинный" Click="MonospaceButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <FontIcon FontFamily="Courier New" Glyph="F" />
             </Viewbox>
         </Button>
-        <Button x:Name="UnderlineButton" Margin="2" Padding="2" ToolTipService.ToolTip="Подчёркнутый" Click="UnderlineButton_OnClick">
+        <Button x:Name="UnderlineButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Подчёркнутый" Click="UnderlineButton_OnClick">
             <Viewbox Height="16" Width="16">
                 <SymbolIcon Symbol="Underline" />
             </Viewbox>
         </Button>
-        <Button x:Name="SupButton" Margin="2" Padding="2" ToolTipService.ToolTip="Верхний индекс" Click="SupButton_OnClick">
+        <Button x:Name="SupButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Верхний индекс" Click="SupButton_OnClick">
             <Viewbox Height="11" Width="11" Margin="5, 0, 0, 5">
                 <FontIcon FontFamily="Segoe UI" Glyph="A" />
             </Viewbox>
         </Button>
-        <Button x:Name="SubButton" Margin="2" Padding="2" ToolTipService.ToolTip="Нижний индекс" Click="SubButton_OnClick">
+        <Button x:Name="SubButton" Margin="2" Padding="{x:Bind MarkupPadding, Mode=OneWay}" ToolTipService.ToolTip="Нижний индекс" Click="SubButton_OnClick">
             <Viewbox Height="11" Width="11" Margin="5, 5, 0, 0">
                 <FontIcon FontFamily="Segoe UI" Glyph="A" />
             </Viewbox>

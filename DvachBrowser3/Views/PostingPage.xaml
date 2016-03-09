@@ -46,7 +46,7 @@
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Posting.Progress, Mode=OneWay}" ShowMessage="True" />
 
         <Grid Grid.Row="2" x:Name="MainGrid">
-            <pa:PostingEntryView ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            <pa:PostingEntryView ViewModel="{x:Bind ViewModel, Mode=OneWay}" x:Name="EntryView" IsNarrowEditFocusedChanged="EntryView_OnIsNarrowEditFocusedChanged" />
         </Grid>
         <pa:ContentPopup Grid.Row="2" x:Name="QuotePopup" IsContentVisibleChanged="Popup_OnIsContentVisibleChanged" HideCloseButton="True" IsContentVisible="{x:Bind ShowQuote, Mode=OneWay}">
             <pa:ContentPopup.ViewContent>
