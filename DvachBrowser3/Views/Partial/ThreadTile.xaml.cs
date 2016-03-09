@@ -29,6 +29,8 @@ namespace DvachBrowser3.Views.Partial
 
         private WeakReference<DoubleAnimation> imageSlideInAnimationHandle;
         private WeakReference<DoubleAnimation> imageSlideOutAnimationHandle;
+        private WeakReference<DoubleAnimation> textSlideInAnimationHandle;
+        private WeakReference<DoubleAnimation> textSlideOutAnimationHandle;
 
         public ThreadTile()
         {
@@ -48,7 +50,13 @@ namespace DvachBrowser3.Views.Partial
             SetTimePeriod();
             timer.Tick += timerOnClick;
             timer.Start();
+            InitAnimations();
+        }
+
+        private void InitAnimations()
+        {
             TileImageTransform.Y = styleManager.Tiles.BoardTileHeight;
+
             var imageSlideInAnimation = new DoubleAnimation()
             {
                 From = 0,
@@ -59,6 +67,7 @@ namespace DvachBrowser3.Views.Partial
             imageSlideInAnimationHandle = new WeakReference<DoubleAnimation>(imageSlideInAnimation);
             Storyboard.SetTargetName(imageSlideInAnimation, "TileImageTransform");
             Storyboard.SetTargetProperty(imageSlideInAnimation, "Y");
+
             var imageSlideOutAnimation = new DoubleAnimation()
             {
                 From = 0,
@@ -69,9 +78,36 @@ namespace DvachBrowser3.Views.Partial
             imageSlideOutAnimationHandle = new WeakReference<DoubleAnimation>(imageSlideOutAnimation);
             Storyboard.SetTargetName(imageSlideOutAnimation, "TileImageTransform");
             Storyboard.SetTargetProperty(imageSlideOutAnimation, "Y");
+
+            TextTransform.Y = 0;
+
+            var textSlideInAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = 0,
+                Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
+                EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn },
+            };
+            textSlideInAnimationHandle = new WeakReference<DoubleAnimation>(textSlideInAnimation);
+            Storyboard.SetTargetName(textSlideInAnimation, "TextTransform");
+            Storyboard.SetTargetProperty(textSlideInAnimation, "Y");
+
+            var textSlideOutAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = 0,
+                Duration = new Duration(TimeSpan.FromSeconds(1.0 / 2)),
+                EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseOut },
+            };
+            textSlideOutAnimationHandle = new WeakReference<DoubleAnimation>(textSlideOutAnimation);
+            Storyboard.SetTargetName(textSlideOutAnimation, "TextTransform");
+            Storyboard.SetTargetProperty(textSlideOutAnimation, "Y");
+
             ((Storyboard)Resources["ImageSlideIn"]).Children.Add(imageSlideInAnimation);
             ((Storyboard)Resources["ImageSlideOut"]).Children.Add(imageSlideOutAnimation);
-            UpdateAnimationData(imageSlideInAnimation, imageSlideOutAnimation);
+            ((Storyboard)Resources["TextSlideIn"]).Children.Add(textSlideInAnimation);
+            ((Storyboard)Resources["TextSlideOut"]).Children.Add(textSlideOutAnimation);
+            UpdateAnimationData(imageSlideInAnimation, imageSlideOutAnimation, textSlideInAnimation, textSlideOutAnimation);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
@@ -141,11 +177,15 @@ namespace DvachBrowser3.Views.Partial
             {
                 var storyBoard = (Storyboard) Resources["ImageSlideOut"];
                 storyBoard.Begin();
+                var storyBoard2 = (Storyboard)Resources["TextSlideOut"];
+                storyBoard2.Begin();
             }
             else
             {
                 var storyBoard = (Storyboard)Resources["ImageSlideIn"];
                 storyBoard.Begin();
+                var storyBoard2 = (Storyboard)Resources["TextSlideIn"];
+                storyBoard2.Begin();
             }
             isImageSlided = !isImageSlided;
             SetTimePeriod();
@@ -161,11 +201,11 @@ namespace DvachBrowser3.Views.Partial
         {
             if (channel?.Id == Shell.IsNarrowViewChangedId)
             {
-                UpdateAnimationData(null, null);
+                UpdateAnimationData(null, null, null, null);
             }
         }
 
-        private void UpdateAnimationData(DoubleAnimation inAnimation, DoubleAnimation outAnimation)
+        private void UpdateAnimationData(DoubleAnimation inAnimation, DoubleAnimation outAnimation, DoubleAnimation tinAnimation, DoubleAnimation toutAnimation)
         {
             if (inAnimation != null)
             {
@@ -179,6 +219,20 @@ namespace DvachBrowser3.Views.Partial
                     imageSlideInAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
                 }
             }
+
+            if (tinAnimation != null)
+            {
+                tinAnimation.To = styleManager.Tiles.BoardTileHeight;
+            }
+            else
+            {
+                DoubleAnimation textSlideInAnimation;
+                if (textSlideInAnimationHandle.TryGetTarget(out textSlideInAnimation))
+                {
+                    textSlideInAnimation.To = styleManager.Tiles.BoardTileHeight;
+                }
+            }
+
             if (outAnimation != null)
             {
                 outAnimation.To = styleManager.Tiles.BoardTileHeight;
@@ -191,6 +245,20 @@ namespace DvachBrowser3.Views.Partial
                     imageSlideOutAnimation.To = styleManager.Tiles.BoardTileHeight;
                 }
             }
+
+            if (toutAnimation != null)
+            {
+                toutAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
+            }
+            else
+            {
+                DoubleAnimation textSlideOutAnimation;
+                if (textSlideOutAnimationHandle.TryGetTarget(out textSlideOutAnimation))
+                {
+                    textSlideOutAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;
+                }
+            }
+
             MainBorder.Clip = new RectangleGeometry()
             {
                 Rect = new Rect(0, 0, styleManager.Tiles.BoardTileWidth, styleManager.Tiles.BoardTileHeight)

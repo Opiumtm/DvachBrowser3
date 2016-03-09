@@ -17,6 +17,10 @@
         </Storyboard>
         <Storyboard x:Key="ImageSlideOut">
         </Storyboard>
+        <Storyboard x:Key="TextSlideIn">
+        </Storyboard>
+        <Storyboard x:Key="TextSlideOut">
+        </Storyboard>
     </UserControl.Resources>
 
     <Border Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileWidth, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileHeight, Mode=OneWay}" x:Name="MainBorder"
@@ -25,7 +29,10 @@
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Border.Background>
         <Grid>
-            <RelativePanel Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <RelativePanel Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="TextPanel">
+                <RelativePanel.RenderTransform>
+                    <TranslateTransform x:Name="TextTransform" />
+                </RelativePanel.RenderTransform>
                 <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileBoardFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Board, Mode=OneWay}" />
                 <Image x:Name="Logo" Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
                 <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" Visibility="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameVisibility, Mode=OneWay}" />
