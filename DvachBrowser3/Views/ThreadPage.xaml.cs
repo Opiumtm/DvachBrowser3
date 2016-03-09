@@ -46,6 +46,8 @@ namespace DvachBrowser3.Views
         {
             NavigationCacheMode = NavigationCacheMode.Disabled;
             this.InitializeComponent();
+            ViewModelOnPropertyChanged = CreateViewModelOnPropertyChangedHandler(new WeakReference<ThreadPage>(this));
+            OnPostsUpdated = CreateOnPostsUpdatedHandler(new WeakReference<ThreadPage>(this));
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
             this.Unloaded += (sender, e) =>
@@ -127,7 +129,22 @@ namespace DvachBrowser3.Views
             NavigatedFrom?.Invoke(this, e);
         }
 
-        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        // ReSharper disable once InconsistentNaming
+        private readonly PropertyChangedEventHandler ViewModelOnPropertyChanged;
+
+        private static PropertyChangedEventHandler CreateViewModelOnPropertyChangedHandler(WeakReference<ThreadPage> handle)
+        {
+            return (sender, e) =>
+            {
+                ThreadPage obj;
+                if (handle.TryGetTarget(out obj))
+                {
+                    obj.ViewModelOnPropertyChangedHandler(sender, e);
+                }
+            };
+        }
+
+        private void ViewModelOnPropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
             var vm = sender as IThreadViewModel;
             if (vm != null && object.ReferenceEquals(vm, ViewModel))
@@ -212,13 +229,29 @@ namespace DvachBrowser3.Views
             }
         }
 
-        private void OnPostsUpdated(object sender, EventArgs eventArgs)
+        // ReSharper disable once InconsistentNaming
+        private readonly EventHandler OnPostsUpdated;
+
+        private static EventHandler CreateOnPostsUpdatedHandler(WeakReference<ThreadPage> handle)
+        {
+            return (sender, e) =>
+            {
+                ThreadPage obj;
+                if (handle.TryGetTarget(out obj))
+                {
+                    obj.OnPostsUpdatedHandler(sender, e);
+                }
+            };
+        }
+
+        private void OnPostsUpdatedHandler(object sender, EventArgs eventArgs)
         {
             var vm = ViewModel;
             if (vm == null)
             {
                 return;
             }
+
             AppHelpers.ActionOnUiThread(() =>
             {
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();

@@ -45,7 +45,10 @@ namespace DvachBrowser3.Views.Partial
         {
             if (CollectionView != null)
             {
-                CollectionView.Source = viewModel?.Posts;
+                if (!object.ReferenceEquals(CollectionView.Source, viewModel?.Posts))
+                {
+                    CollectionView.Source = viewModel?.Posts;
+                }
             }
         }
 
@@ -268,7 +271,6 @@ namespace DvachBrowser3.Views.Partial
             var obj = d as SinglePostCollectionView;
             if (obj != null)
             {
-                obj.SelectedItemChanged?.Invoke(obj, EventArgs.Empty);
                 if (e.NewValue != null)
                 {
                     if (e.NewValue != obj.CollectionView?.View?.CurrentItem)
@@ -290,6 +292,7 @@ namespace DvachBrowser3.Views.Partial
                 if (SelectedItem != CollectionView.View.CurrentItem)
                 {
                     SelectedItem = CollectionView.View.CurrentItem;
+                    SelectedItemChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
