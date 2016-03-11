@@ -26,16 +26,10 @@ namespace DvachBrowser3.Views
             InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            this.Loaded += OnLoaded;
             this.Unloaded += (sender, e) =>
             {
                 ViewModel = null;
             };
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            InitViewModel();
         }
 
         /// <summary>
@@ -61,6 +55,7 @@ namespace DvachBrowser3.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            InitViewModel();
             NavigatedTo?.Invoke(this, e);
         }
 
