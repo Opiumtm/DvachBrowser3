@@ -7,6 +7,7 @@ using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -397,6 +398,25 @@ namespace DvachBrowser3.Views.Partial
             postView?.SetBinding(PostView.ShowPreviewSeparatorProperty, new Binding() { Source = this, Path = new PropertyPath("ShowPreviewSeparator") });
             postView?.SetBinding(PostView.ShowFullThreadTextProperty, new Binding() { Source = this, Path = new PropertyPath("ShowFullThreadText") });
             postView?.SetBinding(PostView.ShowFullPostButtonProperty, new Binding() { Source = this, Path = new PropertyPath("ShowFullPostButton") });
+        }
+
+        private void PostView_OnViewModelChanged(object sender, EventArgs e)
+        {
+            var postView = sender as PostView;
+            if (postView != null)
+            {
+                postView.RenderPhase = 0;
+                #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    postView.RenderPhase = 1;
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        postView.RenderPhase = 2;
+                    });
+                });
+                #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
         }
     }
 }

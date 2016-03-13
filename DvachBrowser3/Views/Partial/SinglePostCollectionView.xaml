@@ -29,22 +29,25 @@
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="vm:IPostViewModel">
                         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                            <ScrollViewer.Background>
+                                <SolidColorBrush Color="Black" Opacity="0" />
+                            </ScrollViewer.Background>
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
+                                <behaviors:PopupMenuBehavior>
+                                    <behaviors:PopupMenuBehavior.MenuFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="Копировать текст" Tag="{x:Bind}" Click="CopyTextFlyoutItem_OnClick"/>
+                                            <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
+                                            <MenuFlyoutItem Text="Ответить" Tag="{x:Bind}" Click="PostQuoteFlyoutItem_OnClick"/>
+                                        </MenuFlyout>
+                                    </behaviors:PopupMenuBehavior.MenuFlyout>
+                                </behaviors:PopupMenuBehavior>
+                            </interactivity:Interaction.Behaviors>
                             <local:PostView ViewModel="{x:Bind}" 
                                     ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"
                                     Loaded="PostView_OnLoaded"                                    
-                                    VerticalAlignment="Top">
-                                <interactivity:Interaction.Behaviors>
-                                    <behaviors:CleanListContentMarginBehavior NarrowThickness="{StaticResource CleanListPaddingNarrow}" NormalThickness="{StaticResource CleanListPadding}" />
-                                    <behaviors:PopupMenuBehavior>
-                                        <behaviors:PopupMenuBehavior.MenuFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem Text="Копировать текст" Tag="{x:Bind}" Click="CopyTextFlyoutItem_OnClick"/>
-                                                <MenuFlyoutItem Text="Копировать ссылку" Tag="{x:Bind}" Click="CopyLinkFlyoutItem_OnClick" />
-                                                <MenuFlyoutItem Text="Ответить" Tag="{x:Bind}" Click="PostQuoteFlyoutItem_OnClick"/>
-                                            </MenuFlyout>
-                                        </behaviors:PopupMenuBehavior.MenuFlyout>
-                                    </behaviors:PopupMenuBehavior>
-                                </interactivity:Interaction.Behaviors>
+                                    VerticalAlignment="Top" ViewModelChanged="PostView_OnViewModelChanged">
                             </local:PostView>
                         </ScrollViewer>
                     </DataTemplate>

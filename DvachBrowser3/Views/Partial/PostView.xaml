@@ -45,9 +45,9 @@
                     RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" x:Name="IconView"
                     VerticalAlignment="Top">
                 <Image Height="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}"
-                       Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Icon.Image, Mode=OneWay}" />
+                       Stretch="Uniform" Source="{x:Bind ViewModel.Name.Icon.Image, Mode=OneWay}" />
             </Border>
-            <Image Height="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind ViewModel.Name.Flag.Image, Mode=OneWay}"
+            <Image Height="{x:Bind ViewModel.StyleManager.Icons.FlagIconHeight, Mode=OneWay}" Width="{x:Bind ViewModel.StyleManager.Icons.FlagIconWidth, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind ViewModel.Name.Flag.Image, Mode=OneWay}"
                    Visibility="{x:Bind ViewModel.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                    Margin="2" x:Name="FlagView" RelativePanel.RightOf="IconView" VerticalAlignment="Top"/>
             <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" TextWrapping="Wrap" RelativePanel.RightOf="FlagView" RelativePanel.LeftOf="PostFlagsView" VerticalAlignment="Top" MaxLines="4">
@@ -104,7 +104,7 @@
                             <Border.Background>
                                 <SolidColorBrush Color="Black" Opacity="0" />
                             </Border.Background>
-                            <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}">
+                            <local:PreviewImage Height="{x:Bind StyleManager.Tiles.ImagePreviewHeight, Mode=OneWay}" Width="{x:Bind StyleManager.Tiles.ImagePreviewWidth, Mode=OneWay}" ViewModel="{x:Bind ThumbnailImage, Mode=OneWay}" Loaded="PreviewImage_OnLoaded" LoadingSuspended="True">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:PopupMenuBehavior>
                                         <behaviors:PopupMenuBehavior.MenuFlyout>

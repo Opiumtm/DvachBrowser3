@@ -66,7 +66,12 @@ namespace DvachBrowser3.Views.Partial
         /// Модель представления.
         /// </summary>
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof (IPostViewModel), typeof (PostView),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, ViewModelPropertyChangedCallback));
+
+        private static void ViewModelPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as PostView)?.ViewModelChanged?.Invoke(d, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Показывать порядковый номер поста.
@@ -267,5 +272,65 @@ namespace DvachBrowser3.Views.Partial
                 await AppHelpers.ShowError(ex);
             }
         }
+
+        /// <summary>
+        /// Фаза рендеринга.
+        /// </summary>
+        public int RenderPhase
+        {
+            get { return (int) GetValue(RenderPhaseProperty); }
+            set { SetValue(RenderPhaseProperty, value); }
+        }
+
+        /// <summary>
+        /// Фаза рендеринга.
+        /// </summary>
+        public static readonly DependencyProperty RenderPhaseProperty = DependencyProperty.Register("RenderPhase", typeof (int), typeof (PostView), new PropertyMetadata(-1, PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((PostView)d).RenderPhaseChanged();
+        }
+
+        private void RenderPhaseChanged()
+        {
+            switch (RenderPhase)
+            {
+                case 0:
+                    PostTextView.RenderSuspended = true;
+                    ImageLoadingSuspended = true;
+                    break;
+                case 1:
+                    PostTextView.RenderSuspended = false;
+                    ImageLoadingSuspended = true;
+                    break;
+                default:
+                    PostTextView.RenderSuspended = false;
+                    ImageLoadingSuspended = false;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Загрузка изображений приостановлена.
+        /// </summary>
+        public bool ImageLoadingSuspended
+        {
+            get { return (bool) GetValue(ImageLoadingSuspendedProperty); }
+            set { SetValue(ImageLoadingSuspendedProperty, value); }
+        }
+
+        /// <summary>
+        /// Загрузка изображений приостановлена.
+        /// </summary>
+        public static readonly DependencyProperty ImageLoadingSuspendedProperty = DependencyProperty.Register("ImageLoadingSuspended", typeof (bool), typeof (PostView), new PropertyMetadata(false));
+
+        private void PreviewImage_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var obj = sender as PreviewImage;
+            obj?.SetBinding(PreviewImage.LoadingSuspendedProperty, new Binding() { Source = this, Path = new PropertyPath("ImageLoadingSuspended"), Mode = BindingMode.OneWay });
+        }
+
+        public event EventHandler ViewModelChanged;
     }
 }

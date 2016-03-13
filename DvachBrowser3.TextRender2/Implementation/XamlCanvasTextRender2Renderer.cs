@@ -15,7 +15,7 @@ namespace DvachBrowser3.TextRender
     /// </summary>
     public sealed class XamlCanvasTextRender2Renderer : ITextRender2Renderer
     {
-        private static readonly MassChildUpdateHelper UpdateHelper = new MassChildUpdateHelper();
+        //private static readonly MassChildUpdateHelper UpdateHelper = new MassChildUpdateHelper();
 
         private static readonly XamlRenderHelper RenderHelper = new XamlRenderHelper();
 
@@ -54,10 +54,11 @@ namespace DvachBrowser3.TextRender
         private void DoRender(Canvas canvas, ITextRender2MeasureMap map)
         {
             var elements = DoRenderLines(map).ToArray();
-            UpdateHelper.UpdateChildren(canvas.Children, elements);
+            //UpdateHelper.UpdateChildren(canvas.Children, elements);
+            RenderHelper.RenderToCanvas(canvas, elements);
         }
 
-        private IEnumerable<UIElement> DoRenderLines(ITextRender2MeasureMap map)
+        private IEnumerable<IRenderArgument> DoRenderLines(ITextRender2MeasureMap map)
         {
             foreach (var line in map.GetMeasureMapLines())
             {
@@ -75,7 +76,7 @@ namespace DvachBrowser3.TextRender
             }
         }
 
-        private IEnumerable<UIElement> DoRenderLine(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line)
+        private IEnumerable<IRenderArgument> DoRenderLine(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line)
         {
             foreach (var el in line.GetMeasureMap())
             {
@@ -83,9 +84,9 @@ namespace DvachBrowser3.TextRender
             }
         }
 
-        private UIElement DoRenderElement(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
+        private IRenderArgument DoRenderElement(ITextRender2MeasureMap map, ITextRender2MeasureMapLine line, TextRender2MeasureMapElement el)
         {
-            return RenderHelper.RenderElement(new NativeRenderArgument(map, line, el, Callback));
+            return new NativeRenderArgument(map, line, el, Callback);
         }
     }
 }

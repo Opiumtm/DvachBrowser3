@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml;
+using Buffer = Windows.Storage.Streams.Buffer;
 
 namespace DvachBrowser3
 {
@@ -38,6 +40,20 @@ namespace DvachBrowser3
                 } while (true);
                 rd.DetachStream();
             }
+        }
+
+        public static async Task CopyStreamAsync(this IInputStream src, IOutputStream outStream, uint bufferSize = 16384)
+        {
+            IBuffer buf2;
+            do
+            {
+                var buf = new Buffer(bufferSize);
+                buf2 = await src.ReadAsync(buf, bufferSize, InputStreamOptions.None);
+                if (buf2.Length > 0)
+                {
+                    await outStream.WriteAsync(buf2);
+                }
+            } while (buf2.Length > 0);
         }
     }
 }

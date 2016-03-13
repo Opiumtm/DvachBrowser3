@@ -14,7 +14,8 @@
     >
 
     <Grid x:Name="BindingRoot">
-        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{x:Bind Header, Mode=OneWay}" Footer="{x:Bind Footer, Mode=OneWay}">
+        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Posts, Mode=OneWay}" SelectionMode="None" Header="{x:Bind Header, Mode=OneWay}" Footer="{x:Bind Footer, Mode=OneWay}"
+                  ContainerContentChanging="MainList_OnContainerContentChanging">
             <ListView.ItemContainerTransitions>
                 <TransitionCollection />
             </ListView.ItemContainerTransitions>

@@ -174,5 +174,40 @@ namespace DvachBrowser3.Views.Partial
                 await AppHelpers.ShowError(ex);
             }
         }
+
+        private void MainList_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var prev = GetPreview(args);
+            if (prev != null)
+            {
+                prev.Phase = 0;
+                args.RegisterUpdateCallback(Phase1Callback);
+            }
+        }
+
+        private void Phase1Callback(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var prev = GetPreview(args);
+            if (prev != null)
+            {
+                prev.Phase = 1;
+                args.RegisterUpdateCallback(Phase2Callback);
+            }
+        }
+
+        private void Phase2Callback(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var prev = GetPreview(args);
+            if (prev != null)
+            {
+                prev.Phase = 2;
+            }
+        }
+
+        private BoardThreadRefPreview GetPreview(ContainerContentChangingEventArgs args)
+        {
+            var contentRoot = args.ItemContainer.ContentTemplateRoot as Border;
+            return contentRoot?.Child as BoardThreadRefPreview;
+        }
     }
 }

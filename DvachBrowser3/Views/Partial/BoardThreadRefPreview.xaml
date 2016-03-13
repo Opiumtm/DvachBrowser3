@@ -35,7 +35,7 @@
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.5" />
             </Border.BorderBrush>
             <local:PreviewImage Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Tiles.ThreadPrevewImageHeight, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Tiles.ThreadPreviewImageWidth, Mode=OneWay}" 
-                            ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" />
+                            ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" x:Name="ImagePreview" />
         </Border>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" Visibility="{x:Bind HorizontalHeaderVisibility, Mode=OneWay}">
@@ -44,7 +44,7 @@
                         ToolTipService.ToolTip="{x:Bind PostCollectionViewModel.OpPost.Name.IconName, Mode=OneWay}">
                     <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
                 </Border>
-                <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
+                <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.FlagIconHeight, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.FlagIconWidth, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
                        Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                        Margin="2"
                        />
@@ -60,9 +60,9 @@
                     <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                             Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
                             ToolTipService.ToolTip="{x:Bind PostCollectionViewModel.OpPost.Name.IconName, Mode=OneWay}">
-                        <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
+                        <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Icon.Image, Mode=OneWay}" />
                     </Border>
-                    <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="UniformToFill" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
+                    <Image Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.PoIconSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind PostCollectionViewModel.OpPost.Name.Flag.Image, Mode=OneWay}"
                            Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Flag, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                            Margin="2"
                        />

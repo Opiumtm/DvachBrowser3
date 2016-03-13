@@ -269,5 +269,42 @@ namespace DvachBrowser3.Views
                 PostPreview.IsContentVisible = false;
             }
         }
+
+        private void MainList_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var tile = GetTileImage(args);
+            if (tile != null)
+            {
+                tile.Opacity = 0;
+                tile.LoadingSuspended = true;
+                args.RegisterUpdateCallback(Phase1Callback);
+            }
+        }
+
+        private void Phase1Callback(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var tile = GetTileImage(args);
+            if (tile != null)
+            {
+                tile.Opacity = 1;
+                tile.LoadingSuspended = false;
+            }
+        }
+
+        private TileImage GetTileImage(ContainerContentChangingEventArgs args)
+        {
+            var contentRoot = args.ItemContainer.ContentTemplateRoot as Grid;
+            if (contentRoot != null)
+            {
+                foreach (var c in contentRoot.Children)
+                {
+                    if (c is TileImage)
+                    {
+                        return c as TileImage;
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

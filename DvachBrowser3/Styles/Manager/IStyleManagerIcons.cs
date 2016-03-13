@@ -16,5 +16,15 @@ namespace DvachBrowser3.Styles
         /// Размер иконки хидера.
         /// </summary>
         double HeaderIconSize { get; }
+
+        /// <summary>
+        /// Ширина флага.
+        /// </summary>
+        double FlagIconWidth { get; }
+
+        /// <summary>
+        /// Ширина флага.
+        /// </summary>
+        double FlagIconHeight { get; }
     }
 }

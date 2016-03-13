@@ -133,6 +133,44 @@ namespace DvachBrowser3.Views.Partial
                 SizeStateChanged();
             }
         }
+
+        /// <summary>
+        /// Фаза оторбажения.
+        /// </summary>
+        public int Phase
+        {
+            get { return (int) GetValue(PhaseProperty); }
+            set { SetValue(PhaseProperty, value); }
+        }
+
+        /// <summary>
+        /// Фаза оторбажения.
+        /// </summary>
+        public static readonly DependencyProperty PhaseProperty = DependencyProperty.Register("Phase", typeof (int), typeof (BoardThreadRefPreview), new PropertyMetadata(-1, PhasePropertyChangedCallback));
+
+        private void PhaseChanged()
+        {
+            switch (Phase)
+            {
+                case 0:
+                    PostText.RenderSuspended = true;
+                    ImagePreview.LoadingSuspended = true;
+                    break;
+                case 1:
+                    PostText.RenderSuspended = false;
+                    ImagePreview.LoadingSuspended = true;
+                    break;
+                default:
+                    PostText.RenderSuspended = false;
+                    ImagePreview.LoadingSuspended = false;
+                    break;
+            }
+        }
+
+        private static void PhasePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BoardThreadRefPreview)d).PhaseChanged();
+        }
     }
 
     public class BoardThreadRefPreviewImageWidthValueConverter : IValueConverter

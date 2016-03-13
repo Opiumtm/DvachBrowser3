@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="BindingRoot">
-        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Threads, Mode=OneWay}" SelectionMode="None" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView x:Name="MainList" ItemsSource="{x:Bind ViewModel.Threads, Mode=OneWay}" SelectionMode="None" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ContainerContentChanging="MainList_OnContainerContentChanging">
             <!--
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>

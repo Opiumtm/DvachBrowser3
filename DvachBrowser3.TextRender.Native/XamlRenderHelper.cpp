@@ -14,7 +14,41 @@ using namespace Windows::Foundation;
 
 namespace DvachBrowser3_TextRender_Native
 {
-	UIElement^ XamlRenderHelper::RenderElement(IRenderArgument^ arg)
+	ref class UIElementWithCoord sealed : IUIElementWithCoord
+	{
+	private:
+		UIElement^ m_element;
+		float m_x;
+		float m_y;
+	public:
+		UIElementWithCoord(UIElement^ p_element, float p_x, float p_y)
+		{
+			m_element = p_element;
+			m_x = p_x;
+			m_y = p_y;
+		}
+
+		property UIElement^ Element { virtual UIElement^ get(); };
+		property float X { virtual float get(); };
+		property float Y { virtual float get(); };
+	};
+
+	UIElement^ UIElementWithCoord::Element::get()
+	{
+		return m_element;
+	}
+
+	float UIElementWithCoord::X::get()
+	{
+		return m_x;
+	}
+
+	float UIElementWithCoord::Y::get()
+	{
+		return m_y;
+	}
+
+	IUIElementWithCoord^ XamlRenderHelper::RenderElementWithCoord(IRenderArgument^ arg)
 	{
 		auto r = ref new TextBlock();
 		r->FontFamily = arg->Callback->Font;
@@ -147,8 +181,8 @@ namespace DvachBrowser3_TextRender_Native
 			result = g2;
 		}
 
-		Canvas::SetLeft(result, arg->Placement.X);
-		Canvas::SetTop(result, arg->Placement.Y);
+		//Canvas::SetLeft(result, arg->Placement.X);
+		//Canvas::SetTop(result, arg->Placement.Y);
 
 		ILinkData^ link = arg->Link;
 		if (link != nullptr)
@@ -156,6 +190,25 @@ namespace DvachBrowser3_TextRender_Native
 			arg->Callback->RenderLinkCallback(result, link);
 		}
 
-		return result;
+		IUIElementWithCoord^ result2 = ref new UIElementWithCoord(result, arg->Placement.X, arg->Placement.Y);
+		return result2;
+	}
+
+	UIElement^ XamlRenderHelper::RenderElement(IRenderArgument^ arg)
+	{
+		IUIElementWithCoord^ result = RenderElementWithCoord(arg);
+		Canvas::SetLeft(result->Element, result->X);
+		Canvas::SetTop(result->Element, result->Y);
+		return result->Element;
+	}
+
+	void XamlRenderHelper::RenderToCanvas(Canvas^ canvas, const Array<IRenderArgument^, 1>^ elements)
+	{
+		Platform::Array<UIElement^>^ toRender = ref new Platform::Array<UIElement^>(elements->Length);
+		for (int i = 0; i < elements->Length; i++)
+		{
+			toRender->set(i, RenderElement(elements->get(i)));
+		}
+		canvas->Children->ReplaceAll(toRender);
 	}
 }

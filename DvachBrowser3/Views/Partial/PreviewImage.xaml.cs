@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -59,13 +60,27 @@ namespace DvachBrowser3.Views.Partial
             }
             UpdateSize();
             UpdateState(null);
-            if (newValue?.Load != null)
+            EnsureLoad();
+        }
+
+        private void EnsureLoad()
+        {
+            AppHelpers.DispatchAction(() =>
             {
-                if (!newValue.ImageLoaded && !newValue.Load.Progress.IsActive)
+                if (ViewModel?.Load != null && !LoadingSuspended)
                 {
-                    newValue.Load.Start();
+                    if (!ViewModel.ImageLoaded && !ViewModel.Load.Progress.IsActive)
+                    {
+                        ViewModel.Load.Start();
+                    }
                 }
-            }
+                return Task.CompletedTask;
+            }, false, 50);
+        }
+
+        private void LoadingSuspendedChanged()
+        {
+            EnsureLoad();
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -208,12 +223,32 @@ namespace DvachBrowser3.Views.Partial
 
         private async void ErrorSymbol_OnTapped(object sender, TappedRoutedEventArgs e)
         {
+            e.Handled = true;
             var ex = ViewModel?.Load?.Progress?.Exception;
             if (ex != null)
             {
                 await AppHelpers.ShowError(ex);
             }
             ViewModel?.Load?.Start();
+        }
+
+        /// <summary>
+        /// Загрузка приостановлена.
+        /// </summary>
+        public bool LoadingSuspended
+        {
+            get { return (bool) GetValue(LoadingSuspendedProperty); }
+            set { SetValue(LoadingSuspendedProperty, value); }
+        }
+
+        /// <summary>
+        /// Загрузка приостановлена.
+        /// </summary>
+        public static readonly DependencyProperty LoadingSuspendedProperty = DependencyProperty.Register("LoadingSuspended", typeof (bool), typeof (PreviewImage), new PropertyMetadata(false, PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((PreviewImage)d).LoadingSuspendedChanged();
         }
     }
 }

@@ -49,16 +49,6 @@ namespace DvachBrowser3.TextRender
             return base.ArrangeOverride(finalSize);
         }
 
-        private static void DispatchRenderText(CoreDispatcher dispatcher, TextRender2Control control)
-        {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                control.RenderText();
-            });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        }
-
         private void RenderText()
         {
             if (renderedId != renderId)
@@ -72,6 +62,10 @@ namespace DvachBrowser3.TextRender
 
         private void DoRenderText()
         {
+            if (RenderSuspended)
+            {
+                return;
+            }
             try
             {
                 var map = cachedMap;
@@ -141,6 +135,19 @@ namespace DvachBrowser3.TextRender
         {
             var mapper = new Direct2DTextRender2MeasureMapper();
             return mapper.CreateMap(program, width, ControlCallback.PostFontSize, MaxLines > 0 ? (int?)MaxLines : null);
+        }
+
+        private void RenderSuspendedChanged()
+        {
+            if (RenderSuspended)
+            {
+                MainGrid.Children.Clear();
+            }
+            else
+            {
+                mapId = Guid.NewGuid();
+                DoRenderText();
+            }
         }
 
         private double? lastWidth;
@@ -216,5 +223,24 @@ namespace DvachBrowser3.TextRender
         /// Обратный вызов.
         /// </summary>
         public static readonly DependencyProperty ControlCallbackProperty = DependencyProperty.Register("ControlCallback", typeof (ITextRender2ControlCallback), typeof (TextRender2Control), new PropertyMetadata(null, (d, e) => (d as TextRender2Control)?.InvalidateRenderedStateAndClear()));
+
+        /// <summary>
+        /// Отображение прекращено.
+        /// </summary>
+        public bool RenderSuspended
+        {
+            get { return (bool) GetValue(RenderSuspendedProperty); }
+            set { SetValue(RenderSuspendedProperty, value); }
+        }
+
+        /// <summary>
+        /// Отображение прекращено.
+        /// </summary>
+        public static readonly DependencyProperty RenderSuspendedProperty = DependencyProperty.Register("RenderSuspended", typeof (bool), typeof (TextRender2Control), new PropertyMetadata(false, RenderSuspendedPropertyChangedCallback));
+
+        private static void RenderSuspendedPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((TextRender2Control)d).RenderSuspendedChanged();
+        }
     }
 }

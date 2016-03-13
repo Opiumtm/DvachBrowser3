@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using DvachBrowser3.Engines;
@@ -94,9 +96,14 @@ namespace DvachBrowser3.ViewModels
                     if (cacheUri == null || await CheckUpdateInMem(result))
                     {
                         var imgSource = new BitmapImage();
-                        using (var f = await result.OpenReadAsync())
+                        using (var s = new InMemoryRandomAccessStream())
                         {
-                            await imgSource.SetSourceAsync(f);
+                            using (var f = await result.OpenReadAsync())
+                            {
+                                await f.CopyStreamAsync(s, 4096);
+                                s.Seek(0);
+                                await imgSource.SetSourceAsync(s);
+                            }
                         }
                         Image = imgSource;
                     }

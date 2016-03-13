@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Perception.Spatial;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -221,5 +222,20 @@ namespace DvachBrowser3.Views.Partial
                 RefreshView();
             }
         }
+
+
+        /// <summary>
+        /// Отображение приостановлено.
+        /// </summary>
+        public bool RenderSuspended
+        {
+            get { return (bool) GetValue(RenderSuspendedProperty); }
+            set { SetValue(RenderSuspendedProperty, value); }
+        }
+
+        /// <summary>
+        /// Отображение приостановлено.
+        /// </summary>
+        public static readonly DependencyProperty RenderSuspendedProperty = DependencyProperty.Register("RenderSuspended", typeof (bool), typeof (PostText2), new PropertyMetadata(false));
     }
 }

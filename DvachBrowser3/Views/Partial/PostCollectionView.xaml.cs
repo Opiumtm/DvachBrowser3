@@ -346,5 +346,34 @@ namespace DvachBrowser3.Views.Partial
             var menuItem = sender as MenuFlyoutItem;
             menuItem?.SetBinding(MenuFlyoutItem.VisibilityProperty, new Binding() { Source = this, Path = new PropertyPath("ShowFullPostButton"), Converter = conv, ConverterParameter = "false"});
         }
+
+        private void MainList_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as PostView;
+            if (templateRoot != null)
+            {
+                templateRoot.RenderPhase = 0;
+                args.RegisterUpdateCallback(Phase1Callback);
+            }
+        }
+
+        private void Phase1Callback(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as PostView;
+            if (templateRoot != null)
+            {
+                templateRoot.RenderPhase = 1;
+                args.RegisterUpdateCallback(Phase2Callback);
+            }
+        }
+
+        private void Phase2Callback(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as PostView;
+            if (templateRoot != null)
+            {
+                templateRoot.RenderPhase = 2;
+            }
+        }
     }
 }

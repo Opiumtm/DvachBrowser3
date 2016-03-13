@@ -43,34 +43,44 @@ namespace DvachBrowser3.Views.Partial
 
         private void ViewModelChanged(IImageSourceViewModel oldValue, IImageSourceViewModel newValue)
         {
+            if (oldValue != null)
+            {
+                oldValue.PropertyChanged -= ViewModelOnPropertyChanged;
+                if (oldValue.Load != null)
+                {
+                    oldValue.Load.PropertyChanged -= ViewModelOnPropertyChanged;
+                }
+            }
+            if (newValue != null)
+            {
+                newValue.PropertyChanged += ViewModelOnPropertyChanged;
+                if (newValue.Load != null)
+                {
+                    newValue.Load.PropertyChanged += ViewModelOnPropertyChanged;
+                }
+            }
+            UpdateState(null);
+            EnsureLoading();
+        }
+
+        private void EnsureLoading()
+        {
             AppHelpers.DispatchAction(() =>
             {
-                if (oldValue != null)
+                if (ViewModel?.Load != null && !LoadingSuspended)
                 {
-                    oldValue.PropertyChanged -= ViewModelOnPropertyChanged;
-                    if (oldValue.Load != null)
+                    if (!ViewModel.ImageLoaded && !ViewModel.Load.Progress.IsActive)
                     {
-                        oldValue.Load.PropertyChanged -= ViewModelOnPropertyChanged;
-                    }
-                }
-                if (newValue != null)
-                {
-                    newValue.PropertyChanged += ViewModelOnPropertyChanged;
-                    if (newValue.Load != null)
-                    {
-                        newValue.Load.PropertyChanged += ViewModelOnPropertyChanged;
-                    }
-                }
-                UpdateState(null);
-                if (newValue?.Load != null)
-                {
-                    if (!newValue.ImageLoaded && !newValue.Load.Progress.IsActive)
-                    {
-                        newValue.Load.Start();
+                        ViewModel.Load.Start();
                     }
                 }
                 return Task.CompletedTask;
-            }, false, 10);
+            }, false, 50);
+        }
+
+        private void LoadingSuspendedChanged()
+        {
+            EnsureLoading();
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -80,51 +90,45 @@ namespace DvachBrowser3.Views.Partial
 
         private void UpdateState(string property)
         {
-            AppHelpers.ActionOnUiThread(() =>
+            if (ViewModel == null)
             {
-                if (ViewModel == null)
+                MainImage.Visibility = Visibility.Collapsed;
+                ErrorIcon.Visibility = Visibility.Collapsed;
+                NoIcon.Visibility = Visibility.Visible;
+            }
+            if (ViewModel?.Load?.Progress == null)
+            {
+                MainImage.Visibility = Visibility.Collapsed;
+                ErrorIcon.Visibility = Visibility.Collapsed;
+                NoIcon.Visibility = Visibility.Collapsed;
+            }
+            if (ViewModel?.Load?.Progress?.IsError ?? false)
+            {
+                MainImage.Visibility = Visibility.Collapsed;
+                ErrorIcon.Visibility = Visibility.Visible;
+                NoIcon.Visibility = Visibility.Collapsed;
+            }
+            else if (ViewModel?.ImageLoaded ?? false)
+            {
+                MainImage.Visibility = Visibility.Visible;
+                if (!AttachedFlags.GetIsRendered(ViewModel))
                 {
-                    MainImage.Visibility = Visibility.Collapsed;
-                    ErrorIcon.Visibility = Visibility.Collapsed;
-                    NoIcon.Visibility = Visibility.Visible;
-                    return Task.CompletedTask;
+                    ((Storyboard)Resources["ImageStoryBoard"]).Begin();
+                    AttachedFlags.SetIsRendered(ViewModel, true);
                 }
-                if (ViewModel?.Load?.Progress == null)
-                {
-                    MainImage.Visibility = Visibility.Collapsed;
-                    ErrorIcon.Visibility = Visibility.Collapsed;
-                    NoIcon.Visibility = Visibility.Collapsed;
-                    return Task.CompletedTask;
-                }
-                if (ViewModel.Load.Progress.IsError)
-                {
-                    MainImage.Visibility = Visibility.Collapsed;
-                    ErrorIcon.Visibility = Visibility.Visible;
-                    NoIcon.Visibility = Visibility.Collapsed;
-                }
-                else if (ViewModel.ImageLoaded)
-                {
-                    MainImage.Visibility = Visibility.Visible;
-                    if (!AttachedFlags.GetIsRendered(ViewModel))
-                    {
-                        ((Storyboard)Resources["ImageStoryBoard"]).Begin();
-                        AttachedFlags.SetIsRendered(ViewModel, true);
-                    }
-                    ErrorIcon.Visibility = Visibility.Collapsed;
-                    NoIcon.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    MainImage.Visibility = Visibility.Collapsed;
-                    ErrorIcon.Visibility = Visibility.Collapsed;
-                    NoIcon.Visibility = Visibility.Collapsed;
-                }
-                if (property == null || property == "Image")
-                {
-                    ImageData = ViewModel?.Image;
-                }
-                return Task.CompletedTask;
-            });
+                ErrorIcon.Visibility = Visibility.Collapsed;
+                NoIcon.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MainImage.Visibility = Visibility.Collapsed;
+                ErrorIcon.Visibility = Visibility.Collapsed;
+                NoIcon.Visibility = Visibility.Collapsed;
+            }
+            if (property == null || property == "Image")
+            {
+                ImageData = ViewModel?.Image;
+            }
         }
 
         /// <summary>
@@ -200,6 +204,25 @@ namespace DvachBrowser3.Views.Partial
                 var r = Table.GetOrCreateValue(model);
                 r.IsRendered = value;
             }
+        }
+
+        /// <summary>
+        /// Загрузка заморожена.
+        /// </summary>
+        public bool LoadingSuspended
+        {
+            get { return (bool) GetValue(LoadingSuspendedProperty); }
+            set { SetValue(LoadingSuspendedProperty, value); }
+        }
+
+        /// <summary>
+        /// Загрузка заморожена.
+        /// </summary>
+        public static readonly DependencyProperty LoadingSuspendedProperty = DependencyProperty.Register("LoadingSuspended", typeof (bool), typeof (TileImage), new PropertyMetadata(false, LoadingSuspendedPropertyChangedCallback));
+
+        private static void LoadingSuspendedPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((TileImage) d).LoadingSuspendedChanged();
         }
     }
 }
