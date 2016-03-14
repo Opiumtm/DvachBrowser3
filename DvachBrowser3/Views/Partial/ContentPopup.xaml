@@ -11,8 +11,8 @@
     
     <UserControl.Resources>
         <Storyboard x:Key="ShowContentAnimation">
-            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="0.25" To="1.0" />
-            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="16.0" To="0.0">
+            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.25" From="0.25" To="1.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.25" From="16.0" To="0.0">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseIn" />
                 </DoubleAnimation.EasingFunction>
@@ -29,14 +29,14 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="HideContentAnimation">
-            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.12" From="1.0" To="0.0" />
-            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.12" From="0.0" To="16.0">
+            <DoubleAnimation Storyboard.TargetName="BodyContainer" Storyboard.TargetProperty="Opacity" Duration="0:0:0.25" From="1.0" To="0.0" />
+            <DoubleAnimation Storyboard.TargetName="BodyScale" Storyboard.TargetProperty="Y" Duration="0:0:0.25" From="0.0" To="16.0">
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase EasingMode="EaseOut" />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Visibility">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="Collapsed" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.25" Value="Collapsed" />
             </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView" Storyboard.TargetProperty="Background">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
