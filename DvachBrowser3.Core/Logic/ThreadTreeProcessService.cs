@@ -130,6 +130,16 @@ namespace DvachBrowser3.Logic
                 return null;
             }
             var firstPost = src.Posts.FirstOrDefault();
+            return GetShortInfo(firstPost);
+        }
+
+        /// <summary>
+        /// Получить короткую информацию о треде.
+        /// </summary>
+        /// <param name="firstPost">ОП-пост.</param>
+        /// <returns>Короткая информация.</returns>
+        public ShortThreadInfo GetShortInfo(PostTree firstPost)
+        {
             if (firstPost == null)
             {
                 return null;

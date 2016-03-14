@@ -62,5 +62,10 @@ namespace DvachBrowser3.ViewModels
         /// Пометить как прочитанное.
         /// </summary>
         void MarkAsRead();
+
+        /// <summary>
+        /// Добавить в избранное.
+        /// </summary>
+        Task AddToFavorites();
     }
 }

@@ -34,5 +34,12 @@ namespace DvachBrowser3.Logic
         /// <param name="src">Исходный тред.</param>
         /// <returns>Короткая информация.</returns>
         ShortThreadInfo GetShortInfo(ThreadTree src);
+
+        /// <summary>
+        /// Получить короткую информацию о треде.
+        /// </summary>
+        /// <param name="src">ОП-пост.</param>
+        /// <returns>Короткая информация.</returns>
+        ShortThreadInfo GetShortInfo(PostTree src);
     }
 }

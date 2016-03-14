@@ -1,4 +1,5 @@
-﻿using DvachBrowser3.Links;
+﻿using System.Threading.Tasks;
+using DvachBrowser3.Links;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -41,5 +42,10 @@ namespace DvachBrowser3.ViewModels
         /// Сбросить статус обновления.
         /// </summary>
         void CleanUpdated();
+
+        /// <summary>
+        /// Добавить в избранное.
+        /// </summary>
+        Task AddToFavorites();
     }
 }

@@ -163,6 +163,16 @@ namespace DvachBrowser3.ViewModels
         public string PostStamp => PostData?.PostStamp;
 
         /// <summary>
+        /// Получить короткую информацию о треде.
+        /// </summary>
+        /// <returns>Короткая информация.</returns>
+        public ShortThreadInfo GetShortThreadInfo()
+        {
+            var tp = ServiceLocator.Current.GetServiceOrThrow<IThreadTreeProcessService>();
+            return tp.GetShortInfo(PostData);
+        }
+
+        /// <summary>
         /// Заголовок.
         /// </summary>
         public string Subject => PostData?.Subject ?? "";

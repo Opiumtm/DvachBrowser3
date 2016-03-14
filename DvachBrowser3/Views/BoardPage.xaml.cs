@@ -310,10 +310,31 @@ namespace DvachBrowser3.Views
                     ServiceLocator.Current.GetServiceOrThrow<IPageNavigationService>().Navigate(new PostingNavigationTarget(tp, ThreadPreview.ViewModel?.OpPost?.Text));
                 };
 
+                var addToFavorites = new AppBarButton()
+                {
+                    Label = "В избранное",
+                };
+                addToFavorites.Click += async (sender, e) =>
+                {
+                    try
+                    {
+                        var vm = ThreadPreview?.ViewModel as IThreadPreviewViewModel;
+                        if (vm != null)
+                        {
+                            await vm.AddToFavorites();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await AppHelpers.ShowError(ex);
+                    }
+                };
+
                 appBar.PrimaryCommands.Add(posting);
                 appBar.PrimaryCommands.Add(readButton);
                 appBar.PrimaryCommands.Add(goButton);
                 appBar.SecondaryCommands.Add(catalog);
+                appBar.SecondaryCommands.Add(addToFavorites);
             }
 
             var syncButton = new AppBarButton()

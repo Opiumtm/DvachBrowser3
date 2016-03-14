@@ -426,7 +426,28 @@ namespace DvachBrowser3.Views
                 ViewModel?.FullReload();
             };
 
+            var addToFavorites = new AppBarButton()
+            {
+                Label = "В избранное",
+            };
+            addToFavorites.Click += async (sender, e) =>
+            {
+                try
+                {
+                    var vm = ViewModel;
+                    if (vm != null)
+                    {
+                        await vm.AddToFavorites();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await AppHelpers.ShowError(ex);
+                }
+            };
+
             appBar.SecondaryCommands.Add(loadAllButton);
+            appBar.SecondaryCommands.Add(addToFavorites);
 
             return appBar;
         }

@@ -111,5 +111,11 @@ namespace DvachBrowser3.ViewModels
         /// Штамп поста.
         /// </summary>
         string PostStamp { get; }
+
+        /// <summary>
+        /// Получить короткую информацию о треде.
+        /// </summary>
+        /// <returns>Короткая информация.</returns>
+        ShortThreadInfo GetShortThreadInfo();
     }
 }

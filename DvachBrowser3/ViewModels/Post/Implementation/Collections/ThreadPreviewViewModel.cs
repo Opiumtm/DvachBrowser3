@@ -201,5 +201,17 @@ namespace DvachBrowser3.ViewModels
                 await AppHelpers.ShowError(ex);
             }
         }
+
+        /// <summary>
+        /// Добавить в избранное.
+        /// </summary>
+        public async Task AddToFavorites()
+        {
+            if (Posts.Count > 0)
+            {
+                var si = Posts[0].GetShortThreadInfo();
+                await ThreadLink.AddToFavoriteThreads(si);
+            }
+        }
     }
 }

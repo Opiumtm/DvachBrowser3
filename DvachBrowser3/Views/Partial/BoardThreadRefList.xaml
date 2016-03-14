@@ -55,6 +55,7 @@
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Открыть тред" Tag="{x:Bind}" Click="OpenThreadFlyoutItem_OnClick" />
                                         <MenuFlyoutItem Text="Прочитано" Tag="{x:Bind}" Click="MarkAsReadFlyoutItem_OnClick" />
+                                        <MenuFlyoutItem Text="В избранное" Tag="{x:Bind}" Click="AddToFavorites_MenuFlyoutItem_OnClick" />
                                     </MenuFlyout>
                                 </behaviors:PopupMenuBehavior.MenuFlyout>
                             </behaviors:PopupMenuBehavior>

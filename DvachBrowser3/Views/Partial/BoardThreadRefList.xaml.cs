@@ -175,6 +175,23 @@ namespace DvachBrowser3.Views.Partial
             }
         }
 
+        private async void AddToFavorites_MenuFlyoutItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var f = sender as FrameworkElement;
+                var t = f?.Tag as IThreadPreviewViewModel;
+                if (t != null)
+                {
+                    await t.AddToFavorites();
+                }
+            }
+            catch (Exception ex)
+            {
+                await AppHelpers.ShowError(ex);
+            }
+        }
+
         private void MainList_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var prev = GetPreview(args);

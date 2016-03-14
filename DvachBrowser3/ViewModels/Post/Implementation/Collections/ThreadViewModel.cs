@@ -328,5 +328,17 @@ namespace DvachBrowser3.ViewModels
         {
             IsUpdated = false;
         }
+
+        /// <summary>
+        /// Добавить в избранное.
+        /// </summary>
+        public async Task AddToFavorites()
+        {
+            if (Posts.Count > 0)
+            {
+                var si = Posts[0].GetShortThreadInfo();
+                await Link.AddToFavoriteThreads(si);
+            }
+        }
     }
 }
