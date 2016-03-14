@@ -147,12 +147,17 @@ namespace DvachBrowser3.Views
             sw.Start();
 
             var storage = ServiceLocator.Current.GetServiceOrThrow<IStorageService>();
-            var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();
-            var engine = engines.GetEngineById(CoreConstants.Engine.Makaba);
+
+            var link = new ThreadLink()
+            {
+                Engine = "makaba",
+                Board = "mobi",
+                Thread = 665542
+            };
 
             for (var i = 0; i < 100; i++)
             {
-                await storage.ThreadData.LoadBoardReferences(engine.RootLink);
+                await storage.ThreadData.LoadThread(link);
             }
 
             sw.Stop();

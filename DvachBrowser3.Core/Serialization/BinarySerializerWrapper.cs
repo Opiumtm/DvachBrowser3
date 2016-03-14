@@ -18,7 +18,7 @@ namespace DvachBrowser3
         /// <returns>Средство записи.</returns>
         protected override XmlWriter CreateWriter(IOutputStream str)
         {
-            return XmlDictionaryWriter.CreateBinaryWriter(str.AsStreamForWrite());
+            return XmlDictionaryWriter.CreateBinaryWriter(str.AsStreamForWrite(64*1024));
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace DvachBrowser3
         /// <returns>Средство чтения.</returns>
         protected override XmlReader CreateReader(IInputStream str)
         {
-            return XmlDictionaryReader.CreateBinaryReader(str.AsStreamForRead(), XmlDictionaryReaderQuotas.Max);
+            return XmlDictionaryReader.CreateBinaryReader(str.AsStreamForRead(64*1024), XmlDictionaryReaderQuotas.Max);
         }
 
         /// <summary>

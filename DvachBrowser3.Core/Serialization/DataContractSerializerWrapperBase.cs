@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage.Streams;
+using Windows.System.Threading;
 
 namespace DvachBrowser3
 {
@@ -59,12 +61,12 @@ namespace DvachBrowser3
         /// <returns>Таск.</returns>
         public Task WriteObjectAsync(IOutputStream str, object obj)
         {
-            return Task.Factory.StartNew(() =>
+            return ThreadPool.RunAsync(a =>
             {
                 var wr = CreateWriter(str);
                 serializer.WriteObject(wr, obj);
                 wr.Flush();
-            });
+            }).AsTask();
         }
 
         /// <summary>
@@ -72,23 +74,38 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="str">Поток.</param>
         /// <returns>Объект.</returns>
-        public Task<object> ReadObjectAsync(IInputStream str)
+        public async Task<object> ReadObjectAsync(IInputStream str)
         {
-            return Task.Factory.StartNew(() =>
+            var result = new ObjectWrapper();
+            await ThreadPool.RunAsync(a =>
             {
                 var rd = CreateReader(str);
-                return serializer.ReadObject(rd);
+                result.Obj = serializer.ReadObject(rd);
             });
+            return result.Obj;
         }
+
+        private class ObjectWrapper
+        {
+            private object obj;
+
+            public object Obj
+            {
+                get { return Interlocked.CompareExchange(ref obj, null, null); }
+                set { Interlocked.Exchange(ref obj, value); }
+            }
+        }
+
 
         /// <summary>
         /// Клонировать объект.
         /// </summary>
         /// <param name="obj">Объект.</param>
         /// <returns>Клон объекта.</returns>
-        public Task<object> DeepClone(object obj)
+        public async Task<object> DeepClone(object obj)
         {
-            return Task.Factory.StartNew(() =>
+            var result = new ObjectWrapper();
+            await ThreadPool.RunAsync(a =>
             {
                 using (var str = new MemoryStream())
                 {
@@ -97,9 +114,10 @@ namespace DvachBrowser3
                     wr.Flush();
                     str.Seek(0, SeekOrigin.Begin);
                     var rd = CreateReader(str);
-                    return serializer.ReadObject(rd);
+                    result.Obj = serializer.ReadObject(rd);
                 }
             });
+            return result.Obj;
         }
     }
 }
