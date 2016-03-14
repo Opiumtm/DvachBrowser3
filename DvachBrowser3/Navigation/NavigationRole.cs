@@ -54,5 +54,10 @@
         /// Каталог.
         /// </summary>
         Catalog,
+
+        /// <summary>
+        /// Покзать в веб.
+        /// </summary>
+        WebShow
     }
 }

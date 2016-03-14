@@ -60,10 +60,10 @@
                 </controls:HamburgerButtonInfo>
             </controls:HamburgerMenu.PrimaryButtons>
             <controls:HamburgerMenu.SecondaryButtons>
-                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:TestingPage">
+                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:WebShowPage">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Width="48" Height="48" Symbol="Flag" />
-                        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Тестирование" />
+                        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="CloudFlare" />
                     </StackPanel>
                 </controls:HamburgerButtonInfo>
             </controls:HamburgerMenu.SecondaryButtons>
