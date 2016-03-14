@@ -15,6 +15,7 @@
       mc:Ignorable="d">
 
     <Page.Resources>
+        <views:MainStringReferenceConverter x:Key="MainStringReferenceConverter" />
         <CollectionViewSource x:Key="MainSource" IsSourceGrouped="True"></CollectionViewSource>
         <views:MainTileTemplateSelector x:Key="MainTileTemplateSelector">
             <views:MainTileTemplateSelector.BoardTemplate>
@@ -82,31 +83,41 @@
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="4,4,4,0">
-            <SemanticZoom>
-                <SemanticZoom.ZoomedInView>
-                    <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource MainSource}}" SelectionMode="None"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="100*" />
+                </Grid.RowDefinitions>
+                <SemanticZoom Grid.Row="1">
+                    <SemanticZoom.ZoomedInView>
+                        <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource MainSource}}" SelectionMode="None"
                               ItemTemplateSelector="{StaticResource MainTileTemplateSelector}">
-                        <GridView.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
-                                    </DataTemplate>
-                                </GroupStyle.HeaderTemplate>
-                            </GroupStyle>
-                        </GridView.GroupStyle>
-                    </GridView>
-                </SemanticZoom.ZoomedInView>
-                <SemanticZoom.ZoomedOutView>
-                    <ListView ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="10" FontSize="{Binding Path=Group.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Group.Name, Mode=OneWay}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </SemanticZoom.ZoomedOutView>
-            </SemanticZoom>
+                            <GridView.Header>
+                                <ComboBox Grid.Row="0" Header="Профиль сети" Margin="2" ItemsSource="{x:Bind ViewModel.NetworkProfiles, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.CurrentNetworkProfile, Mode=OneWay}" DisplayMemberPath="Name" SelectionChanged="Selector_OnSelectionChanged" HorizontalAlignment="Stretch">
+                                </ComboBox>
+                            </GridView.Header>
+                            <GridView.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock FontSize="{Binding Path=StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Name, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </GridView.GroupStyle>
+                        </GridView>
+                    </SemanticZoom.ZoomedInView>
+                    <SemanticZoom.ZoomedOutView>
+                        <ListView ItemsSource="{Binding Source={StaticResource MainSource}, Path=CollectionGroups}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="10" FontSize="{Binding Path=Group.StyleManager.Text.ListHeaderFontSize, Mode=OneWay}" FontWeight="SemiBold" Text="{Binding Path=Group.Name, Mode=OneWay}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </SemanticZoom.ZoomedOutView>
+                </SemanticZoom>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

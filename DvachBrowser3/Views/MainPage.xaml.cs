@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks.Dataflow;
 using Windows.UI.Xaml;
@@ -170,6 +171,15 @@ namespace DvachBrowser3.Views
             var t = (sender as FrameworkElement)?.Tag as IMainTileViewModel;
             t?.Navigate();
         }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vm = ViewModel;
+            if (vm != null)
+            {
+                vm.CurrentNetworkProfile = e.AddedItems.FirstOrDefault() as MainStringReference;
+            }
+        }
     }
 
     public class MainTileTemplateSelector : DataTemplateSelector
@@ -194,6 +204,22 @@ namespace DvachBrowser3.Views
                 }
             }
             return base.SelectTemplateCore(item, container);
+        }
+    }
+
+    /// <summary>
+    /// Конвертер значений.
+    /// </summary>
+    public sealed class MainStringReferenceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value as MainStringReferenceConverter;
         }
     }
 }
