@@ -196,17 +196,17 @@
     <Compile Include="PageServices\StoreNavigationDataPageService.cs" />
     <Compile Include="PageServices\ViewModelLifetimePageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManager.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManagerFactory.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManagerIcons.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManagerObjectBase.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManagerText.cs" />
-    <Compile Include="Resources\Styles\Manager\Implementation\StyleManagerTiles.cs" />
-    <Compile Include="Resources\Styles\Manager\IStyleManager.cs" />
-    <Compile Include="Resources\Styles\Manager\IStyleManagerFactory.cs" />
-    <Compile Include="Resources\Styles\Manager\IStyleManagerIcons.cs" />
-    <Compile Include="Resources\Styles\Manager\IStyleManagerText.cs" />
-    <Compile Include="Resources\Styles\Manager\IStyleManagerTiles.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManager.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerFactory.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerIcons.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerObjectBase.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerText.cs" />
+    <Compile Include="Styles\Manager\Implementation\StyleManagerTiles.cs" />
+    <Compile Include="Styles\Manager\IStyleManager.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerFactory.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerIcons.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerText.cs" />
+    <Compile Include="Styles\Manager\IStyleManagerTiles.cs" />
     <Compile Include="ViewModels\Banners\BannerLoadedEventArgs.cs" />
     <Compile Include="ViewModels\Banners\BannerLoadedEventHandler.cs" />
     <Compile Include="ViewModels\Banners\Implementation\MakabaPageBannerViewModel.cs" />
@@ -496,11 +496,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Resources\Styles\Custom.xaml">
+    <Page Include="Styles\Custom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Styles\PostRender.xaml">
+    <Page Include="Styles\PostRender.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
