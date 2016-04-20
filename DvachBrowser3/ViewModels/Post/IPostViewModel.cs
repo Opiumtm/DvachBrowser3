@@ -93,16 +93,6 @@ namespace DvachBrowser3.ViewModels
         IDictionary<string, object> CustomAttachedData { get; }
 
         /// <summary>
-        /// Тэги.
-        /// </summary>
-        IList<string> Tags { get; }
-
-        /// <summary>
-        /// Есть тэги.
-        /// </summary>
-        bool HasTags { get; }
-
-        /// <summary>
         /// Менеджер стилей.
         /// </summary>
         IStyleManager StyleManager { get; }
@@ -117,5 +107,10 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Короткая информация.</returns>
         ShortThreadInfo GetShortThreadInfo();
+
+        /// <summary>
+        /// Тэги.
+        /// </summary>
+        IPostTags Tags { get; }
     }
 }

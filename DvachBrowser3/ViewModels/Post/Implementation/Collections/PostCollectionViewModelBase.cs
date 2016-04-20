@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using Windows.UI.Xaml.Data;
 using DvachBrowser3.Links;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Posts;
@@ -155,7 +156,7 @@ namespace DvachBrowser3.ViewModels
                 Posts.Clear();
                 return;
             }
-            if (MergeAndSortPosts)
+            if (MergeAndSortPosts && Posts.Count > 0)
             {
                 var equalityComparer = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer();
                 var comparer = ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetLinkComparer();

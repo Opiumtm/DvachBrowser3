@@ -25,6 +25,15 @@ namespace DvachBrowser3.Logic
         {
         }
 
+        /*private static AsyncCycleBuffer<BoardLinkBase, ThreadTree> Buffer;
+
+        private void EnsureBuffer()
+        {
+            if (Buffer == null)
+            {
+                Buffer = new AsyncCycleBuffer<BoardLinkBase, ThreadTree>(2, null, ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetComparer());
+            }
+        }*/
 
         /// <summary>
         /// Выполнить операцию.
@@ -33,6 +42,7 @@ namespace DvachBrowser3.Logic
         /// <returns>Таск.</returns>
         public override async Task<IThreadLoaderResult> Complete(CancellationToken token)
         {
+            //EnsureBuffer();
             var engines = Services.GetServiceOrThrow<INetworkEngines>();
             var engine = engines.FindEngine(Parameter.ThreadLink?.Engine);
             var networkLogic = Services.GetServiceOrThrow<INetworkLogic>();
@@ -40,6 +50,7 @@ namespace DvachBrowser3.Logic
             if (Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCache || Parameter.UpdateMode == ThreadLoaderUpdateMode.GetFromCacheOffline)
             {
                 var tree = await storage.ThreadData.LoadThread(Parameter.ThreadLink);
+                //var tree = await Buffer.GetValue(Parameter.ThreadLink, key => storage.ThreadData.LoadThread(key));
                 if (tree != null)
                 {
                     try
@@ -102,6 +113,8 @@ namespace DvachBrowser3.Logic
 
             ViewModelEvents.VisitedListRefreshed.RaiseEvent(this, null);
             ViewModelEvents.FavoritesListRefreshed.RaiseEvent(this, null);
+
+            //Buffer.PutValue(Parameter.ThreadLink, data);
 
             return new OperaiontResult() { Data = data, IsUpdated = false };
         }

@@ -43,12 +43,12 @@ namespace DvachBrowser3.ViewModels
             {
                 text = text.Remove(0, 1);
                 text = text.Remove(text.Length - 1, 1);
-                return post.Tags.Any(t => text.Equals(t, StringComparison.CurrentCultureIgnoreCase));
+                return post.Tags.Tags.Any(t => text.Equals(t, StringComparison.CurrentCultureIgnoreCase));
             }
             return 
                 (post.Subject ?? "").IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0 ||
                 postText.Any(t => t.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0) ||
-                post.Tags.Any(t => text.Equals(t, StringComparison.CurrentCultureIgnoreCase));
+                post.Tags.Tags.Any(t => text.Equals(t, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

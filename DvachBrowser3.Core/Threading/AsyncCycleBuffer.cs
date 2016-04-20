@@ -29,6 +29,22 @@ namespace DvachBrowser3
             keys = new List<TKey>();
         }
 
+        public void PutValue(TKey key, TValue value)
+        {
+            lock (asyncLock)
+            {
+                buffer[key] = value;
+                keys.Remove(key);
+                keys.Add(key);
+                while (keys.Count > maxValues)
+                {
+                    var k = keys[0];
+                    keys.RemoveAt(0);
+                    buffer.Remove(k);
+                }
+            }
+        }
+
         public async Task<TValue> GetValue(TKey key, Func<TKey, Task<TValue>> func = null)
         {
             lock (asyncLock)

@@ -65,6 +65,15 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Создать тэги.
+        /// </summary>
+        /// <returns></returns>
+        protected override IPostTags CreateTags()
+        {
+            return new PostTags(this, PostData);
+        }
+
+        /// <summary>
         /// Пропущено постов.
         /// </summary>
         private int? omitPosts;

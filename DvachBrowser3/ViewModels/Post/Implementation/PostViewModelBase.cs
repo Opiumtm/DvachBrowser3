@@ -27,15 +27,6 @@ namespace DvachBrowser3.ViewModels
         {
             PostData = postData;
             Parent = parent;
-            var tagExt = PostData?.Extensions?.OfType<PostTreeTagsExtension>()?.FirstOrDefault();
-            if (tagExt?.Tags != null)
-            {
-                foreach (var t in tagExt.Tags)
-                {
-                    Tags.Add(t);
-                }
-                HasTags = Tags.Count > 0;
-            }
         }
 
         /// <summary>
@@ -143,16 +134,6 @@ namespace DvachBrowser3.ViewModels
         public IDictionary<string, object> CustomAttachedData { get; } = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// Тэги.
-        /// </summary>
-        public IList<string> Tags { get; } = new List<string>();
-
-        /// <summary>
-        /// Есть тэги.
-        /// </summary>
-        public bool HasTags { get; }
-
-        /// <summary>
         /// Менеджер стилей.
         /// </summary>
         public IStyleManager StyleManager { get; } = StyleManagerFactory.Current.GetManager();
@@ -171,6 +152,13 @@ namespace DvachBrowser3.ViewModels
             var tp = ServiceLocator.Current.GetServiceOrThrow<IThreadTreeProcessService>();
             return tp.GetShortInfo(PostData);
         }
+
+        private IPostTags tags;
+
+        /// <summary>
+        /// Тэги.
+        /// </summary>
+        public IPostTags Tags => tags ?? (tags = CreateTags());
 
         /// <summary>
         /// Заголовок.
@@ -200,5 +188,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Модель постера.</returns>
         protected abstract IPostNameViewModel CreateName();
+
+        /// <summary>
+        /// Создать тэги.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract IPostTags CreateTags();
     }
 }

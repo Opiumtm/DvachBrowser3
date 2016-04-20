@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
-    "ManagedEsent": "1.9.3.2",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "ManagedEsent": "1.9.3.3",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {
     "uap10.0": {}
