@@ -62,6 +62,24 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Получить ключ кэширования.
+        /// </summary>
+        /// <returns>Ключ кэширования.</returns>
+        protected override string GetCacheKey()
+        {
+            return ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link);
+        }
+
+        /// <summary>
+        /// Установить кэш.
+        /// </summary>
+        /// <param name="desc">Описание кэша.</param>
+        public override bool SetImageCache(StaticImageCacheDesc desc)
+        {
+            throw new InvalidOperationException("Нельзя устанавливать кэш для больших изображений");
+        }
+
+        /// <summary>
         /// Фабрика операций.
         /// </summary>
         /// <param name="arg">Параметр.</param>

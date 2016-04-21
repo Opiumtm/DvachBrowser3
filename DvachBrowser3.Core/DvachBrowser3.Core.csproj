@@ -54,6 +54,7 @@
     <Compile Include="Captcha\ICaptchaService.cs" />
     <Compile Include="Captcha\RecaptchaCaptcha.cs" />
     <Compile Include="Captcha\YandexCaptcha.cs" />
+    <Compile Include="Common\MaxSizeDictionary.cs" />
     <Compile Include="Threading\AsyncCycleBuffer.cs" />
     <Compile Include="Common\CharHelper.cs" />
     <Compile Include="Common\CollectionSlice.cs" />

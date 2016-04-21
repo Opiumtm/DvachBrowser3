@@ -3,16 +3,16 @@
     /// <summary>
     /// Тип медиа.
     /// </summary>
-    public enum MediaType
+    public enum MediaType : int
     {
         /// <summary>
         /// Общее.
         /// </summary>
-        Common,
+        Common = 0,
 
         /// <summary>
         /// Превью.
         /// </summary>
-        Thumbnail,
+        Thumbnail = 1,
     }
 }

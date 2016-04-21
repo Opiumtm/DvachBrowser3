@@ -110,7 +110,7 @@ namespace DvachBrowser3.ViewModels
             Parent = parent;
             TripCode = "";
             Name = "";
-            AppHelpers.Dispatcher.DispatchAsync(() => SetData());
+            AppHelpers.Dispatcher.DispatchAsync(() => SetData(), 5);
         }
 
         private async void SetData()
@@ -151,13 +151,19 @@ namespace DvachBrowser3.ViewModels
                     if (flagExtension != null)
                     {
                         Flag = new ImageSourceViewModel(new MediaLink() { Engine = postData?.Link?.Engine ?? "", IsAbsolute = false, RelativeUri = flagExtension.Uri });
-                        Flag.Load.Start();
+                        if (!Flag.SetImageCache(StaticImageCache.IconsAndFlags))
+                        {
+                            Flag.Load.Start();
+                        }
                     }
                     var iconExtension = postData.Extensions.OfType<PostTreeIconExtension>().FirstOrDefault();
                     if (iconExtension != null)
                     {
                         Icon = new ImageSourceViewModel(new MediaLink() { Engine = postData?.Link?.Engine ?? "", IsAbsolute = false, RelativeUri = iconExtension.Uri });
-                        Icon.Load.Start();
+                        if (!Icon.SetImageCache(StaticImageCache.IconsAndFlags))
+                        {
+                            Icon.Load.Start();
+                        }
                         IconName = iconExtension.Description ?? "";
                     }
                 }

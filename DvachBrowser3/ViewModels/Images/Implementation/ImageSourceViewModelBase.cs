@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -32,6 +33,61 @@ namespace DvachBrowser3.ViewModels
             LoadImpl.ResultGot += LoadImplOnResultGot;
             LoadImpl.Started += LoadImplOnStarted;
         }
+
+        /// <summary>
+        /// Кэш изображений.
+        /// </summary>
+        protected StaticImageCache ImageCache { get; private set; }
+
+        /// <summary>
+        /// Установить кэш.
+        /// </summary>
+        /// <param name="desc">Описание кэша.</param>
+        /// <returns>Получено из кэша.</returns>
+        public virtual bool SetImageCache(StaticImageCacheDesc desc)
+        {
+            ImageCache = StaticImageCache.GetCache(desc);
+            var cachedImage = ImageCache.TryGet(GetCacheKey());
+            if (cachedImage != null)
+            {
+                Image = cachedImage;
+                LoadImpl = new StdEngineOperationWrapper<StorageFile>(obj => new EmptyOperation());
+                return true;
+            }
+            return false;
+        }
+
+        private class EmptyOperation : IEngineOperationsWithProgress<StorageFile, EngineProgress>
+        {
+            private static readonly StorageFile Empty = null;
+
+            /// <summary>
+            /// Выполнить операцию.
+            /// </summary>
+            /// <returns>Таск.</returns>
+            public Task<StorageFile> Complete()
+            {
+                return Task.FromResult(Empty);
+            }
+
+            public event EventHandler<EngineProgress> Progress;
+
+            /// <summary>
+            /// Выполнить операцию.
+            /// </summary>
+            /// <param name="token">Токен отмены операции.</param>
+            /// <returns>Таск.</returns>
+            public Task<StorageFile> Complete(CancellationToken token)
+            {
+                return Task.FromResult(Empty);
+            }
+        }
+
+        /// <summary>
+        /// Получить ключ кэширования.
+        /// </summary>
+        /// <returns>Ключ кэширования.</returns>
+        protected abstract string GetCacheKey();
 
         /// <summary>
         /// Получить событие.
@@ -106,12 +162,14 @@ namespace DvachBrowser3.ViewModels
                             }
                         }
                         Image = imgSource;
+                        ImageCache?.Set(GetCacheKey(), imgSource);
                     }
                     else
                     {
                         var imgSource = new BitmapImage();
                         imgSource.UriSource = cacheUri;
                         Image = imgSource;
+                        ImageCache?.Set(GetCacheKey(), imgSource);
                     }
                 }
                 else
@@ -176,7 +234,7 @@ namespace DvachBrowser3.ViewModels
         /// <summary>
         /// Операция загрузки.
         /// </summary>
-        protected StdEngineOperationWrapper<StorageFile> LoadImpl { get; }
+        protected StdEngineOperationWrapper<StorageFile> LoadImpl { get; private set; }
 
         /// <summary>
         /// Операция загрузки.

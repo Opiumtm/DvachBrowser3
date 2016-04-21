@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.IO;
+using System.Runtime.Serialization;
 
 namespace DvachBrowser3.Links
 {
@@ -29,7 +30,7 @@ namespace DvachBrowser3.Links
         /// <returns>Клон.</returns>
         public override BoardLinkBase DeepClone()
         {
-            return new YoutubeLink() { YoutubeId = YoutubeId, Engine = Engine };
+            return new YoutubeLink() {YoutubeId = YoutubeId, Engine = Engine};
         }
     }
 }

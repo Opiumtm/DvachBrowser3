@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>DvachBrowser3_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>7E8CC488D01159924860D8DD68D103319ABBD539</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -250,6 +250,7 @@
     <Compile Include="ViewModels\Images\IBigMediaSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\ImageSourceViewModelBase.cs" />
+    <Compile Include="ViewModels\Images\Implementation\StaticImageCache.cs" />
     <Compile Include="ViewModels\Images\Implementation\ThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\Images\Implementation\YoutubeThumbnailImageSourceViewModel.cs" />
     <Compile Include="ViewModels\IStartableViewModel.cs" />

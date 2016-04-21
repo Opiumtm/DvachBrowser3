@@ -15,6 +15,7 @@ namespace DvachBrowser3.ViewModels
         public ImageMediaFileWithThumbnailViewModel(IPostViewModel parent, PostImageWithThumbnail mediaData) : base(parent, mediaData)
         {
             ThumbnailImage = MediaData.Thumbnail != null ? new ThumbnailImageSourceViewModel(MediaData.Thumbnail) : null;
+            ThumbnailImage?.SetImageCache(StaticImageCache.Thumbnails);
         }
 
         /// <summary>

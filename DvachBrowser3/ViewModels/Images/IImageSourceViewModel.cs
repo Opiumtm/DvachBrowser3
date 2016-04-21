@@ -32,5 +32,12 @@ namespace DvachBrowser3.ViewModels
         /// Изображение получено.
         /// </summary>
         event ImageSourceGotEventHandler ImageSourceGot;
+
+        /// <summary>
+        /// Установить кэш.
+        /// </summary>
+        /// <param name="desc">Описание кэша.</param>
+        /// <returns>Получено из кэша.</returns>
+        bool SetImageCache(StaticImageCacheDesc desc);
     }
 }

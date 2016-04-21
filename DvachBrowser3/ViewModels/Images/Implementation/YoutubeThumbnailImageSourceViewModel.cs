@@ -29,6 +29,16 @@ namespace DvachBrowser3.ViewModels
         }
 
         /// <summary>
+        /// Получить ключ кэширования.
+        /// </summary>
+        /// <returns>Ключ кэширования.</returns>
+        protected override string GetCacheKey()
+        {
+            var link = new YoutubeLink() {Engine = engine, YoutubeId = youtubeId};
+            return ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>().GetLinkHash(link);
+        }
+
+        /// <summary>
         /// Фабрика операций.
         /// </summary>
         /// <param name="arg">Параметр.</param>

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.IO;
+using System.Runtime.Serialization;
 using DvachBrowser3.Posts;
 
 namespace DvachBrowser3.Links

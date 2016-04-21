@@ -34,9 +34,12 @@ namespace DvachBrowser3.Views.Partial
                 var youtubeVm = new YoutubeThumbnailImageSourceViewModel(youtubeLink.Engine, youtubeLink.YoutubeId);
                 var youtubeImage = new PreviewImage()
                 {
-                    ViewModel = youtubeVm,
                     Height = youtubeVm.Height / 2.0,
-                    Width = youtubeVm.Width / 2.0
+                    Width = youtubeVm.Width / 2.0,
+                };
+                youtubeImage.Loaded += (s, e) =>
+                {
+                    youtubeImage.ViewModel = youtubeVm;
                 };
                 ToolTipService.SetToolTip(result, youtubeImage);
                 var yl = new MenuFlyoutItem()
