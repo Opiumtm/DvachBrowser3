@@ -28,10 +28,6 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
-            this.Unloaded += (sender, e) =>
-            {
-                QueryParam = null;
-            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -70,6 +66,7 @@ namespace DvachBrowser3.Views.Partial
         /// <param name="link">Ссылка.</param>
         public void Load(BoardLinkBase link)
         {
+            UpdateCaptchaData();
             queryView?.Load(link);
         }
 
@@ -96,11 +93,21 @@ namespace DvachBrowser3.Views.Partial
 
         private ICatpchaQueryView queryView;
 
+        private CaptchaType? oldCaptchaType;
+        private string oldEngine;
+
         private void UpdateCaptchaData()
         {
             var ov = queryView;
             try
             {
+                if (ov != null && QueryParam != null)
+                {
+                    if (oldCaptchaType == QueryParam.CaptchaType || StringComparer.CurrentCultureIgnoreCase.Equals(oldEngine, QueryParam.Engine))
+                    {
+                        return;                                                
+                    }
+                }
                 CaptchaContainer.Children.Clear();
                 if (QueryParam != null)
                 {
@@ -118,28 +125,34 @@ namespace DvachBrowser3.Views.Partial
                         return;
                     }
                 }
+                queryView = null;
                 UnknownCaptcha.Visibility = Visibility.Visible;
                 CaptchaContainer.Visibility = Visibility.Collapsed;
             }
             finally
             {
+                oldCaptchaType = QueryParam?.CaptchaType;
+                oldEngine = QueryParam?.Engine;
                 UpdateQueryView(ov, queryView);
             }
         }
 
         private void UpdateQueryView(ICatpchaQueryView oldView, ICatpchaQueryView newView)
         {
-            if (oldView != null)
-            {
-                oldView.PropertyChanged -= QueryViewOnPropertyChanged;
-            }
-            if (newView != null)
-            {
-                newView.PropertyChanged += QueryViewOnPropertyChanged;
-            }
             if (oldView != newView)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanLoad)));
+                if (oldView != null)
+                {
+                    oldView.PropertyChanged -= QueryViewOnPropertyChanged;
+                }
+                if (newView != null)
+                {
+                    newView.PropertyChanged += QueryViewOnPropertyChanged;
+                }
+                if (oldView != newView)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanLoad)));
+                }
             }
         }
 
