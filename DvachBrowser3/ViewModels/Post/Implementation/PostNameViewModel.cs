@@ -110,10 +110,10 @@ namespace DvachBrowser3.ViewModels
             Parent = parent;
             TripCode = "";
             Name = "";
-            AppHelpers.Dispatcher.DispatchAsync(() => SetData(), 5);
+            AppHelpers.DispatchAction(SetData, false, 0);
         }
 
-        private async void SetData()
+        private async Task SetData()
         {
             try
             {

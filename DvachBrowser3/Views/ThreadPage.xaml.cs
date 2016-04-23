@@ -54,6 +54,13 @@ namespace DvachBrowser3.Views
             {
                 ViewModel = null;
             };
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            isLoaded = true;
+            RestoreTopPost();
         }
 
         /// <summary>
@@ -92,7 +99,7 @@ namespace DvachBrowser3.Views
             navigatePostLink = null;
             if (link != null)
             {
-                if ((link.LinkKind & BoardLinkKind.Post) != 0)
+                if ((link.LinkKind & BoardLinkKind.Post) != 0 && e.NavigationMode != NavigationMode.Back)
                 {
                     navigatePostLink = link;
                 }
@@ -103,12 +110,13 @@ namespace DvachBrowser3.Views
                 BootStrapper.Current.NavigationService.GoBack();
                 return;
             }
+            savedTopPostHash = await GetStoredCurrentPostHash(navigatedLink);
+            isTopPostSet = true;
             var vm = new ThreadViewModel(navigatedLink);
+            ViewModel = vm;
             vm.PostsUpdated += OnPostsUpdated;
             isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
-            ViewModel = vm;
-            savedTopPostHash = await GetStoredCurrentPostHash(navigatedLink);
             vm.PropertyChanged += ViewModelOnPropertyChanged;
             ViewModelOnPropertyChanged(vm, new PropertyChangedEventArgs(null));
             NavigatedTo?.Invoke(this, e);
@@ -124,7 +132,6 @@ namespace DvachBrowser3.Views
                 {
                     await SetStoredCurrentPost(navigatedLink, element.Link);
                 }
-                //ViewModel = null;
             }
             NavigatedFrom?.Invoke(this, e);
         }
@@ -244,14 +251,28 @@ namespace DvachBrowser3.Views
             };
         }
 
+
         private void OnPostsUpdatedHandler(object sender, EventArgs eventArgs)
+        {
+            RestoreTopPost();
+            RestoreDataView();
+        }
+
+        private bool isLoaded = false;
+
+        private bool isTopPostSet = false;
+
+        private void RestoreTopPost()
         {
             var vm = ViewModel;
             if (vm == null)
             {
                 return;
             }
-
+            if (!isLoaded || !isTopPostSet)
+            {
+                return;
+            }
             AppHelpers.ActionOnUiThread(() =>
             {
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
@@ -284,6 +305,31 @@ namespace DvachBrowser3.Views
                         ScrollIntoView(el);
                     }
                 }
+                return Task.CompletedTask;
+            });
+        }
+
+        private bool dataViewLoaded = false;
+
+        private void RestoreDataView()
+        {
+            var vm = ViewModel;
+            if (vm == null)
+            {
+                return;
+            }
+            if (!vm.HasData)
+            {
+                return;
+            }
+            if (!dataViewLoaded)
+            {
+                return;
+            }
+
+            AppHelpers.ActionOnUiThread(() =>
+            {
+                var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 if (restoredView == PageContentViews.SinglePostView && restoredSinglePostHash != null)
                 {
                     var el = vm.Posts.FirstOrDefault(t =>
@@ -536,6 +582,8 @@ namespace DvachBrowser3.Views
                     }
                 }
             }
+            dataViewLoaded = true;
+            RestoreDataView();
             return Task.FromResult(true);
         }
 
@@ -653,7 +701,7 @@ namespace DvachBrowser3.Views
             }
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
             {

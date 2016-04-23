@@ -60,7 +60,7 @@ namespace DvachBrowser3.TextRender
 
         private static readonly MassChildUpdateHelper ChildUpdateHelper = new MassChildUpdateHelper();
 
-        private void DoRenderText()
+        private async void DoRenderText()
         {
             if (RenderSuspended)
             {
@@ -73,11 +73,13 @@ namespace DvachBrowser3.TextRender
                 {
                     lastMapId = mapId;
                     var renderer = new XamlCanvasTextRender2Renderer(ControlCallback);
+                    await Task.Yield();
                     var textRender = renderer.Render(map);
                     textRender.HorizontalAlignment = HorizontalAlignment.Left;
                     textRender.VerticalAlignment = VerticalAlignment.Top;
                     var a = new UIElement[1];
                     a[0] = textRender;
+                    await Task.Yield();
                     ChildUpdateHelper.UpdateChildren(MainGrid.Children, a);
                 }
             }
@@ -145,8 +147,15 @@ namespace DvachBrowser3.TextRender
             }
             else
             {
-                mapId = Guid.NewGuid();
-                DoRenderText();
+                try
+                {
+                    mapId = Guid.NewGuid();
+                    DoRenderText();
+                }
+                catch
+                {
+                    // Ignore
+                }
             }
         }
 
