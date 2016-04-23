@@ -38,6 +38,9 @@
                             ViewModel="{x:Bind PostCollectionViewModel.OpPost.Media.PrimaryFile.ThumbnailImage, Mode=OneWay}" x:Name="ImagePreview" />
         </Border>
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" VerticalAlignment="Top">
+            <StackPanel.CacheMode>
+                <BitmapCache/>
+            </StackPanel.CacheMode>
             <StackPanel Orientation="Horizontal" Visibility="{x:Bind HorizontalHeaderVisibility, Mode=OneWay}">
                 <Border Visibility="{x:Bind PostCollectionViewModel.OpPost.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                         Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
@@ -73,6 +76,9 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Top">
+            <StackPanel.CacheMode>
+                <BitmapCache />
+            </StackPanel.CacheMode>
             <Viewbox Height="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Width="{x:Bind PostCollectionViewModel.OpPost.StyleManager.Icons.HeaderIconSize, Mode=OneWay}" Visibility="{x:Bind PostCollectionViewModel.OpPost.Flags.Sage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Margin="2"
                      ToolTipService.ToolTip="Сажа">
                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1FD;" />

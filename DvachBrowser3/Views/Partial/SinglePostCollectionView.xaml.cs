@@ -418,5 +418,11 @@ namespace DvachBrowser3.Views.Partial
                 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }
+
+        private void PostScrollView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var sv = sender as ScrollViewer;
+            sv?.ChangeView(0, 0, null, true);
+        }
     }
 }

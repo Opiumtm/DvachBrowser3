@@ -39,6 +39,9 @@
             <RelativePanel.Background>
                 <SolidColorBrush Color="{ThemeResource SystemColorWindowTextColor}" Opacity="0.15" />
             </RelativePanel.Background>
+            <RelativePanel.CacheMode>
+                <BitmapCache />
+            </RelativePanel.CacheMode>
             <Border Visibility="{x:Bind ViewModel.Name.Icon, Mode=OneWay, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=false}"
                     Margin="2" Background="DarkGray" BorderBrush="{StaticResource LocBorderBrush}" BorderThickness="1"
                     ToolTipService.ToolTip="{x:Bind ViewModel.Name.IconName, Mode=OneWay}"
@@ -138,6 +141,9 @@
             </Border.BorderBrush>
             
             <StackPanel>
+                <StackPanel.CacheMode>
+                    <BitmapCache />
+                </StackPanel.CacheMode>
                 <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Margin="3, 0, 5, 0">
                     <Run>Ответы:</Run>
                 </TextBlock>

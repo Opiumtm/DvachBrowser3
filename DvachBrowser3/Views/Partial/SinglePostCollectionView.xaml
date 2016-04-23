@@ -28,7 +28,7 @@
             <FlipView Grid.Row="1" x:Name="MainList" ItemsSource="{Binding Source={StaticResource CollectionView}}" Background="Transparent" SelectionChanged="MainList_OnSelectionChanged" UseTouchAnimationsForAllNavigation="False">
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="vm:IPostViewModel">
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Loaded="PostScrollView_OnLoaded">
                             <ScrollViewer.Background>
                                 <SolidColorBrush Color="Black" Opacity="0" />
                             </ScrollViewer.Background>

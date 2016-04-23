@@ -29,15 +29,20 @@
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Border.Background>
         <Grid>
-            <RelativePanel Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="TextPanel">
-                <RelativePanel.RenderTransform>
+            <Border Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="TextPanel">
+                <Border.RenderTransform>
                     <TranslateTransform x:Name="TextTransform" />
-                </RelativePanel.RenderTransform>
-                <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileBoardFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Board, Mode=OneWay}" />
-                <Image x:Name="Logo" Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
-                <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" Visibility="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameVisibility, Mode=OneWay}" />
-                <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="WrapWholeWords" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileDescFontSize, Mode=OneWay}" Margin="4, 0, 4, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
-            </RelativePanel>
+                </Border.RenderTransform>
+                <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <RelativePanel.CacheMode>
+                        <BitmapCache />
+                    </RelativePanel.CacheMode>
+                    <TextBlock x:Name="ShortName" Foreground="White" FontWeight="SemiBold" RelativePanel.AlignRightWithPanel="True" Margin="0, 0, 8, 0" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileBoardFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Board, Mode=OneWay}" />
+                    <Image x:Name="Logo" Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineLogoSize, Mode=OneWay}" Stretch="Uniform" Source="{x:Bind ViewModel.ResourceLogo, Mode=OneWay}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="ShortName" Opacity="0.5" />
+                    <TextBlock x:Name="EngineName" Foreground="White" RelativePanel.AlignVerticalCenterWith="ShortName" RelativePanel.RightOf="Logo" Opacity="0.5" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameFontSize, Mode=OneWay}" Text="{x:Bind ViewModel.Resource, Mode=OneWay}" Visibility="{x:Bind ViewModel.StyleManager.Tiles.BoardTileEngineNameVisibility, Mode=OneWay}" />
+                    <TextBlock x:Name="Desc" Foreground="White" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" TextWrapping="WrapWholeWords" FontSize="{x:Bind ViewModel.StyleManager.Tiles.BoardTileDescFontSize, Mode=OneWay}" Margin="4, 0, 4, 0" HorizontalAlignment="Stretch" TextAlignment="Left" Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}" MaxLines="3"/>
+                </RelativePanel>
+            </Border>
             <Image x:Name="TileImage" Width="{x:Bind ViewModel.StyleManager.Tiles.BoardTileWidth, Mode=OneWay}" Height="{x:Bind ViewModel.StyleManager.Tiles.BoardTileHeight, Mode=OneWay}" Source="{x:Bind ViewModel.Image.Image, Mode=OneWay}" 
                    Visibility="{x:Bind ViewModel.Image.ImageLoaded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" Stretch="UniformToFill">
                 <Image.RenderTransform>
