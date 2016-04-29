@@ -221,7 +221,7 @@ namespace DvachBrowser3.Views
             return appBar;
         }
 
-        private async void AppButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        private void AppButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             AppHelpers.WithHandleErrors(async () =>
             {
@@ -229,7 +229,7 @@ namespace DvachBrowser3.Views
             }, true);
         }
 
-        private async void WebButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        private void WebButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             AppHelpers.WithHandleErrors(async () =>
             {
@@ -237,7 +237,7 @@ namespace DvachBrowser3.Views
             }, true);
         }
 
-        private async void SaveButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
+        private void SaveButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             AppHelpers.WithHandleErrors(async () =>
             {

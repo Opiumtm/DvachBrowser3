@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using DvachBrowser3.Engines;
@@ -88,7 +89,22 @@ namespace DvachBrowser3.ViewModels
                         try
                         {
                             Started?.Invoke(this, EventArgs.Empty);
-                            var result = await operation.Complete(tokenSource.Token);
+
+                            var tcs = new TaskCompletionSource<TResult>();
+                            ThreadPool.RunAsync(async (obj) =>
+                            {
+                                try
+                                {
+                                    var r = await operation.Complete(tokenSource.Token);
+                                    tcs.SetResult(r);
+                                }
+                                catch (Exception ex)
+                                {
+                                    tcs.SetException(ex);
+                                }
+                            });
+                            var result = await tcs.Task;
+                            //var result = await operation.Complete(tokenSource.Token);
                             finishArgs = new OperationProgressFinishedEventArgs(arg);
                             ResultGot?.Invoke(this, result);
                         }

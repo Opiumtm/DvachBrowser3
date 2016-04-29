@@ -60,7 +60,9 @@ namespace DvachBrowser3.Views
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             isLoaded = true;
+            isLoaded2 = true;
             RestoreTopPost();
+            RestoreDataView();
         }
 
         /// <summary>
@@ -259,6 +261,7 @@ namespace DvachBrowser3.Views
         }
 
         private bool isLoaded = false;
+        private bool isLoaded2 = false;
 
         private bool isTopPostSet = false;
 
@@ -323,6 +326,10 @@ namespace DvachBrowser3.Views
                 return;
             }
             if (!dataViewLoaded)
+            {
+                return;
+            }
+            if (!isLoaded2)
             {
                 return;
             }

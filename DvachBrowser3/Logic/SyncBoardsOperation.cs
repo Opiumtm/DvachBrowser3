@@ -68,7 +68,17 @@ namespace DvachBrowser3.Logic
                 }
                 if (res != null && res.References != null)
                 {
-                    result.AddRange(res.References.Select(r => new BoardListBoardViewModel(r)));
+                    if (!AppHelpers.OnUiThread())
+                    {
+                        await AppHelpers.Dispatcher.DispatchAsync(() =>
+                        {
+                            result.AddRange(res.References.Select(r => new BoardListBoardViewModel(r)));
+                        });
+                    }
+                    else
+                    {
+                        result.AddRange(res.References.Select(r => new BoardListBoardViewModel(r)));
+                    }
                 }
             }
             return result;

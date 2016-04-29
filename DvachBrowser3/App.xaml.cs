@@ -139,6 +139,7 @@ namespace DvachBrowser3
 
         private void StyleTitleBars()
         {
+            /*
             var mobileBar = StatusBarHelper.StatusBar;
             if (mobileBar != null)
             {
@@ -159,7 +160,7 @@ namespace DvachBrowser3
                     appView.TitleBar.ButtonHoverBackgroundColor = Colors.White;
                     appView.TitleBar.ButtonHoverForegroundColor = Colors.Black;
                 }
-            }
+            }*/
         }
 
         public override async Task OnInitializeAsync(IActivatedEventArgs args)

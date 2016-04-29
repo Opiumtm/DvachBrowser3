@@ -44,8 +44,11 @@ namespace DvachBrowser3.Views.Partial
 
         private readonly EventHandler<object> timerOnClick;
 
+        private bool isLoaded;
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            isLoaded = true;
             timer = new DispatcherTimer();
             SetTimePeriod();
             timer.Tick += timerOnClick;
@@ -112,6 +115,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            isLoaded = false;
             ViewModel = null;
             var t = timer;
             if (t != null)
@@ -173,6 +177,10 @@ namespace DvachBrowser3.Views.Partial
 
         private void TimerOnTickHandler(object sender, object o)
         {
+            if (!isLoaded)
+            {
+                return;
+            }
             if (isImageSlided)
             {
                 var storyBoard = (Storyboard) Resources["ImageSlideOut"];

@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -117,9 +118,9 @@ namespace DvachBrowser3
                 return;
             }
             var disp = Dispatcher;
-            disp?.DispatchAsync(async () =>
+            disp?.DispatchAsync(() =>
             {
-                await RunAction(a, reportError);
+                RunAction(a, reportError);
             }, msec);
         }
 
@@ -161,7 +162,7 @@ namespace DvachBrowser3
         /// </summary>
         /// <param name="a">Действие.</param>
         /// <param name="reportError">Показать ошибку.</param>
-        public static async void ActionOnUiThread(Func<Task> a, bool reportError = false)
+        public static void ActionOnUiThread(Func<Task> a, bool reportError = false)
         {
             if (a == null)
             {
@@ -169,7 +170,7 @@ namespace DvachBrowser3
             }
             if (OnUiThread())
             {
-                await RunAction(a, reportError);
+                RunAction(a, reportError);
             }
             else
             {

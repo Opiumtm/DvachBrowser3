@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using DvachBrowser3.Engines;
@@ -58,8 +59,12 @@ namespace DvachBrowser3.Logic.NetworkLogic
                 SignalProgress(-1, totalCount);
                 if (asyncCheck)
                 {
-                    var checks = linkWithData.Select(l => CheckForUpdateMp(l.Link, l.Info, l.Key, token, result)).ToArray();
-                    await Task.WhenAll(checks);
+                    var checks = linkWithData.Select(l => CheckForUpdateMp(l.Link, l.Info, l.Key, token)).ToArray();
+                    var cr = await Task.WhenAll(checks);
+                    foreach (var item in cr)
+                    {
+                        result[item.Key] = item.Value;
+                    }
                 }
                 else
                 {
@@ -182,10 +187,15 @@ namespace DvachBrowser3.Logic.NetworkLogic
 
         private static readonly IConcurrenctyDispatcher<CheckResult> MaxParallel = new MaxConcurrencyAccessManager<CheckResult>(3);
 
-        private async Task CheckForUpdateMp(BoardLinkBase link, FavoriteThreadInfo info, string key, CancellationToken token, Dictionary<string, CheckResult> result)
+        /*private async Task CheckForUpdateMp(BoardLinkBase link, FavoriteThreadInfo info, string key, CancellationToken token, Dictionary<string, CheckResult> result)
         {
             var d = await MaxParallel.QueueAction(async () => await CheckForUpdate(link, info, token));
             result[key] = d;
+        }*/
+
+        private async Task<KeyValuePair<string, CheckResult>> CheckForUpdateMp(BoardLinkBase link, FavoriteThreadInfo info, string key, CancellationToken token)
+        {
+            return new KeyValuePair<string, CheckResult>(key, await MaxParallel.QueueAction(async () => await CheckForUpdate(link, info, token)));
         }
 
         private async Task<CheckResult> CheckForUpdate(BoardLinkBase link, FavoriteThreadInfo info, CancellationToken token)

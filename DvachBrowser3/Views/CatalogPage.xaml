@@ -54,18 +54,24 @@
         </Grid.RowDefinitions>
 
         <!--  header  -->
-        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
-                             Content="КАТАЛОГ">
+        <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold">
             <interactivity:Interaction.Behaviors>
                 <behaviors:EllipsisBehavior Visibility="Collapsed" />
             </interactivity:Interaction.Behaviors>
-            <controls:PageHeader.PrimaryCommands>
-                <AppBarToggleButton Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" x:Name="FilterButton" RequestedTheme="Dark" Style="{StaticResource HeaderAppBarToggleButtonStyle}">
-                    <AppBarToggleButton.Icon>
-                        <SymbolIcon Symbol="Find" />
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
-            </controls:PageHeader.PrimaryCommands>
+            <controls:PageHeader.Content>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="0, 0, 24, 0">КАТАЛОГ</TextBlock>
+                    <AppBarToggleButton Grid.Column="1" Label="Поиск" IsEnabled="{x:Bind ColViewModel.HasData, Mode=OneWay}" x:Name="FilterButton" VerticalAlignment="Center" IsCompact="True">
+                        <AppBarToggleButton.Icon>
+                            <SymbolIcon Symbol="Find" />
+                        </AppBarToggleButton.Icon>
+                    </AppBarToggleButton>
+                </Grid>
+            </controls:PageHeader.Content>
         </controls:PageHeader>
         <pa:SearchBox Grid.Row="1" x:Name="FilterBox" FilterUpdated="FilterBox_OnFilterUpdated" VerticalAlignment="Top" AnimatedVisibility="{Binding ElementName=FilterButton, Path=IsChecked, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}" />
         <pa:ProgressIndicatorControl Grid.Row="2" ViewModel="{x:Bind ColViewModel.Update.Progress, Mode=OneWay}" ShowMessage="True" />

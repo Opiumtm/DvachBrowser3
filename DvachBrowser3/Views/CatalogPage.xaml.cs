@@ -183,8 +183,6 @@ namespace DvachBrowser3.Views
             syncButton.SetBinding(AppBarButton.IsEnabledProperty, new Binding() { Source = this, Path = new PropertyPath("ViewModel.Update.CanStart") });
             syncButton.Click += (sender, r) => ViewModel?.Update?.Start2(BoardCatalogUpdateMode.Load);
 
-            appBar.PrimaryCommands.Add(syncButton);
-
             return appBar;
         }
 
