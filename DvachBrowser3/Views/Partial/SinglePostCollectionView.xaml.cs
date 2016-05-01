@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -402,6 +403,12 @@ namespace DvachBrowser3.Views.Partial
 
         private void PostView_OnViewModelChanged(object sender, EventArgs e)
         {
+            var scrollViewer = VisualTreeHelper.GetParent(sender as DependencyObject) as ScrollViewer;
+            AppHelpers.DispatchAction(() =>
+            {
+                scrollViewer?.ChangeView(0, 0, null, true);
+                return Task.CompletedTask;
+            });
             var postView = sender as PostView;
             if (postView != null)
             {

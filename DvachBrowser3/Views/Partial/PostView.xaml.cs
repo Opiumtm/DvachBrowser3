@@ -332,5 +332,19 @@ namespace DvachBrowser3.Views.Partial
         }
 
         public event EventHandler ViewModelChanged;
+
+        /// <summary>
+        /// Не кэшировать текст.
+        /// </summary>
+        public bool NotCacheText
+        {
+            get { return (bool) GetValue(NotCacheTextProperty); }
+            set { SetValue(NotCacheTextProperty, value); }
+        }
+
+        /// <summary>
+        /// Не кэшировать текст.
+        /// </summary>
+        public static readonly DependencyProperty NotCacheTextProperty = DependencyProperty.Register("NotCacheText", typeof (bool), typeof (PostView), new PropertyMetadata(false));
     }
 }

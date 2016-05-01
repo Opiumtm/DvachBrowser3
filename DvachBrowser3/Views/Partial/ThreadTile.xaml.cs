@@ -177,26 +177,33 @@ namespace DvachBrowser3.Views.Partial
 
         private void TimerOnTickHandler(object sender, object o)
         {
-            if (!isLoaded)
+            try
             {
-                return;
+                if (!isLoaded)
+                {
+                    return;
+                }
+                if (isImageSlided)
+                {
+                    var storyBoard = (Storyboard)Resources["ImageSlideOut"];
+                    storyBoard.Begin();
+                    var storyBoard2 = (Storyboard)Resources["TextSlideOut"];
+                    storyBoard2.Begin();
+                }
+                else
+                {
+                    var storyBoard = (Storyboard)Resources["ImageSlideIn"];
+                    storyBoard.Begin();
+                    var storyBoard2 = (Storyboard)Resources["TextSlideIn"];
+                    storyBoard2.Begin();
+                }
+                isImageSlided = !isImageSlided;
+                SetTimePeriod();
             }
-            if (isImageSlided)
+            catch (Exception ex)
             {
-                var storyBoard = (Storyboard) Resources["ImageSlideOut"];
-                storyBoard.Begin();
-                var storyBoard2 = (Storyboard)Resources["TextSlideOut"];
-                storyBoard2.Begin();
+                DebugHelper.BreakOnError(ex);
             }
-            else
-            {
-                var storyBoard = (Storyboard)Resources["ImageSlideIn"];
-                storyBoard.Begin();
-                var storyBoard2 = (Storyboard)Resources["TextSlideIn"];
-                storyBoard2.Begin();
-            }
-            isImageSlided = !isImageSlided;
-            SetTimePeriod();
         }
 
         /// <summary>

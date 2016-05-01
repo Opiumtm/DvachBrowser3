@@ -45,9 +45,10 @@
                                 </behaviors:PopupMenuBehavior>
                             </interactivity:Interaction.Behaviors>
                             <local:PostView ViewModel="{x:Bind}" 
-                                    ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"
-                                    Loaded="PostView_OnLoaded"                                    
-                                    VerticalAlignment="Top" ViewModelChanged="PostView_OnViewModelChanged">
+                                            ShowFullThread="PostView_OnShowFullThread" ShowFullPost="PostView_OnShowFullPost"
+                                            Loaded="PostView_OnLoaded"                                    
+                                            VerticalAlignment="Top" ViewModelChanged="PostView_OnViewModelChanged"
+                                            NotCacheText="True">
                             </local:PostView>
                         </ScrollViewer>
                     </DataTemplate>

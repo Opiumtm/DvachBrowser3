@@ -11,6 +11,7 @@
     d:DesignWidth="400">
 
     <Grid x:Name="BindingRoot">
-        <tr:TextRender2Control x:Name="RenderControl" MaxLines="{x:Bind MaxLines, Mode=OneWay}" ControlCallback="{x:Bind RenderCallback, Mode=OneTime}" RenderSuspended="{x:Bind RenderSuspended, Mode=OneWay}" />
+        <tr:TextRender2Control x:Name="RenderControl" MaxLines="{x:Bind MaxLines, Mode=OneWay}" ControlCallback="{x:Bind RenderCallback, Mode=OneTime}" RenderSuspended="{x:Bind RenderSuspended, Mode=OneWay}"
+                               NoBitmapCache="{x:Bind NoBitmapCache, Mode=OneWay}"/>
     </Grid>
 </UserControl>

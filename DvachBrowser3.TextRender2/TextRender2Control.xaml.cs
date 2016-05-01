@@ -4,6 +4,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using DvachBrowser3_TextRender_Native;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -248,6 +249,39 @@ namespace DvachBrowser3.TextRender
         private static void RenderSuspendedPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((TextRender2Control)d).RenderSuspendedChanged();
+        }
+
+        /// <summary>
+        /// Не кэшировать в изображении.
+        /// </summary>
+        public bool NoBitmapCache
+        {
+            get { return (bool) GetValue(NoBitmapCacheProperty); }
+            set { SetValue(NoBitmapCacheProperty, value); }
+        }
+
+        private void SetNoBitmapCache(bool newValue)
+        {
+            var haveCache = MainGrid.CacheMode != null;
+            if (haveCache && newValue)
+            {
+                MainGrid.CacheMode = null;
+            }
+            else if (!haveCache && !newValue)
+            {
+                MainGrid.CacheMode = new BitmapCache();
+            }
+        }
+
+        /// <summary>
+        /// Не кэшировать в изображении.
+        /// </summary>
+        public static readonly DependencyProperty NoBitmapCacheProperty = DependencyProperty.Register("NoBitmapCache", typeof (bool), typeof (TextRender2Control), new PropertyMetadata(false, NoBitmapCachePropertyChangedCallback));
+
+        private static void NoBitmapCachePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = (TextRender2Control)d;
+            obj.SetNoBitmapCache((bool)e.NewValue);
         }
     }
 }

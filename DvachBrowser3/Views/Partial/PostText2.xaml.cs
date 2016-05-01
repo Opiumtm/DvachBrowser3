@@ -236,5 +236,19 @@ namespace DvachBrowser3.Views.Partial
         /// Отображение приостановлено.
         /// </summary>
         public static readonly DependencyProperty RenderSuspendedProperty = DependencyProperty.Register("RenderSuspended", typeof (bool), typeof (PostText2), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Не нужно кэша текста.
+        /// </summary>
+        public bool NoBitmapCache
+        {
+            get { return (bool) GetValue(NoBitmapCacheProperty); }
+            set { SetValue(NoBitmapCacheProperty, value); }
+        }
+
+        /// <summary>
+        /// Не нужно кэша текста.
+        /// </summary>
+        public static readonly DependencyProperty NoBitmapCacheProperty = DependencyProperty.Register("NoBitmapCache", typeof (bool), typeof (PostText2), new PropertyMetadata(false));
     }
 }
