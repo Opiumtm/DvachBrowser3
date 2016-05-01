@@ -5,6 +5,7 @@ using System.Text;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Text;
+using Windows.UI.Xaml;
 using DvachBrowser3_TextRender_Native;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
@@ -45,13 +46,17 @@ namespace DvachBrowser3.TextRender
                 tf.Direction = CanvasTextDirection.LeftToRightThenTopToBottom;
                 tf.Options = CanvasDrawTextOptions.Default;
 
-                using (var tl = new CanvasTextLayout(CanvasDevice.GetSharedDevice(), allText, tf, (float)width, 10f))
+                var screen = DisplayInformation.GetForCurrentView();
+                using (var ds = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), (float) width, 10f, screen.LogicalDpi))
                 {
-                    var helperArgs = interProgram.OfType<MappingHelperArg>().ToList();
-                    mappingHelper.ApplyAttributes(tl, helperArgs, fontSize);
-                    var map = AnalyzeMap(tl, allText).ToArray();
-                    var result = new MeasureMap(map, width, maxLines, StrikethrougKoef);
-                    return result;
+                    using (var tl = new CanvasTextLayout(ds, allText, tf, (float)width, 10f))
+                    {
+                        var helperArgs = interProgram.OfType<MappingHelperArg>().ToList();
+                        mappingHelper.ApplyAttributes(tl, helperArgs, fontSize);
+                        var map = AnalyzeMap(tl, allText).ToArray();
+                        var result = new MeasureMap(map, width, maxLines, StrikethrougKoef);
+                        return result;
+                    }
                 }
             }
         }
