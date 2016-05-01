@@ -44,11 +44,26 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
+            ImageViewer.Loaded += (sender, e) =>
+            {
+                controlLoaded = true;
+                SetInitialSize();
+            };
+            MainImage.ImageOpened += (sender, e) =>
+            {
+                mainImageLoaded = true;
+                SetInitialSize();
+            };
             this.Unloaded += (sender, e) =>
             {
                 ViewModel = null;
             };
+            AnimationBehavior.SetRepeatBehavior(MainGifImage, RepeatBehavior.Forever);
+            AnimationBehavior.SetAutoStart(MainGifImage, true);
+            AnimationBehavior.Loaded += CreateAnimationBehaviorOnLoaded(new WeakReference<MediaPage>(this));
         }
+
+        private bool mainImageLoaded = false;
 
         /// <summary>
         /// Получить событие.
@@ -108,6 +123,8 @@ namespace DvachBrowser3.Views
             });
         }
 
+        private FrameworkElement renderedImage = null;
+
         private void ViewModelOnImageSourceGot(object sender, ImageSourceGotEventArgs e)
         {
             AppHelpers.ActionOnUiThread(() =>
@@ -118,12 +135,11 @@ namespace DvachBrowser3.Views
                     case BigMediaSourceType.Gif:
                         if (e.CacheUri != null)
                         {
-                            AnimationBehavior.SetRepeatBehavior(MainGifImage, RepeatBehavior.Forever);
-                            AnimationBehavior.SetAutoStart(MainGifImage, true);
                             AnimationBehavior.SetSourceUri(MainGifImage, e.CacheUri);
                             MainGifImage.Visibility = Visibility.Visible;
                             MainImage.Visibility = Visibility.Collapsed;
                             isSet = true;
+                            renderedImage = MainGifImage;
                         }
                         break;
                     case BigMediaSourceType.Static:
@@ -133,6 +149,7 @@ namespace DvachBrowser3.Views
                             MainGifImage.Visibility = Visibility.Collapsed;
                             MainImage.Visibility = Visibility.Visible;
                             isSet = true;
+                            renderedImage = MainImage;
                         }
                         break;
                 }
@@ -141,14 +158,36 @@ namespace DvachBrowser3.Views
                     MainGifImage.Visibility = Visibility.Collapsed;
                     MainImage.Visibility = Visibility.Collapsed;
                     ViewKind = PageView.OpenInBrowser;
+                    renderedImage = null;
                 }
                 else
                 {
                     ViewKind = PageView.Image;
+                    SetInitialSize();
                 }
                 IsLoaded = true;
                 return Task.FromResult(true);
             });
+        }
+
+        private static EventHandler CreateAnimationBehaviorOnLoaded(WeakReference<MediaPage> weakRef)
+        {
+            return (sender, e) =>
+            {
+                MediaPage obj;
+                if (weakRef.TryGetTarget(out obj))
+                {
+                    obj.AnimationBehaviorOnLoaded(sender, e);
+                }
+            };
+        }
+
+        private bool isGifSet = false;
+
+        private void AnimationBehaviorOnLoaded(object sender, EventArgs eventArgs)
+        {
+            isGifSet = true;
+            SetInitialSize();
         }
 
         private void ProgressOnFinished(object sender, OperationProgressFinishedEventArgs e)
@@ -357,9 +396,56 @@ namespace DvachBrowser3.Views
             }
         }
 
+        private bool controlLoaded = false;
+
+        private void SetInitialSize()
+        {
+            AppHelpers.DispatchAction(() =>
+            {
+                var image = renderedImage;
+                if (!controlLoaded || image == null)
+                {
+                    return Task.CompletedTask;
+                }
+                if (object.ReferenceEquals(MainImage, image))
+                {
+                    if (!mainImageLoaded)
+                    {
+                        return Task.CompletedTask;
+                    }
+                }
+                if (object.ReferenceEquals(MainGifImage, image))
+                {
+                    if (!isGifSet)
+                    {
+                        return Task.CompletedTask;
+                    }
+                }
+                var maxW = ImageViewer.ActualWidth - 14;
+                var maxH = ImageViewer.ActualHeight - 14;
+                var actW = image.ActualWidth > 1 ? image.ActualWidth : 1;
+                var actH = image.ActualHeight > 1 ? image.ActualHeight : 1;
+                if (actW < maxW && actH < maxH)
+                {
+                    ImageScroll.ChangeView(0, 0, 1);
+                }
+                else
+                {
+                    float zoomH = (float)(maxH / actH);
+                    float zoomW = (float)(maxW / actW);
+                    if (zoomH < ImageScroll.MinZoomFactor) zoomH = ImageScroll.MinZoomFactor;
+                    if (zoomH > ImageScroll.MaxZoomFactor) zoomH = ImageScroll.MaxZoomFactor;
+                    if (zoomW < ImageScroll.MinZoomFactor) zoomW = ImageScroll.MinZoomFactor;
+                    if (zoomW > ImageScroll.MaxZoomFactor) zoomW = ImageScroll.MaxZoomFactor;
+                    ImageScroll.ChangeView(0, 0, Math.Min(zoomW, zoomH));
+                }
+                return Task.CompletedTask;
+            }, false, 100);
+        }
+
         private void Image_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            var image = sender as Image;
+            var image = renderedImage;
             if (image != null)
             {
                 if (isEnlarged)
