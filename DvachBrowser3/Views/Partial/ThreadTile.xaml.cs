@@ -213,7 +213,11 @@ namespace DvachBrowser3.Views.Partial
         {
             if (channel?.Id == Shell.IsNarrowViewChangedId)
             {
-                UpdateAnimationData(null, null, null, null);
+                AppHelpers.DispatchAction(() =>
+                {
+                    UpdateAnimationData(null, null, null, null);
+                    return Task.CompletedTask;
+                });
             }
         }
 
