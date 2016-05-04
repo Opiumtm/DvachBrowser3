@@ -25,7 +25,7 @@ namespace DvachBrowser3.Views.Partial
 {
     public sealed partial class ThreadTile : UserControl, IWeakEventCallback, INotifyPropertyChanged
     {
-        private DispatcherTimer timer;
+        private readonly TaskTimer timer;
 
         private WeakReference<DoubleAnimation> imageSlideInAnimationHandle;
         private WeakReference<DoubleAnimation> imageSlideOutAnimationHandle;
@@ -37,27 +37,32 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             MainBorder.DataContext = this;
             Shell.IsNarrowViewChanged.AddCallback(this);
-            this.timerOnClick = CreateTimerOnTick(new WeakReference<ThreadTile>(this));
+            var timerOnClick = CreateTimerOnTick(new WeakReference<ThreadTile>(this));
+            this.timer = new TaskTimer(Dispatcher);
+            timer.Tick += timerOnClick;
             this.Loaded += OnLoaded;
             this.Unloaded += OnUnloaded;
         }
-
-        private readonly EventHandler<object> timerOnClick;
 
         private bool isLoaded;
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             isLoaded = true;
-            timer = new DispatcherTimer();
             SetTimePeriod();
-            timer.Tick += timerOnClick;
-            timer.Start();
+            timer.IsEnabled = true;
             InitAnimations();
         }
 
+        private bool isAnimationsSet;
+
         private void InitAnimations()
         {
+            if (isAnimationsSet)
+            {
+                return;
+            }
+            isAnimationsSet = true;
             TileImageTransform.Y = styleManager.Tiles.BoardTileHeight;
 
             var imageSlideInAnimation = new DoubleAnimation()
@@ -117,12 +122,7 @@ namespace DvachBrowser3.Views.Partial
         {
             isLoaded = false;
             ViewModel = null;
-            var t = timer;
-            if (t != null)
-            {
-                t.Stop();
-                t.Tick -= timerOnClick;
-            }
+            timer.IsEnabled = false;
         }
 
         /// <summary>
@@ -148,22 +148,19 @@ namespace DvachBrowser3.Views.Partial
         private void SetTimePeriod()
         {
             var t = timer;
-            if (t != null)
+            double sec;
+            if (isImageSlided)
             {
-                double sec;
-                if (isImageSlided)
-                {
-                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 1.5;
-                }
-                else
-                {
-                    sec = (Rnd.NextDouble() * 3.5 + 1.5) * 3.5;
-                }
-                t.Interval = TimeSpan.FromSeconds(sec);
+                sec = (Rnd.NextDouble() * 3.5 + 1.5) * 1.5;
             }
+            else
+            {
+                sec = (Rnd.NextDouble() * 3.5 + 1.5) * 3.5;
+            }
+            t.Period = TimeSpan.FromSeconds(sec);
         }
 
-        private static EventHandler<object> CreateTimerOnTick(WeakReference<ThreadTile> handle)
+        private static EventHandler CreateTimerOnTick(WeakReference<ThreadTile> handle)
         {
             return (sender, o) =>
             {
@@ -222,6 +219,10 @@ namespace DvachBrowser3.Views.Partial
 
         private void UpdateAnimationData(DoubleAnimation inAnimation, DoubleAnimation outAnimation, DoubleAnimation tinAnimation, DoubleAnimation toutAnimation)
         {
+            if (!isLoaded)
+            {
+                return;
+            }
             if (inAnimation != null)
             {
                 inAnimation.From = -1 * styleManager.Tiles.BoardTileHeight;

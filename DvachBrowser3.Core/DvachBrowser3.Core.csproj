@@ -108,6 +108,7 @@
     <Compile Include="Serialization\SerializerCacheService.cs" />
     <Compile Include="Common\ServiceDependencyInfoAttribute.cs" />
     <Compile Include="Common\StreamHelpers.cs" />
+    <Compile Include="Threading\TaskTimer.cs" />
     <Compile Include="Threading\ThreadExecutionContext.cs" />
     <Compile Include="Threading\TimePeriodDataAggregator.cs" />
     <Compile Include="Common\TreeApplyFunc.cs" />
