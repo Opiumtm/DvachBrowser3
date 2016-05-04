@@ -76,10 +76,7 @@
 
         <!--  header  -->
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneTime}"
-                             Content="ГЛАВНАЯ" FontWeight="Bold">
-            <Interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
-            </Interactivity:Interaction.Behaviors>
+                             Content="ГЛАВНАЯ" FontWeight="Bold" EllipsisVisibility="Collapsed">
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="4,4,4,0">

@@ -276,7 +276,7 @@ namespace DvachBrowser3.Views
             {
                 return;
             }
-            AppHelpers.ActionOnUiThread(() =>
+            AppHelpers.DispatchAction(() =>
             {
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 var navigatedPostLinkVal = navigatePostLink;
@@ -334,7 +334,7 @@ namespace DvachBrowser3.Views
                 return;
             }
 
-            AppHelpers.ActionOnUiThread(() =>
+            AppHelpers.DispatchAction(() =>
             {
                 var linkHash = ServiceLocator.Current.GetServiceOrThrow<ILinkHashService>();
                 if (restoredView == PageContentViews.SinglePostView && restoredSinglePostHash != null)

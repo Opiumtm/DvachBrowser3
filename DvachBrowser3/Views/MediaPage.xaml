@@ -33,10 +33,7 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame}" FontWeight="Bold"
-                             Content="МЕДИА">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
-            </interactivity:Interaction.Behaviors>
+                             Content="МЕДИА" EllipsisVisibility="Collapsed">
         </controls:PageHeader>
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ImageViewModel.Load.Progress, Mode=OneWay}" ShowMessage="True" />
 

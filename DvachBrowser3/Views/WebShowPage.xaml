@@ -27,10 +27,7 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}"
-                             Content="CLOUDFLARE">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
-            </interactivity:Interaction.Behaviors>
+                             Content="CLOUDFLARE" EllipsisVisibility="Collapsed" FontWeight="Bold">
         </controls:PageHeader>
 
         <Grid Grid.Row="1" Padding="4,4,4,0">

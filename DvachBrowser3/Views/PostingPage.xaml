@@ -37,10 +37,7 @@
         </Grid.RowDefinitions>
 
         <controls:PageHeader BackButtonVisibility="Collapsed" Frame="{x:Bind Frame, Mode=OneWay}" FontWeight="Bold"
-                             Content="{x:Bind HeaderText, Mode=OneWay}">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:EllipsisBehavior Visibility="Collapsed" />
-            </interactivity:Interaction.Behaviors>
+                             Content="{x:Bind HeaderText, Mode=OneWay}" EllipsisVisibility="Collapsed">
         </controls:PageHeader>
 
         <pa:ProgressIndicatorControl Grid.Row="1" ViewModel="{x:Bind ViewModel.Posting.Progress, Mode=OneWay}" ShowMessage="True" />
