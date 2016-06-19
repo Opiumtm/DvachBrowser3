@@ -207,7 +207,7 @@ namespace DvachBrowser3.ViewModels
 
         private void OperationOnProgress(object sender, TProgress p)
         {
-            AppHelpers.ActionOnUiThread(() =>
+            AppHelpers.DispatchAction(() =>
             {
                 var progressValue = GetProgress(p);
                 var messageValue = GetMessage(p);
@@ -224,7 +224,7 @@ namespace DvachBrowser3.ViewModels
                 Message = messageValue;
                 IsWaiting = GetIsWaiting(p);
                 return Task.CompletedTask;
-            });
+            }, false, 0);
         }
 
         /// <summary>

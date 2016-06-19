@@ -309,7 +309,7 @@ namespace DvachBrowser3.Views
                     }
                 }
                 return Task.CompletedTask;
-            });
+            }, false, 50);
         }
 
         private bool dataViewLoaded = false;
@@ -361,7 +361,7 @@ namespace DvachBrowser3.Views
                 restoredView = null;
                 restoredSinglePostHash = null;
                 return Task.CompletedTask;
-            });
+            }, false, 60);
         }
 
         private void ScrollIntoView(IPostViewModel post)
