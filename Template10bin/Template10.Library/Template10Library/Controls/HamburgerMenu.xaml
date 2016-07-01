@@ -81,17 +81,20 @@
             </Style>
 
             <DataTemplate x:ConnectionId='3' x:Name="NavButtonLiteralTemplate"                                       >
-                <ContentPresenter x:ConnectionId='10' x:Name="ContentPresenter"
+                <ContentPresenter x:ConnectionId='8' x:Name="ContentPresenter"
                                   Width="{Binding PaneWidth, ElementName=ThisPage}"
                                   MinWidth="48"
                                                                            
+                                  Background="{Binding NavButtonBackground, ElementName=ThisPage, FallbackValue=DarkRed, Mode=OneWay}"
                                   Content="{Binding Content}"
+                                  Foreground="{Binding NavButtonForeground, ElementName=ThisPage, FallbackValue=White, Mode=OneWay}"
+                                                           
                                   ToolTipService.ToolTip="{Binding Path=(ToolTipService.ToolTip)}"
                                   Visibility="{Binding Visibility, Mode=TwoWay}" />
             </DataTemplate>
 
             <DataTemplate x:ConnectionId='4' x:Name="NavToggleButtonTemplate"                                       >
-                <ToggleButton x:ConnectionId='8' Width="{Binding PaneWidth, ElementName=ThisPage}"
+                <ToggleButton x:ConnectionId='7' Width="{Binding PaneWidth, ElementName=ThisPage}"
                               MinWidth="48"
                                                                        
                               AutomationProperties.Name="Hamburger Menu Item"
@@ -102,11 +105,11 @@
                                                          
                               IsChecked="{Binding IsChecked, Mode=TwoWay}"
                               IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                              IsHitTestVisible="{Binding IsChecked, Converter={StaticResource ReverseBooleanConverter}}"
                               IsTabStop="{Binding IsChecked, Converter={StaticResource ReverseBooleanConverter}}"
                                                        
                                                                  
                               TabIndex="2"
+                                                       
                               ToolTipService.ToolTip="{Binding Path=(ToolTipService.ToolTip)}"
                                                             
                               Visibility="{Binding Visibility, Mode=TwoWay}">
@@ -116,33 +119,27 @@
                                   Width="{Binding PaneWidth, ElementName=ThisPage}"
                                   Background="Transparent">
                                 <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:ConnectionId='9' x:Name="CommonStates"                                                   >
+                                    <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
                                             <VisualState.Setters>
                                                 <Setter Target="ContentPresenter.Foreground" Value="{Binding NavButtonForeground, ElementName=ThisPage}" />
                                                 <Setter Target="ContentPresenter.Background" Value="{Binding NavButtonBackground, ElementName=ThisPage}" />
+                                                <Setter Target="Indicator.Visibility" Value="Collapsed" />
                                             </VisualState.Setters>
-                                            <!--<Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>-->
                                         </VisualState>
                                         <VisualState x:Name="PointerOver">
                                             <VisualState.Setters>
                                                 <Setter Target="ContentPresenter.Foreground" Value="{Binding NavButtonHoverForeground, ElementName=ThisPage}" />
                                                 <Setter Target="ContentPresenter.Background" Value="{Binding NavButtonHoverBackground, ElementName=ThisPage}" />
+                                                <Setter Target="Indicator.Visibility" Value="Collapsed" />
                                             </VisualState.Setters>
-                                            <!--<Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>-->
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
                                             <VisualState.Setters>
                                                 <Setter Target="ContentPresenter.Foreground" Value="{Binding NavButtonPressedForeground, ElementName=ThisPage}" />
                                                 <Setter Target="ContentPresenter.Background" Value="{Binding NavButtonPressedBackground, ElementName=ThisPage}" />
+                                                <Setter Target="Indicator.Visibility" Value="Collapsed" />
                                             </VisualState.Setters>
-                                            <!--<Storyboard>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>-->
                                         </VisualState>
                                         <VisualState x:Name="Checked">
                                             <VisualState.Setters>
@@ -150,9 +147,6 @@
                                                 <Setter Target="ContentPresenter.Background" Value="{Binding NavButtonCheckedBackground, ElementName=ThisPage}" />
                                                 <Setter Target="Indicator.Visibility" Value="Visible" />
                                             </VisualState.Setters>
-                                            <!--<Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>-->
                                         </VisualState>
                                         <VisualState x:Name="CheckedPointerOver">
                                             <VisualState.Setters>
@@ -179,6 +173,7 @@
                                             <VisualState.Setters>
                                                 <Setter Target="ContentPresenter.Foreground" Value="DimGray" />
                                                 <Setter Target="ContentPresenter.Background" Value="Transparent" />
+                                                <Setter Target="Indicator.Visibility" Value="Collapsed" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Indeterminate" />
@@ -191,8 +186,8 @@
                                 <Rectangle x:Name="Indicator"
                                            Width="4"
                                            HorizontalAlignment="Left"
-                                           Fill="{Binding NavButtonCheckedIndicatorBrush, ElementName=ThisPage}"
-                                           Visibility="Collapsed" />
+                                           Fill="{Binding NavButtonCheckedIndicatorBrush, ElementName=ThisPage}" />
+                                <Rectangle x:Name="DisableInteraction" Fill="Transparent" />
                             </Grid>
                         </ControlTemplate>
                     </ToggleButton.Template>
@@ -214,6 +209,7 @@
                                                  
                                                            
                         TabIndex="2"
+                                                 
                                                                                                     
                                                                      >
                     <Button.Template>
@@ -222,7 +218,7 @@
                                   Width="{Binding PaneWidth, ElementName=ThisPage}"
                                   Background="Transparent">
                                 <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:ConnectionId='7' x:Name="CommonStates"                                                   >
+                                    <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
                                             <VisualState.Setters>
                                                 <Setter Target="ContentPresenter.Foreground" Value="{Binding NavButtonForeground, ElementName=ThisPage}" />
@@ -268,48 +264,40 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <RelativePanel x:ConnectionId='11' x:Name="RootGrid">
+    <RelativePanel x:ConnectionId='9' x:Name="RootGrid">
 
         <VisualStateManager.VisualStateGroups>
 
-            <VisualStateGroup x:ConnectionId='12' x:Name="VisualStateGroup">
+            <VisualStateGroup x:ConnectionId='10' x:Name="VisualStateGroup"                                                           >
 
-                <VisualState x:ConnectionId='13' x:Name="VisualStateNarrow">
+                <VisualState x:ConnectionId='11' x:Name="VisualStateNarrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger x:ConnectionId='18' x:Name="VisualStateNarrowTrigger" MinWindowWidth="{Binding VisualStateNarrowMinWidth, ElementName=ThisPage, Mode=OneWay}" />
+                        <AdaptiveTrigger x:ConnectionId='16' x:Name="VisualStateNarrowTrigger" MinWindowWidth="{Binding VisualStateNarrowMinWidth, ElementName=ThisPage, Mode=OneWay}" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="Overlay" />
-                        <Setter Target="ShellSplitView.IsPaneOpen" Value="False" />
-                    </VisualState.Setters>
+                    <!--  see code-behind  -->
                 </VisualState>
 
-                <VisualState x:ConnectionId='14' x:Name="VisualStateNormal">
+                <VisualState x:ConnectionId='12' x:Name="VisualStateNormal">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger x:ConnectionId='17' x:Name="VisualStateNormalTrigger" MinWindowWidth="{Binding VisualStateNormalMinWidth, ElementName=ThisPage, Mode=OneWay}" />
+                        <AdaptiveTrigger x:ConnectionId='15' x:Name="VisualStateNormalTrigger" MinWindowWidth="{Binding VisualStateNormalMinWidth, ElementName=ThisPage, Mode=OneWay}" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="CompactOverlay" />
-                        <Setter Target="ShellSplitView.IsPaneOpen" Value="False" />
-                    </VisualState.Setters>
+                    <!--  see code-behind  -->
                 </VisualState>
 
-                <VisualState x:ConnectionId='15' x:Name="VisualStateWide">
+                <VisualState x:ConnectionId='13' x:Name="VisualStateWide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger x:ConnectionId='16' x:Name="VisualStateWideTrigger" MinWindowWidth="{Binding VisualStateWideMinWidth, ElementName=ThisPage, Mode=OneWay}" />
+                        <AdaptiveTrigger x:ConnectionId='14' x:Name="VisualStateWideTrigger" MinWindowWidth="{Binding VisualStateWideMinWidth, ElementName=ThisPage, Mode=OneWay}" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ShellSplitView.DisplayMode" Value="CompactInline" />
-                        <Setter Target="ShellSplitView.IsPaneOpen" Value="True" />
-                    </VisualState.Setters>
+                    <!--  see code-behind  -->
                 </VisualState>
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <SplitView x:ConnectionId='19' x:Name="ShellSplitView"
+        <SplitView x:ConnectionId='17' x:Name="ShellSplitView"
                    AutomationProperties.Name="Jerry Nixon"
-                   DisplayMode="Inline"
+                                                                  
+                                                            
                    IsTabStop="False"
                                                                    
                    PaneBackground="Transparent"
@@ -320,7 +308,7 @@
 
             <SplitView.Pane>
 
-                <Grid x:ConnectionId='23' x:Name="PaneContent"
+                <Grid x:ConnectionId='21' x:Name="PaneContent"
                                                                           
                                                                          
                                                                                  
@@ -338,7 +326,7 @@
                                   TabIndex="2"
                                   VerticalScrollBarVisibility="Auto">
 
-                        <ItemsControl x:ConnectionId='26' x:Name="PrimaryButtonContainer"
+                        <ItemsControl x:ConnectionId='24' x:Name="PrimaryButtonContainer"
                                       IsTabStop="False"
                                       ItemsSource="{Binding PrimaryButtons, ElementName=ThisPage}">
 
@@ -390,7 +378,7 @@
 
                     </ScrollViewer>
 
-                    <ItemsControl x:ConnectionId='24' x:Name="SecondaryButtonContainer"
+                    <ItemsControl x:ConnectionId='22' x:Name="SecondaryButtonContainer"
                                   Grid.Row="1"
                                   IsTabStop="False"
                                   ItemsSource="{Binding SecondaryButtons, ElementName=ThisPage}"
@@ -398,7 +386,7 @@
 
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel x:ConnectionId='25' BorderBrush="{Binding SecondarySeparator, ElementName=ThisPage, FallbackValue=White}"
+                                <StackPanel x:ConnectionId='23' BorderBrush="{Binding SecondarySeparator, ElementName=ThisPage, FallbackValue=White}"
                                             BorderThickness="0,1,0,0"
                                                                                       />
                             </ItemsPanelTemplate>
@@ -440,7 +428,7 @@
 
         </SplitView>
 
-        <Rectangle x:ConnectionId='20' x:Name="HeaderBackground"
+        <Rectangle x:ConnectionId='18' x:Name="HeaderBackground"
                                                                          
                    Height="48"
                    Canvas.ZIndex="-1"
@@ -448,7 +436,7 @@
                    RelativePanel.AlignLeftWithPanel="True"
                    RelativePanel.AlignTopWithPanel="True" />
 
-        <Button x:ConnectionId='21' x:Name="HamburgerButton"
+        <Button x:ConnectionId='19' x:Name="HamburgerButton"
                 AutomationProperties.Name="Hamburger Menu Button"
                                                                                              
                 Canvas.ZIndex="2"
@@ -461,7 +449,7 @@
             <FontIcon FontSize="20" Glyph="&#xE700;" />
         </Button>
 
-        <ContentControl x:ConnectionId='22' x:Name="Header"
+        <ContentControl x:ConnectionId='20' x:Name="Header"
                         Height="48"
                         HorizontalContentAlignment="Left"
                         VerticalContentAlignment="Center"

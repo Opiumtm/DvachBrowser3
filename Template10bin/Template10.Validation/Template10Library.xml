@@ -286,11 +286,18 @@
             The shell back button should only be setup one time.
             </summary>
         </member>
-        <member name="M:Template10.Common.BootStrapper.InitializeFrameAsync(Windows.ApplicationModel.Activation.IActivatedEventArgs)">
+        <member name="M:Template10.Common.BootStrapper.ActivateWindow(Template10.Common.BootStrapper.ActivateWindowSources)">
             <summary>
-            InitializeFrameAsync creates a default Frame preceeded by the optional 
-            splash screen, then OnInitialzieAsync, then the new frame (if necessary).
-            This is private because there's no reason for the developer to call this.
+            Override this method only if you (the developer) wants to programmatically
+            control the means by which and when the Core Window is activated by Template 10.
+            One scenario might be a delayed activation for Splash Screen.
+            </summary>
+            <param name="source">Reason for the call from Template 10</param>
+        </member>
+        <member name="M:Template10.Common.BootStrapper.CreateRootElement(Windows.ApplicationModel.Activation.IActivatedEventArgs)">
+            <summary>
+             By default, Template 10 will setup the root element to be a Template 10
+             Modal Dialog control. If you desire something different, you can set it here.
             </summary>
         </member>
         <member name="M:Template10.Common.BootStrapper.DetermineStartCause(Windows.ApplicationModel.Activation.IActivatedEventArgs)">
@@ -298,6 +305,26 @@
             This determines the simplest case for starting. This should handle 80% of common scenarios. 
             When Other is returned the developer must determine start manually using IActivatedEventArgs.Kind
             </summary>
+        </member>
+        <member name="T:Template10.Common.NavButtonsHelper">
+            <summary>
+            Helper class for navigation buttons visibility logic.
+            </summary>
+            <remarks>Moved logic here from NavButtonBehavior because public static methods should be in a static class.</remarks>
+        </member>
+        <member name="M:Template10.Common.NavButtonsHelper.CalculateForwardVisibility(Windows.UI.Xaml.Controls.Frame)">
+            <summary>
+            Calculate forward navigation button visibility for a frame.
+            </summary>
+            <param name="frame">Frame.</param>
+            <returns>Button visibility.</returns>
+        </member>
+        <member name="M:Template10.Common.NavButtonsHelper.CalculateBackVisibility(Windows.UI.Xaml.Controls.Frame)">
+            <summary>
+            Calculate forward navigation button visibility for a frame.
+            </summary>
+            <param name="frame">Frame.</param>
+            <returns>Button visibility.</returns>
         </member>
         <member name="P:Template10.Controls.HamburgerMenu.HamburgerButtonVisibility">
             <summary>
@@ -426,18 +453,6 @@
             SecondaryButtons are the button at the bottom of the HamburgerMenu
             </summary>
         </member>
-        <member name="M:Template10.Controls.HamburgerMenu.UpdateFullScreen(System.Nullable{System.Boolean})">
-            <summary>
-            When IsFullScreen is true, the content is displayed on top of the SplitView and the SplitView is
-            not visible. Even as the user navigates (if possible) the SplitView remains hidden until
-            IsFullScreen is set to false.
-            </summary>
-            <remarks>
-            The original intent for this property was to allow the splash screen to be visible while the
-            remaining content loaded duing app start. In Minimal (Shell), this is still used for this purpose,
-            but many developers also leverage this property to view media full screen and similar use cases.
-            </remarks>
-        </member>
         <member name="M:Template10.Controls.HamburgerMenu.InitializeComponent">
             <summary>
             InitializeComponent()
@@ -472,6 +487,12 @@
             <summary>
             Sets and gets the ClearHistory property.
             If true, navigation stack is cleared when navigating to this page
+            </summary>
+        </member>
+        <member name="P:Template10.Controls.HamburgerButtonInfo.ClearCache">
+            <summary>
+            Sets and gets the ClearCache property.
+            If true, navigation page cache is cleared when navigating to this page
             </summary>
         </member>
         <member name="P:Template10.Controls.HamburgerButtonInfo.Visibility">
@@ -585,6 +606,54 @@
             <summary>
             Resumes immediate path updates every time a component property value changes. Updates the path.
             </summary>
+        </member>
+        <member name="T:Template10.Mvvm.ChangedCommandAdapter">
+            <summary>
+            Use this to adapt any <see cref="T:System.Windows.Input.ICommand"/> to <see cref="T:Template10.Mvvm.IChangedCommand"/> with posibility to manually initiate 
+            <see cref="E:Template10.Mvvm.ChangedCommandAdapter.CanExecuteChanged"/>
+            </summary>
+        </member>
+        <member name="T:Template10.Mvvm.IChangedCommand">
+            <summary>
+            Extension of <see cref="T:System.Windows.Input.ICommand"/> to allow manually call of <see cref="E:System.Windows.Input.ICommand.CanExecuteChanged"/>
+            </summary>
+        </member>
+        <member name="M:Template10.Services.FileService.FileHelper.FileExistsAsync(System.String,Template10.Services.FileService.StorageStrategies)">
+            <summary>Returns if a file is found in the specified storage strategy</summary>
+            <param name="key">Path of the file in storage</param>
+            <param name="location">Location storage strategy</param>
+            <returns>Boolean: true if found, false if not found</returns>
+        </member>
+        <member name="M:Template10.Services.FileService.FileHelper.DeleteFileAsync(System.String,Template10.Services.FileService.StorageStrategies)">
+            <summary>Deletes a file in the specified storage strategy</summary>
+            <param name="key">Path of the file in storage</param>
+            <param name="location">Location storage strategy</param>
+        </member>
+        <member name="M:Template10.Services.FileService.FileHelper.ReadFileAsync``1(System.String,Template10.Services.FileService.StorageStrategies)">
+            <summary>Reads and deserializes a file into specified type T</summary>
+            <typeparam name="T">Specified type into which to deserialize file content</typeparam>
+            <param name="key">Path to the file in storage</param>
+            <param name="location">Location storage strategy</param>
+            <returns>Specified type T</returns>
+        </member>
+        <member name="M:Template10.Services.FileService.FileHelper.WriteFileAsync``1(System.String,``0,Template10.Services.FileService.StorageStrategies,Windows.Storage.CreationCollisionOption)">
+            <summary>Serializes an object and write to file in specified storage strategy</summary>
+            <typeparam name="T">Specified type of object to serialize</typeparam>
+            <param name="key">Path to the file in storage</param>
+            <param name="value">Instance of object to be serialized and written</param>
+            <param name="location">Location storage strategy</param>
+        </member>
+        <member name="M:Template10.Services.FileService.FileHelper.GetIfFileExistsAsync(System.String,Template10.Services.FileService.StorageStrategies)">
+            <summary>Returns a file if it is found in the specified storage strategy</summary>
+            <param name="key">Path of the file in storage</param>
+            <param name="location">Location storage strategy</param>
+            <returns>StorageFile</returns>
+        </member>
+        <member name="P:Template10.Services.NavigationService.INavigationService.IsInMainView">
+            <summary>
+            Specifies if this instance of INavigationService associated with <see cref="P:Windows.ApplicationModel.Core.CoreApplication.MainView"/> or any other secondary view.
+            </summary>
+            <returns><value>true</value> if associated with MainView, <value>false</value> otherwise</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:Template10.Services.NavigationService.NavigationService.NavigateAsync``1(``0,System.Object,Windows.UI.Xaml.Media.Animation.NavigationTransitionInfo)" -->
         <member name="M:Template10.Services.SerializationService.ISerializationService.Serialize(System.Object)">

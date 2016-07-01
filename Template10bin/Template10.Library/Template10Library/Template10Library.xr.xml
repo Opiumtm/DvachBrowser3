@@ -79,6 +79,7 @@
       <RootEvent Name="Holding" />
       <RootEvent Name="Loaded" />
       <RootEvent Name="RightTapped" />
+      <RootEvent Name="Tapped" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Control">
       <RootProperty Name="TabIndex" />
@@ -185,15 +186,17 @@
       <RootProperty Name="Width" />
       <RootProperty Name="MinWidth" />
       <RootProperty Name="MaxWidth" />
+      <RootProperty Name="Background" />
+      <RootProperty Name="Foreground" />
       <RootProperty Name="Visibility" />
       <RootProperty Name="ContentTransitions" />
       <RootProperty Name="HorizontalContentAlignment" />
       <RootProperty Name="VerticalContentAlignment" />
-      <RootProperty Name="Background" />
       <RootProperty Name="BorderBrush" />
       <RootProperty Name="BorderThickness" />
       <RootProperty Name="ContentTemplate" />
       <RootProperty Name="Padding" />
+      <RootEvent Name="Loaded" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Primitives.ToggleButton">
       <RootProperty Name="Width" />
@@ -204,7 +207,6 @@
       <RootProperty Name="Content" />
       <RootProperty Name="IsChecked" />
       <RootProperty Name="IsEnabled" />
-      <RootProperty Name="IsHitTestVisible" />
       <RootProperty Name="IsTabStop" />
       <RootProperty Name="TabIndex" />
       <RootProperty Name="Visibility" />
@@ -213,6 +215,7 @@
       <RootEvent Name="Holding" />
       <RootEvent Name="Loaded" />
       <RootEvent Name="RightTapped" />
+      <RootEvent Name="Tapped" />
       <RootEvent Name="Unchecked" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.StaticResourceExtension" />
@@ -220,8 +223,8 @@
       <RootProperty Name="Width" />
       <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="Fill" />
-      <RootProperty Name="Visibility" />
       <RootProperty Name="Opacity" />
+      <RootProperty Name="Visibility" />
       <RootProperty Name="Height" />
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Stroke" />
@@ -259,6 +262,7 @@
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.SplitView">
       <RootProperty Name="DisplayMode" />
+      <RootProperty Name="IsPaneOpen" />
       <RootProperty Name="IsTabStop" />
       <RootProperty Name="OpenPaneLength" />
       <RootProperty Name="PaneBackground" />
