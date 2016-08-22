@@ -28,6 +28,7 @@ using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 using DvachBrowser3.Views.Partial;
 using Template10.Common;
+using Template10.Services.NavigationService;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -52,7 +53,9 @@ namespace DvachBrowser3.Views
             lifetimeToken = this.BindAppLifetimeEvents();
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
                 ViewModel = null;
+                DataContext = null;
             };
             this.Loaded += OnLoaded;
         }

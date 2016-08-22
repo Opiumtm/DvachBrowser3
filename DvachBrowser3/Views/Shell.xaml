@@ -46,13 +46,13 @@
         <controls:HamburgerMenu x:Name="MyHamburgerMenu" IsFullScreen="False">
 
             <controls:HamburgerMenu.PrimaryButtons>
-                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:MainPage">
+                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:MainPage" ClearCache="True">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Width="48" Height="48" Symbol="Home" />
                         <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Главная" />
                     </StackPanel>
                 </controls:HamburgerButtonInfo>
-                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:BoardsPage">
+                <controls:HamburgerButtonInfo ClearHistory="True" PageType="local:BoardsPage"  ClearCache="True">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Width="48" Height="48" Symbol="World" />
                         <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="Доски" />

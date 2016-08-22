@@ -38,6 +38,8 @@ namespace DvachBrowser3.Views
             InitViewModel();
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                DataContext = null;
                 ViewModel = null;
             };
         }

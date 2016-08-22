@@ -36,6 +36,7 @@ namespace DvachBrowser3.Logic
 
         private ThreadTree TryGetTree(BoardLinkBase link)
         {
+            return null;
             lock (CacheLock)
             {
                 if (link == null || cacheLink == null)
@@ -52,6 +53,7 @@ namespace DvachBrowser3.Logic
 
         private void PutTree(BoardLinkBase link, ThreadTree tree)
         {
+            return;
             lock (CacheLock)
             {
                 if (link == null || tree == null)

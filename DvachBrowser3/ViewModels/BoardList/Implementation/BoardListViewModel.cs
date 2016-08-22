@@ -15,6 +15,7 @@ using DvachBrowser3.Styles;
 using DvachBrowser3.Views;
 using Template10.Common;
 using Template10.Mvvm;
+using Template10.Utils;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -50,7 +51,7 @@ namespace DvachBrowser3.ViewModels
         {
             try
             {
-                BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() => UpdateList(result, cachedFavorites));
+                BootStrapper.Current.NavigationService.GetDispatcherWrapper().DispatchAsync(() => UpdateList(result, cachedFavorites));
             }
             catch (Exception ex)
             {
@@ -311,7 +312,7 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Задача.</returns>
         public async Task Start()
         {
-            await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() =>
+            await BootStrapper.Current.NavigationService.GetDispatcherWrapper().DispatchAsync(() =>
             {
                 refreshCommand.Start2(false);
             });
@@ -323,7 +324,7 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Задача.</returns>
         public async Task Stop()
         {
-            await BootStrapper.Current.NavigationService.Dispatcher.DispatchAsync(() =>
+            await BootStrapper.Current.NavigationService.GetDispatcherWrapper().DispatchAsync(() =>
             {
                 refreshCommand.Cancel();
             });

@@ -11,6 +11,7 @@ using Windows.UI.Popups;
 using DvachBrowser3.Engines;
 using DvachBrowser3.Views;
 using Template10.Common;
+using Template10.Utils;
 
 namespace DvachBrowser3
 {
@@ -95,7 +96,7 @@ namespace DvachBrowser3
         /// <summary>
         /// Диспетчер.
         /// </summary>
-        public static IDispatcherWrapper Dispatcher => BootStrapper.Current?.NavigationService?.Dispatcher;
+        public static IDispatcherWrapper Dispatcher => BootStrapper.Current?.NavigationService?.GetDispatcherWrapper();
 
         // ReSharper disable once InconsistentNaming
         private static readonly Lazy<bool> isMobile = new Lazy<bool>(() => Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile");

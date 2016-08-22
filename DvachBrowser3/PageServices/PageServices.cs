@@ -39,7 +39,23 @@ namespace DvachBrowser3.PageServices
             var oldValue = e.OldValue as PageServiceCollection;
             var newValue = e.NewValue as PageServiceCollection;
             oldValue?.Attach(null);
-            newValue?.Attach(d as Page);
+            var page = d as Page;
+            if (page != null)
+            {
+                newValue?.Attach(page);
+                page.Unloaded += PageOnUnloaded;
+            }
+        }
+
+        private static void PageOnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var page = sender as Page;
+            if (page != null)
+            {
+                page.Unloaded -= PageOnUnloaded;
+                var v = page.GetValue(ServicesProperty) as PageServiceCollection;
+                v?.Attach(null);
+            }
         }
     }
 }

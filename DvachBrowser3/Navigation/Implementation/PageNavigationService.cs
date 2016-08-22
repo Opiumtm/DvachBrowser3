@@ -67,6 +67,7 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof (BoardInfoPage), nkey);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
@@ -84,6 +85,7 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(BoardPage), nkey);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
@@ -123,6 +125,7 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(CatalogPage), nkey);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
@@ -140,6 +143,7 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(ThreadPage), nkey);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
@@ -157,6 +161,7 @@ namespace DvachBrowser3.Navigation
                 if (nkey != null)
                 {
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(MediaPage), nkey);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
@@ -189,6 +194,7 @@ namespace DvachBrowser3.Navigation
                     var extPar = new ExtendedPageParam() {CustomDataId = id, LinkParam = nkey};
                     var npar = extPar.ToJson();
                     Shell.HamburgerMenu.NavigationService.Navigate(typeof(PostingPage), npar);
+                    Shell.HamburgerMenu.NavigationService.ClearCache(true);
                 }
             }
             else
