@@ -28,6 +28,8 @@ namespace DvachBrowser3.Views.Partial
             BindingRoot.DataContext = DataContext;
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                BindingRoot.DataContext = null;
                 ViewModel = null;
             };
         }

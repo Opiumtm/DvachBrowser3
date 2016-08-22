@@ -57,6 +57,7 @@
     <Compile Include="Engines\Makaba\Json\BoardPost2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardPostFile2.cs" />
     <Compile Include="Engines\Makaba\Json\BoardThread2.cs" />
+    <Compile Include="Engines\Makaba\Json\CaptchaV2IdResult.cs" />
     <Compile Include="Engines\Makaba\Json\CatalogEntity.cs" />
     <Compile Include="Engines\Makaba\Json\CheckUpdatesData.cs" />
     <Compile Include="Engines\Makaba\Json\MakabaMediaTypes.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Engines\Makaba\Operations\MakabaGetBoardsOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaArgument.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperation.cs" />
+    <Compile Include="Engines\Makaba\Operations\MakabaGetCaptchaOperationV2.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetCatalogOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetMediaFileOperation.cs" />
     <Compile Include="Engines\Makaba\Operations\MakabaGetThreadOperation.cs" />

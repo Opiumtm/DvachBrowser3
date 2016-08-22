@@ -58,7 +58,7 @@ namespace DvachBrowser3.Engines.Makaba
                                               EngineCapability.ThreadStatusRequest | 
                                               EngineCapability.SearchRequest |
                                               EngineCapability.TopPostsRequest |
-                                              EngineCapability.NoCaptcha |
+                                              //EngineCapability.NoCaptcha |
                                               EngineCapability.Catalog;
 
         private readonly IMakabaEngineConfig configuration;
@@ -135,7 +135,7 @@ namespace DvachBrowser3.Engines.Makaba
         /// <returns>Ключи для капчи.</returns>
         public IEngineOperationsWithProgress<ICaptchaResult, EngineProgress> GetCaptchaKeys(BoardLinkBase link, CaptchaType captchaType)
         {
-            return new MakabaGetCaptchaOperation(new MakabaGetCaptchaArgument() { Link = link, CaptchaType = captchaType }, Services);
+            return new MakabaGetCaptchaOperationV2(new MakabaGetCaptchaArgument() { Link = link, CaptchaType = captchaType }, Services);
         }
 
         /// <summary>

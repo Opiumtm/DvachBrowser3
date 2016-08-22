@@ -28,6 +28,10 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
+            Unloaded += (sender, e) =>
+            {
+                BindingRoot.DataContext = null;
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

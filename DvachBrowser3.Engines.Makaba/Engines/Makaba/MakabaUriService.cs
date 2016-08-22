@@ -253,8 +253,44 @@ namespace DvachBrowser3.Engines.Makaba
             return null;
         }
 
+        /// <summary>
+        /// Получить URI капчи (V2).
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <param name="board">Борда.</param>
+        /// <param name="thread">Тред.</param>
+        /// <returns>URI капчи.</returns>
+        public Uri GetCaptchaUriV2(CaptchaType captchaType, string board, int? thread)
+        {
+            if (captchaType == CaptchaType.DvachCaptcha)
+            {
+                if (thread != null)
+                {
+                    return new Uri(BaseUri, CaptchaUriV2 + "2chaptcha/id?board=" + board + "&thread=" + thread.Value);
+                }
+                return new Uri(BaseUri, CaptchaUriV2 + "2chaptcha/id?board=" + board);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Получить URI изображения капчи V2.
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>URI изображения.</returns>
+        public Uri GetCaptchaV2ImageUri(CaptchaType captchaType, string id)
+        {
+            if (captchaType == CaptchaType.DvachCaptcha)
+            {
+                return new Uri(BaseUri, CaptchaUriV2 + "2chaptcha/image/" + id);
+            }
+            return null;
+        }
+
         private const string CaptchaUri = "makaba/captcha.fcgi";
-        
+
+        private const string CaptchaUriV2 = "api/captcha/";
         /// <summary>
         /// Получить URI для постинга.
         /// </summary>

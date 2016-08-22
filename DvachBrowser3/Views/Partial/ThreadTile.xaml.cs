@@ -121,8 +121,10 @@ namespace DvachBrowser3.Views.Partial
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             isLoaded = false;
-            ViewModel = null;
             timer.IsEnabled = false;
+            Bindings.StopTracking();
+            MainBorder.DataContext = null;
+            ViewModel = null;
         }
 
         /// <summary>

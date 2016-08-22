@@ -56,6 +56,8 @@ namespace DvachBrowser3.Views
             };
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                DataContext = null;
                 ViewModel = null;
             };
             AnimationBehavior.SetRepeatBehavior(MainGifImage, RepeatBehavior.Forever);

@@ -32,6 +32,10 @@ namespace DvachBrowser3.Views.Partial.Captcha
         {
             this.InitializeComponent();
             BindingRoot.DataContext = this;
+            Unloaded += (sender, e) =>
+            {
+                BindingRoot.DataContext = null;
+            };
         }
 
         public event CaptchaQueryResultEventHandler CaptchaQueryResult;
@@ -127,7 +131,7 @@ namespace DvachBrowser3.Views.Partial.Captcha
                 {
                     throw new InvalidOperationException("Неправильный тип ключей капчи");
                 }
-                var imgLink = new MediaLink() {Engine = CoreConstants.Engine.Makaba, IsAbsolute = false, RelativeUri = $"makaba/captcha.fcgi?type=2chaptcha&action=image&id={WebUtility.HtmlDecode(keys.Key)}"};
+                var imgLink = new MediaLink() { Engine = CoreConstants.Engine.Makaba, IsAbsolute = false, RelativeUri = $"api/captcha/2chaptcha/image/{WebUtility.HtmlDecode(keys.Key)}" };
                 this.key = keys.Key;
                 var imgOperation = engine.GetMediaFile(imgLink);
                 var img = await imgOperation.Complete();

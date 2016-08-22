@@ -31,6 +31,8 @@ namespace DvachBrowser3.Views.Partial
             this.SizeChanged += OnSizeChanged;
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                BindingRoot.DataContext = null;
                 ViewModel = null;
             };
         }

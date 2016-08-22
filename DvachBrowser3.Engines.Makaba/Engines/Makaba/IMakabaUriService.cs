@@ -78,6 +78,23 @@ namespace DvachBrowser3.Engines.Makaba
         Uri GetCaptchaUri(CaptchaType captchaType, bool forThread);
 
         /// <summary>
+        /// Получить URI капчи (V2).
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <param name="board">Борда.</param>
+        /// <param name="thread">Тред.</param>
+        /// <returns>URI капчи.</returns>
+        Uri GetCaptchaUriV2(CaptchaType captchaType, string board, int? thread);
+
+        /// <summary>
+        /// Получить URI изображения капчи V2.
+        /// </summary>
+        /// <param name="captchaType">Тип капчи.</param>
+        /// <param name="id">Идентификатор.</param>
+        /// <returns>URI изображения.</returns>
+        Uri GetCaptchaV2ImageUri(CaptchaType captchaType, string id);
+
+        /// <summary>
         /// Получить URI для постинга.
         /// </summary>
         /// <returns>URI для постинга.</returns>

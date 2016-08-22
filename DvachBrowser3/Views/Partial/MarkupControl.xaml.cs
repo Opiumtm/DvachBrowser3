@@ -28,7 +28,9 @@ namespace DvachBrowser3.Views.Partial
             this.Loaded += OnLoaded;
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
                 MarkupProvider = null;
+                BindingRoot.DataContext = null;
             };
         }
 

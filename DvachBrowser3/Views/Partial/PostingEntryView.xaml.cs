@@ -33,6 +33,8 @@ namespace DvachBrowser3.Views.Partial
             };
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                MainGrid.DataContext = null;
                 ViewModel = null;
             };
         }

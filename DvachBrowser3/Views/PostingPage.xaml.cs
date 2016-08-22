@@ -46,6 +46,8 @@ namespace DvachBrowser3.Views
             Shell.IsNarrowViewChanged.AddCallback(this);
             this.Unloaded += (sender, e) =>
             {
+                Bindings.StopTracking();
+                DataContext = null;
                 ViewModel = null;
             };
         }
