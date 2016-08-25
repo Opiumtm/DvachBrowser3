@@ -398,9 +398,9 @@ namespace DvachBrowser3.Engines.Makaba
         {
             if (check)
             {
-                return new Uri(BaseUri, $"/makaba/captcha.fcgi?appid={WebUtility.UrlEncode(appId)}&check=1");
+                return new Uri(BaseUri, CaptchaUriV2 + "app/check/" + appId);
             }
-            return new Uri(BaseUri, $"/makaba/captcha.fcgi?appid={WebUtility.UrlEncode(appId)}");
+            return new Uri(BaseUri, CaptchaUriV2 + "app/id/" + appId);
         }
 
         /// <summary>

@@ -201,16 +201,16 @@ namespace DvachBrowser3.Engines.Makaba.Operations
         private async Task AddNoCaptchaData(List<KeyValuePair<string, string>> stringData, string comment)
         {
             var sessionKey = await GetApiSessionKey();
-            var randomKey = GetRandomKey(comment);
-            var signature = GetApiSignature(randomKey, sessionKey);
-            stringData.Add(new KeyValuePair<string, string>("app_response_id", sessionKey.Id));
+            var signature = GetApiSignature(sessionKey);
+            stringData.Add(new KeyValuePair<string, string>("captcha_type", "app"));
+            stringData.Add(new KeyValuePair<string, string>("app_response_id", sessionKey));
             stringData.Add(new KeyValuePair<string, string>("app_response", signature));
-            stringData.Add(new KeyValuePair<string, string>("app_signature", randomKey));
+            //stringData.Add(new KeyValuePair<string, string>("app_signature", randomKey));
         }
 
-        private string GetApiSignature(string randomKey, ApiKey sessionKey)
+        private string GetApiSignature(string id)
         {
-            var contentToSign = $"{sessionKey.Key}|{randomKey}|{apiKeys.Value.Key}";
+            var contentToSign = $"{id}|{apiKeys.Value.Key}";
             var hash = GetSha1Hash(contentToSign);
             var sb = new StringBuilder();
             foreach (var b in hash)
@@ -220,33 +220,27 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             return sb.ToString().ToLower();
         }
 
-        private async Task<ApiKey> GetApiSessionKey()
+        private async Task<string> GetApiSessionKey()
         {
             var client = await CreateClient();
             var uri = Services.GetServiceOrThrow<IMakabaUriService>().GetNocaptchaUri(false, apiKeys.Value.Id);
             var str = await client.GetStringAsync(uri);
-            var l = new List<string>();
-            using (var rd = new StringReader(str))
+            var message = JsonConvert.DeserializeObject<CaptchaV2IdResult>(str);
+            switch (message.Result)
             {
-                string s = null;
-                do
-                {
-                    s = rd.ReadLine();
-                    if (s != null)
+                // 1 - Запрос удовлетворён успешно.
+                case 1:
+                    if (message.Id == null)
                     {
-                        l.Add(s);
+                        throw new WebException("Неправильный ответ с сервера (captcha.id = null)");
                     }
-                } while (s != null);
+                    return message.Id;
+                // 0 - При выполнении запроса возникла ошибка. Код ошибки находится в переменной error, описание ошибки в переменной description.
+                case 0:
+                    throw new WebException($"Ошибка получения капчи {message.Error}: {message.ErrorDescription}");
+                default:
+                    throw new WebException("Неправильный ответ с сервера (captcha.result invalid)");
             }
-            if (l.Count < 3)
-            {
-                throw new WebException("Ошибка получения ID сессии");
-            }
-            if (!"APP CHECK KEY".Equals(l[0].Trim(), StringComparison.OrdinalIgnoreCase))
-            {
-                throw new WebException("Ошибка получения ID сессии");
-            }
-            return new ApiKey() { Id = l[1], Key = l[2] };
         }
 
         private readonly Lazy<ApiKey> apiKeys;
@@ -277,20 +271,12 @@ namespace DvachBrowser3.Engines.Makaba.Operations
 
         private byte[] GetSha1Hash(string contentToSign)
         {
-            var prov = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha1);
+            var prov = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Sha256);
             var sha1 = prov.CreateHash();
             var buf = Encoding.UTF8.GetBytes(contentToSign);
             sha1.Append(CryptographicBuffer.CreateFromByteArray(buf));
             var hashBuf = sha1.GetValueAndReset();
             return hashBuf.ToArray();
-        }
-
-        private string GetRandomKey(string comment)
-        {
-            var id = Guid.NewGuid();
-            var contentToSign = $"{comment}|{id}";
-            var hash = GetSha1Hash(contentToSign);
-            return Convert.ToBase64String(hash).Substring(0, 22);
         }
 
         private PostingRef GetPostingRef()

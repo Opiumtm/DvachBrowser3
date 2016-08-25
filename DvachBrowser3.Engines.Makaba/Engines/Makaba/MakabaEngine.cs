@@ -58,7 +58,7 @@ namespace DvachBrowser3.Engines.Makaba
                                               EngineCapability.ThreadStatusRequest | 
                                               EngineCapability.SearchRequest |
                                               EngineCapability.TopPostsRequest |
-                                              //EngineCapability.NoCaptcha |
+                                              EngineCapability.NoCaptcha |
                                               EngineCapability.Catalog;
 
         private readonly IMakabaEngineConfig configuration;
@@ -195,7 +195,7 @@ namespace DvachBrowser3.Engines.Makaba
         /// <returns>Результат.</returns>
         public IEngineOperationsWithProgress<INoCaptchaCheckResult, EngineProgress> CheckNoCaptchaAbility(BoardLinkBase postLink)
         {
-            return new MakabaCheckNoCaptchaAbilityOperation(postLink, Services);
+            return new MakabaCheckNoCaptchaAbilityV2Operation(postLink, Services);
         }
 
         /// <summary>
