@@ -10,7 +10,10 @@ using DvachBrowser3.Posts;
 using DvachBrowser3.Styles;
 using DvachBrowser3.TextRender;
 using DvachBrowser3.Views;
+using Ipatov.MarkupRender;
 using Template10.Mvvm;
+using AttributeRenderProgramElement = DvachBrowser3.TextRender.AttributeRenderProgramElement;
+using LineBreakRenderProgramElement = DvachBrowser3.TextRender.LineBreakRenderProgramElement;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -66,9 +69,8 @@ namespace DvachBrowser3.ViewModels
             {
                 return;
             }
-            var lastBreak = false;
-            RenderElements(logic, post.Comment.Nodes, ref lastBreak);
-            logic.Flush();
+            var rlogic = new RenderProgramV1Logic();
+            rlogic.CreateProgram(logic, post.Comment.Nodes);
         }
 
         /// <summary>
@@ -77,11 +79,18 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Программа.</returns>
         public ITextRender2RenderProgram CreateProgram()
         {
-            var former = new TextRender2ProgramFormer(new TextRenderCommandFormer());
-            var lastBreak = false;
-            RenderElements(former, post.Comment.Nodes, ref lastBreak);
-            former.Flush();
-            return former.GetProgram();
+            var logic = new RenderProgramV1Logic();
+            return logic.CreateProgram(post.Comment.Nodes);
+        }
+
+        /// <summary>
+        /// Получить команды для рендеринга.
+        /// </summary>
+        /// <returns>Команды.</returns>
+        public IRenderCommandsSource GetRenderCommands()
+        {
+            var logic = new RenderProgramV2Logic();
+            return logic.CreateProgram(post.Comment.Nodes);
         }
 
         /// <summary>
@@ -143,156 +152,28 @@ namespace DvachBrowser3.ViewModels
             return sb.ToString();
         }
 
-        private void RenderElements(ITextRenderProgramConsumer logic, IEnumerable<PostNodeBase> nodes, ref bool lastBreak)
+        /// <summary>
+        /// Вызов события по клику на ссылку.
+        /// </summary>
+        /// <param name="command">Элемент текста.</param>
+        public void OnLinkClick(IRenderCommand command)
         {
-            if (nodes == null)
+            if (command != null)
             {
-                return;
-            }
-            foreach (var node in nodes)
-            {
-                RenderElement(logic, node, ref lastBreak);
-            }
-        }
-
-        private void RenderElement(ITextRenderProgramConsumer logic, PostNodeBase node, ref bool lastBreak)
-        {
-            if (node == null)
-            {
-                return;
-            }
-            if (node is PostNodeBreak)
-            {
-                logic.PushProgramElement(new LineBreakRenderProgramElement());
-                lastBreak = true;
-            }
-            else if (node is PostTextNode)
-            {
-                var tnode = (PostTextNode) node;
-                logic.PushProgramElement(new TextRenderProgramElement(tnode.Text ?? ""));
-                lastBreak = false;
-            }
-            else if (node is PostNode)
-            {                
-                RenderAttributedNodes(logic, (PostNode)node, ref lastBreak);
-            }
-            else if (node is PostNodeBoardLink)
-            {
-                var lnode = (PostNodeBoardLink) node;
-                if (lnode.BoardLink != null)
+                if (command.Attributes.ContainsKey(CommonTextAttributes.Link))
                 {
-                    var lattr = new LinkTextRenderAttribute("[data]", lnode.BoardLink);
-                    logic.PushProgramElement(new AttributeRenderProgramElement(lattr, true));
-                    logic.PushProgramElement(new TextRenderProgramElement(GetBoardLinkName(lnode.BoardLink)));
-                    logic.PushProgramElement(new AttributeRenderProgramElement(lattr, false));
-                    lastBreak = false;
+                    var link = command.Attributes[CommonTextAttributes.Link];
+                    var uriLink = link as ITextAttributeData<string>;
+                    var boardLink = link as ITextAttributeData<BoardLinkBase>;
+                    if (uriLink?.Value != null)
+                    {
+                        OnLinkClick(new LinkTextRenderAttribute(uriLink.Value));
+                    }
+                    if (boardLink?.Value != null)
+                    {
+                        OnLinkClick(new LinkTextRenderAttribute("[data]", boardLink.Value));
+                    }
                 }
-            }
-        }
-
-        private string GetBoardLinkName(BoardLinkBase link)
-        {
-            return ServiceLocator.Current.GetServiceOrThrow<ILinkTransformService>().GetBackLinkDisplayString(link);
-        }
-
-        private void RenderAttributedNodes(ITextRenderProgramConsumer logic, PostNode node, ref bool lastBreak)
-        {
-            if (node == null)
-            {
-                return;
-            }
-            var nodeAttr = node.Attribute as PostNodeAttribute;
-            var nodeLink = node.Attribute as PostNodeLinkAttribute;
-            var nodeBLink = node.Attribute as PostNodeBoardLinkAttribute;
-
-            ITextRenderAttribute attribute = null;
-
-            ITextRenderLinkAttribute linkAttribute = null;
-
-            bool isParagraph = false;
-
-            if (nodeAttr != null)
-            {
-                if (nodeAttr.Attribute == PostNodeBasicAttribute.Paragraph)
-                {
-                    isParagraph = true;
-                }
-                else
-                {
-                    attribute = CreateAttribute(nodeAttr.Attribute);
-                }
-            }
-
-            if (nodeLink?.LinkUri != null)
-            {
-                linkAttribute = new LinkTextRenderAttribute(nodeLink.LinkUri);
-            }
-
-            if (nodeBLink?.BoardLink != null)
-            {
-                linkAttribute = new LinkTextRenderAttribute("[data]", nodeBLink.BoardLink);
-            }
-
-            if (attribute != null)
-            {
-                logic.PushProgramElement(new AttributeRenderProgramElement(attribute, true));
-            }
-
-            if (linkAttribute != null)
-            {
-                logic.PushProgramElement(new AttributeRenderProgramElement(linkAttribute, true));
-            }
-
-            if (!lastBreak && isParagraph)
-            {
-                logic.PushProgramElement(new LineBreakRenderProgramElement());
-                lastBreak = true;
-            }
-
-            RenderElements(logic, node.Children, ref lastBreak);
-
-            if (attribute != null)
-            {
-                logic.PushProgramElement(new AttributeRenderProgramElement(attribute, false));
-            }
-
-            if (linkAttribute != null)
-            {
-                logic.PushProgramElement(new AttributeRenderProgramElement(linkAttribute, false));
-            }
-
-            if (!lastBreak && isParagraph)
-            {
-                logic.PushProgramElement(new LineBreakRenderProgramElement());
-            }
-        }
-
-        private ITextRenderAttribute CreateAttribute(PostNodeBasicAttribute attr)
-        {
-            switch (attr)
-            {
-                case PostNodeBasicAttribute.Bold:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Bold);
-                case PostNodeBasicAttribute.Italic:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Italic);
-                case PostNodeBasicAttribute.Monospace:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Fixed);
-                case PostNodeBasicAttribute.Overscore:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Overline);
-                case PostNodeBasicAttribute.Quote:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Quote);
-                case PostNodeBasicAttribute.Spoiler:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Spoiler);
-                case PostNodeBasicAttribute.Strikeout:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Strikethrough);
-                case PostNodeBasicAttribute.Sub:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Subscript);
-                case PostNodeBasicAttribute.Sup:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Superscript);
-                case PostNodeBasicAttribute.Underscore:
-                    return new FlagTextRenderAttribute(CommonTextRenderAttributes.Undeline);
-                default:
-                    return null;
             }
         }
 

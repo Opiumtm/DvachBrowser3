@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using DvachBrowser3.TextRender;
+using Ipatov.MarkupRender;
 
 namespace DvachBrowser3.ViewModels
 {
@@ -34,6 +35,12 @@ namespace DvachBrowser3.ViewModels
         ITextRender2RenderProgram CreateProgram();
 
         /// <summary>
+        /// Получить команды для рендеринга.
+        /// </summary>
+        /// <returns>Команды.</returns>
+        IRenderCommandsSource GetRenderCommands();
+
+        /// <summary>
         /// Клик на ссылку.
         /// </summary>
         event LinkClickEventHandler LinkClick;
@@ -59,5 +66,11 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         /// <returns>Текст цитаты.</returns>
         string GetQuoteText();
+
+        /// <summary>
+        /// Вызов события по клику на ссылку.
+        /// </summary>
+        /// <param name="command">Элемент текста.</param>
+        void OnLinkClick(IRenderCommand command);
     }
 }

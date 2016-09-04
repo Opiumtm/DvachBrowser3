@@ -315,6 +315,9 @@
     <Compile Include="ViewModels\Post\Implementation\PostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\Implementation\PostTags.cs" />
+    <Compile Include="ViewModels\Post\Implementation\RenderProgramLogicBase.cs" />
+    <Compile Include="ViewModels\Post\Implementation\RenderProgramV1Logic.cs" />
+    <Compile Include="ViewModels\Post\Implementation\RenderProgramV2Logic.cs" />
     <Compile Include="ViewModels\Post\IPostFlagsViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostNameViewModel.cs" />
     <Compile Include="ViewModels\Post\IPostQuoteViewModel.cs" />
@@ -675,6 +678,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Ipatov.MarkupRender">
+      <HintPath>..\Libs\Ipatov.MarkupRender\Ipatov.MarkupRender.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
