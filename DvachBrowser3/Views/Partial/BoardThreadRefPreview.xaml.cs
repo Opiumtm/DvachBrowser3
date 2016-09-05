@@ -155,15 +155,15 @@ namespace DvachBrowser3.Views.Partial
             switch (Phase)
             {
                 case 0:
-                    PostText.RenderSuspended = true;
+                    //PostText.RenderSuspended = true;
                     ImagePreview.LoadingSuspended = true;
                     break;
                 case 1:
-                    PostText.RenderSuspended = false;
+                    //PostText.RenderSuspended = false;
                     ImagePreview.LoadingSuspended = true;
                     break;
                 default:
-                    PostText.RenderSuspended = false;
+                    //PostText.RenderSuspended = false;
                     ImagePreview.LoadingSuspended = false;
                     break;
             }

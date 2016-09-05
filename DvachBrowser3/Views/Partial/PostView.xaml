@@ -126,8 +126,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <local:PostText2 Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         NoBitmapCache="{x:Bind NotCacheText, Mode=OneWay}"/>
+        <local:PostText3 Grid.Row="3" ViewModel="{x:Bind ViewModel.Text, Mode=OneWay}" x:Name="PostTextView" Margin="3, 0, 3, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        />
         <Border Margin="3, 0, 3, 0" HorizontalAlignment="Center" Grid.Row="4" Visibility="{x:Bind ShowFullPostButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
             <TextBlock FontSize="{x:Bind ViewModel.StyleManager.Text.NormalFontSize, Mode=OneWay}" Text="[Показана часть текста]" FontWeight="SemiBold"
                    Visibility="{x:Bind ExceedLines, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=false}"/>

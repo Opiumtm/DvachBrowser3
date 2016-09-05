@@ -383,6 +383,7 @@
     <Compile Include="Views\Partial\Additional\CaptchaQueryResultEventArgs.cs" />
     <Compile Include="Views\Partial\Additional\CaptchaQueryViewParam.cs" />
     <Compile Include="Views\Partial\Additional\ContentPopupManager.cs" />
+    <Compile Include="Views\Partial\Additional\DvachTextRenderStyle.cs" />
     <Compile Include="Views\Partial\Additional\ICatpchaQueryView.cs" />
     <Compile Include="Views\Partial\Additional\IPostCollectionVisualIndexStore.cs" />
     <Compile Include="Views\Partial\Additional\RenderLinkClickHelper.cs" />
@@ -430,6 +431,9 @@
     </Compile>
     <Compile Include="Views\Partial\PostText2.xaml.cs">
       <DependentUpon>PostText2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Partial\PostText3.xaml.cs">
+      <DependentUpon>PostText3.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Partial\PostView.xaml.cs">
       <DependentUpon>PostView.xaml</DependentUpon>
@@ -590,6 +594,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Partial\PostText2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Partial\PostText3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
