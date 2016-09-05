@@ -15,7 +15,7 @@ namespace DvachBrowser3.ViewModels
         /// <returns>Элемент.</returns>
         protected override IRenderProgramElement LineBreak()
         {
-            return CommonProgramElements.LinkeBreakElement;
+            return CommonProgramElements.LineBreakElement;
         }
 
         /// <summary>

@@ -7,11 +7,8 @@
     <RootType FullName="Windows.UI.Xaml.Controls.Grid">
       <RootProperty Name="Children" />
     </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.Image">
-      <RootProperty Name="Margin" />
-      <RootProperty Name="HorizontalAlignment" />
-      <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="Stretch" />
+    <RootType FullName="Microsoft.Graphics.Canvas.UI.Xaml.CanvasVirtualControl">
+      <RootEvent Name="RegionsInvalidated" />
       <RootEvent Name="Tapped" />
     </RootType>
     <RootType FullName="Ipatov.MarkupRender.MarkupRenderControl" />
