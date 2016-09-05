@@ -94,7 +94,7 @@ namespace DvachBrowser3.ViewModels
                 case PostNodeBasicAttribute.Sub:
                     return CommonTextAttributes.SubscriptAttribute;
                 case PostNodeBasicAttribute.Sup:
-                    return CommonTextAttributes.SubscriptAttribute;
+                    return CommonTextAttributes.SuperscriptAttribute;
                 case PostNodeBasicAttribute.Underscore:
                     return CommonTextAttributes.UnderlineAttribute;
                 default:
