@@ -29,12 +29,18 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             BindingRoot.DataContext = this;
             this.SizeChanged += OnSizeChanged;
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                BindingRoot.DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.SizeChanged -= OnSizeChanged;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            BindingRoot.DataContext = null;
+            ViewModel = null;
+            ImageData = null;
+            MainImage.Source = null;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

@@ -27,12 +27,16 @@ namespace DvachBrowser3.Views
             InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                ViewModel = null;
-                DataContext = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            ViewModel = null;
+            DataContext = null;
+
         }
 
         /// <summary>

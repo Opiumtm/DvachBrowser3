@@ -27,9 +27,21 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             MainView.DataContext = this;
-            Loaded += (sender, e) => SetContentMargin();
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
             Shell.IsNarrowViewChanged.AddCallback(this);
             OnPropertyChanged(nameof(IsShowCloseButton));
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            SetContentMargin();
         }
 
         private void ContentVisibleChanged(bool oldValue, bool newValue)

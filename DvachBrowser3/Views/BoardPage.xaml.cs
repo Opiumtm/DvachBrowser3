@@ -41,12 +41,15 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            DataContext = null;
+            ViewModel = null;
         }
 
         /// <summary>
@@ -109,8 +112,8 @@ namespace DvachBrowser3.Views
             var vm = new BoardPageLoaderViewModel(navigatedLink);
             isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
-            vm.PageLoaded += BoardOnPageLoaded;
-            vm.PageLoadStarted += BoardOnPageLoadStarted;
+            vm.PageLoaded += LiteWeakEventHelper.CreateHandler(new WeakReference<BoardPage>(this), (root, esender, ee) => root.BoardOnPageLoaded(esender, ee));
+            vm.PageLoadStarted += LiteWeakEventHelper.CreateHandler(new WeakReference<BoardPage>(this), (root, esender, ee) => root.BoardOnPageLoadStarted(esender, ee));
             ViewModel = vm;
             // ReSharper disable once ExplicitCallerInfoArgument
             NavigatedTo?.Invoke(this, e);

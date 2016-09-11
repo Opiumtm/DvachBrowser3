@@ -49,6 +49,7 @@ namespace DvachBrowser3.Views.Partial
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            Unloaded -= OnUnloaded;
             _textRenderStyle.Dispose();
             RenderControl.ExceedsLinesChanged -= RenderControlOnExceedsLinesChanged;
             RenderControl.TextTapped -= RenderControlOnTextTapped;

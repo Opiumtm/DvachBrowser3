@@ -30,18 +30,23 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             MainGrid.DataContext = this;
             this.Loaded += OnLoaded;
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                MainGrid.DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+            PostTextView.TextRendered += PostTextViewOnTextRendered;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            PostTextView.TextRendered -= PostTextViewOnTextRendered;
+            Bindings.StopTracking();
+            MainGrid.DataContext = null;
+            ViewModel = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             PostLinesUpdated(MaxLines);
-            PostTextView.TextRendered += PostTextViewOnTextRendered;
             PostTextViewOnTextRendered(PostTextView, EventArgs.Empty);
         }
 

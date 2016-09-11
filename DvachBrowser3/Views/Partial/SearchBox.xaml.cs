@@ -26,6 +26,13 @@ namespace DvachBrowser3.Views.Partial
             MainBorder.DataContext = this;
             Shell.IsNarrowViewChanged.AddCallback(this);
             this.Loaded += OnLoaded;
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

@@ -32,12 +32,16 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                BindingRoot.DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            BindingRoot.DataContext = null;
+            ViewModel = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

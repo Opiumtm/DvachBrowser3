@@ -28,10 +28,18 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             BindingRoot.DataContext = this;
             this.Loaded += OnLoaded;
-            Unloaded += (sender, e) =>
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            BindingRoot.DataContext = null;
+            if (queryView != null)
             {
-                BindingRoot.DataContext = null;
-            };
+                queryView.PropertyChanged -= QueryViewOnPropertyChanged;
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

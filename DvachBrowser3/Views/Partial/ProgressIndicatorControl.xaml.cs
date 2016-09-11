@@ -26,14 +26,18 @@ namespace DvachBrowser3.Views.Partial
         public ProgressIndicatorControl()
         {
             this.InitializeComponent();
-            this.Loaded += OnLoaded;
             BindingRoot.DataContext = this;
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                BindingRoot.DataContext = null;
-                ViewModel = null;
-            };
+            this.Loaded += OnLoaded;
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            BindingRoot.DataContext = null;
+            ViewModel = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

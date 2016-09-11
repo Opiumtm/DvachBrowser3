@@ -24,12 +24,15 @@ namespace DvachBrowser3.Views.Partial
         {
             this.InitializeComponent();
             BindingRoot.DataContext = this;
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                ViewModel = null;
-                BindingRoot.DataContext = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            ViewModel = null;
+            BindingRoot.DataContext = null;
         }
 
         /// <summary>

@@ -27,16 +27,23 @@ namespace DvachBrowser3.Views.Partial
             this.InitializeComponent();
             MainGrid.DataContext = this;
             this.Loaded += OnLoaded;
-            MainGrid.SizeChanged += (sender, e) =>
-            {
-                AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
-            };
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                MainGrid.DataContext = null;
-                ViewModel = null;
-            };
+            MainGrid.SizeChanged += MainGridOnSizeChanged;
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            MainGrid.SizeChanged -= MainGridOnSizeChanged;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            MainGrid.DataContext = null;
+            ViewModel = null;
+        }
+
+        private void MainGridOnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            AppHelpers.ActionOnUiThread(IsNarrowViewChanged);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

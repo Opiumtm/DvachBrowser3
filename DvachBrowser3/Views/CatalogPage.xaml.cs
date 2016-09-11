@@ -41,12 +41,15 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            DataContext = null;
+            ViewModel = null;
         }
 
         /// <summary>
@@ -140,8 +143,8 @@ namespace DvachBrowser3.Views
             var vm = new BoardCatalogViewModel(navigatedLink);
             var isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
-            vm.Update.Progress.Started += OnDownloadStarted;
-            vm.Update.Progress.Finished += OnDownloadFinished;
+            vm.Update.Progress.Started += LiteWeakEventHelper.CreateHandler(new WeakReference<CatalogPage>(this), (root, esender, ee) => root.OnDownloadStarted(esender, ee));
+            vm.Update.Progress.Finished += LiteWeakEventHelper.CreateProgressFinishedHandler(new WeakReference<CatalogPage>(this), (root, esender, ee) => root.OnDownloadFinished(esender, ee));
             ViewModel = vm;
             FilteredPosts = vm;
             NavigatedTo?.Invoke(this, e);

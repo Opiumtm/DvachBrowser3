@@ -51,13 +51,17 @@ namespace DvachBrowser3.Views
             OnPostsUpdated = CreateOnPostsUpdatedHandler(new WeakReference<ThreadPage>(this));
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                ViewModel = null;
-                DataContext = null;
-            };
+            this.Unloaded += OnUnloaded;
             this.Loaded += OnLoaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            this.Loaded -= OnLoaded;
+            Bindings.StopTracking();
+            ViewModel = null;
+            DataContext = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -119,7 +123,7 @@ namespace DvachBrowser3.Views
             isTopPostSet = true;
             var vm = new ThreadViewModel(navigatedLink);
             ViewModel = vm;
-            vm.PostsUpdated += OnPostsUpdated;
+            vm.PostsUpdated += LiteWeakEventHelper.CreateHandler(new WeakReference<ThreadPage>(this), (root, esender, ee) => root.OnPostsUpdated(esender, ee));
             isBackNavigated = e.NavigationMode == NavigationMode.Back;
             vm.IsBackNavigatedToViewModel = isBackNavigated;
             vm.PropertyChanged += ViewModelOnPropertyChanged;

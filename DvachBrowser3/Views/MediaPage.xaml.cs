@@ -44,25 +44,34 @@ namespace DvachBrowser3.Views
             this.InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
-            ImageViewer.Loaded += (sender, e) =>
-            {
-                controlLoaded = true;
-                SetInitialSize();
-            };
-            MainImage.ImageOpened += (sender, e) =>
-            {
-                mainImageLoaded = true;
-                SetInitialSize();
-            };
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                DataContext = null;
-                ViewModel = null;
-            };
+            ImageViewer.Loaded += ImageViewerOnLoaded;
+            MainImage.ImageOpened += MainImageOnImageOpened;
+            this.Unloaded += OnUnloaded;
             AnimationBehavior.SetRepeatBehavior(MainGifImage, RepeatBehavior.Forever);
             AnimationBehavior.SetAutoStart(MainGifImage, true);
             AnimationBehavior.Loaded += CreateAnimationBehaviorOnLoaded(new WeakReference<MediaPage>(this));
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ImageViewer.Loaded -= ImageViewerOnLoaded;
+            MainImage.ImageOpened -= MainImageOnImageOpened;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            DataContext = null;
+            ViewModel = null;
+        }
+
+        private void MainImageOnImageOpened(object sender, RoutedEventArgs routedEventArgs)
+        {
+            mainImageLoaded = true;
+            SetInitialSize();
+        }
+
+        private void ImageViewerOnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            controlLoaded = true;
+            SetInitialSize();
         }
 
         private bool mainImageLoaded = false;
@@ -98,9 +107,9 @@ namespace DvachBrowser3.Views
                 return;
             }
             var vm = new BigMediaSourceViewModel(link) { SetImageSource = false };
-            vm.Load.Progress.Finished += ProgressOnFinished;
-            vm.Load.Progress.Started += ProgressOnStarted;
-            vm.ImageSourceGot += ViewModelOnImageSourceGot;
+            vm.Load.Progress.Finished += LiteWeakEventHelper.CreateProgressFinishedHandler(new WeakReference<MediaPage>(this), (root, esender, ee) => root.ProgressOnFinished(esender, ee));
+            vm.Load.Progress.Started += LiteWeakEventHelper.CreateHandler(new WeakReference<MediaPage>(this), (root, esender, ee) => root.ProgressOnStarted(esender, ee));
+            vm.ImageSourceGot += LiteWeakEventHelper.CreateImageGotHandler(new WeakReference<MediaPage>(this), (root, esender, ee) => root.ViewModelOnImageSourceGot(esender, ee));
             ViewModel = vm;
             NavigatedTo?.Invoke(this, e);
             var engines = ServiceLocator.Current.GetServiceOrThrow<INetworkEngines>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -36,12 +37,16 @@ namespace DvachBrowser3.Views
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
             InitViewModel();
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            DataContext = null;
+            ViewModel = null;
+            BoardSource.Source = null;
         }
 
         /// <summary>
@@ -63,14 +68,16 @@ namespace DvachBrowser3.Views
         private void InitViewModel()
         {
             ViewModel = new BoardListViewModel();
-            ViewModel.PropertyChanged += (sender, e) =>
-            {
-                if ("Groups".Equals(e.PropertyName))
-                {
-                    BoardSource.Source = ViewModel.Groups;
-                }
-            };
+            ViewModel.PropertyChanged += LiteWeakEventHelper.CreatePropertyHandler(new WeakReference<BoardsPage>(this), (root, sender, e) => root.ViewModelOnPropertyChanged(sender, e));
             BoardSource.Source = ViewModel.Groups;
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ("Groups".Equals(e.PropertyName))
+            {
+                BoardSource.Source = ViewModel.Groups;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

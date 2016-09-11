@@ -44,12 +44,16 @@ namespace DvachBrowser3.Views
             this.Loaded += OnLoaded;
             lifetimeToken = this.BindAppLifetimeEvents();
             Shell.IsNarrowViewChanged.AddCallback(this);
-            this.Unloaded += (sender, e) =>
-            {
-                Bindings.StopTracking();
-                DataContext = null;
-                ViewModel = null;
-            };
+            this.Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            Bindings.StopTracking();
+            DataContext = null;
+            ViewModel = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -127,9 +131,9 @@ namespace DvachBrowser3.Views
                 return;
             }
             var vm = new PostingViewModel(extParam);
-            vm.PostingSuccess += OnPostingSuccess;
-            vm.NeedSetCaptcha += OnNeedSetCaptcha;
-            vm.PropertyChanged += VmOnPropertyChanged;
+            vm.PostingSuccess += LiteWeakEventHelper.CreatePostingSuccessHandler(new WeakReference<PostingPage>(this), (root, esender, ee) => root.OnPostingSuccess(esender, ee));
+            vm.NeedSetCaptcha += LiteWeakEventHelper.CreateNeedSetCaptchaHandler(new WeakReference<PostingPage>(this), (root, esender, ee) => root.OnNeedSetCaptcha(esender, ee));
+            vm.PropertyChanged += LiteWeakEventHelper.CreatePropertyHandler(new WeakReference<PostingPage>(this), (root, esender, ee) => root.VmOnPropertyChanged(esender, ee));
             if (vm.IsNewThread)
             {
                 HeaderText = "НОВЫЙ ТРЕД";
