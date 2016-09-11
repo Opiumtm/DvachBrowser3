@@ -91,7 +91,7 @@ namespace DvachBrowser3.Views.Partial
                 {
                     if (ViewModel?.LoadedBannerUri != null)
                     {
-                        if (ViewModel.MediaType == PageBannerMediaType.Gif)
+                        /*if (ViewModel.MediaType == PageBannerMediaType.Gif)
                         {
                             AnimationBehavior.SetRepeatBehavior(GifBannerImage, RepeatBehavior.Forever);
                             AnimationBehavior.SetAutoStart(GifBannerImage, true);
@@ -99,7 +99,7 @@ namespace DvachBrowser3.Views.Partial
                             GifBannerImage.Visibility = Visibility.Visible;
                             BannerImage.Visibility = Visibility.Collapsed;
                         }
-                        else
+                        else*/
                         {
                             BannerImage.Source = new BitmapImage(ViewModel.LoadedBannerUri);
                             GifBannerImage.Visibility = Visibility.Collapsed;

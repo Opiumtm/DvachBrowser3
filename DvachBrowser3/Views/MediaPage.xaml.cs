@@ -134,7 +134,7 @@ namespace DvachBrowser3.Views
                 bool isSet = false;
                 switch (ViewModel.SourceType)
                 {
-                    case BigMediaSourceType.Gif:
+                    /*case BigMediaSourceType.Gif:
                         if (e.CacheUri != null)
                         {
                             AnimationBehavior.SetSourceUri(MainGifImage, e.CacheUri);
@@ -143,8 +143,9 @@ namespace DvachBrowser3.Views
                             isSet = true;
                             renderedImage = MainGifImage;
                         }
-                        break;
+                        break;*/
                     case BigMediaSourceType.Static:
+                    case BigMediaSourceType.Gif:
                         if (e.CacheUri != null)
                         {
                             MainImage.Source = new BitmapImage(e.CacheUri);
