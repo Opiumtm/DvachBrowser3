@@ -140,6 +140,7 @@
     <Compile Include="Core\InterlockedFlagContainer.cs" />
     <Compile Include="Core\IWeakEventCallback.cs" />
     <Compile Include="Core\IWeakEventChannel.cs" />
+    <Compile Include="Core\LiteWeakEventHelper.cs" />
     <Compile Include="Core\LocalFolderProvider.cs" />
     <Compile Include="Core\PropertyChangedEventListener.cs" />
     <Compile Include="Core\ScrollViewHelper.cs" />
