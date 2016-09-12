@@ -36,7 +36,7 @@ namespace DvachBrowser3.Views
             Bindings.StopTracking();
             ViewModel = null;
             DataContext = null;
-
+            MainSource.Source = null;
         }
 
         /// <summary>
