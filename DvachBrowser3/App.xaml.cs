@@ -97,10 +97,10 @@ namespace DvachBrowser3
         {
             if (!isCoreInitialized)
             {
+                isCoreInitialized = true;
                 var d = await ApplicationData.Current.LocalFolder.CreateFolderAsync("errorlog", CreationCollisionOption.OpenIfExists);
                 await CleanTempFiles();
                 await PreloadCaches();
-                isCoreInitialized = true;
                 await ServiceLocator.Current.GetServiceOrThrow<IStorageSizeCacheFactory>().InitializeGlobal();
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
                 var shell = new Views.Shell(nav);

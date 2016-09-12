@@ -44,16 +44,21 @@ namespace DvachBrowser3
 
         public static async Task CopyStreamAsync(this IInputStream src, IOutputStream outStream, uint bufferSize = 16384)
         {
-            IBuffer buf2;
-            do
+            using (var rd = new DataReader(src))
             {
-                var buf = new Buffer(bufferSize);
-                buf2 = await src.ReadAsync(buf, bufferSize, InputStreamOptions.None);
-                if (buf2.Length > 0)
+                using (var wr = new DataWriter(outStream))
                 {
-                    await outStream.WriteAsync(buf2);
+                    do
+                    {
+                        var r = await rd.LoadAsync(bufferSize);
+                        if (r <= 0) break;
+                        var buf = new byte[r];
+                        rd.ReadBytes(buf);
+                        wr.WriteBytes(buf);
+                        await wr.FlushAsync();
+                    } while (true);
                 }
-            } while (buf2.Length > 0);
+            }
         }
     }
 }

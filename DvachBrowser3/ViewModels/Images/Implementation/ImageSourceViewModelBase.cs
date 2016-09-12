@@ -123,20 +123,6 @@ namespace DvachBrowser3.ViewModels
         /// </summary>
         protected virtual bool? UpdateInMem => null;
 
-        private async Task<bool> CheckUpdateInMem(StorageFile file)
-        {
-            if (UpdateInMem != null)
-            {
-                return UpdateInMem.Value;
-            }
-            var prop = await file.GetBasicPropertiesAsync();
-            if (prop.Size >= 256*1024)
-            {
-                return false;
-            }
-            return true;
-        }
-
         private async Task DoLoadImplOnResultGot(object sender, StorageFile result)
         {
             try
@@ -149,7 +135,7 @@ namespace DvachBrowser3.ViewModels
                 var cacheUri = GetImageCacheUri();
                 if (SetImageSource)
                 {
-                    if (cacheUri == null || await CheckUpdateInMem(result))
+                    if (cacheUri == null)
                     {
                         var imgSource = new BitmapImage();
                         using (var s = new InMemoryRandomAccessStream())
