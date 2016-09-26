@@ -154,6 +154,15 @@
     <Compile Include="Core\WeakEventChannel.cs" />
     <Compile Include="Core\WeakEventHandler.cs" />
     <Compile Include="Core\WebLinkHelper.cs" />
+    <Compile Include="Diagnostics\DiagnosticValue.cs" />
+    <Compile Include="Diagnostics\DiagnosticValueBehavior.cs" />
+    <Compile Include="Diagnostics\IDiagnosticData.cs" />
+    <Compile Include="Diagnostics\IDiagnosticMemory.cs" />
+    <Compile Include="Diagnostics\IDiagnosticValue.cs" />
+    <Compile Include="Diagnostics\IDiagnosticWeakEvents.cs" />
+    <Compile Include="Diagnostics\Implementation\DiagnosticData.cs" />
+    <Compile Include="Diagnostics\Implementation\DiagnosticMemory.cs" />
+    <Compile Include="Diagnostics\Implementation\DiagnosticWeakEvents.cs" />
     <Compile Include="Logic\BoardCatalogLoaderArgument.cs" />
     <Compile Include="Logic\BoardCatalogLoaderOperation.cs" />
     <Compile Include="Logic\BoardCatalogUpdateMode.cs" />
