@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.System.Threading;
 
 namespace DvachBrowser3
@@ -21,10 +21,72 @@ namespace DvachBrowser3
 
         private static readonly ThreadPoolTimer CleanupTask;
 
+        private static DateTime? _lastRun;
+
         static WeakEventChannel()
         {
             Channels = new List<WeakReference<WeakEventChannel>>();
             CleanupTask = ThreadPoolTimer.CreatePeriodicTimer(CleanupHandler, TimeSpan.FromMinutes(2));
+        }
+
+        public static async Task<DateTime?> GetLastRun()
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                lock (Channels)
+                {
+                    return _lastRun;
+                }
+            });
+            return await task;
+        }
+
+        public static async Task TriggerCleanup()
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                CleanupHandler(null);
+            });
+            await task;
+        }
+
+        public static async Task<int> GetDictionariesCount()
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                var channels = GetChannels();
+                var results = channels.Select(channel => channel.GetInfo()).ToList();
+                return results.Select(r => r.Item1).DefaultIfEmpty(0).Sum();
+            });
+            return await task;
+        }
+
+        public static async Task<int> GetCallbacksCount()
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                var channels = GetChannels();
+                var results = channels.Select(channel => channel.GetInfo()).ToList();
+                return results.Select(r => r.Item2).DefaultIfEmpty(0).Sum();
+            });
+            return await task;
+        }
+
+        private static WeakEventChannel[] GetChannels()
+        {
+            var channels = new List<WeakEventChannel>();
+            lock (Channels)
+            {
+                foreach (var channel in Channels)
+                {
+                    WeakEventChannel c;
+                    if (channel.TryGetTarget(out c))
+                    {
+                        channels.Add(c);
+                    }
+                }
+            }
+            return channels.ToArray();
         }
 
         private static void CleanupHandler(ThreadPoolTimer timer)
@@ -56,6 +118,10 @@ namespace DvachBrowser3
                 {
                     channel.Cleanup();
                 }
+                lock (Channels)
+                {
+                    _lastRun = DateTime.Now;
+                }
             }
             catch
             {
@@ -79,6 +145,21 @@ namespace DvachBrowser3
             {
                 Channels.Add(new WeakReference<WeakEventChannel>(this));
             }
+        }
+
+        private Tuple<int, int> GetInfo()
+        {
+            lock (_lock)
+            {
+                int counters = 0;
+                int callbacks = 0;
+                foreach (var c in _containers)
+                {
+                    counters++;
+                    callbacks += c.Count;
+                }
+                return new Tuple<int, int>(counters, callbacks);
+            }            
         }
 
         private void Cleanup()

@@ -190,3 +190,12 @@ ModelManifest.xml
 
 # Secret information
 _[Ss]ecret/
+/DvachBrowser3.VC.db
+/DvachBrowser3.VC.VC.opendb
+/DvachBrowser3.Esent/project.lock.json
+/DvachBrowser3.TextRender2/project.lock.json
+/DvachBrowser3.TextRenderD2D/project.lock.json
+/DvachBrowser3/DvachBrowser3.csproj.DotSettings
+/DvachBrowser3/DvachBrowser3.nuget.targets
+/DvachBrowser3/project.lock.json
+/ApiKeyContainerBuilder/project.lock.json
