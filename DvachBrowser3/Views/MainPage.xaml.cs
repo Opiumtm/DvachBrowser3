@@ -28,6 +28,10 @@ namespace DvachBrowser3.Views
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
             this.Unloaded += OnUnloaded;
+            /*
+            GC.Collect(2, GCCollectionMode.Forced);
+            GC.WaitForPendingFinalizers();
+            GC.Collect(2, GCCollectionMode.Forced);*/
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
