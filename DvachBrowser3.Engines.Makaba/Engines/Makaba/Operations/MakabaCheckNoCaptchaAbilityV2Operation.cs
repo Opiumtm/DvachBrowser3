@@ -117,7 +117,6 @@ namespace DvachBrowser3.Engines.Makaba.Operations
                 default:
                     return new Result(NoCaptchaAbility.TryAgain);
             }
-
         }
 
         private readonly Lazy<string> appId;
