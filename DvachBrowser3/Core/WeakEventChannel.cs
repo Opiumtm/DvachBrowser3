@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using Windows.System.Threading;
 
 namespace DvachBrowser3
 {
@@ -10,107 +11,227 @@ namespace DvachBrowser3
     /// </summary>
     public sealed class WeakEventChannel : IWeakEventChannel
     {
-        private readonly ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>> callbacks = new ConcurrentDictionary<Guid, WeakReference<IWeakEventCallback>>();
+        private readonly object _lock = new object();
 
-        /// <summary>
-        /// Конструктор.
-        /// </summary>
-        /// <param name="id">Идентификатор канала.</param>
-        public WeakEventChannel(Guid id)
+        private const int MaxCount = 100;
+
+        private readonly List<WeakEventContainer> _containers = new List<WeakEventContainer>();
+
+        private static readonly List<WeakReference<WeakEventChannel>> Channels;
+
+        private static readonly ThreadPoolTimer CleanupTask;
+
+        static WeakEventChannel()
         {
-            Id = id;
+            Channels = new List<WeakReference<WeakEventChannel>>();
+            CleanupTask = ThreadPoolTimer.CreatePeriodicTimer(CleanupHandler, TimeSpan.FromMinutes(2));
+        }
+
+        private static void CleanupHandler(ThreadPoolTimer timer)
+        {
+            try
+            {
+                var channels = new List<WeakEventChannel>();
+                var toDelete = new List<WeakReference<WeakEventChannel>>();
+                lock (Channels)
+                {
+                    foreach (var channel in Channels)
+                    {
+                        WeakEventChannel c;
+                        if (channel.TryGetTarget(out c))
+                        {
+                            channels.Add(c);
+                        }
+                        else
+                        {
+                            toDelete.Add(channel);
+                        }
+                    }
+                    foreach (var channel in toDelete)
+                    {
+                        Channels.Remove(channel);
+                    }
+                }
+                foreach (var channel in channels)
+                {
+                    channel.Cleanup();
+                }
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         /// <summary>
-        /// Идентификатор канала.
+        /// Channel identifier.
         /// </summary>
         public Guid Id { get; }
 
         /// <summary>
-        /// Зарегистрировать обратныйй вызов.
+        /// Constructor.
         /// </summary>
-        /// <param name="callback">Обратный вызов.</param>
-        /// <returns>Токен обратного вызова.</returns>
+        /// <param name="id">Channel identifier.</param>
+        public WeakEventChannel(Guid id)
+        {
+            Id = id;
+            lock (Channels)
+            {
+                Channels.Add(new WeakReference<WeakEventChannel>(this));
+            }
+        }
+
+        private void Cleanup()
+        {
+            lock (_lock)
+            {
+                var toDelete = new List<WeakEventContainer>();
+                for (int i = 0; i < _containers.Count; i++)
+                {
+                    var container = _containers[i];
+                    container.TryCleanup();
+                    if (container.Count == 0 && i > 0)
+                    {
+                        toDelete.Add(container);
+                    }
+                }
+                foreach (var container in toDelete)
+                {
+                    _containers.Remove(container);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Register callback.
+        /// </summary>
+        /// <param name="callback">Weak event callback.</param>
+        /// <returns>Callback registration token.</returns>
         public Guid AddCallback(IWeakEventCallback callback)
         {
-            var token = Guid.NewGuid();
-            callbacks.TryAdd(token, new WeakReference<IWeakEventCallback>(callback));
-            CleanupReferences();
-            return token;
+            lock (_lock)
+            {
+                if (_containers.Count == 0)
+                {
+                    _containers.Insert(0, new WeakEventContainer());
+                }
+                if (_containers[0].Count > MaxCount)
+                {
+                    _containers.Insert(0, new WeakEventContainer());
+                }
+                return _containers[0].Register(callback);
+            }
         }
 
         /// <summary>
-        /// Удалить обратный вызов.
+        /// Remove callback.
         /// </summary>
-        /// <param name="token">Токен.</param>
+        /// <param name="token">Weak event callback registration token.</param>
         public void RemoveCallback(Guid token)
         {
-            WeakReference<IWeakEventCallback> reference;
-            callbacks.TryRemove(token, out reference);
+            lock (_lock)
+            {
+                var toDelete = new List<WeakEventContainer>();
+                for (int i = 0; i < _containers.Count; i++)
+                {
+                    var container = _containers[i];
+                    container.Unregister(token);
+                    if (container.Count == 0 && i > 0)
+                    {
+                        toDelete.Add(container);
+                    }
+                }
+                foreach (var container in toDelete)
+                {
+                    _containers.Remove(container);
+                }
+            }
         }
 
         /// <summary>
-        /// Вызвать событие.
+        /// Trigger weak event.
         /// </summary>
-        /// <param name="sender">Отправитель.</param>
-        /// <param name="e">Параметр события.</param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Event argument.</param>
         public void RaiseEvent(object sender, object e)
         {
-            var references = callbacks.ToArray();
-            var toCall = new List<IWeakEventCallback>();
-            foreach (var r in references)
+            var toInvoke = new List<IWeakEventCallback>();
+            lock (_lock)
             {
-                IWeakEventCallback callback;
-                if (r.Value.TryGetTarget(out callback))
+                foreach (var container in _containers)
                 {
-                    toCall.Add(callback);
+                    foreach (var cb in container.GetCallbacks())
+                    {
+                        toInvoke.Add(cb);
+                    }
                 }
             }
-            foreach (var callback in toCall)
+            foreach (var cb in toInvoke)
             {
-                try
-                {
-                    callback.ReceiveWeakEvent(sender, this, e);
-                }
-                catch (Exception ex)
-                {
-                    DebugHelper.BreakOnError(ex);
-                }
+                cb.ReceiveWeakEvent(sender, this, e);
             }
         }
 
-        private int MaxCount = 100;
-
-        private void CleanupReferences()
+        private class WeakEventContainer
         {
-            try
+            private Dictionary<Guid, WeakReference<IWeakEventCallback>> _references = new Dictionary<Guid, WeakReference<IWeakEventCallback>>();
+
+            public int Count => _references.Count;
+
+            public void TryCleanup()
             {
-                var cnt = callbacks.Count;
-                var maxCnt = Interlocked.CompareExchange(ref MaxCount, 0, 0);
-                if (cnt > maxCnt)
+                var toDelete = new List<Guid>();
+                foreach (var kv in _references)
                 {
-                    DoCleanupReferences();
-                    cnt = callbacks.Count;
-                    Interlocked.Exchange(ref MaxCount, cnt + 100);
+                    IWeakEventCallback cb;
+                    if (!kv.Value.TryGetTarget(out cb))
+                    {
+                        toDelete.Add(kv.Key);
+                    }
+                }
+                foreach (var id in toDelete)
+                {
+                    _references.Remove(id);
                 }
             }
-            catch (Exception ex)
-            {
-                DebugHelper.BreakOnError(ex);
-            }
-        }
 
-        private void DoCleanupReferences()
-        {
-            var references = callbacks.ToArray();
-            foreach (var r in references)
+            public Guid Register(IWeakEventCallback callback)
             {
-                IWeakEventCallback callback;
-                if (!r.Value.TryGetTarget(out callback))
+                if (callback == null)
                 {
-                    WeakReference<IWeakEventCallback> wk;
-                    callbacks.TryRemove(r.Key, out wk);
+                    return Guid.Empty;
                 }
+                var id = Guid.NewGuid();
+                _references[id] = new WeakReference<IWeakEventCallback>(callback);
+                return id;
+            }
+
+            public void Unregister(Guid id)
+            {
+                _references.Remove(id);
+            }
+
+            public ICollection<IWeakEventCallback> GetCallbacks()
+            {
+                var toInvoke = new List<IWeakEventCallback>();
+                var toDelete = new List<Guid>();
+                foreach (var kv in _references)
+                {
+                    IWeakEventCallback cb;
+                    if (!kv.Value.TryGetTarget(out cb))
+                    {
+                        toDelete.Add(kv.Key);
+                    }
+                    else
+                    {
+                        toInvoke.Add(cb);
+                    }
+                }
+                foreach (var id in toDelete)
+                {
+                    _references.Remove(id);
+                }
+                return toInvoke;
             }
         }
     }
