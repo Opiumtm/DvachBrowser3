@@ -44,5 +44,10 @@ namespace DvachBrowser3.Engines.Makaba
         /// </summary>
         /// <returns>Агент.</returns>
         Task SetDefaultBrowserAgent();
+
+        /// <summary>
+        /// Список доменов.
+        /// </summary>
+        string[] Domains { get; }
     }
 }

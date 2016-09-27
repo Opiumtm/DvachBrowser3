@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>DvachBrowser3_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>7E8CC488D01159924860D8DD68D103319ABBD539</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -378,6 +378,13 @@
     <Compile Include="Views\CatalogPage.xaml.cs">
       <DependentUpon>CatalogPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ConfigPage.xaml.cs">
+      <DependentUpon>ConfigPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Configuration\IUiConfigPart.cs" />
+    <Compile Include="Views\Configuration\MakabaBaseConfigPart.xaml.cs">
+      <DependentUpon>MakabaBaseConfigPart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorInfoDialog.xaml.cs">
       <DependentUpon>ErrorInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -543,6 +550,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ConfigPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Configuration\MakabaBaseConfigPart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ErrorInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -702,6 +717,7 @@
       <HintPath>..\Libs\Ipatov.MarkupRender\Ipatov.MarkupRender.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

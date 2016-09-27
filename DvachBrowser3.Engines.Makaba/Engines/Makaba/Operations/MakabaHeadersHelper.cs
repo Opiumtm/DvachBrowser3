@@ -41,21 +41,7 @@ namespace DvachBrowser3.Engines.Makaba.Operations
             if (!string.IsNullOrWhiteSpace(agent))
             {
                 client.DefaultRequestHeaders["User-Agent"] = agent;
-            }            
-            /*
-            var engines = services.GetServiceOrThrow<INetworkEngines>();
-            var makaba = engines.GetEngineById(CoreConstants.Engine.Makaba);
-            var config = (IMakabaEngineConfig)makaba.Configuration;
-            var cookies = await config.GetCookies();
-            foreach (var kv in cookies)
-            {
-                client.DefaultRequestHeaders[kv.Key] = kv.Value;
             }
-            var agent = config.BrowserUserAgent;
-            if (!string.IsNullOrWhiteSpace(agent))
-            {
-                client.DefaultRequestHeaders["User-Agent"] = agent;
-            }*/
         }
     }
 }

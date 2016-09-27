@@ -7,9 +7,9 @@
     "Microsoft.Toolkit.Uwp": "1.0.0",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "Newtonsoft.Json": "9.0.1",
-    "Template10": "1.1.12-preview-160712",
+    "Template10": "1.1.12-preview-160922",
     "Win2D.uwp": "1.19.0",
-    "XamlAnimatedGif": "1.1.4"
+    "XamlAnimatedGif": "1.1.6"
   },
   "frameworks": {
     "uap10.0": {}

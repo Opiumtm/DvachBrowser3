@@ -154,5 +154,18 @@ namespace DvachBrowser3.Configuration.Makaba
             var tua = await task;
             BrowserUserAgent = tua;
         }
+
+        /// <summary>
+        /// Список доменов.
+        /// </summary>
+        public string[] Domains { get; } = new[]
+        {
+            "2ch.hk",
+            "2ch.pm",
+            "2ch.re",
+            "2ch.wf",
+            "2ch.tf",
+            "2ch.yt",
+        };
     }
 }
