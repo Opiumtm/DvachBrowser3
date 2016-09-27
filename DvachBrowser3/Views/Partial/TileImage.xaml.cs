@@ -182,23 +182,13 @@ namespace DvachBrowser3.Views.Partial
 
         private sealed class AttachedFlags
         {
-            private bool IsRendered { get; set; }
-
-            private static readonly ConditionalWeakTable<IImageSourceViewModel, AttachedFlags> Table =
-                new ConditionalWeakTable<IImageSourceViewModel, AttachedFlags>();
-
             public static bool GetIsRendered(IImageSourceViewModel model)
             {
                 if (model == null)
                 {
                     return true;
                 }
-                AttachedFlags r;
-                if (Table.TryGetValue(model, out r))
-                {
-                    return r.IsRendered;
-                }
-                return false;
+                return model.IsRendered;
             }
 
             public static void SetIsRendered(IImageSourceViewModel model, bool value)
@@ -207,8 +197,7 @@ namespace DvachBrowser3.Views.Partial
                 {
                     return;
                 }
-                var r = Table.GetOrCreateValue(model);
-                r.IsRendered = value;
+                model.IsRendered = value;
             }
         }
 

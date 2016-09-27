@@ -39,5 +39,10 @@ namespace DvachBrowser3.ViewModels
         /// <param name="desc">Описание кэша.</param>
         /// <returns>Получено из кэша.</returns>
         bool SetImageCache(StaticImageCacheDesc desc);
+
+        /// <summary>
+        /// Image is rendered.
+        /// </summary>
+        bool IsRendered { get; set; }
     }
 }

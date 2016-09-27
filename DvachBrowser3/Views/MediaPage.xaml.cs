@@ -34,7 +34,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MediaPage : Page, IWeakEventCallback, IPageLifetimeCallback, IShellAppBarProvider, IPageViewModelSource, INavigationRolePage, INotifyPropertyChanged
+    public sealed partial class MediaPage : Page, IWeakEventCallback, IPageLifetimeCallback, IShellAppBarProvider, IPageViewModelSource, INavigationRolePage, INotifyPropertyChanged, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -507,6 +507,12 @@ namespace DvachBrowser3.Views
             {
                 await AppHelpers.ShowError(ex);
             }
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 }

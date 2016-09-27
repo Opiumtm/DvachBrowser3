@@ -37,7 +37,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IDynamicShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback, INavigationLinkCallback
+    public sealed partial class ThreadPage : Page, IPageLifetimeCallback, IPageViewModelSource, IDynamicShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, INavigationDataPage, IWeakEventCallback, INavigationLinkCallback, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -902,6 +902,12 @@ namespace DvachBrowser3.Views
         private void SingleList_OnSelectedItemChanged(object sender, EventArgs e)
         {
             OnPropertyChanged(nameof(SingleSelectedItem));
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 }

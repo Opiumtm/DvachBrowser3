@@ -17,7 +17,7 @@ using Template10.Common;
 
 namespace DvachBrowser3.Views
 {
-    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource
+    public sealed partial class MainPage : Page, IPageLifetimeCallback, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IPageViewModelSource, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -189,6 +189,12 @@ namespace DvachBrowser3.Views
             {
                 vm.CurrentNetworkProfile = e.AddedItems.FirstOrDefault() as MainStringReference;
             }
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 

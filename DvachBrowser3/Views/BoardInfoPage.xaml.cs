@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Links;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
+using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 using Template10.Common;
 
@@ -28,7 +29,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoardInfoPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, INavigationRolePage, IBoardLinkPage, IWeakEventCallback
+    public sealed partial class BoardInfoPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, INavigationRolePage, IBoardLinkPage, IWeakEventCallback, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -138,6 +139,12 @@ namespace DvachBrowser3.Views
         {
             var link = ViewModel?.Link;
             return Task.FromResult<BoardLinkBase>(link);
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 }

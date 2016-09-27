@@ -32,7 +32,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PostingPage : Page, IPageLifetimeCallback, IPageViewModelSource, IDynamicShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, IWeakEventCallback
+    public sealed partial class PostingPage : Page, IPageLifetimeCallback, IPageViewModelSource, IDynamicShellAppBarProvider, INavigationRolePage, INotifyPropertyChanged, IWeakEventCallback, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -501,6 +501,12 @@ namespace DvachBrowser3.Views
                 AppBarChange?.Invoke(this, EventArgs.Empty);
                 return Task.CompletedTask;
             }, false, !EntryView.IsNarrowEditFocused ? 2000 : 250);
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 }

@@ -57,6 +57,11 @@ namespace DvachBrowser3.ViewModels
             return false;
         }
 
+        /// <summary>
+        /// Image is rendered.
+        /// </summary>
+        public bool IsRendered { get; set; }
+
         private class EmptyOperation : IEngineOperationsWithProgress<StorageFile, EngineProgress>
         {
             private static readonly StorageFile Empty = null;

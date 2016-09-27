@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 using DvachBrowser3.Logic;
 using DvachBrowser3.Navigation;
 using DvachBrowser3.PageServices;
+using DvachBrowser3.Styles;
 using DvachBrowser3.ViewModels;
 using DvachBrowser3.Views.Partial;
 using Template10.Common;
@@ -31,7 +32,7 @@ namespace DvachBrowser3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CatalogPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback
+    public sealed partial class CatalogPage : Page, IPageLifetimeCallback, INotifyPropertyChanged, IPageViewModelSource, IShellAppBarProvider, INavigationRolePage, IWeakEventCallback, IStyleManagerFactory
     {
         private object lifetimeToken;
 
@@ -308,6 +309,12 @@ namespace DvachBrowser3.Views
                 }
             }
             return null;
+        }
+
+        private Lazy<IStyleManager> _styleManager = new Lazy<IStyleManager>(() => new StyleManager());
+        IStyleManager IStyleManagerFactory.GetManager()
+        {
+            return _styleManager.Value;
         }
     }
 }
