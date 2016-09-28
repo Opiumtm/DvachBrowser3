@@ -90,7 +90,7 @@
                         <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource MainSource}}" SelectionMode="None"
                               ItemTemplateSelector="{StaticResource MainTileTemplateSelector}">
                             <GridView.Header>
-                                <ComboBox Grid.Row="0" Header="Профиль сети" Margin="2" ItemsSource="{x:Bind ViewModel.NetworkProfiles, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.CurrentNetworkProfile, Mode=OneWay}" DisplayMemberPath="Name" SelectionChanged="Selector_OnSelectionChanged" HorizontalAlignment="Stretch">
+                                <ComboBox x:Name="ProfileSelector" Grid.Row="0" Header="Профиль сети" Margin="2" ItemsSource="{x:Bind ViewModel.NetworkProfiles, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.CurrentNetworkProfile, Mode=OneWay}" DisplayMemberPath="Name" HorizontalAlignment="Stretch">
                                 </ComboBox>
                             </GridView.Header>
                             <GridView.GroupStyle>

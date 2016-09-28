@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Controls;
 using DvachBrowser3.Views;
 
@@ -20,12 +21,7 @@ namespace DvachBrowser3.Styles
         /// <returns></returns>
         public IStyleManager GetManager()
         {
-            var page = Shell.HamburgerMenu?.NavigationService?.FrameFacade?.Content as IStyleManagerFactory;
-            if (page == null)
-            {
-                return new StyleManager();
-            }
-            return page.GetManager();
+            return new StyleManager();
         }
     }
 }

@@ -27,16 +27,20 @@ namespace DvachBrowser3.Views
             InitializeComponent();
             this.DataContext = this;
             lifetimeToken = this.BindAppLifetimeEvents();
+            this.Loaded += OnLoaded;
             this.Unloaded += OnUnloaded;
-            /*
-            GC.Collect(2, GCCollectionMode.Forced);
-            GC.WaitForPendingFinalizers();
-            GC.Collect(2, GCCollectionMode.Forced);*/
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ProfileSelector.SelectionChanged += Selector_OnSelectionChanged;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             this.Unloaded -= OnUnloaded;
+            this.Loaded -= OnLoaded;
+            ProfileSelector.SelectionChanged -= Selector_OnSelectionChanged;
             Bindings.StopTracking();
             ViewModel = null;
             DataContext = null;

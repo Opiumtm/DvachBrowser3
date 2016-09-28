@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using DvachBrowser3.Views;
+using Template10.Common;
 
 namespace DvachBrowser3.Styles
 {
