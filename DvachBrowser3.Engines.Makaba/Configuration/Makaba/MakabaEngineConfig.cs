@@ -43,16 +43,16 @@ namespace DvachBrowser3.Configuration.Makaba
             {
                 try
                 {
-                    var v = GetValue("BaseUri", "http://2ch.hk/");
+                    var v = GetValue("BaseUri", "https://2ch.hk/");
                     if (string.IsNullOrWhiteSpace(v))
                     {
-                        return new Uri("http://2ch.hk/", UriKind.Absolute);
+                        return new Uri("https://2ch.hk/", UriKind.Absolute);
                     }
                     return new Uri(v, UriKind.Absolute);
                 }
                 catch
                 {
-                    return new Uri("http://2ch.hk/", UriKind.Absolute);
+                    return new Uri("https://2ch.hk/", UriKind.Absolute);
                 }
             }
             set
