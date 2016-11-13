@@ -222,14 +222,14 @@ namespace DvachBrowser3.Engines.Makaba.Html
                         {
                             Engine = CoreConstants.Engine.Makaba,
                             Board = link.Board,
-                            RelativeUri = f.Path,
+                            RelativeUri = RemoveBoardFromLink(f.Path),
                             KnownMediaType = f.Type == MakabaMediaTypes.Webm ? KnownMediaType.Webm : KnownMediaType.Default
                         };
                     var tnLink = new BoardMediaLink()
                     {
                         Engine = CoreConstants.Engine.Makaba,
                         Board = link.Board,
-                        RelativeUri = f.Thumbnail,
+                        RelativeUri = RemoveBoardFromLink(f.Thumbnail),
                         KnownMediaType = KnownMediaType.Default
                     };
                     var media = new PostImageWithThumbnail()
@@ -254,6 +254,17 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 }
             }
             return result;
+        }
+
+        private string RemoveBoardFromLink(string uri)
+        {
+            var parts = uri?.Split('/');
+            if (parts == null)
+            {
+                return null;
+            }
+            parts = parts.Where(p => p != "").ToArray();
+            return parts.Skip(1).Aggregate(new StringBuilder(), (sb, s) => sb.Append("/").Append(s)).ToString();
         }
 
         /// <summary>
