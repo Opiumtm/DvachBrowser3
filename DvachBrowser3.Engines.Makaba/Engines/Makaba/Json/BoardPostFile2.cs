@@ -8,6 +8,18 @@ namespace DvachBrowser3.Engines.Makaba.Json
     public class BoardPostFile2
     {
         /// <summary>
+        /// Отображаемое имя.
+        /// </summary>
+        [JsonProperty("displayname")]
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Полное имя.
+        /// </summary>
+        [JsonProperty("fullname")]
+        public string FullName { get; set; }
+
+        /// <summary>
         /// Высота.
         /// </summary>
         [JsonProperty("height")]
@@ -26,6 +38,12 @@ namespace DvachBrowser3.Engines.Makaba.Json
         public string Name { get; set; }
 
         /// <summary>
+        /// Не для работы.
+        /// </summary>
+        [JsonProperty("nsfw")]
+        public int NotSafeForWork { get; set; }
+
+        /// <summary>
         /// Путь.
         /// </summary>
         [JsonProperty("path")]
@@ -36,6 +54,12 @@ namespace DvachBrowser3.Engines.Makaba.Json
         /// </summary>
         [JsonProperty("size")]
         public int Size { get; set; }
+
+        /// <summary>
+        /// Идентификатор стикера.
+        /// </summary>
+        [JsonProperty("sticker")]
+        public string Sticker { get; set; }
 
         /// <summary>
         /// Уменьшенное изображение.

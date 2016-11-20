@@ -218,20 +218,39 @@ namespace DvachBrowser3.Engines.Makaba.Html
             {
                 foreach (var f in data.Files)
                 {
-                    var mediaLink = new BoardMediaLink()
+                    BoardLinkBase mediaLink, tnLink;
+                    if (IsBoardLink(f.Path, link.Board))
+                    {
+                        mediaLink = new BoardMediaLink()
                         {
                             Engine = CoreConstants.Engine.Makaba,
                             Board = link.Board,
                             RelativeUri = RemoveBoardFromLink(f.Path),
                             KnownMediaType = f.Type == MakabaMediaTypes.Webm ? KnownMediaType.Webm : KnownMediaType.Default
                         };
-                    var tnLink = new BoardMediaLink()
+                        tnLink = new BoardMediaLink()
+                        {
+                            Engine = CoreConstants.Engine.Makaba,
+                            Board = link.Board,
+                            RelativeUri = RemoveBoardFromLink(f.Thumbnail),
+                            KnownMediaType = KnownMediaType.Default
+                        };
+                    }
+                    else
                     {
-                        Engine = CoreConstants.Engine.Makaba,
-                        Board = link.Board,
-                        RelativeUri = RemoveBoardFromLink(f.Thumbnail),
-                        KnownMediaType = KnownMediaType.Default
-                    };
+                        mediaLink = new MediaLink()
+                        {
+                            Engine = CoreConstants.Engine.Makaba,
+                            RelativeUri = f.Path,
+                            IsAbsolute = false,
+                        };
+                        tnLink = new MediaLink()
+                        {
+                            Engine = CoreConstants.Engine.Makaba,
+                            RelativeUri = f.Thumbnail,
+                            IsAbsolute = false
+                        };
+                    }
                     var media = new PostImageWithThumbnail()
                     {
                         Link = mediaLink,
@@ -254,6 +273,16 @@ namespace DvachBrowser3.Engines.Makaba.Html
                 }
             }
             return result;
+        }
+
+        private bool IsBoardLink(string uri, string board)
+        {
+            if (uri == null)
+            {
+                return false;
+            }
+            return uri.StartsWith($"/{board}/", StringComparison.OrdinalIgnoreCase) ||
+                   uri.StartsWith($"{board}/", StringComparison.OrdinalIgnoreCase);
         }
 
         private string RemoveBoardFromLink(string uri)
