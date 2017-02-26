@@ -9,7 +9,8 @@ namespace DvachBrowser3.Ui.ViewModels
     /// <summary>
     /// Модель представления.
     /// </summary>
-    public interface IViewModel : INotifyPropertyChanged
+    /// <typeparam name="TVisualState">Тип визуального состояния.</typeparam>
+    public interface IViewModel<in TVisualState> : INotifyPropertyChanged where TVisualState : VisualState
     {
         /// <summary>
         /// Текущее состояние.
@@ -44,7 +45,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Работа модели завершена.
         /// </summary>
-        bool IsDisposed { get; }
+        bool IsClosed { get; }
 
         /// <summary>
         /// Активные операции.
@@ -82,8 +83,9 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Приостановить.
         /// </summary>
+        /// <param name="visualState">Визуальное состояние.</param>
         /// <returns>Таск, сигнализирующий о приостановке.</returns>
-        Task Suspend();
+        Task Suspend(TVisualState visualState);
 
         /// <summary>
         /// Можно возобновить.
@@ -104,7 +106,8 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Завершить работу.
         /// </summary>
+        /// <param name="visualState">Визуальное состояние.</param>
         /// <returns>Таск, сигнализирующий о завершении работы.</returns>
-        Task Close();
+        Task Close(TVisualState visualState);
     }
 }

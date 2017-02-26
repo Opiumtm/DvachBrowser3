@@ -33,6 +33,6 @@
         /// <summary>
         /// Завершена.
         /// </summary>
-        Disposed
+        Closed
     }
 }
