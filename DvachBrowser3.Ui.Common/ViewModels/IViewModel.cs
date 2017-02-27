@@ -53,6 +53,11 @@ namespace DvachBrowser3.Ui.ViewModels
         ObservableCollection<IViewModelOperation> ActiveOperations { get; }
 
         /// <summary>
+        /// Есть какая-то активная работа (основная или фоновая).
+        /// </summary>
+        bool AnyActiveWork { get; }
+
+        /// <summary>
         /// Текущая операция.
         /// </summary>
         IViewModelOperation CurrentOperation { get; }
@@ -109,5 +114,16 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <param name="visualState">Визуальное состояние.</param>
         /// <returns>Таск, сигнализирующий о завершении работы.</returns>
         Task Close(TVisualState visualState);
+
+        /// <summary>
+        /// Можно начинать работу с моделью.
+        /// </summary>
+        bool CanStart { get; }
+
+        /// <summary>
+        /// Начать работу модели.
+        /// </summary>
+        /// <returns>Таск, сигнализирующий о начале работы.</returns>
+        Task Start();
     }
 }

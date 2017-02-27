@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\EmptyVisualState.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\IViewModelOperation.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\ViewModelOperationBase.cs" />
     <Compile Include="ViewModels\ViewModelOperationProgress.cs" />
