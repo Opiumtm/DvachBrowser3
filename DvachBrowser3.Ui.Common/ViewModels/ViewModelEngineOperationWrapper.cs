@@ -112,6 +112,10 @@ namespace DvachBrowser3.Ui.ViewModels
             {
                 await UpdateProgress(ViewModelOperationState.Active, progress.Percent, progress.Message, null, progress.OtherData, null);
             }
+            catch (OperationCanceledException)
+            {
+                // игнорируем ошибки, возникающие при отмене операции
+            }
             catch (Exception ex)
             {
                 DebugHelper.BreakOnError(ex);
