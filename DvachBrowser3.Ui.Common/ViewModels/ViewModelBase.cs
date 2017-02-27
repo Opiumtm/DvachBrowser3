@@ -150,13 +150,18 @@ namespace DvachBrowser3.Ui.ViewModels
 
         private ViewModelState _currentState;
 
+        /// <summary>
+        /// Текущее состояние.
+        /// </summary>
         public ViewModelState CurrentState
         {
             get { return CheckThreadAccess(() => _currentState); }
             protected set
             {
+                var oldState = _currentState;
                 CheckThreadAccess();
                 _currentState = value;
+                StateChanged?.Invoke(this, new ViewModelStateChangedEventArgs(oldState, value));
                 OnPropertyChanged(nameof(CanStart));
                 OnPropertyChanged(nameof(CanResume));
                 OnPropertyChanged(nameof(CanSuspend));
