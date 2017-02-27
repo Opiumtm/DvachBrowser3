@@ -32,7 +32,7 @@ namespace DvachBrowser3.Ui.ViewModels
         public int OperationId { get; }
 
         /// <summary>
-        /// Прогресс операции (от 0 до 1).
+        /// Прогресс операции (от 0 до 100 процентов).
         /// </summary>
         public double? Progress { get; }
 
@@ -60,5 +60,33 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Ошибка.
         /// </summary>
         public Exception Error { get; }
+    }
+    
+    /// <summary>
+     /// Прогресс операции модели представления.
+     /// </summary>
+     /// <typeparam name="T">Результат операции.</typeparam>
+    public class ViewModelOperationProgress<T> : ViewModelOperationProgress
+    {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="operationId">Идентификатор операции.</param>
+        /// <param name="state">Состояние операции.</param>
+        /// <param name="progress">Прогресс операции (от 0 до 1).</param>
+        /// <param name="message">Сообщение.</param>
+        /// <param name="error">Ошибка.</param>
+        /// <param name="otherData">Дополнительные данные.</param>
+        /// <param name="result">Результат операции.</param>
+        public ViewModelOperationProgress(int operationId, ViewModelOperationState state, double? progress, string message, Exception error, object otherData, T result)
+            :base(operationId, state, progress, message, error, otherData)
+        {
+            Result = result;
+        }
+
+        /// <summary>
+        /// Результат операции.
+        /// </summary>
+        public T Result { get; }
     }
 }

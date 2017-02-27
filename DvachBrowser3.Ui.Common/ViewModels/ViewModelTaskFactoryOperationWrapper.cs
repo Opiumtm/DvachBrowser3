@@ -8,18 +8,18 @@ namespace DvachBrowser3.Ui.ViewModels
     /// <summary>
     /// Обёртка для фабрики тасков.
     /// </summary>
-    public sealed class ViewModelTaskFactoryOperationWrapper : ViewModelOperationBase
+    /// <typeparam name="T">Тип результата.</typeparam>
+    public sealed class ViewModelTaskFactoryOperationWrapper<T> : ViewModelOperationBase<T>
     {
-        private readonly Func<CancellationToken, Task> _taskFactory;
+        private readonly Func<CancellationToken, Task<T>> _taskFactory;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
         /// <param name="dispatcher">Диспетчер.</param>
         /// <param name="taskFactory"></param>
-        public ViewModelTaskFactoryOperationWrapper(int id, CoreDispatcher dispatcher,
-            Func<CancellationToken, Task> taskFactory) : base(id, dispatcher)
+        public ViewModelTaskFactoryOperationWrapper(CoreDispatcher dispatcher,
+            Func<CancellationToken, Task<T>> taskFactory) : base(dispatcher)
         {
             if (taskFactory == null) throw new ArgumentNullException(nameof(taskFactory));
             this._taskFactory = taskFactory;
@@ -29,7 +29,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Начать отслеживание прогресса операции.
         /// </summary>
         /// <returns>Таск, сигнализирующий завершение операции.</returns>
-        public override async Task StartTracking()
+        public override async Task<T> StartTracking2()
         {
             try
             {
@@ -41,29 +41,35 @@ namespace DvachBrowser3.Ui.ViewModels
                         ts.Cancel();
                         return Task.CompletedTask;
                     });
+                    T result = default(T);
                     try
                     {
                         await UpdateProgress(ViewModelOperationState.Active);
-                        var task = _taskFactory(ts.Token);
+                        var token = ts.Token;
+                        var task = _taskFactory(token);
                         if (task != null)
                         {
-                            await task;
+                            token.ThrowIfCancellationRequested();
+                            result = await task;
                         }
                     }
                     finally
                     {
                         await SetCancelAction(null);
                     }
-                    await UpdateProgress(ViewModelOperationState.Finished);
+                    await UpdateProgress(result);
+                    return result;
                 }
             }
             catch (OperationCanceledException)
             {
                 await UpdateProgress(ViewModelOperationState.Cancelled);
+                throw;
             }
             catch (Exception ex)
             {
                 await UpdateProgress(ex);
+                throw;
             }
         }
     }

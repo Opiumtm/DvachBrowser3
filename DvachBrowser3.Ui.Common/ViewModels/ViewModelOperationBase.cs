@@ -10,18 +10,20 @@ namespace DvachBrowser3.Ui.ViewModels
     /// <summary>
     /// Базовый класс операции модели представления.
     /// </summary>
+    /// <typeparam name="T">Результат операции.</typeparam>
     public abstract class ViewModelOperationBase : IViewModelOperation
     {
+        private static int _idCounter = 0;
+
         /// <summary>
         /// Конструктор.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
         /// <param name="dispatcher">Диспетчер.</param>
-        protected ViewModelOperationBase(int id, CoreDispatcher dispatcher)
+        protected ViewModelOperationBase(CoreDispatcher dispatcher)
         {
-            Id = id;
+            Id = Interlocked.Increment(ref _idCounter);
             Dispatcher = dispatcher;
-            _progress = new ViewModelOperationProgress(id, ViewModelOperationState.Uninitialized, null, null, null, null);
+            _progress = CreateProgress(Id, ViewModelOperationState.Uninitialized, null, null, null, null, null);
         }
 
         /// <summary>Occurs when a property value changes.</summary>
@@ -77,7 +79,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Действие по остановке операции.
         /// </summary>
-        private Func<Task> _cancelAction;        
+        private Func<Task> _cancelAction;
 
         /// <summary>
         /// Действие по остановке операции.
@@ -160,6 +162,23 @@ namespace DvachBrowser3.Ui.ViewModels
         public event EventHandler<ViewModelOperationProgressEventArgs> ProgressChanged;
 
         /// <summary>
+        /// Создать объект прогресса операции.
+        /// </summary>
+        /// <param name="id">Идентификатор.</param>
+        /// <param name="state">Состояние.</param>
+        /// <param name="progress">Прогресс.</param>
+        /// <param name="message">Сообщение.</param>
+        /// <param name="error">Ошибка.</param>
+        /// <param name="otherData">Прочие данные.</param>
+        /// <param name="result">Результат.</param>
+        /// <returns>Объект прогресса операции.</returns>
+        protected virtual ViewModelOperationProgress CreateProgress(int id, ViewModelOperationState state, double? progress, string message, Exception error,
+            object otherData, object result)
+        {
+            return new ViewModelOperationProgress(id, state, progress, message, error, otherData);
+        }
+
+        /// <summary>
         /// Обновить прогресс операции.
         /// </summary>
         /// <param name="state">Состояние.</param>
@@ -167,25 +186,32 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <param name="message">Сообщение.</param>
         /// <param name="error">Ошибка.</param>
         /// <param name="otherData">Другие данные.</param>
+        /// <param name="result">Результат.</param>
         /// <returns>Таск.</returns>
         protected Task UpdateProgress(ViewModelOperationState state, double? progress, string message, Exception error,
-            object otherData)
+            object otherData, object result)
         {
-            var newProgress = new ViewModelOperationProgress(Id, state, progress, message, error, otherData);
+            var newProgress = CreateProgress(Id, state, progress, message, error, otherData, result);
             var oldProgress = Interlocked.Exchange(ref _progress, newProgress);
-            var oldState = oldProgress?.State ?? ViewModelOperationState.Uninitialized;
             return DispatchAction(() =>
             {
-                StateChanged?.Invoke(this, new ViewModelOperationStateChangedEventArgs(oldState, state));
-                ProgressChanged?.Invoke(this, new ViewModelOperationProgressEventArgs(newProgress));
-                OnPropertyChanged(nameof(Progress));
-                OnPropertyChanged(nameof(CurrentState));
-                OnPropertyChanged(nameof(IsActive));
-                OnPropertyChanged(nameof(IsCancelled));
-                OnPropertyChanged(nameof(IsFailed));
-                OnPropertyChanged(nameof(IsFinished));
-                OnPropertyChanged(nameof(IsInitialized));
+                TriggerProgressEvents(oldProgress, newProgress);
             });
+        }
+
+        protected virtual void TriggerProgressEvents(ViewModelOperationProgress oldProgress, ViewModelOperationProgress newProgress)
+        {
+            var oldState = oldProgress?.State ?? ViewModelOperationState.Uninitialized;
+            var state = newProgress?.State ?? ViewModelOperationState.Uninitialized;
+            StateChanged?.Invoke(this, new ViewModelOperationStateChangedEventArgs(oldState, state));
+            ProgressChanged?.Invoke(this, new ViewModelOperationProgressEventArgs(newProgress));
+            OnPropertyChanged(nameof(Progress));
+            OnPropertyChanged(nameof(CurrentState));
+            OnPropertyChanged(nameof(IsActive));
+            OnPropertyChanged(nameof(IsCancelled));
+            OnPropertyChanged(nameof(IsFailed));
+            OnPropertyChanged(nameof(IsFinished));
+            OnPropertyChanged(nameof(IsInitialized));
         }
 
         /// <summary>
@@ -195,7 +221,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <returns>Таск.</returns>
         protected Task UpdateProgress(ViewModelOperationState state)
         {
-            return UpdateProgress(state, null, null, null, null);
+            return UpdateProgress(state, null, null, null, null, null);
         }
 
         /// <summary>
@@ -205,7 +231,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <returns>Таск.</returns>
         protected Task UpdateProgress(Exception error)
         {
-            return UpdateProgress(ViewModelOperationState.Failed, null, null, error, null);
+            return UpdateProgress(ViewModelOperationState.Failed, null, null, error, null, null);
         }
 
         /// <summary>
@@ -223,5 +249,94 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <returns>Таск, сигнализирующий завершение операции.</returns>
         public abstract Task StartTracking();
+    }
+    
+    /// <summary>
+    /// Базовый класс операции модели представления.
+    /// </summary>
+    /// <typeparam name="T">Результат операции.</typeparam>
+    public abstract class ViewModelOperationBase<T> : ViewModelOperationBase, IViewModelOperation<T>
+    {
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
+        /// <param name="dispatcher">Диспетчер.</param>
+        protected ViewModelOperationBase(CoreDispatcher dispatcher)
+            :base(dispatcher)
+        {
+        }
+
+        /// <summary>
+        /// Результат операции.
+        /// </summary>
+        public T Result
+        {
+            get
+            {
+                var p = Progress2;
+                return p != null ? p.Result : default(T);
+            }
+        }
+
+        protected override void TriggerProgressEvents(ViewModelOperationProgress oldProgress, ViewModelOperationProgress newProgress)
+        {
+            base.TriggerProgressEvents(oldProgress, newProgress);
+            ProgressChanged2?.Invoke(this, new ViewModelOperationProgressEventArgs<T>(newProgress as ViewModelOperationProgress<T>));
+            OnPropertyChanged(nameof(Result));
+            OnPropertyChanged(nameof(Progress2));
+        }
+
+        /// <summary>
+        /// Прогресс с данными о результате.
+        /// </summary>
+        public ViewModelOperationProgress<T> Progress2 => Progress as ViewModelOperationProgress<T>;
+
+        /// <summary>
+        /// Прогресс изменился.
+        /// </summary>
+        public event EventHandler<ViewModelOperationProgressEventArgs<T>> ProgressChanged2;
+
+        protected override ViewModelOperationProgress CreateProgress(int id, ViewModelOperationState state, double? progress, string message, Exception error, object otherData, object result)
+        {
+            T r;
+            if (result == null)
+            {
+                r = default(T);
+            }
+            else if (result is T)
+            {
+                r = (T) result;
+            }
+            else
+            {
+                r = default(T);
+            }
+            return new ViewModelOperationProgress<T>(id, state, progress, message, error, otherData, r);
+        }
+
+        /// <summary>
+        /// Начать отслеживание прогресса операции.
+        /// </summary>
+        /// <returns>Таск, сигнализирующий завершение операции.</returns>
+        public abstract Task<T> StartTracking2();
+
+        /// <summary>
+        /// Начать отслеживание прогресса операции.
+        /// </summary>
+        /// <returns>Таск, сигнализирующий завершение операции.</returns>
+        public sealed override Task StartTracking()
+        {
+            return StartTracking2();
+        }
+
+        /// <summary>
+        /// Обновить прогресс.
+        /// </summary>
+        /// <param name="result">Результат.</param>
+        /// <returns>Таск.</returns>
+        protected Task UpdateProgress(T result)
+        {
+            return UpdateProgress(ViewModelOperationState.Finished, null, null, null, null, result);
+        }
     }
 }

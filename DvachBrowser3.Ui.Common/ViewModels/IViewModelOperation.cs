@@ -81,4 +81,25 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         event EventHandler<ViewModelOperationProgressEventArgs> ProgressChanged;
     }
+
+    /// <summary>
+    /// Операция модели представления.
+    /// </summary>
+    public interface IViewModelOperation<T> : IViewModelOperation
+    {
+        /// <summary>
+        /// Результат операции.
+        /// </summary>
+        T Result { get; }
+
+        /// <summary>
+        /// Прогресс с данными о результате.
+        /// </summary>
+        ViewModelOperationProgress<T> Progress2 { get; }
+
+        /// <summary>
+        /// Прогресс изменился.
+        /// </summary>
+        event EventHandler<ViewModelOperationProgressEventArgs<T>> ProgressChanged2;
+    }
 }
