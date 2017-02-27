@@ -49,6 +49,10 @@ namespace DvachBrowser3.Ui.ViewModels
                         ts.Cancel();
                         return Task.CompletedTask;
                     });
+                    if (CurrentState == ViewModelOperationState.Cancelled)
+                    {
+                        ts.Cancel();
+                    }
                     T result = default(T);
                     try
                     {

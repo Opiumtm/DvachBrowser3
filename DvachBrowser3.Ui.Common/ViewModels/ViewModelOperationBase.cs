@@ -10,7 +10,6 @@ namespace DvachBrowser3.Ui.ViewModels
     /// <summary>
     /// Базовый класс операции модели представления.
     /// </summary>
-    /// <typeparam name="T">Результат операции.</typeparam>
     public abstract class ViewModelOperationBase : IViewModelOperation
     {
         private static int _idCounter = 0;
