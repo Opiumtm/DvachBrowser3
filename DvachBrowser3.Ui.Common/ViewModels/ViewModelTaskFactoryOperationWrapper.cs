@@ -33,6 +33,14 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             try
             {
+                if (CurrentState != ViewModelOperationState.Uninitialized && CurrentState != ViewModelOperationState.Cancelled)
+                {
+                    throw new InvalidOperationException("Задача уже была запущена");
+                }
+                if (CurrentState == ViewModelOperationState.Cancelled)
+                {
+                    throw new OperationCanceledException();
+                }
                 using (var ts = new CancellationTokenSource())
                 {
                     await SetCancelAction(() =>
@@ -46,10 +54,10 @@ namespace DvachBrowser3.Ui.ViewModels
                     {
                         await UpdateProgress(ViewModelOperationState.Active);
                         var token = ts.Token;
+                        token.ThrowIfCancellationRequested();
                         var task = _taskFactory(token);
                         if (task != null)
                         {
-                            token.ThrowIfCancellationRequested();
                             result = await task;
                         }
                     }
@@ -63,7 +71,10 @@ namespace DvachBrowser3.Ui.ViewModels
             }
             catch (OperationCanceledException)
             {
-                await UpdateProgress(ViewModelOperationState.Cancelled);
+                if (CurrentState != ViewModelOperationState.Cancelled)
+                {
+                    await UpdateProgress(ViewModelOperationState.Cancelled);
+                }
                 throw;
             }
             catch (Exception ex)

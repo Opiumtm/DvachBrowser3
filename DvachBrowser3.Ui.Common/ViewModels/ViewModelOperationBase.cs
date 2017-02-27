@@ -23,7 +23,6 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             Id = Interlocked.Increment(ref _idCounter);
             Dispatcher = dispatcher;
-            _progress = CreateProgress(Id, ViewModelOperationState.Uninitialized, null, null, null, null, null);
         }
 
         /// <summary>Occurs when a property value changes.</summary>
@@ -74,7 +73,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Можно отменить.
         /// </summary>
-        public bool CanCancel => CancelAction != null;
+        public bool CanCancel => CurrentState == ViewModelOperationState.Uninitialized || CancelAction != null;
 
         /// <summary>
         /// Действие по остановке операции.
@@ -104,8 +103,13 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Отменить операцию.
         /// </summary>
         /// <returns>Таск, сигнализирующий о завершении.</returns>
-        public async Task Cancel()
+        public virtual async Task Cancel()
         {
+            if (CurrentState == ViewModelOperationState.Uninitialized)
+            {
+                await UpdateProgress(ViewModelOperationState.Cancelled);
+                return;
+            }
             var action = CancelAction;
             if (action == null)
             {
@@ -154,7 +158,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <summary>
         /// Текущий прогресс операции.
         /// </summary>
-        public ViewModelOperationProgress Progress => Interlocked.CompareExchange(ref _progress, null, null);
+        public ViewModelOperationProgress Progress => Interlocked.CompareExchange(ref _progress, null, null) ?? CreateProgress(Id, ViewModelOperationState.Uninitialized, null, null, null, null, null);
 
         /// <summary>
         /// Прогресс изменился.

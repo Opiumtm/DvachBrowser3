@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 
@@ -319,12 +320,20 @@ namespace DvachBrowser3.Ui.ViewModels
             try
             {
                 operation.StateChanged += OperationOnStateChanged;
-                CurrentOperation = operation;
-                if (!ActiveOperations.Contains(operation))
+                try
                 {
-                    ActiveOperations.Add(operation);
+                    CurrentOperation = operation;
+                    if (!ActiveOperations.Contains(operation))
+                    {
+                        ActiveOperations.Add(operation);
+                    }
+                    return await operation.StartTracking2();
                 }
-                return await operation.StartTracking2();
+                finally
+                {
+                    operation.StateChanged -= OperationOnStateChanged;
+                    await RemoveOperation(operation);
+                }
             }
             finally
             {
@@ -343,8 +352,9 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <typeparam name="T">Тип результата.</typeparam>
         /// <param name="operation">Операция.</param>
+        /// <param name="bypassThrottle">Не учитывать ограничение на максимальное количество операций.</param>
         /// <returns>Таск выполнения операции.</returns>
-        protected async Task<T> QueueBackgroundOperation<T>(ViewModelOperationBase<T> operation)
+        protected async Task<T> QueueBackgroundOperation<T>(ViewModelOperationBase<T> operation, bool bypassThrottle = false)
         {
             if (operation == null) throw new ArgumentNullException(nameof(operation));
             CheckThreadAccess();
@@ -353,11 +363,52 @@ namespace DvachBrowser3.Ui.ViewModels
                 throw new InvalidOperationException("Попытка запустить основную операцию в неправильном состоянии модели");
             }
             operation.StateChanged += OperationOnStateChanged;
-            if (!ActiveOperations.Contains(operation))
+            try
             {
-                ActiveOperations.Add(operation);
+                if (!ActiveOperations.Contains(operation))
+                {
+                    ActiveOperations.Add(operation);
+                }
+                if (!bypassThrottle)
+                {
+                    await ViewModelBaseSemaphoreHolder.BackgroundOperationsSemaphore.WaitAsync();
+                }
+                try
+                {
+                    if (!operation.IsCancelled)
+                    {
+                        return await operation.StartTracking2();
+                    }
+                    else
+                    {
+                        throw new OperationCanceledException();
+                    }
+                }
+                finally
+                {
+                    if (!bypassThrottle)
+                    {
+                        ViewModelBaseSemaphoreHolder.BackgroundOperationsSemaphore.Release();
+                    }
+                }
             }
-            return await operation.StartTracking2();
+            finally
+            {
+                operation.StateChanged -= OperationOnStateChanged;
+                await RemoveOperation(operation);
+            }
+        }
+
+        private async Task RemoveOperation(IViewModelOperation obj)
+        {
+            await DispatchAccess(() =>
+            {
+                ActiveOperations.Remove(obj);
+                if (CurrentOperation == obj)
+                {
+                    CurrentOperation = null;
+                }
+            });
         }
 
         private async void OperationOnStateChanged(object sender, ViewModelOperationStateChangedEventArgs e)
@@ -369,15 +420,7 @@ namespace DvachBrowser3.Ui.ViewModels
                 {
                     if (e.NewState == ViewModelOperationState.Finished || e.NewState == ViewModelOperationState.Failed || e.NewState == ViewModelOperationState.Cancelled)
                     {
-                        obj.StateChanged -= OperationOnStateChanged;
-                        await DispatchAccess(() =>
-                        {
-                            ActiveOperations.Remove(obj);
-                            if (CurrentOperation == obj)
-                            {
-                                CurrentOperation = null;
-                            }
-                        });
+                        await RemoveOperation(obj);
                     }
                 }
             }
@@ -386,5 +429,10 @@ namespace DvachBrowser3.Ui.ViewModels
                 DebugHelper.BreakOnError(ex);
             }
         }
+    }
+
+    internal static class ViewModelBaseSemaphoreHolder
+    {
+        public static readonly SemaphoreSlim BackgroundOperationsSemaphore = new SemaphoreSlim(CommonUiConsts.MaxBackgroundTasks);
     }
 }
