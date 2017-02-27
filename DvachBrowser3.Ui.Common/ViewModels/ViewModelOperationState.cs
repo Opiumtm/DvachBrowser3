@@ -6,11 +6,6 @@
     public enum ViewModelOperationState
     {
         /// <summary>
-        /// Нет данных о состоянии.
-        /// </summary>
-        None,
-
-        /// <summary>
         /// Не инициализировано.
         /// </summary>
         Uninitialized,

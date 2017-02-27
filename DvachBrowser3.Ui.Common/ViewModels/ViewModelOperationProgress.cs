@@ -1,4 +1,6 @@
-﻿namespace DvachBrowser3.Ui.ViewModels
+﻿using System;
+
+namespace DvachBrowser3.Ui.ViewModels
 {
     /// <summary>
     /// Прогресс операции модели представления.
@@ -12,30 +14,32 @@
         /// <param name="state">Состояние операции.</param>
         /// <param name="progress">Прогресс операции (от 0 до 1).</param>
         /// <param name="message">Сообщение.</param>
+        /// <param name="error">Ошибка.</param>
         /// <param name="otherData">Дополнительные данные.</param>
-        public ViewModelOperationProgress(int operationId, ViewModelOperationState state, double? progress, string message, object otherData)
+        public ViewModelOperationProgress(int operationId, ViewModelOperationState state, double? progress, string message, Exception error, object otherData)
         {
             OperationId = operationId;
+            State = state;
             Progress = progress;
             Message = message;
-            State = state;
+            Error = error;
             OtherData = otherData;
         }
 
         /// <summary>
         /// Идентификатор операции.
         /// </summary>
-        public int OperationId { get; private set; }
+        public int OperationId { get; }
 
         /// <summary>
         /// Прогресс операции (от 0 до 1).
         /// </summary>
-        public double? Progress { get; private set; }
+        public double? Progress { get; }
 
         /// <summary>
         /// Сообщение.
         /// </summary>
-        public string Message { get; private set; }
+        public string Message { get; }
 
         /// <summary>
         /// Прогресс активен.
@@ -45,11 +49,16 @@
         /// <summary>
         /// Дополнительные данные.
         /// </summary>
-        public object OtherData { get; private set; }
+        public object OtherData { get; }
 
         /// <summary>
         /// Состояние операции.
         /// </summary>
-        public ViewModelOperationState State { get; private set; }
+        public ViewModelOperationState State { get; }
+
+        /// <summary>
+        /// Ошибка.
+        /// </summary>
+        public Exception Error { get; }
     }
 }

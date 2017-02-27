@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DvachBrowser3.Ui.ViewModels
@@ -56,9 +57,19 @@ namespace DvachBrowser3.Ui.ViewModels
         bool IsFinished { get; }
 
         /// <summary>
+        /// Отменено.
+        /// </summary>
+        bool IsCancelled { get; }
+
+        /// <summary>
         /// Ошибка (если есть).
         /// </summary>
         Exception Error { get; }
+
+        /// <summary>
+        /// Произошла ошибка.
+        /// </summary>
+        event EventHandler<Exception> Failed;
 
         /// <summary>
         /// Текущий прогресс операции.
