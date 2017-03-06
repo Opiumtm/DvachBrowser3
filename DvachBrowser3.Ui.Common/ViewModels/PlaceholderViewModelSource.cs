@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Data;
 
 namespace DvachBrowser3.Ui.ViewModels
 {
@@ -10,7 +12,7 @@ namespace DvachBrowser3.Ui.ViewModels
     /// </summary>
     /// <typeparam name="TKey">Ключ.</typeparam>
     /// <typeparam name="T">Тип модели.</typeparam>
-    public sealed class PlaceholderViewModelSource<TKey, T> : IViewModelPlaceholderModelSource<TKey, T> where T : class
+    public class PlaceholderViewModelSource<TKey, T> : IViewModelPlaceholderModelSource<TKey, T> where T : class
     {
         private readonly IEqualityComparer<TKey> _comparer;
 
@@ -68,25 +70,31 @@ namespace DvachBrowser3.Ui.ViewModels
             {
                 var m = await _factory(dispatcher, key);
                 _cachedModels[key] = m;
+                _cache.RemoveAll(v => Comparer.Equals(v, key));
                 _cache.Insert(0, key);
-                while (_cache.Count > _cacheSize)
-                {
-                    var k = _cache[_cache.Count - 1];
-                    _cachedModels.Remove(k);
-                    _cache.RemoveAt(_cache.Count - 1);
-                    var unawaitedTask = dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                    {
-                        try
-                        {
-                            OnClearSuggested(k);
-                        }
-                        catch (Exception ex)
-                        {
-                            DebugHelper.BreakOnError(ex);
-                        }
-                    });
-                }
+                AdjustCacheSize(dispatcher);
                 return m;
+            }
+        }
+
+        private void AdjustCacheSize(CoreDispatcher dispatcher)
+        {
+            while (_cache.Count > _cacheSize)
+            {
+                var k = _cache[_cache.Count - 1];
+                _cachedModels.Remove(k);
+                _cache.RemoveAt(_cache.Count - 1);
+                var unawaitedTask = dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    try
+                    {
+                        OnClearSuggested(k);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
+                });
             }
         }
 
@@ -94,6 +102,53 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Предлагается очистка модели.
         /// </summary>
         public event EventHandler<TKey> ClearSuggested;
+
+        /// <summary>
+        /// Прогрузить элементы в кэш.
+        /// </summary>
+        /// <param name="dispatcher">Диспетчер.</param>
+        /// <param name="keys">Ключи.</param>
+        /// <returns>Таск.</returns>
+        public async Task PreloadItems(CoreDispatcher dispatcher, IEnumerable<TKey> keys)
+        {
+            if (_cacheSize != null && _cacheSize > 1)
+            {
+                await DoPreloadItems(dispatcher, keys, _cacheSize.Value);
+            }
+        }
+
+        /// <summary>
+        /// Прогрузить элементы в кэш.
+        /// </summary>
+        /// <param name="dispatcher">Диспетчер.</param>
+        /// <param name="keys">Ключи.</param>
+        /// <param name="maxSize">Максимальный размер.</param>
+        /// <returns>Таск.</returns>
+        protected virtual async Task DoPreloadItems(CoreDispatcher dispatcher, IEnumerable<TKey> keys, int maxSize)
+        {
+            await dispatcher.DispatchAction(async () =>
+            {
+                int counter = maxSize;
+                foreach (var key in keys.Distinct(Comparer))
+                {
+                    if (counter == 0)
+                    {
+                        break;
+                    }
+
+                    if (!_cachedModels.ContainsKey(key))
+                    {
+                        var m = await _factory(dispatcher, key);
+                        _cachedModels[key] = m;
+                        _cache.RemoveAll(v => Comparer.Equals(v, key));
+                        _cache.Insert(0, key);
+                    }
+
+                    counter--;
+                }
+                AdjustCacheSize(dispatcher);
+            });
+        }
 
         private IEqualityComparer<TKey> Comparer => _comparer ?? EqualityComparer<TKey>.Default;
 

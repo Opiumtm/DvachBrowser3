@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Data;
 
 namespace DvachBrowser3.Ui.ViewModels
 {
@@ -23,5 +25,13 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Предлагается очистка модели.
         /// </summary>
         event EventHandler<TKey> ClearSuggested;
+
+        /// <summary>
+        /// Прогрузить элементы в кэш.
+        /// </summary>
+        /// <param name="dispatcher">Диспетчер.</param>
+        /// <param name="keys">Ключи.</param>
+        /// <returns>Таск.</returns>
+        Task PreloadItems(CoreDispatcher dispatcher, IEnumerable<TKey> keys);
     }
 }
