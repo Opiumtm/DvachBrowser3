@@ -75,7 +75,7 @@ namespace DvachBrowser3.Ui.ViewModels
         protected Task SetCancelAction(Func<Task> value)
         {
             Interlocked.Exchange(ref _cancelAction, value);
-            return DispatchAccess(() =>
+            return Dispatcher.DispatchAction(() =>
             {
                 OnPropertyChanged(nameof(CanCancel));
             });
@@ -179,7 +179,7 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             var newProgress = CreateProgress(Id, state, progress, message, error, otherData, result);
             var oldProgress = Interlocked.Exchange(ref _progress, newProgress);
-            return DispatchAccess(() =>
+            return Dispatcher.DispatchAction(() =>
             {
                 TriggerProgressEvents(oldProgress, newProgress);
             });

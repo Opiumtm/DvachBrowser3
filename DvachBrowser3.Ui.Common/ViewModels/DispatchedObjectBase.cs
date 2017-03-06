@@ -71,29 +71,5 @@ namespace DvachBrowser3.Ui.ViewModels
             CheckThreadAccess();
             return getValue();
         }
-
-        /// <summary>
-        /// Выполнить действие на UI-потоке.
-        /// </summary>
-        /// <param name="action">Действие.</param>
-        protected Task DispatchAccess(Action action)
-        {
-            if (Dispatcher != null && !Dispatcher.HasThreadAccess)
-            {
-                return Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    action?.Invoke();
-                }).AsTask();
-            }
-            try
-            {
-                action?.Invoke();
-                return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                return Task.FromException(ex);
-            }
-        }
     }
 }

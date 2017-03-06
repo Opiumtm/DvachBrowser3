@@ -34,7 +34,7 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             try
             {
-                await DispatchAccess(() =>
+                await Dispatcher.DispatchAction(() =>
                 {
                     OnPropertyChanged(nameof(CanCancel));
                     OnPropertyChanged(nameof(AnyActiveWork));
@@ -158,7 +158,7 @@ namespace DvachBrowser3.Ui.ViewModels
             }
             finally
             {
-                await DispatchAccess(() =>
+                await Dispatcher.DispatchAction(() =>
                 {
                     _foregroundState.SetBusyState(false);
                 });
@@ -234,7 +234,7 @@ namespace DvachBrowser3.Ui.ViewModels
 
         private async Task RemoveOperation(IViewModelOperation obj)
         {
-            await DispatchAccess(() =>
+            await Dispatcher.DispatchAction(() =>
             {
                 ActiveOperations.Remove(obj);
                 if (CurrentOperation == obj)

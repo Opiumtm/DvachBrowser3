@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonUiConsts.cs" />
+    <Compile Include="DispatcherHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DispatchedObjectBase.cs" />
     <Compile Include="ViewModels\EmptyVisualState.cs" />
@@ -118,7 +119,10 @@
     <Compile Include="ViewModels\IViewModelOperationsScheduler.cs" />
     <Compile Include="ViewModels\IViewModelPersistService.cs" />
     <Compile Include="ViewModels\IViewModelLifetimeCallback.cs" />
+    <Compile Include="ViewModels\IViewModelPlaceholder.cs" />
+    <Compile Include="ViewModels\IViewModelPlaceholderModelSource.cs" />
     <Compile Include="ViewModels\PersistentViewModelBase.cs" />
+    <Compile Include="ViewModels\PlaceholderViewModelSource.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelEngineOperationWrapper.cs" />
     <Compile Include="ViewModels\ViewModelOperationBase.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="ViewModels\ViewModelOperationsCollection.cs" />
     <Compile Include="ViewModels\ViewModelOperationState.cs" />
     <Compile Include="ViewModels\ViewModelOperationStateChangedEventArgs.cs" />
+    <Compile Include="ViewModels\ViewModelPlaceholderBase.cs" />
     <Compile Include="ViewModels\ViewModelState.cs" />
     <Compile Include="ViewModels\ViewModelStateChangedEventArgs.cs" />
     <Compile Include="ViewModels\ViewModelTaskFactoryOperationWrapper.cs" />
