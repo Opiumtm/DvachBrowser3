@@ -11,7 +11,7 @@ namespace DvachBrowser3.Ui.ViewModels
     /// </summary>
     /// <typeparam name="TKey">Ключ.</typeparam>
     /// <typeparam name="T">Тип модели.</typeparam>
-    public class ViewModelPlaceholderBase<TKey, T> : DispatchedObjectBase, IViewModelPlaceholder<T> where T : class
+    public class ViewModelPlaceholder<TKey, T> : DispatchedObjectBase, IViewModelPlaceholder<T> where T : class
     {
         /// <summary>
         /// Конструктор.
@@ -20,7 +20,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <param name="key">Ключ.</param>
         /// <param name="placeholderModelSource">Источник моделей.</param>
         /// <param name="comparer">Средство сравнения.</param>
-        public ViewModelPlaceholderBase(CoreDispatcher dispatcher, TKey key, IViewModelPlaceholderModelSource<TKey, T> placeholderModelSource, IEqualityComparer<TKey> comparer = null) : base(dispatcher)
+        public ViewModelPlaceholder(CoreDispatcher dispatcher, TKey key, IViewModelPlaceholderModelSource<TKey, T> placeholderModelSource, IEqualityComparer<TKey> comparer = null) : base(dispatcher)
         {
             if (placeholderModelSource == null) throw new ArgumentNullException(nameof(placeholderModelSource));
             Key = key;
@@ -148,9 +148,71 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Сбросить модель (если на модель назначен биндинг - она будет пересоздана).
         /// </summary>
         /// <returns>Таск.</returns>
-        public virtual async Task Clear()
+        public async Task Clear()
+        {
+            if (Interlocked.CompareExchange(ref _clearCount, 0, 0) <= 0)
+            {
+                await DoClear();
+            }
+        }
+
+        /// <summary>
+        /// Сбросить модель (если на модель назначен биндинг - она будет пересоздана).
+        /// </summary>
+        /// <returns>Таск.</returns>
+        protected virtual async Task DoClear()
         {
             await SetModel(null);
+        }
+
+        private int _clearCount;
+
+        /// <summary>
+        /// Заблокировать очистку.
+        /// </summary>
+        /// <param name="autoCreate">Автоматически создать.</param>
+        public void LockClear(bool autoCreate)
+        {
+            var count = Interlocked.Increment(ref _clearCount);
+            var model = Interlocked.CompareExchange(ref _model, null, null);
+            if (count > 0 && model == null)
+            {
+                var unawaitedTask = Dispatcher.DispatchAction(async () =>
+                {
+                    try
+                    {
+                        await CreateModel();
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Разблокировать очистку.
+        /// </summary>
+        /// <param name="autoClear">Автоматически очистить модель.</param>
+        public void UnlockClear(bool autoClear)
+        {
+            var count = Interlocked.Decrement(ref _clearCount);
+            var model = Interlocked.CompareExchange(ref _model, null, null);
+            if (count <= 0 && model != null)
+            {
+                var unawaitedTask = Dispatcher.DispatchAction(async () =>
+                {
+                    try
+                    {
+                        await DoClear();
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.BreakOnError(ex);
+                    }
+                });
+            }
         }
     }
 }

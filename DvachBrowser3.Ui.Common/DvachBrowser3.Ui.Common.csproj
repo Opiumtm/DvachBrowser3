@@ -131,7 +131,7 @@
     <Compile Include="ViewModels\ViewModelOperationsCollection.cs" />
     <Compile Include="ViewModels\ViewModelOperationState.cs" />
     <Compile Include="ViewModels\ViewModelOperationStateChangedEventArgs.cs" />
-    <Compile Include="ViewModels\ViewModelPlaceholderBase.cs" />
+    <Compile Include="ViewModels\ViewModelPlaceholder.cs" />
     <Compile Include="ViewModels\ViewModelState.cs" />
     <Compile Include="ViewModels\ViewModelStateChangedEventArgs.cs" />
     <Compile Include="ViewModels\ViewModelTaskFactoryOperationWrapper.cs" />

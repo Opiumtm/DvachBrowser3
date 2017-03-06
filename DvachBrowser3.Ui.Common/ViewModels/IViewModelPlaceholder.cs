@@ -30,5 +30,17 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <returns>Таск.</returns>
         Task Clear();
+
+        /// <summary>
+        /// Заблокировать очистку.
+        /// </summary>
+        /// <param name="autoCreate">Автоматически создать.</param>
+        void LockClear(bool autoCreate);
+
+        /// <summary>
+        /// Разблокировать очистку.
+        /// </summary>
+        /// <param name="autoClear">Автоматически очистить модель.</param>
+        void UnlockClear(bool autoClear);
     }
 }
