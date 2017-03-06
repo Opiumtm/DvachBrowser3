@@ -10,7 +10,7 @@ namespace DvachBrowser3.Ui.ViewModels
     /// <summary>
     /// Базовый класс операции модели представления.
     /// </summary>
-    public abstract class ViewModelOperationBase : IViewModelOperation
+    public abstract class ViewModelOperationBase : DispatchedObjectBase, IViewModelOperation
     {
         private static int _idCounter = 0;
 
@@ -19,45 +19,15 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <param name="dispatcher">Диспетчер.</param>
         protected ViewModelOperationBase(CoreDispatcher dispatcher)
+            :base(dispatcher)
         {
             Id = Interlocked.Increment(ref _idCounter);
-            Dispatcher = dispatcher;
         }
-
-        /// <summary>Occurs when a property value changes.</summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Идентификатор операции.
         /// </summary>
         public int Id { get; }
-
-        /// <summary>
-        /// Диспетчер.
-        /// </summary>
-        protected CoreDispatcher Dispatcher { get; private set; }
-
-        /// <summary>
-        /// Вызвать действие на UI-потоке, если это возможно.
-        /// </summary>
-        /// <param name="action">Действие.</param>
-        /// <returns>Таск.</returns>
-        protected Task DispatchAction(Action action)
-        {
-            if (Dispatcher != null && !Dispatcher.HasThreadAccess)
-            {
-                return Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action?.Invoke()).AsTask();
-            }
-            try
-            {
-                action?.Invoke();
-                return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                return Task.FromException(ex);
-            }
-        }
 
         /// <summary>
         /// Текущее состояние.
@@ -73,6 +43,19 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Можно отменить.
         /// </summary>
         public bool CanCancel => CurrentState == ViewModelOperationState.Uninitialized || CancelAction != null;
+
+        private int _cancelOnSuspend = 1;
+
+        /// <summary>
+        /// Отменять на приостановке модели.
+        /// </summary>
+        public bool CancelOnSuspend
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return Interlocked.CompareExchange(ref _cancelOnSuspend, 0, 0) != 0; }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set { _cancelOnSuspend = Interlocked.Exchange(ref _cancelOnSuspend, value ? 1 : 0); }
+        }
 
         /// <summary>
         /// Действие по остановке операции.
@@ -92,7 +75,7 @@ namespace DvachBrowser3.Ui.ViewModels
         protected Task SetCancelAction(Func<Task> value)
         {
             Interlocked.Exchange(ref _cancelAction, value);
-            return DispatchAction(() =>
+            return DispatchAccess(() =>
             {
                 OnPropertyChanged(nameof(CanCancel));
             });
@@ -196,7 +179,7 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             var newProgress = CreateProgress(Id, state, progress, message, error, otherData, result);
             var oldProgress = Interlocked.Exchange(ref _progress, newProgress);
-            return DispatchAction(() =>
+            return DispatchAccess(() =>
             {
                 TriggerProgressEvents(oldProgress, newProgress);
             });
@@ -235,16 +218,6 @@ namespace DvachBrowser3.Ui.ViewModels
         protected Task UpdateProgress(Exception error)
         {
             return UpdateProgress(ViewModelOperationState.Failed, null, null, error, null, null);
-        }
-
-        /// <summary>
-        /// Состояние свойства изменилось.
-        /// </summary>
-        /// <param name="propertyName">Имя свойства.</param>
-        /// <returns>Таск.</returns>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

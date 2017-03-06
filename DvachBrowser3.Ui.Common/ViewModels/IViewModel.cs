@@ -23,6 +23,11 @@ namespace DvachBrowser3.Ui.ViewModels
         event EventHandler<ViewModelStateChangedEventArgs> StateChanged;
 
         /// <summary>
+        /// Операции модели представления.
+        /// </summary>
+        IViewModelOperationsCollection Operations { get; }
+
+        /// <summary>
         /// Инициализирована.
         /// </summary>
         bool IsInitialized { get; }
@@ -46,39 +51,6 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Работа модели завершена.
         /// </summary>
         bool IsClosed { get; }
-
-        /// <summary>
-        /// Активные операции.
-        /// </summary>
-        ObservableCollection<IViewModelOperation> ActiveOperations { get; }
-
-        /// <summary>
-        /// Есть какая-то активная работа (основная или фоновая).
-        /// </summary>
-        bool AnyActiveWork { get; }
-
-        /// <summary>
-        /// Текущая операция.
-        /// </summary>
-        IViewModelOperation CurrentOperation { get; }
-
-        /// <summary>
-        /// Найти операцию по идентификатору.
-        /// </summary>
-        /// <param name="id">Идентификатор.</param>
-        /// <returns>Операция (null, если не найдено).</returns>
-        IViewModelOperation FindOperationById(int id);
-
-        /// <summary>
-        /// Можно отменять.
-        /// </summary>
-        bool CanCancel { get; }
-
-        /// <summary>
-        /// Отменить все операции.
-        /// </summary>
-        /// <returns>Таск, сигнализирующий о завершении.</returns>
-        Task CancelAll();
 
         /// <summary>
         /// Можно приостановить.

@@ -109,9 +109,13 @@
   <ItemGroup>
     <Compile Include="CommonUiConsts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DispatchedViewModel.cs" />
     <Compile Include="ViewModels\EmptyVisualState.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="ViewModels\IViewModelForegroundState.cs" />
     <Compile Include="ViewModels\IViewModelOperation.cs" />
+    <Compile Include="ViewModels\IViewModelOperationsCollection.cs" />
+    <Compile Include="ViewModels\IViewModelOperationsScheduler.cs" />
     <Compile Include="ViewModels\IViewModelPersistService.cs" />
     <Compile Include="ViewModels\PersistentViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="ViewModels\ViewModelOperationBase.cs" />
     <Compile Include="ViewModels\ViewModelOperationProgress.cs" />
     <Compile Include="ViewModels\ViewModelOperationProgressEventArgs.cs" />
+    <Compile Include="ViewModels\ViewModelOperationsCollection.cs" />
     <Compile Include="ViewModels\ViewModelOperationState.cs" />
     <Compile Include="ViewModels\ViewModelOperationStateChangedEventArgs.cs" />
     <Compile Include="ViewModels\ViewModelState.cs" />

@@ -31,6 +31,11 @@ namespace DvachBrowser3.Ui.ViewModels
         bool CanCancel { get; }
 
         /// <summary>
+        /// Отменять на приостановке модели.
+        /// </summary>
+        bool CancelOnSuspend { get; }
+
+        /// <summary>
         /// Отменить операцию.
         /// </summary>
         /// <returns>Таск, сигнализирующий о завершении.</returns>
