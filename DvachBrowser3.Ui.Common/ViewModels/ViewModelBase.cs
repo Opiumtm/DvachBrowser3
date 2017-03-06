@@ -150,7 +150,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <param name="visualState">Визуальное состояние.</param>
         /// <returns>Таск, сигнализирующий о приостановке.</returns>
-        public async Task Suspend(TVisualState visualState)
+        public virtual async Task Suspend(TVisualState visualState)
         {
             CheckThreadAccess();
             if (CanSuspend)
