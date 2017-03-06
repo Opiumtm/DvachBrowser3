@@ -10,7 +10,7 @@ namespace DvachBrowser3.Ui.ViewModels
     /// Модель представления.
     /// </summary>
     /// <typeparam name="TVisualState">Тип визуального состояния.</typeparam>
-    public interface IViewModel<in TVisualState> : INotifyPropertyChanged where TVisualState : VisualState
+    public interface IViewModel<TVisualState> : INotifyPropertyChanged where TVisualState : VisualState
     {
         /// <summary>
         /// Текущее состояние.
@@ -97,5 +97,18 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <returns>Таск, сигнализирующий о начале работы.</returns>
         Task Start();
+
+        /// <summary>
+        /// Зарегистрировать обратный вызов.
+        /// </summary>
+        /// <param name="callback">Обратный вызов.</param>
+        /// <returns>ID регистрации.</returns>
+        Guid RegisterLifetimeCallback(IViewModelLifetimeCallback<TVisualState> callback);
+
+        /// <summary>
+        /// Разрегистрировать обратный вызов.
+        /// </summary>
+        /// <param name="callbackId">ID регистрации.</param>
+        void UnregisterLifetimeCallback(Guid callbackId);
     }
 }

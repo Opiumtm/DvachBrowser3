@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 
@@ -22,6 +24,8 @@ namespace DvachBrowser3.Ui.ViewModels
             Operations = o;
             OperationsScheduler = o;
         }
+
+        private readonly Dictionary<Guid, IViewModelLifetimeCallback<TVisualState>> _lifetimeCallbacks = new Dictionary<Guid, IViewModelLifetimeCallback<TVisualState>>();
 
         /// <summary>
         /// Можно завершить работу.
@@ -108,6 +112,11 @@ namespace DvachBrowser3.Ui.ViewModels
         public virtual async Task Close(TVisualState visualState)
         {
             CheckThreadAccess();
+            var callbacks = _lifetimeCallbacks.Values.Where(v => v != null).OrderByDescending(v => v.ToInactivePriority).ToArray();
+            foreach (var c in callbacks)
+            {
+                await c.OnClose(this, visualState);
+            }
             CurrentState = ViewModelState.Closed;
             await Operations.CancelAll();
         }
@@ -121,28 +130,82 @@ namespace DvachBrowser3.Ui.ViewModels
         /// Начать работу модели.
         /// </summary>
         /// <returns>Таск, сигнализирующий о начале работы.</returns>
-        public virtual Task Start()
+        public virtual async Task Start()
         {
             CheckThreadAccess();
+
             if (CanStart)
             {
+                var callbacks = _lifetimeCallbacks.Values.Where(v => v != null).OrderByDescending(v => v.ToActivePriority).ToArray();
+                foreach (var c in callbacks)
+                {
+                    await c.OnStart(this);
+                }
+
                 CurrentState = ViewModelState.Active;
             }
-            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Зарегистрировать обратный вызов.
+        /// </summary>
+        /// <param name="callback">Обратный вызов.</param>
+        /// <returns>ID регистрации.</returns>
+        public Guid RegisterLifetimeCallback(IViewModelLifetimeCallback<TVisualState> callback)
+        {
+            CheckThreadAccess();
+            return DoRegisterLifetimeCallback(callback);
+        }
+
+        /// <summary>
+        /// Зарегистрировать обратный вызов (без проверки доступа с UI-потока).
+        /// </summary>
+        /// <param name="callback">Обратный вызов.</param>
+        /// <returns>ID регистрации.</returns>
+        protected Guid DoRegisterLifetimeCallback(IViewModelLifetimeCallback<TVisualState> callback)
+        {
+            var id = Guid.NewGuid();
+            _lifetimeCallbacks[id] = callback;
+            return id;
+        }
+
+        /// <summary>
+        /// Разрегистрировать обратный вызов.
+        /// </summary>
+        /// <param name="callbackId">ID регистрации.</param>
+        public void UnregisterLifetimeCallback(Guid callbackId)
+        {
+            CheckThreadAccess();
+            DoUnregisterLifetimeCallback(callbackId);
+        }
+
+        /// <summary>
+        /// Разрегистрировать обратный вызов (без проверки доступа с UI-потока).
+        /// </summary>
+        /// <param name="callbackId">ID регистрации.</param>
+        protected void DoUnregisterLifetimeCallback(Guid callbackId)
+        {
+            _lifetimeCallbacks.Remove(callbackId);
         }
 
         /// <summary>
         /// Возобновить.
         /// </summary>
         /// <returns>Таск, сигнализирующий о возобновлении работы.</returns>
-        public virtual Task Resume()
+        public virtual async Task Resume()
         {
             CheckThreadAccess();
+
             if (CanResume)
             {
+                var callbacks = _lifetimeCallbacks.Values.Where(v => v != null).OrderByDescending(v => v.ToActivePriority).ToArray();
+                foreach (var c in callbacks)
+                {
+                    await c.OnResume(this);
+                }
+
                 CurrentState = ViewModelState.Active;
             }
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -155,13 +218,14 @@ namespace DvachBrowser3.Ui.ViewModels
             CheckThreadAccess();
             if (CanSuspend)
             {
+                var callbacks = _lifetimeCallbacks.Values.Where(v => v != null).OrderByDescending(v => v.ToInactivePriority).ToArray();
+                foreach (var c in callbacks)
+                {
+                    await c.OnSuspend(this, visualState);
+                }
                 CurrentState = ViewModelState.Suspended;
+                await Operations.CancelAllOnSuspend();
             }
-            else
-            {
-                return;
-            }
-            await Operations.CancelAllOnSuspend();
         }
 
         /// <summary>

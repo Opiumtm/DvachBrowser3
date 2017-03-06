@@ -17,6 +17,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <param name="dispatcher">Диспетчер.</param>
         protected PersistentViewModelBase(CoreDispatcher dispatcher) : base(dispatcher)
         {
+            DoRegisterLifetimeCallback(new PersistCallback(this));
         }
 
         /// <summary>
@@ -48,41 +49,6 @@ namespace DvachBrowser3.Ui.ViewModels
         /// </summary>
         /// <returns>Ключ сохранённых данных.</returns>
         protected abstract string GetPersistenceKey();
-
-        /// <summary>
-        /// Начать работу модели.
-        /// </summary>
-        /// <returns>Таск, сигнализирующий о начале работы.</returns>
-        public override async Task Start()
-        {
-            CheckThreadAccess();
-            await LoadPersistedState();
-            await base.Start();
-        }
-
-        /// <summary>
-        /// Завершить работу.
-        /// </summary>
-        /// <param name="visualState">Визуальное состояние.</param>
-        /// <returns>Таск, сигнализирующий о завершении работы.</returns>
-        public override async Task Close(TVisualState visualState)
-        {
-            CheckThreadAccess();
-            await SavePersistedState(visualState);
-            await base.Close(visualState);
-        }
-
-        /// <summary>
-        /// Приостановить.
-        /// </summary>
-        /// <param name="visualState">Визуальное состояние.</param>
-        /// <returns>Таск, сигнализирующий о приостановке.</returns>
-        public override async Task Suspend(TVisualState visualState)
-        {
-            CheckThreadAccess();
-            await SavePersistedState(visualState);
-            await base.Suspend(visualState);
-        }
 
         /// <summary>
         /// Загрузить сохранённое состояние.
@@ -147,6 +113,40 @@ namespace DvachBrowser3.Ui.ViewModels
         protected virtual Task<TPersistState> OnSave(TVisualState visualState)
         {
             return Task.FromResult(GetDefaultPersistedState());
+        }
+
+        private class PersistCallback : IViewModelLifetimeCallback<TVisualState>
+        {
+            public int ToActivePriority => 0;
+
+            public int ToInactivePriority => 0;
+
+            private readonly PersistentViewModelBase<TVisualState, TPersistState> _viewModel;
+
+            public PersistCallback(PersistentViewModelBase<TVisualState, TPersistState> viewModel)
+            {
+                _viewModel = viewModel;
+            }
+
+            public Task OnStart(IViewModel<TVisualState> viewModel)
+            {
+                return _viewModel.LoadPersistedState();
+            }
+
+            public Task OnResume(IViewModel<TVisualState> viewModel)
+            {
+                return Task.CompletedTask;
+            }
+
+            public Task OnSuspend(IViewModel<TVisualState> viewModel, TVisualState visualState)
+            {
+                return _viewModel.SavePersistedState(visualState);
+            }
+
+            public Task OnClose(IViewModel<TVisualState> viewModel, TVisualState visualState)
+            {
+                return _viewModel.SavePersistedState(visualState);
+            }
         }
     }
 }

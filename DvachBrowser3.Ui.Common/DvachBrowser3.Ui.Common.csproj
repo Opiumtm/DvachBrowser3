@@ -117,6 +117,7 @@
     <Compile Include="ViewModels\IViewModelOperationsCollection.cs" />
     <Compile Include="ViewModels\IViewModelOperationsScheduler.cs" />
     <Compile Include="ViewModels\IViewModelPersistService.cs" />
+    <Compile Include="ViewModels\IViewModelLifetimeCallback.cs" />
     <Compile Include="ViewModels\PersistentViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelEngineOperationWrapper.cs" />
