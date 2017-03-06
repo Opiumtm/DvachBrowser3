@@ -16,7 +16,7 @@ namespace DvachBrowser3.Ui.ViewModels
     {
         private readonly IEqualityComparer<TKey> _comparer;
 
-        private readonly Func<CoreDispatcher, TKey, Task<T>> _factory;
+        private readonly Func<CoreDispatcher, TKey[], Task<KeyValuePair<TKey, T>[]>> _factory;
 
         private readonly int? _cacheSize;
 
@@ -30,7 +30,7 @@ namespace DvachBrowser3.Ui.ViewModels
         /// <param name="factory">Фабрика моделей.</param>
         /// <param name="cacheSize">Размер кэша.</param>
         /// <param name="comparer">Средство сравнения.</param>
-        public PlaceholderViewModelSource(Func<CoreDispatcher, TKey, Task<T>> factory, int? cacheSize = null, IEqualityComparer<TKey> comparer = null)
+        public PlaceholderViewModelSource(Func<CoreDispatcher, TKey[], Task<KeyValuePair<TKey, T>[]>> factory, int? cacheSize = null, IEqualityComparer<TKey> comparer = null)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
             _comparer = comparer;
@@ -51,10 +51,18 @@ namespace DvachBrowser3.Ui.ViewModels
             {
                 return await dispatcher.DispatchTask(() => DoCreateModel(dispatcher, key));
             }
-            else
-            {
-                return await _factory(dispatcher, key);
-            }
+            return await CreateOneElement(dispatcher, key);
+        }
+
+        /// <summary>
+        /// Создать один элемент.
+        /// </summary>
+        /// <param name="dispatcher">Диспетчер.</param>
+        /// <param name="key">Ключ.</param>
+        /// <returns>Результат.</returns>
+        protected async Task<T> CreateOneElement(CoreDispatcher dispatcher, TKey key)
+        {
+            return (await _factory(dispatcher, new[] {key})).Where(kv => Comparer.Equals(kv.Key, key)).Select(kv => kv.Value).FirstOrDefault();
         }
 
         private async Task<T> DoCreateModel(CoreDispatcher dispatcher, TKey key)
@@ -68,7 +76,7 @@ namespace DvachBrowser3.Ui.ViewModels
             }
             else
             {
-                var m = await _factory(dispatcher, key);
+                var m = await CreateOneElement(dispatcher, key);
                 _cachedModels[key] = m;
                 _cache.RemoveAll(v => Comparer.Equals(v, key));
                 _cache.Insert(0, key);
@@ -128,24 +136,28 @@ namespace DvachBrowser3.Ui.ViewModels
         {
             await dispatcher.DispatchAction(async () =>
             {
-                int counter = maxSize;
-                foreach (var key in keys.Distinct(Comparer))
+                var toCreate = new HashSet<TKey>(Comparer);
+                foreach (var key in keys)
                 {
-                    if (counter == 0)
+                    if (toCreate.Count >= maxSize)
                     {
                         break;
                     }
 
                     if (!_cachedModels.ContainsKey(key))
                     {
-                        var m = await _factory(dispatcher, key);
-                        _cachedModels[key] = m;
-                        _cache.RemoveAll(v => Comparer.Equals(v, key));
-                        _cache.Insert(0, key);
+                        toCreate.Add(key);
                     }
-
-                    counter--;
                 }
+                var elements = (await _factory(dispatcher, toCreate.ToArray())).Deduplicate(kv => kv.Key, Comparer).ToArray();
+                var toUpdate = new HashSet<TKey>(elements.Select(kv => kv.Key));
+                _cache.RemoveAll(v => toUpdate.Contains(v));
+                foreach (var kv in elements)
+                {
+                    _cachedModels[kv.Key] = kv.Value;
+                    _cache.Insert(0, kv.Key);
+                }
+
                 AdjustCacheSize(dispatcher);
             });
         }
