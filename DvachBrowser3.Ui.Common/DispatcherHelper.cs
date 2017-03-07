@@ -23,20 +23,10 @@ namespace DvachBrowser3.Ui
             }
             else
             {
-                var tcs = new TaskCompletionSource<int>();
                 await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    try
-                    {
-                        action();
-                        tcs.SetResult(0);
-                    }
-                    catch (Exception ex)
-                    {
-                        tcs.SetException(ex);
-                    }
+                    action();
                 });
-                await tcs.Task;
             }
         }
 
